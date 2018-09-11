@@ -1,5 +1,5 @@
 {
-  "name": "Chibaki SSR",
+  "name": "Chibaki_SSR",
   "version": "0.1.0",
   "scripts": {
     "start": "razzle start",
