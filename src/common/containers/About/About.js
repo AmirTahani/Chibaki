@@ -7,7 +7,7 @@ import { changeName } from '../../redux/modules/test';
 class About extends React.Component {
 
     componentDidMount() {
-        this.props.changeNameConnect();
+        // this.props.changeNameConnect();
     }
 
     render() {
