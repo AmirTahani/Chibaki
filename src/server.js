@@ -1,12 +1,13 @@
 import React from 'react';
 import express from 'express';
 import { Provider } from 'react-redux';
-import { match, RouterContext } from 'react-router';
+import { match } from 'react-router';
+import apiClient from './common/utils/apiClient';
 import serialize from 'serialize-javascript';
 import { renderToString } from 'react-dom/server';
 import createStore from './common/redux/create';
 import { App } from './common/containers';
-import { changeName } from './common/redux/modules/test';
+import { LOAD_PROFESSIONS_LIST_SUCCESS, loadProfessionsList } from './common/redux/modules/professions';
 
 import getRoutes from './common/containers/App/App';
 
@@ -16,7 +17,7 @@ const server = express();
 server
     .disable('x-powered-by')
     .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
-    .get('/*', async (req, res) => {
+    .get('/*', (req, res) => {
         match(
             { routes: getRoutes(), location: req.url },
             async (error, redirectLocation, renderProps) => {
@@ -30,19 +31,20 @@ server
                     // your "not found" component or route respectively, and send a 404 as
                     // below, if you're using a catch-all route.
                     const context = {};
-                    const store = createStore();
-                    await store.dispatch(changeName());
-                    // Render the component to a string
-                    const markup = renderToString(
-                        <Provider store={store}>
-                            <App {...renderProps} />
-                        </Provider>
-                    );
-                    const finalState = store.getState();
+                    const client = new apiClient();
+                    const store = createStore(client);
+                    console.log('before dispatch');
+                    store.dispatch(loadProfessionsList());
+                    store.rootTask.done.then(() => {
+                        // Render the component to a string
+                        const markup = renderToString(
+                            <Provider store={store}>
+                                <App {...renderProps} />
+                            </Provider>
+                        );
+                        const finalState = store.getState();
+                        console.log(finalState, 'this is final state');
 
-                    if (context.url) {
-                        res.redirect(context.url);
-                    } else {
                         res.status(200).send(
                             `<!doctype html>
                 <html lang="">
@@ -68,10 +70,15 @@ server
                     <div id="root">${markup}</div>
                     <script>
                         window.__PRELOADED_STATE__ = ${serialize(finalState)}
+                        window.__CLIENT__ = client;
                     </script>
                 </body>
             </html>`,
                         );
+                    });
+
+                    if (context.url) {
+                        res.redirect(context.url);
                     }
                 } else {
                     res.status(404).send('Not found');
