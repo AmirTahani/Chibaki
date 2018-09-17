@@ -47,11 +47,9 @@ server
                         const subRoute = route.split('/').reverse()[0];
                         const finalState = store.getState();
                         const categories = finalState.professions.categories;
-                        console.log(finalState,'this is final state');
-                        console.log(categories,'these are categories');
                         const metaTags = {
-                            description: '',
-                            title: ''
+                            description: 'از مدرس زبان و برنامه نویس تا مربی بدن سازی و نقاش ساختمان, ما مناسبترین فرد را کاملاً رایگان برای ارائه‌ی خدمت به شما معرفی می کنیم',
+                            title: 'Chibaki - چی باکی'
                         };
                         const professions = categories.reduce((acc, current) => {
                             acc.push(...current.professions);
@@ -75,7 +73,7 @@ server
                     <meta property="twitter:site" content="@chibaki_ir" />
                     <meta property="twitter:creator" content="@chibaki_ir" />
                     <meta property="twitter:title" content="Chibaki - چی باکی" />
-                    <meta property="twitter:description" content="از مدرس زبان و برنامه نویس تا مربی بدن سازی و نقاش ساختمان, ما مناسبترین فرد را کاملاً رایگان برای ارائه‌ی خدمت به شما معرفی می کنیم"/>
+                    <meta property="twitter:description" content="${metaTags.description}"/>
                     <meta property="twitter:image" content="/" />
                     <meta property="twitter:image:width" content=200" />
                     <meta property="twitter:image:height" content=200" />                
@@ -85,7 +83,7 @@ server
                     <meta property="og:locale" content="fa_IR" />
                     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
                     <meta charset="utf-8" />
-                    <title>Welcome to Razzle</title>
+                    <title>${metaTags.title}</title>
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
                     ${
                                 assets.client.css
