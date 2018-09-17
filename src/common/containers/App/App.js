@@ -1,7 +1,7 @@
 import React from 'react';
 import { Router, Route, browserHistory } from 'react-router';
 
-import { Home, About } from '../';
+import { Home, About, Services } from '../';
 
 
 const Routes = props => {
@@ -10,6 +10,10 @@ const Routes = props => {
             <Route path="/" component={Home} />
             <Route path="home" component={Home} />
             <Route path="about" component={About} />
+            <Route path={encodeURI('خدمات')} component={Services} >
+                <Route path=":title" component={About}/>
+            </Route>
+
         </Router>
     );
 };
