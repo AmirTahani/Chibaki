@@ -8,12 +8,9 @@ import { renderToString } from 'react-dom/server';
 import createStore from './common/redux/create';
 import { App } from './common/containers';
 import { loader } from './common/redux/modules/professions';
-
 import getRoutes from './common/containers/App/App';
-import professions from "./common/redux/modules/professions";
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
-
 const server = express();
 server
     .disable('x-powered-by')
@@ -82,6 +79,7 @@ server
                     <meta property="og:image:height" content=200" />                    
                     <meta property="og:locale" content="fa_IR" />
                     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                    <meta name="robots" content="index, follow"/>
                     <meta charset="utf-8" />
                     <title>${metaTags.title}</title>
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
