@@ -7,7 +7,7 @@ import serialize from 'serialize-javascript';
 import { renderToString } from 'react-dom/server';
 import createStore from './common/redux/create';
 import { App } from './common/containers';
-import { LOAD_PROFESSIONS_LIST_SUCCESS, loadProfessionsList } from './common/redux/modules/professions';
+import { loader } from './common/redux/modules/professions';
 
 import getRoutes from './common/containers/App/App';
 
@@ -33,8 +33,9 @@ server
                     const context = {};
                     const client = new apiClient();
                     const store = createStore(client);
-                    console.log('before dispatch');
-                    store.dispatch(loadProfessionsList());
+
+
+                    store.dispatch(loader());
                     store.rootTask.done.then(() => {
                         // Render the component to a string
                         const markup = renderToString(
@@ -42,6 +43,10 @@ server
                                 <App {...renderProps} />
                             </Provider>
                         );
+                        const route = req.path;
+                        const metaTags = {
+                            description: ''
+                        };
                         const finalState = store.getState();
                         console.log(finalState, 'this is final state');
 
@@ -49,10 +54,22 @@ server
                             `<!doctype html>
                 <html lang="">
                 <head>
+                    <meta property="twitter:card" content="summary" />
+                    <meta property="twitter:site" content="@chibaki_ir" />
+                    <meta property="twitter:creator" content="@chibaki_ir" />
+                    <meta property="twitter:title" content="Chibaki - چی باکی" />
+                    <meta property="twitter:description" content="از مدرس زبان و برنامه نویس تا مربی بدن سازی و نقاش ساختمان, ما مناسبترین فرد را کاملاً رایگان برای ارائه‌ی خدمت به شما معرفی می کنیم"/>
+                    <meta property="twitter:image" content="/" />
+                    <meta property="twitter:image:width" content=200" />
+                    <meta property="twitter:image:height" content=200" />                
+                    <meta property="og:image" content="https://chibaki.ir/assets/images/logo/logo-1-1.svg" />
+                    <meta property="og:image:width" content=200" />
+                    <meta property="og:image:height" content=200" />                    
+                    <meta property="og:locale" content="fa_IR" />
                     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
                     <meta charset="utf-8" />
                     <title>Welcome to Razzle</title>
-                    <meta name="viewport" content="width=device-width, initial-scale=1">
+                    <meta name="viewport" content="width=device-width, initial-scale=1" />
                     ${
                                 assets.client.css
                                     ? `<link rel="stylesheet" href="${assets.client.css}">`

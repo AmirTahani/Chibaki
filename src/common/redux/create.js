@@ -15,7 +15,6 @@ export default function create(client , preloadState) {
         autoRehydrate()
     );
 
-
     persistStore(store, {
         whitelist: []
     });
