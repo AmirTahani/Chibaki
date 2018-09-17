@@ -10,6 +10,7 @@ import { App } from './common/containers';
 import { loader } from './common/redux/modules/professions';
 
 import getRoutes from './common/containers/App/App';
+import professions from "./common/redux/modules/professions";
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
@@ -34,7 +35,6 @@ server
                     const client = new apiClient();
                     const store = createStore(client);
 
-
                     store.dispatch(loader());
                     store.rootTask.done.then(() => {
                         // Render the component to a string
@@ -47,6 +47,8 @@ server
                         const subRoute = route.split('/').reverse()[0];
                         const finalState = store.getState();
                         const categories = finalState.professions.categories;
+                        console.log(finalState,'this is final state');
+                        console.log(categories,'these are categories');
                         const metaTags = {
                             description: '',
                             title: ''

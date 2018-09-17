@@ -126,16 +126,10 @@ export function* watchLoadProfessionsList(client) {
 
 export function* watchLoadCategories(client) {
     try {
-        const response = client.get('/signup');
-        const categories = response.reduce((acc, current) => {
-            current.map(item => {
-                acc.push(...item.professions);
-            });
-            return acc;
-        }, []);
-        console.log(categories);
-        yield put(loadCategoriesSuccess(response.categories));
+        const response = yield client.get('/signup');
+        yield put(loadCategoriesSuccess(response.data.categorires));
     } catch (error) {
+        console.log('this is error,', error);
         yield put(loadCategoriesFailure(error));
     }
 }
@@ -143,8 +137,8 @@ export function* watchLoadCategories(client) {
 export function* watchLoader() {
     try {
         yield put(loadCategories());
-        yield put(loadProfessionsList());
         yield take(LOAD_CATEGORIES_SUCCESS);
+        yield put(loadProfessionsList());
         yield take(LOAD_PROFESSIONS_LIST_SUCCESS);
         yield put(END);
     } catch (error) {
