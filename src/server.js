@@ -44,10 +44,25 @@ server
                             </Provider>
                         );
                         const route = req.path;
-                        const metaTags = {
-                            description: ''
-                        };
+                        const subRoute = route.split('/').reverse()[0];
                         const finalState = store.getState();
+                        const categories = finalState.professions.categories;
+                        const metaTags = {
+                            description: '',
+                            title: ''
+                        };
+                        const professions = categories.reduce((acc, current) => {
+                            acc.push(...current.professions);
+                            return acc;
+                        }, []);
+                        professions.map(profession => {
+                            const professionUrlTitle = profession.title.split(' ').join('_');
+                            if (subRoute === professionUrlTitle) {
+                                metaTags.description = profession.description;
+                                metaTags.title = profession.title;
+                            }
+                        });
+
                         console.log(finalState, 'this is final state');
 
                         res.status(200).send(
