@@ -1,3 +1,3 @@
 export function* watchRehydrate() {
-    console.log('salam');
+    console.log('this is rehydrate');
 }

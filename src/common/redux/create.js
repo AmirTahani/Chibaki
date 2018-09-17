@@ -5,21 +5,21 @@ import reducers from './reducers';
 import saga from './saga';
 
 
-export default function create() {
+export default function create(client , preloadState) {
     const sagaMiddleWare = createSagaMiddleware();
 
     const store = createStore(
         reducers,
+        preloadState,
         applyMiddleware(sagaMiddleWare),
         autoRehydrate()
     );
-
 
     persistStore(store, {
         whitelist: []
     });
 
-    store.rootTask = sagaMiddleWare.run(saga);
+    store.rootTask = sagaMiddleWare.run(saga, client, store);
 
     return store;
 }

@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-import test from './modules/test';
+import professions from './modules/professions';
 
 export default combineReducers({
-    test
+    professions
 });

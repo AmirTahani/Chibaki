@@ -1,15 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { connect } from 'react-redux';
 import '../Home/Home.css';
-import { changeName } from '../../redux/modules/test';
 
-class About extends React.Component {
-
-    componentDidMount() {
-        this.props.changeNameConnect();
-    }
-
+export default class About extends React.Component {
     render() {
         const { name } = this.props;
         return (
@@ -24,9 +17,3 @@ class About extends React.Component {
         );
     }
 }
-
-export default connect(state => ({
-    name: state.test.name
-}), {
-    changeNameConnect: changeName
-})(About)
