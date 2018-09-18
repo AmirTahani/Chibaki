@@ -45,6 +45,7 @@ server
                         const finalState = store.getState();
                         const categories = finalState.professions.categories;
                         const metaTags = {
+                            keywords: 'چی با کی, چی باکی, فریلنسر، استخدام، برون سپاری، کار در منزل، استخدام فریلنسر، کاریابی، کار پاره وقت، استخدام پاره وقت، کار پروژه ای، خدمات منزل، خدمات آموزشی، خدمات هنری، خدمات ورزشی، خدمات کامپیوتری، زبان های خارجه، chibaki, چی‌باکی, چیباکی',
                             description: 'از مدرس زبان و برنامه نویس تا مربی بدن سازی و نقاش ساختمان, ما مناسبترین فرد را کاملاً رایگان برای ارائه‌ی خدمت به شما معرفی می کنیم',
                             title: 'Chibaki - چی باکی'
                         };
@@ -76,7 +77,9 @@ server
                     <meta property="twitter:image:height" content=200" />                
                     <meta property="og:image" content="https://chibaki.ir/assets/images/logo/logo-1-1.svg" />
                     <meta property="og:image:width" content=200" />
-                    <meta property="og:image:height" content=200" />                    
+                    <meta property="og:image:height" content=200" />   
+                    <meta name=keywords content=${metaTags.keywords}>
+                 
                     <meta property="og:locale" content="fa_IR" />
                     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
                     <meta name="robots" content="index, follow"/>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router';
-import {} from 'antd';
 import '../Home/Home.css';
 
 export default class About extends React.Component {
