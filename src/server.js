@@ -32,7 +32,7 @@ server
                     const client = new apiClient();
                     const store = createStore(client);
 
-                    handleRequestsByRoute(store, req.path);
+                    const pageData = handleRequestsByRoute(store, req.path);
                     store.rootTask.done.then(() => {
                         // Render the component to a string
                         const markup = renderToString(
@@ -41,34 +41,42 @@ server
                             </Provider>
                         );
 
-
                         res.status(200).send(
                             `<!doctype html>
                 <html lang="">
                 <head>
+                    <link rel="manifest" href="/manifest.json">
+                    <link rel="shortcut icon" href="/favicon.ico?v=3" type="image/x-icon">
                     <meta property="twitter:card" content="summary" />
                     <meta property="twitter:site" content="@chibaki_ir" />
                     <meta property="twitter:creator" content="@chibaki_ir" />
                     <meta property="twitter:title" content="Chibaki - چی باکی" />
-                    <meta property="twitter:description" content="${metaTags.description}"/>
+                    <meta property="twitter:description" content="${pageData.metaTags.description}"/>
                     <meta property="twitter:image" content="/" />
                     <meta property="twitter:image:width" content=200" />
                     <meta property="twitter:image:height" content=200" />                
                     <meta property="og:image" content="https://chibaki.ir/assets/images/logo/logo-1-1.svg" />
                     <meta property="og:image:width" content=200" />
                     <meta property="og:image:height" content=200" />   
-                    <meta name="keywords" content=""${metaTags.keywords"}>"
-
-                                <meta property="og:locale" content="fa_IR" />
-                                <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-                                <meta name="robots" content="index, follow"/>
-                                <meta charset="utf-8" />
-                                <title>${metaTags.title}</title>
-                                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                    <meta property="og:site_name" content="چی‌باکی" />
+                    <meta property="og:url" content="https://chibaki.ir" />
+                    <meta http-equiv="content-language" content="fa" />
+                    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+                    <meta name="apple-mobile-web-app-capable" content="yes" />
+                    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/ >
+                    <meta property="og:type" content="website" />
+                    <meta name="keywords" content="${pageData.metaTags.keywords}">
+                    <meta property="og:locale" content="fa_IR" />
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                    <meta name="robots" content="index, follow"/>
+                    <meta charset="utf-8" />
+                    <title>${pageData.metaTags.title}</title>
+                    <meta name="viewport" content="width=device-width, initial-scale=1" />
                                 ${
-                                            assets.client.css
-                                                ? `<link rel="stylesheet" href="${assets.client.css}">`
-                                : ''
+                                assets.client.css
+                                    ? `<link rel="stylesheet" href="${assets.client.css}">`
+                                    : ''
                                 }
                     ${
                                 process.env.NODE_ENV === 'production'
@@ -81,7 +89,7 @@ server
                 <body>
                     <div id="root">${markup}</div>
                     <script>
-                        window.__PRELOADED_STATE__ = ${serialize(finalState)};
+                        window.__PRELOADED_STATE__ = ${serialize(pageData.finalState)}
                         window.__CLIENT__ = client;
                     </script>
                 </body>
