@@ -7,7 +7,7 @@ import serialize from 'serialize-javascript';
 import { renderToString } from 'react-dom/server';
 import createStore from './common/redux/create';
 import { App } from './common/containers';
-import { loader } from './common/redux/modules/professions';
+import { handleRequestsByRoute } from './common/utils/serverHelper';
 import getRoutes from './common/containers/App/App';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
@@ -32,7 +32,7 @@ server
                     const client = new apiClient();
                     const store = createStore(client);
 
-                    store.dispatch(loader());
+                    handleRequestsByRoute(store, req.path);
                     store.rootTask.done.then(() => {
                         // Render the component to a string
                         const markup = renderToString(
@@ -40,28 +40,7 @@ server
                                 <App {...renderProps} />
                             </Provider>
                         );
-                        const route = req.path;
-                        const subRoute = route.split('/').reverse()[0];
-                        const finalState = store.getState();
-                        const categories = finalState.professions.categories;
-                        const metaTags = {
-                            keywords: 'چی با کی, چی باکی, فریلنسر، استخدام، برون سپاری، کار در منزل، استخدام فریلنسر، کاریابی، کار پاره وقت، استخدام پاره وقت، کار پروژه ای، خدمات منزل، خدمات آموزشی، خدمات هنری، خدمات ورزشی، خدمات کامپیوتری، زبان های خارجه، chibaki, چی‌باکی, چیباکی',
-                            description: 'از مدرس زبان و برنامه نویس تا مربی بدن سازی و نقاش ساختمان, ما مناسبترین فرد را کاملاً رایگان برای ارائه‌ی خدمت به شما معرفی می کنیم',
-                            title: 'Chibaki - چی باکی'
-                        };
-                        const professions = categories.reduce((acc, current) => {
-                            acc.push(...current.professions);
-                            return acc;
-                        }, []);
-                        professions.map(profession => {
-                            const professionUrlTitle = profession.title.split(' ').join('_');
-                            if (subRoute === professionUrlTitle) {
-                                metaTags.description = profession.description;
-                                metaTags.title = profession.title;
-                            }
-                        });
 
-                        console.log(finalState, 'this is final state');
 
                         res.status(200).send(
                             `<!doctype html>
@@ -78,18 +57,18 @@ server
                     <meta property="og:image" content="https://chibaki.ir/assets/images/logo/logo-1-1.svg" />
                     <meta property="og:image:width" content=200" />
                     <meta property="og:image:height" content=200" />   
-                    <meta name=keywords content=${metaTags.keywords}>
-                 
-                    <meta property="og:locale" content="fa_IR" />
-                    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-                    <meta name="robots" content="index, follow"/>
-                    <meta charset="utf-8" />
-                    <title>${metaTags.title}</title>
-                    <meta name="viewport" content="width=device-width, initial-scale=1" />
-                    ${
-                                assets.client.css
-                                    ? `<link rel="stylesheet" href="${assets.client.css}">`
-                                    : ''
+                    <meta name="keywords" content=""${metaTags.keywords"}>"
+
+                                <meta property="og:locale" content="fa_IR" />
+                                <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                                <meta name="robots" content="index, follow"/>
+                                <meta charset="utf-8" />
+                                <title>${metaTags.title}</title>
+                                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                                ${
+                                            assets.client.css
+                                                ? `<link rel="stylesheet" href="${assets.client.css}">`
+                                : ''
                                 }
                     ${
                                 process.env.NODE_ENV === 'production'
@@ -102,7 +81,7 @@ server
                 <body>
                     <div id="root">${markup}</div>
                     <script>
-                        window.__PRELOADED_STATE__ = ${serialize(finalState)}
+                        window.__PRELOADED_STATE__ = ${serialize(finalState)};
                         window.__CLIENT__ = client;
                     </script>
                 </body>
