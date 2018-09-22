@@ -88,9 +88,11 @@ export function loadProfessionsListFailure(error) {
     };
 }
 
-export function loadCategories() {
+export function loadCategories(resolve, reject) {
     return {
-        type: LOAD_CATEGORIES
+        type: LOAD_CATEGORIES,
+        resolve,
+        reject
     };
 }
 
@@ -124,13 +126,15 @@ export function* watchLoadProfessionsList(client) {
     }
 }
 
-export function* watchLoadCategories(client) {
+export function* watchLoadCategories(client, { resolve, reject }) {
     try {
         const response = yield client.get('/signup');
         yield put(loadCategoriesSuccess(response.data.categorires));
+        resolve && resolve(response.data.categorires);
     } catch (error) {
         console.log('this is error,', error);
         yield put(loadCategoriesFailure(error));
+        reject && reject();
     }
 }
 
