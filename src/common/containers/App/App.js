@@ -7,8 +7,6 @@ import {
     Services,
     Tos
 } from '../';
-
-import { Home, About, Services } from "../";
 import "./App.css";
 
 const Routes = props => {
