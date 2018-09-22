@@ -7,7 +7,7 @@ import serialize from 'serialize-javascript';
 import { renderToString } from 'react-dom/server';
 import createStore from './common/redux/create';
 import { App } from './common/containers';
-import { handleRequestsByRoute } from './common/utils/serverHelper';
+import { getMetaTags, handleRequestsByRoute } from './common/utils/serverHelper';
 import getRoutes from './common/containers/App/App';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
@@ -18,7 +18,7 @@ server
     .get('/*', (req, res) => {
         match(
             { routes: getRoutes(), location: req.url },
-            async (error, redirectLocation, renderProps) => {
+            async function (error, redirectLocation, renderProps) {
                 if (error) {
                     res.status(500).send(error.message);
                 } else if (redirectLocation) {
@@ -31,8 +31,8 @@ server
                     const context = {};
                     const client = new apiClient();
                     const store = createStore(client);
+                    await handleRequestsByRoute(store, req.path);
 
-                    const pageData = handleRequestsByRoute(store, req.path);
                     store.rootTask.done.then(() => {
                         // Render the component to a string
                         const markup = renderToString(
@@ -40,6 +40,8 @@ server
                                 <App {...renderProps} />
                             </Provider>
                         );
+                        const metaTags = getMetaTags(store.getState(), req.path);
+                        const finalState = store.getState();
 
                         res.status(200).send(
                             `<!doctype html>
@@ -51,10 +53,10 @@ server
                     <meta property="twitter:site" content="@chibaki_ir" />
                     <meta property="twitter:creator" content="@chibaki_ir" />
                     <meta property="twitter:title" content="Chibaki - چی باکی" />
-                    <meta property="twitter:description" content="${pageData.metaTags.description}"/>
-                    <meta property="twitter:image" content="/" />
-                    <meta property="twitter:image:width" content=200" />
-                    <meta property="twitter:image:height" content=200" />                
+                    <meta property="twitter:description" content="${metaTags.description}"/>
+                    <meta property="twitter:image" content="https://chibaki.ir/assets/images/logo/logo-1-1.svg" />
+                    <meta property="twitter:image:width" content="200" />
+                    <meta property="twitter:image:height" content="200" />                
                     <meta property="og:image" content="https://chibaki.ir/assets/images/logo/logo-1-1.svg" />
                     <meta property="og:image:width" content=200" />
                     <meta property="og:image:height" content=200" />   
@@ -66,12 +68,12 @@ server
                     <meta name="apple-mobile-web-app-capable" content="yes" />
                     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/ >
                     <meta property="og:type" content="website" />
-                    <meta name="keywords" content="${pageData.metaTags.keywords}">
+                    <meta name="keywords" content="${metaTags.keywords}">
                     <meta property="og:locale" content="fa_IR" />
                     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
                     <meta name="robots" content="index, follow"/>
                     <meta charset="utf-8" />
-                    <title>${pageData.metaTags.title}</title>
+                    <title>${metaTags.title}</title>
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
                                 ${
                                 assets.client.css
@@ -89,7 +91,7 @@ server
                 <body>
                     <div id="root">${markup}</div>
                     <script>
-                        window.__PRELOADED_STATE__ = ${serialize(pageData.finalState)}
+                        window.__PRELOADED_STATE__ = ${serialize(finalState)}
                         window.__CLIENT__ = client;
                     </script>
                 </body>

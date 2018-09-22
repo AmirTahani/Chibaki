@@ -1,29 +1,29 @@
-import { loader } from '../redux/modules/professions';
-import { load as loadProficinets } from '../redux/modules/proficients';
+import { take } from 'redux-saga/effects';
+import { loader, loadCategories, LOAD_CATEGORIES_SUCCESS } from '../redux/modules/professions';
+import { load as loadProficients } from '../redux/modules/proficients';
 
-export function handleRequestsByRoute(store, route) {
+export async function handleRequestsByRoute(store, route) {
+    console.log('its x');
     const subRoute = route.split('/').reverse();
-    const state = store.getState();
     if (route === '/') {
         store.dispatch(loader());
-        const metaTags = getMetaTags(state, route);
-        return {
-            finalState: state,
-            metaTags
-        };
     }
-    if (subRoute[1] === 'خدمات') {
+    if (decodeURI(subRoute[1]) === 'خدمات') {
         const routeTitle = subRoute[0].split('_').join(' ');
-        const professions = flattenProfessionsByCategories(state.professions.categories);
+        const categories = await new Promise((resolve, reject) => {
+            store.dispatch(loadCategories(resolve, reject));
+        });
+
+        const professions = flattenProfessionsByCategories(categories);
         let professionId = '';
         professions.map(profession => {
-            if (routeTitle === profession.title) {
+            if (decodeURI(routeTitle) === profession.title) {
                 professionId = profession._id;
             }
         });
-        store.dispatch(loadProficinets(professionId));
+        console.log(professionId, 'professionId');
+        store.dispatch(loadProficients(professionId));
     }
-
 }
 
 export function getMetaTags(state, route) {
@@ -33,12 +33,12 @@ export function getMetaTags(state, route) {
         description: 'از مدرس زبان و برنامه نویس تا مربی بدن سازی و نقاش ساختمان, ما مناسبترین فرد را کاملاً رایگان برای ارائه‌ی خدمت به شما معرفی می کنیم',
         title: 'Chibaki - چی باکی'
     };
-    if (subRoute[1] === 'خدمات') {
+    if (decodeURI(subRoute[1]) === 'خدمات') {
         const categories = state.professions.categories;
         const professions = flattenProfessionsByCategories(categories);
         professions.map(profession => {
             const professionUrlTitle = profession.title.split(' ').join('_');
-            if (subRoute[0] === professionUrlTitle) {
+            if (decodeURI(subRoute[0]) === professionUrlTitle) {
                 metaTags.description = profession.description;
                 metaTags.title = profession.title;
             }
