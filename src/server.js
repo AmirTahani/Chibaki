@@ -43,7 +43,7 @@ server
 
                         res.status(200).send(
                             `<!doctype html>
-                <html lang="">
+                <html lang="fa" dir="rtl">
                 <head>
                     <link rel="manifest" href="/manifest.json">
                     <link rel="shortcut icon" href="/favicon.ico?v=3" type="image/x-icon">

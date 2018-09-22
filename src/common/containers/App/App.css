@@ -1,5 +1,53 @@
+@font-face {
+	font-family: "Shabnam FD";
+	src: local("Shabnam FD"), local("Shabnam-FD"),
+		url("/assets/font/Shabnam/Shabnam-FD.woff2") format("woff2"),
+		url("/assets/font/Shabnam/Shabnam-FD.woff") format("woff");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Shabnam FD";
+	src: local("Shabnam Light FD"), local("Shabnam-Light-FD"),
+		url("/assets/font/Shabnam/Shabnam-Light-FD.woff2") format("woff2"),
+		url("/assets/font/Shabnam/Shabnam-Light-FD.woff") format("woff");
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Shabnam FD";
+	src: local("Shabnam Bold FD"), local("Shabnam-Bold-FD"),
+		url("/assets/font/Shabnam/Shabnam-Bold-FD.woff2") format("woff2"),
+		url("/assets/font/Shabnam/Shabnam-Bold-FD.woff") format("woff");
+	font-weight: bold;
+	font-style: normal;
+}
+
+*, *:before, *:after {
+	box-sizing: inherit;
+	font-family: inherit;
+}
+
+html {
+	font-family: 'Shabnam FD';
+	box-sizing: border-box;
+}
+
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+	margin: 0;
+	padding: 0;
+}
+
+
+
+.sr-only {
+	position: absolute !important;
+	clip: rect(1px, 1px, 1px, 1px);
+	padding: 0 !important;
+	border: 0 !important;
+	height: 1px !important;
+	width: 1px !important;
+	overflow: hidden;
 }
