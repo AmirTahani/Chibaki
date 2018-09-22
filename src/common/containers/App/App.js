@@ -7,6 +7,7 @@ import {
     Services,
     Tos
 } from '../';
+
 import "./App.css";
 
 const Routes = props => {
@@ -17,7 +18,7 @@ const Routes = props => {
             <Route path="about" component={About} />
             <Route path="tos" component={Tos} />
             <Route exact path={encodeURI('خدمات')} component={Services} />
-            <Route path={`${encodeURI('خدمات')}/:title`} component={Home}/>
+            <Route path={`${encodeURI('خدمات')}/:title`} component={Home} />
         </Router>
     );
 };

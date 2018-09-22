@@ -8,6 +8,9 @@ export async function handleRequestsByRoute(store, route) {
     if (route === '/') {
         store.dispatch(loader());
     }
+    if (decodeURI(subRoute[0]) === 'خدمات') {
+        store.dispatch(loader());
+    }
     if (decodeURI(subRoute[1]) === 'خدمات') {
         const routeTitle = subRoute[0].split('_').join(' ');
         const categories = await new Promise((resolve, reject) => {
