@@ -1,6 +1,8 @@
+import { Link } from 'react-router';
 import React, { Component } from "react";
-import Nav from "../Nav/Nav";
+
 import { HeaderComponent, HeaderInner, Logo, LogoImg } from "./Header.styles";
+import Nav from "../Nav/Nav";
 
 class Header extends Component {
 	render() {
@@ -10,8 +12,10 @@ class Header extends Component {
 					<Nav />
 
 					<Logo>
-						<div className="sr-only">چی باکی</div>
-						<LogoImg src="/assets/images/logo/logo-text.svg" />
+						<Link to='/'>
+							<div className="sr-only">چی باکی</div>
+							<LogoImg src="/assets/images/logo/logo-text.svg" />
+						</Link>
 					</Logo>
 				</HeaderInner>
 			</HeaderComponent>

@@ -12,7 +12,7 @@ class Nav extends Component {
 				},
 				{
 					label: "خدمات",
-					link: "#"
+					link: encodeURI('خدمات')
 				}
 			]
 		};
