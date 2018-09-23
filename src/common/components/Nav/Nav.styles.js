@@ -26,8 +26,8 @@ export const ListLink = styled(Link)`
 	display: block;
 	padding: 0 15px;
 
-	font-size: .9rem;
-	font-weight: 900;
+	font-size: .95rem;
+	font-weight: 600;
 	
 	line-height: ${HeaderHeight};
 	height: ${HeaderHeight};
