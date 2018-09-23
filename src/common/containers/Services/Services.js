@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 import '../Services/Services.css';
 import { Row, Col, Tooltip } from 'antd';
 import { connect } from 'react-redux';
 import 'antd/dist/antd.less'
-import professions from "../../redux/modules/professions";
+// import professions from "../../redux/modules/professions";
 
 
-class Services extends React.Component {
+class Services extends Component {
     render() {
-        const { name, cat } = this.props;
+        const { cat } = this.props;
         return (
             <div className="Home Container">
                 {cat.map((item)=>{

@@ -1,13 +1,14 @@
-import React from 'react';
-import express from 'express';
 import { Provider } from 'react-redux';
 import { match } from 'react-router';
-import apiClient from './common/utils/apiClient';
-import serialize from 'serialize-javascript';
 import { renderToString } from 'react-dom/server';
-import createStore from './common/redux/create';
+import React from 'react';
+import express from 'express';
+import serialize from 'serialize-javascript';
+
 import { App } from './common/containers';
 import { getMetaTags, handleRequestsByRoute } from './common/utils/serverHelper';
+import apiClient from './common/utils/apiClient';
+import createStore from './common/redux/create';
 import getRoutes from './common/containers/App/App';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
