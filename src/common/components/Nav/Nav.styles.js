@@ -1,6 +1,8 @@
-import styled from "react-emotion";
 import { Link } from 'react-router';
+import styled from "react-emotion";
+
 import { HeaderHeight } from '../Header/Header.styles';
+import { primaryColor } from '../../styles/vars';
 
 export const Navigation = styled("nav")`
 	// flex: 1 0 100%;
@@ -23,7 +25,18 @@ export const ListItem = styled("li")`
 export const ListLink = styled(Link)`
 	display: block;
 	padding: 0 15px;
+
+	font-size: .95rem;
+	font-weight: 600;
 	
 	line-height: ${HeaderHeight};
 	height: ${HeaderHeight};
+
+	color: ${primaryColor};
+
+	transition: 0s;
+
+	&:hover {
+		color: #62abf5;
+	}
 `;

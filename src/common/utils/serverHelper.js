@@ -1,5 +1,5 @@
-import { take } from 'redux-saga/effects';
-import { loader, loadCategories, LOAD_CATEGORIES_SUCCESS } from '../redux/modules/professions';
+// import { take } from 'redux-saga/effects';
+import { loader, loadCategories } from '../redux/modules/professions'; //, LOAD_CATEGORIES_SUCCESS
 import { load as loadProficients } from '../redux/modules/proficients';
 
 export async function handleRequestsByRoute(store, route) {
@@ -19,7 +19,7 @@ export async function handleRequestsByRoute(store, route) {
 
         const professions = flattenProfessionsByCategories(categories);
         let professionId = '';
-        professions.map(profession => {
+        professions.forEach(profession => {
             if (decodeURI(routeTitle) === profession.title) {
                 professionId = profession._id;
             }
@@ -39,7 +39,7 @@ export function getMetaTags(state, route) {
     if (decodeURI(subRoute[1]) === 'خدمات') {
         const categories = state.professions.categories;
         const professions = flattenProfessionsByCategories(categories);
-        professions.map(profession => {
+        professions.forEach(profession => {
             const professionUrlTitle = profession.title.split(' ').join('_');
             if (decodeURI(subRoute[0]) === professionUrlTitle) {
                 metaTags.description = profession.description;
