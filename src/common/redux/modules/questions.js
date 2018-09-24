@@ -1,4 +1,4 @@
-import { select } from 'redux-saga/effects';
+import { select, put } from 'redux-saga/effects';
 import { handleSagaError } from "../../utils/handleSagaError";
 
 export const LOAD_QUESTIONS = 'ssr/questions/LOAD_QUESTIONS';
