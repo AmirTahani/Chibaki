@@ -11,7 +11,17 @@ import {
     watchLoader
 } from './modules/professions';
 
-import { LOAD_PROFICIENTS, watchLoadProficients } from './modules/proficients';
+import {
+    LOAD_QUESTIONS,
+    watchLoadQuestions,
+    SUBMIT_ANSWERS,
+    watchSubmitAnswers
+} from './modules/questions';
+
+import {
+    LOAD_PROFICIENTS,
+    watchLoadProficients,
+} from './modules/proficients';
 
 export default function* root(client, store) {
     yield all([
@@ -19,6 +29,8 @@ export default function* root(client, store) {
         takeEvery(LOAD_PROFESSIONS_LIST, watchLoadProfessionsList, client),
         takeEvery(LOAD_CATEGORIES, watchLoadCategories, client),
         takeEvery(LOADER, watchLoader, client),
-        takeEvery(LOAD_PROFICIENTS, watchLoadProficients, client)
+        takeEvery(LOAD_PROFICIENTS, watchLoadProficients, client),
+        takeEvery(LOAD_QUESTIONS, watchLoadQuestions, client),
+        takeEvery(SUBMIT_ANSWERS, watchSubmitAnswers, client)
     ]);
 }
