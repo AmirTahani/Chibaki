@@ -1,4 +1,4 @@
-import { put, take } from 'redux-saga/effects';
+import { put } from 'redux-saga/effects';
 import { END } from 'redux-saga';
 import { handleSagaError } from '../../utils/handleSagaError';
 
@@ -27,7 +27,7 @@ export default function reducer(state = initialState, action = {}) {
                 ...state,
                 loading: false,
                 loaded: true,
-                proficients: action.response.result,
+                proficients: action.response.results,
                 pagination: action.response.pagination,
                 count: action.response.count
             };
@@ -66,8 +66,7 @@ export function loadFailure(error) {
 export function* watchLoadProficients(client, { professionId }) {
     try {
         const response = yield client.get(`/professions/${professionId}/proficients`);
-        yield put(loadSuccess(response));
-        yield take(LOAD_PROFICIENTS_SUCCESS);
+        yield put(loadSuccess(response.data));
         yield put(END);
 
     } catch (error) {
