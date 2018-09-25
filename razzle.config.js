@@ -1,5 +1,3 @@
-const modifyBuilder = require("razzle-plugin-postcss")
-	.default;
 const postcssPlugins = [
 	require("rtlcss"),
 	require("postcss-flexbugs-fixes"),
@@ -13,10 +11,6 @@ const postcssPlugins = [
 		flexbox: "no-2009"
 	})
 ];
-const cssConfig = {
-	postcssPlugins
-};
-const modify = modifyBuilder({ cssConfig });
 
 module.exports = {
 	modify: (
@@ -65,6 +59,5 @@ module.exports = {
 		});
 
 		return config;
-	},
-	plugins: [{ func: modify }]
+	}
 };
