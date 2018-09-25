@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Steps, Modal, Col, Row } from 'antd';
+import { MobileStepper } from '@material-ui/core';
 import Multi from './Multi';
 import { connect } from 'react-redux';
 import Single from './Single';
@@ -43,28 +43,11 @@ class Questions extends Component {
 
     render() {
         const contents = this.getContent();
+        const { questions } = this.props;
         return (
-            <Row>
-                <Col>
-                    <Modal
-                        title="ثبت درخواست"
-                        visible={this.state.visible}
-                        onOk={this.handleOk}
-                        onCancel={this.handleCancel}
-                    >
-                        <Steps progressDot>
-                            {
-                                contents.map(content => {
-                                    return <Steps.Step
-                                        title={content.title}
-                                    />
-
-                                })
-                            }
-                        </Steps>
-                    </Modal>
-                </Col>
-            </Row>
+            <MobileStepper
+                steps={questions.questions.length}
+            />
         );
     }
 }
