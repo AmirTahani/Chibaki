@@ -19,13 +19,15 @@ export async function handleRequestsByRoute(store, route) {
 
         const professions = flattenProfessionsByCategories(categories);
         let professionId = '';
+        let selectedProfession = {}
         professions.forEach(profession => {
             if (decodeURI(routeTitle) === profession.title) {
                 professionId = profession._id;
+                selectedProfession = profession
             }
         });
         console.log(professionId, 'professionId');
-        store.dispatch(loadProficients(professionId));
+        store.dispatch(loadProficients(professionId, decodeURI(routeTitle), selectedProfession ));
     }
 }
 
