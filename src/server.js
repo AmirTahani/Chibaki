@@ -93,7 +93,7 @@ server
                 <body>
                     <div id="root">${markup}</div>
                     <script>
-                        window.__PRELOADED_STATE__ = ${serialize(finalState)}
+                        window.__PRELOADED_STATE__ = ${serialize(finalState)};
                         window.__CLIENT__ = client;
                     </script>
                 </body>

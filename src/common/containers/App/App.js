@@ -15,7 +15,7 @@ const Routes = props => {
 			<Route exact path={encodeURI("خدمات")} component={Services} />
 			<Route path={`${encodeURI("خدمات")}/:title`} component={Home} />
 		</Router>
-	);
+	);	
 };
 
 export default Routes;

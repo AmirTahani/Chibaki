@@ -27,6 +27,7 @@
     "redux": "3.6.0",
     "redux-persist": "4.10.1",
     "redux-saga": "0.16.0",
+    "rtlcss": "^2.4.0",
     "serialize-javascript": "1.5.0"
   }
 }
