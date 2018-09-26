@@ -44,7 +44,7 @@ server
                         const metaTags = getMetaTags(store.getState(), req.path);
                         const finalState = store.getState();
 
-                        
+
                         res.status(200).send(
                             `<!doctype html>
                 <html lang="fa" dir="rtl">
@@ -94,8 +94,7 @@ server
                     <div id="root">${markup}</div>
                     <script>
                         window.__PRELOADED_STATE__ = ${serialize(finalState)};
-                        window.__CLIENT__ = client;
-                    </script>
+                    </script>                 
                 </body>
             </html>`,
                         );
