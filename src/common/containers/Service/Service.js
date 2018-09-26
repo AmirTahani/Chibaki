@@ -5,7 +5,6 @@ import { Row, Col, Tooltip } from 'antd';
 import  './ServiceStyle.css';
 import { connect } from 'react-redux';
 import 'antd/dist/antd.less'
-
 class Services extends Component {
 
     registerProject = () => {
@@ -16,6 +15,7 @@ class Services extends Component {
         const { proficients, title, selectedProfession, count } = this.props;
         console.log(proficients)
         return (
+            <div>
             <Row type={'flex'} gutter={30}>
                 <Col span={24} className="header-image_container" >
                     <img src={'https://chibaki.ir/assets/images/hero/architect.jpg'}  alt="Smiley face"/>
@@ -26,17 +26,17 @@ class Services extends Component {
                         </button>
                     </div>
                 </Col>
-                <div>شروع قیمت در چی‌باکی: از جلسه ای ۲۰۰۰۰۰ هزار تومان</div>
-                    <p>
-                        {selectedProfession.description}
-                    </p>
-                    <button onClick={this.registerProject}>
-                        ثبت درخواست
-                    </button>
-                <Col>
+            </Row>
+            <Row type={'flex'} >
+                <Col span={24}>
                     <div>
-                         متخصصین
-                       { ' ' + title + ' '}
+                        <button onClick={this.registerProject}>
+                            ثبت درخواست
+                        </button>
+                    </div>
+                    <div>
+                        متخصصین
+                        { ' ' + title + ' '}
                         در چی‌باکی (
                         {count}
                         متخصص)
@@ -44,6 +44,52 @@ class Services extends Component {
                     <span>نمایش تضادفی</span>
                 </Col>
             </Row>
+            {proficients.map((item) => {
+                return (
+                    <Row type={'flex'} align={'middle'} justify={'center'} >
+                        <Link to={`/profession/${item.id}`}>
+                            <Col span={8} >
+                                <Row>
+                                    <Col span={4}>
+                                        <span>badge</span>
+
+                                    </Col>
+                                    <Col span={20}>
+                                        <Row>
+                                            <Col span={24}>
+                                                <img src={'https://chibaki.ir/' + item.profilePicture.filePath.replace('public', '')} className={'prof-image'}/>
+
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col span={24}>
+                                                <span>{item.firstname + ' ' + item.lastname}</span>
+                                            </Col>
+                                        </Row>
+
+                                    </Col>
+                                </Row>
+                            </Col>
+                            <Col span={16}>
+                                <Row>
+                                    {item.introDescription}
+                                </Row>
+                                <Row>
+                                    <button >
+                                       مشاهده پروفایل
+                                    </button>
+                                </Row>
+                            </Col>
+                        </Link>
+                    </Row>
+                )
+            })}
+            <div>
+                <button >
+مشاهده بیشتر
+                </button>
+            </div>
+            </div>
         );
     }
 }
