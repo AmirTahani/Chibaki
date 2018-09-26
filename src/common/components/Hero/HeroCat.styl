@@ -1,0 +1,83 @@
+@import '../../styles/variables'
+
+.cat
+	margin-top 20px
+	
+	user-select none
+
+	background-color #fff
+	
+	text-align center
+
+	@media (max-width $sm - 1)
+		margin-top 10px
+
+	&__list
+		margin 0
+		padding 0
+
+		list-style none
+
+		overflow-y hidden
+		overflow-x auto
+
+		display inline-block
+		max-width 100%
+		
+	&__item
+		min-width 6rem
+		max-width 10rem
+
+		padding 0 10px
+
+		display table-cell
+		vertical-align top
+
+		@media (max-width $sm)
+			min-width 5rem
+			padding 0 2px
+
+	&__link
+		display flex
+		flex-direction column
+
+		// for text to be center aligned
+		align-items center
+		justify-content flex-start
+
+		padding .55rem .85rem
+		color $color
+
+		text-align center
+		text-decoration none
+
+		transition .1s ease-in-out
+
+		white-space nowrap
+
+		@media (max-width $lg - 1)
+			padding .45rem .75rem
+
+		&:hover
+		&:focus
+		&:active
+			color $color
+			text-decoration none
+
+			transform scale(1.2)
+
+	&__icon
+		font-size 1.8rem
+		height 2.05rem
+		margin .1rem .1rem .5rem
+		opacity .85
+
+		[class^="icon-"]
+		[class*=" icon-"]
+			vertical-align text-top
+
+	&__label
+		color #6d6d6d
+
+		font-weight 900
+		font-size .75rem

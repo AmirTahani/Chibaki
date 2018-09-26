@@ -42,7 +42,7 @@ export default class Footer extends Component {
 								className={css`${RemoveMargin}`}
 							>
 								<Col>
-									<PageLink>
+									<PageLink to='/about'>
 										تماس با ما
 									</PageLink>
 									<PageLink>
