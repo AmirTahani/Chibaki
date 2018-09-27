@@ -9,7 +9,7 @@ class Services extends Component {
 
     registerProject = () => {
         console.log('this')
-    }
+    };
 
     render() {
         const { proficients, title, selectedProfession, count } = this.props;

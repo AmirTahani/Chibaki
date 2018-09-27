@@ -1,9 +1,10 @@
 // import { take } from 'redux-saga/effects';
 import { loader, loadCategories } from '../redux/modules/professions'; //, LOAD_CATEGORIES_SUCCESS
 import { load as loadProficients } from '../redux/modules/proficients';
+import { load as loadProfessional } from '../redux/modules/professional';
 
 export async function handleRequestsByRoute(store, route) {
-    console.log('its x');
+    console.log('its x', route);
     const subRoute = route.split('/').reverse();
     if (route === '/') {
         store.dispatch(loader());
@@ -19,7 +20,7 @@ export async function handleRequestsByRoute(store, route) {
 
         const professions = flattenProfessionsByCategories(categories);
         let professionId = '';
-        let selectedProfession = {}
+        let selectedProfession = {};
         professions.forEach(profession => {
             if (decodeURI(routeTitle) === profession.title) {
                 professionId = profession._id;
@@ -28,6 +29,10 @@ export async function handleRequestsByRoute(store, route) {
         });
         console.log(professionId, 'professionId');
         store.dispatch(loadProficients(professionId, decodeURI(routeTitle), selectedProfession ));
+    }
+    if (subRoute[1] === 'professional'  ) {
+        console.log('hereeee')
+        store.dispatch(loadProfessional(subRoute[0]))
     }
 }
 
