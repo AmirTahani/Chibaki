@@ -1,4 +1,5 @@
 import "./App.styl";
+import '../../styles/icon.styl'
 
 import { Router, Route, browserHistory } from "react-router";
 import React from "react";

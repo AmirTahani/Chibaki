@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 
 import { flattenProfessionsByCategories } from "../../utils/serverHelper";
+import Categories from '../../components/Professions/Categories/Categories';
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import Hero from "../../components/Hero/Hero";
@@ -19,6 +20,8 @@ class Home extends Component {
 				<Header />
 
 				<Hero professions={professions} />
+
+				<Categories />
 
 				{/* <Questions /> */}
 				<Footer />
