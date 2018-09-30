@@ -60,13 +60,13 @@ export default class AutoComplete extends Component {
 		const { options } = this.state;
 
 		return (
-			<div className="c-autocomplete">
+			<div className="c-autocomplete c-autocomplete--home">
 				<div className="c-autocomplete__form">
 					<AntAutoComplete
 						dataSource={options.map(
 							this.renderOption
 						)}
-						style={{ width: 200 }}
+						style={{ width: '100%' }}
 						onChange={
 							this.handleChange
 						}
