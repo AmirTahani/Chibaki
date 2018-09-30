@@ -7,7 +7,16 @@ const LogoWidth = "116px";
 const LogoPadding = "10px";
 
 export const HeaderComponent = styled("header")`
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+
+	background-color: #fff;
+
+	z-index: 99999;
 `;
 
 export const HeaderInner = styled("div")`

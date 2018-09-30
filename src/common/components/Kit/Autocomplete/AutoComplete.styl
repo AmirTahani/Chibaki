@@ -1,0 +1,219 @@
+@import '../../../styles/variables'
+
+// @vars
+$radius = .4rem
+$height = 2.9rem
+$height_sm = 3.1rem
+
+$placeholder_color = #B2B2B2
+$placeholder_weight = 100
+
+.ant-select-dropdown
+	right auto !important
+	left -9999px
+
+// @component
+.c-autocomplete
+	width 100%
+	// max-width 29rem
+
+	&--home
+		max-width 29rem
+		display inline-block
+
+	// @form
+	&__form
+		display flex
+		flex-flow row nowrap
+		padding 0 1rem
+
+	// @field
+
+	.ant-select-auto-complete.ant-select .ant-select-selection--single
+	.ant-select-auto-complete.ant-select .ant-select-search--inline
+		height $height
+
+	.twitter-typeahead
+		height $height
+		width 100%
+		display block
+
+		~/--hero ^[1..1]
+			float right
+			width calc(100% - 6.75rem)
+
+		strong
+			display inline
+
+		// @input
+		~/__field
+			width 100%
+			outline none
+			padding 0 1rem
+			border 1px solid #eee
+			font-size 1rem
+			font-weight 900
+			background-color #fff
+			
+
+			&::-webkit-input-placeholder
+				color $placeholder_color
+				font-weight $placeholder_weight
+
+				text-align right
+				direction rtl
+
+			&::-moz-placeholder
+				color $placeholder_color
+				font-weight $placeholder_weight
+
+				text-align right
+				direction rtl
+
+			&:-ms-input-placeholder
+				color $placeholder_color
+				font-weight $placeholder_weight
+
+				text-align right
+				direction rtl
+
+			&:focus
+
+				&::-webkit-input-placeholder
+					color alpha($placeholder_color, 50%)
+
+				&::-moz-placeholder
+					color alpha($placeholder_color, 50%)
+
+				&:-ms-input-placeholder
+					color alpha($placeholder_color, 50%)
+
+				&
+				../
+					height $height
+
+			.modal &
+				border 1px solid #9e9e9e
+
+			~/--hero &
+			~/--hero ^[1..1]
+				border none
+				border-radius $radius
+
+			~/--hero ^[1..1]
+			/.autocomplete__btn
+				box-shadow 4px 6px 16px rgba(0,0,0,0.5)
+
+			// @dropdown @btn
+			&:after
+				content none
+				display none
+
+		// @dropdown
+		.tt-menu
+			border-radius $radius
+			margin .25rem 0 0
+			padding .35rem 0
+
+			width 100%
+
+			border none
+			box-shadow none
+
+			overflow hidden
+
+			background-color #fafafa
+			text-align right
+
+			~/--signup ^[2..1]
+				// box-shadow 0 0 10px rgba(0,0,0,.1)
+				border 1px solid lighten(#e5e5e5, 20%)
+
+
+		.tt-dataset
+			max-height 11.5rem
+			overflow auto
+
+		.tt-suggestion
+		.ac__dd-btn
+		.ac__dd-not-found
+			line-height 2
+
+			font-size .8rem
+			font-weight 900
+
+			padding .25rem .6rem
+			margin .1rem 0
+
+		.tt-suggestion
+		.ac__dd-btn
+			apperance none
+			border none
+
+			display block
+			width 100%
+
+			text-align right
+
+			background rgba(0,0,0,0)
+
+			&:hover
+			../ .tt-cursor
+				background-color $color
+				color #fff
+				cursor pointer
+
+		.ac__dd-btn
+			color $color
+			font-size .9rem	
+
+	// @btn
+	&__btn
+		height $height
+
+		padding .2rem 2rem
+		width 6.25rem
+
+		border none
+		outline none
+
+		cursor pointer
+
+		color #fff!important
+		background-color $color!important
+
+		border-radius $radius
+
+		font-weight 900
+		font-size 1rem
+		margin-right .5rem
+
+		#landing[dir=rtl] .autocomplete__field ~ &
+			margin-right .5rem
+
+		#landing[dir=ltr] .autocomplete__field ~ &
+			margin-left .5rem
+
+		&:focus
+		&:hover
+			background-color darken($color, 15%) !important
+
+		&:active
+			text-decoration underline
+
+	&--signup
+		height auto
+
+	@media (max-width $sm - 1)
+
+		&
+		&__btn
+		&__field
+		& .twitter-typeahead
+			height $height_sm
+
+		&--signup
+			height auto
+
+		&__form
+			padding 0 1.7rem

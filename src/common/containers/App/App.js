@@ -1,9 +1,10 @@
-import "./App.css";
+import "./App.styl";
+import '../../styles/icon.styl'
 
-import { Router, Route, browserHistory } from "react-router";
+import { Router, Route, browserHistory, Professional } from "react-router";
 import React from "react";
 
-import { Home, About, Services, Tos } from "../";
+import { Home, About, Services, Tos, Service } from "../";
 
 const Routes = props => {
 	return (
@@ -13,7 +14,8 @@ const Routes = props => {
 			<Route path="about" component={About} />
 			<Route path="tos" component={Tos} />
 			<Route exact path={encodeURI("خدمات")} component={Services} />
-			<Route path={`${encodeURI("خدمات")}/:title`} component={Home} />
+			<Route path={`${encodeURI("خدمات")}/:title`} component={Service} />
+			<Route path={`professional/:id`} component={Professional} />
 		</Router>
 	);	
 };
