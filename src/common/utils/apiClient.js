@@ -1,6 +1,6 @@
 import axios from 'axios';
+import { apiPath } from '../config';
 
-const apiPath = 'https://api.chibaki.ir';
 const methods = ['get', 'post', 'put', 'patch', 'delete'];
 
 export function formatUrl(path) {
