@@ -1,18 +1,24 @@
 import "./Home.css";
 
+import { connect } from "react-redux";
 import React, { Component } from "react";
 
+import { flattenProfessionsByCategories } from "../../utils/serverHelper";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import Hero from "../../components/Hero/Hero";
 
 class Home extends Component {
 	render() {
+		let { professions } = this.props;
+		professions = flattenProfessionsByCategories(
+			professions
+		);
 		return (
 			<div className="Home">
 				<Header />
 
-				<Hero />
+				<Hero professions={professions} />
 
 				{/* <Questions /> */}
 				<Footer />
@@ -27,4 +33,6 @@ class Home extends Component {
 	}
 }
 
-export default Home;
+export default connect(state => ({
+	professions: state.professions.categories
+}))(Home);

@@ -2,16 +2,16 @@
 
 .c-hero
 	position relative
-	padding-top $headerHeight
+	margin-top $headerHeight
 
-	@media (max-width $md)
-		padding-top $headerHeightMd
+	// @media (max-width $md)
+	// 	margin-top $headerHeightMd
 
-	&--sab
-		padding-top $headerSabHeight
+	// &--sab
+	// 	margin-top $headerSabHeight
 
-		@media (max-width $md)
-			padding-top $headerSabHeightMd
+	// 	@media (max-width $md)
+	// 		margin-top $headerSabHeightMd
 
 	&__front
 	&__slide
@@ -48,7 +48,7 @@
 
 		overflow hidden
 
-		top $headerHeight
+		top 0
 		left 0
 		right 0
 		bottom 0
@@ -83,16 +83,6 @@
 			
 			background-color rgba(0,0,0,.2)
 			z-index 1
-
-		@media (max-width $md)
-			top $headerHeightMd
-
-		^[0]--sab &
-			top $headerSabHeight
-
-		@media (max-width $md)
-			^[0]--sab &
-				top $headerSabHeightMd
 
 	// Hero Slider
 	/.slider--hero

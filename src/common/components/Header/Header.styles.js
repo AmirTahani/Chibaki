@@ -13,6 +13,10 @@ export const HeaderComponent = styled("header")`
 	right: 0;
 
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+
+	background-color: #fff;
+
+	z-index: 99999;
 `;
 
 export const HeaderInner = styled("div")`
