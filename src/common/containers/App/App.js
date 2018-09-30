@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.styl";
 
 import { Router, Route, browserHistory, Professional } from "react-router";
 import React from "react";

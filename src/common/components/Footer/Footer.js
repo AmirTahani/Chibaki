@@ -1,5 +1,6 @@
 import { Col, Row } from "antd";
 import { Link } from "react-router";
+import { css } from 'emotion';
 import React, { Component } from "react";
 
 import {
@@ -10,6 +11,7 @@ import {
 	Logo,
 	PageLink
 } from "./Footer.styles";
+import { RemoveMargin } from '../../styles/global.js';
 
 export default class Footer extends Component {
 	static propTypes = {
@@ -36,9 +38,11 @@ export default class Footer extends Component {
 								type="flex"
 								align="middle"
 								justify="center"
+								gutter={15}
+								className={css`${RemoveMargin}`}
 							>
 								<Col>
-									<PageLink>
+									<PageLink to='/about'>
 										تماس با ما
 									</PageLink>
 									<PageLink>
