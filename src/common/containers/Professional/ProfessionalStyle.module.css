@@ -1,0 +1,31 @@
+.backred{
+  background-color: #1B70EC;
+  height: 200px;
+}
+.avatar{
+  width: 150px;
+  height: 150px;
+  border-radius: 75px;
+  position: absolute;
+  bottom : -50px;
+  left: calc(50% - 75px)
+}
+.detailContainer{
+  text-align: center;
+  margin-top: 60px;
+}
+.seprator{
+  height:  1px;
+  width: 100%;
+  background-color: #eee;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.title{
+  font-weight: bold;
+}
+.profImage {
+  width: 100px;
+  height: 100px;
+  margin-left: 10px;
+}

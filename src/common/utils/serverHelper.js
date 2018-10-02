@@ -31,7 +31,6 @@ export async function handleRequestsByRoute(store, route) {
         store.dispatch(loadProficients(professionId, decodeURI(routeTitle), selectedProfession ));
     }
     if (subRoute[1] === 'professional'  ) {
-        console.log('hereeee')
         store.dispatch(loadProfessional(subRoute[0]))
     }
 }

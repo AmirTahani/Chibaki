@@ -21,11 +21,13 @@ export default function reducer(state = initialState, action = {}) {
                 loading: true,
             };
         case LOAD_PROFESSIONAL_SUCCESS:
+            console.log(action.response)
+            console.log('here')
             return {
                 ...state,
                 loading: false,
                 loaded: true,
-                professional: action.response.results,
+                professional: action.response,
             };
         case LOAD_PROFESSIONAL_FAILURE:
             return {
@@ -61,10 +63,8 @@ export function loadFailure(error) {
 
 export function* watchLoadProfessional(client, { professionalId }) {
     try {
-        console.log(professionalId)
         const response = yield client.get(`/professionals/${professionalId}`);
         yield put(loadSuccess(response.data));
-        console.log(response.data);
         yield put(END);
 
     } catch (error) {
