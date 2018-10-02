@@ -56,9 +56,9 @@ export default class Categories extends Component {
 
 	render() {
 		const slider = this.categories.map(
-			cat => {
+			(cat, idx) => {
 				return (
-					<li className="cat__item">
+					<li key={idx} className="cat__item">
 						<a className="cat__link">
 							<div className="cat__icon">
 								<i
@@ -80,8 +80,8 @@ export default class Categories extends Component {
 
 		return (
 			<div>
-				<div class="cat">
-					<ul class="cat__list">
+				<div className="cat">
+					<ul className="cat__list">
 						{slider}
 					</ul>
 				</div>
