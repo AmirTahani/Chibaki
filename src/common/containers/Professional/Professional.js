@@ -15,9 +15,10 @@ class Professional extends Component {
     };
 
     render() {
-        const { professional } = this.props;
+        const { professional, comments } = this.props;
         const { selectedProfession } = this.state;
         console.log(professional)
+        console.log(comments)
         return (
             <div className="Home Container">
                     <Row>
@@ -99,14 +100,32 @@ class Professional extends Component {
                     : null
                 }
                 <Divider type="horizontal" />
-
+                <Row>
+                    {comments.comments
+                    ?  <Col span={24}>
+                        <div className={styles.title}>
+                            نظر مشتریان
+                        </div>
+                            {comments.comments.map((comment)=>{
+                                return(
+                                    <Row>
+                                        <Col span={16}>{comment.text}</Col>
+                                        <Col span={8}>{comment.rate}</Col>
+                                    </Row>
+                                )
+                            })}
+                        </Col>
+                    : null
+                    }
+                </Row>
             </div>
         );
     }
 }
 export default connect(
     state => ({
-        professional: state.professional.professional
+        professional: state.professional.professional,
+        comments: state.professional.comments
     }),
     undefined
 )(Professional)

@@ -4,6 +4,7 @@ import { handleSagaError } from '../../utils/handleSagaError';
 
 export const LOAD_PROFESSIONAL = 'ssr/professional/LOAD_PROFESSIONAL';
 export const LOAD_PROFESSIONAL_SUCCESS = 'ssr/professional/LOAD_PROFESSIONAL_SUCCESS';
+export const LOADED_COMMENTS = 'ssr/professional/LOADED_COMMENTS';
 export const LOAD_PROFESSIONAL_FAILURE = 'ssr/professional/LOAD_PROFESSIONAL_FAILURE';
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
     loaded: false,
     professional: [],
     error: null,
+    comments: []
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -20,9 +22,12 @@ export default function reducer(state = initialState, action = {}) {
                 ...state,
                 loading: true,
             };
+            case LOADED_COMMENTS:
+            return {
+                ...state,
+                comments: action.comments,
+            };
         case LOAD_PROFESSIONAL_SUCCESS:
-            console.log(action.response)
-            console.log('here')
             return {
                 ...state,
                 loading: false,
@@ -47,6 +52,13 @@ export function load(professionalId) {
     };
 }
 
+export function loadComments(comments){
+    return {
+        type: LOADED_COMMENTS,
+        comments
+    }
+}
+
 export function loadSuccess(response) {
     return {
         type: LOAD_PROFESSIONAL_SUCCESS,
@@ -64,6 +76,8 @@ export function loadFailure(error) {
 export function* watchLoadProfessional(client, { professionalId }) {
     try {
         const response = yield client.get(`/professionals/${professionalId}`);
+        const comments = yield client.get(`/v1/professionals/${professionalId}/comments`);
+        yield put(loadComments(comments.data));
         yield put(loadSuccess(response.data));
         yield put(END);
 
