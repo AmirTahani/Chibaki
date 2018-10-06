@@ -13,9 +13,15 @@ export default class ProfessionSliders extends Component {
 	};
 
 	IS_WEB = typeof window !== "undefined";
+	IS_MOBILE =
+		typeof window !== "undefined" &&
+		window.innerWidth < 500;
+
+	SHOULD_SLIDER_INIT =
+		this.IS_WEB && !this.IS_MOBILE;
 
 	componentWillMount() {
-		if (this.IS_WEB) {
+		if (this.SHOULD_SLIDER_INIT) {
 			require("flickity");
 			require("flickity/dist/flickity.min.css");
 		}
@@ -71,11 +77,14 @@ export default class ProfessionSliders extends Component {
 									data-flickity-lazyload={
 										slide.img
 									}
+									src={
+										slide.img
+									}
 									alt={
 										slide.label
 									}
 								/>
-							</div>
+                            </div>
 
 							<div className="catSlider__over">
 								<Button
@@ -127,6 +136,12 @@ export default class ProfessionSliders extends Component {
 			}
 		);
 
-		return <div>{sliders}</div>;
+		return (
+			<div>
+				<div className="l-container l-container--sm">
+					{sliders}
+				</div>
+			</div>
+		);
 	}
 }

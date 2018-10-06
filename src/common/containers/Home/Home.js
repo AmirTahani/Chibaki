@@ -1,15 +1,16 @@
+import "../../styles/container.styl";
 import "./Home.css";
-import "../../styles/container.styl"
 
 import { connect } from "react-redux";
 import React, { Component } from "react";
 
 import { flattenProfessionsByCategories } from "../../utils/serverHelper";
 import Categories from "../../components/Professions/Categories/Categories";
-import ProfessionSliders from "../../components/Professions/Slider/Slider";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import Hero from "../../components/Hero/Hero";
+import HowItWorks from '../../components/Kit/HowItWorks/HowItWorks';
+import ProfessionSliders from "../../components/Professions/Slider/Slider";
 
 class Home extends Component {
 	render() {
@@ -23,15 +24,13 @@ class Home extends Component {
 
 				<Hero professions={professions} />
 
-				<div className="l-container l-container--md">
-					<Categories />
-				</div>
+				<Categories />
 
-				<div className="l-container l-container--sm">
-					<ProfessionSliders
-						sliders={sliders}
-					/>
-				</div>
+				<ProfessionSliders
+					sliders={sliders}
+				/>
+
+				<HowItWorks />
 
 				{/* <Questions /> */}
 				<Footer />
