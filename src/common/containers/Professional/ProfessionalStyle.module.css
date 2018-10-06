@@ -1,31 +1,64 @@
-.backred{
-  background-color: #1B70EC;
-  height: 200px;
+.wrapper {
+	background-color: rgb(246, 247, 249);
+
+	padding-top: 120px;
 }
-.avatar{
-  width: 150px;
-  height: 150px;
-  border-radius: 75px;
-  position: absolute;
-  bottom : -50px;
-  left: calc(50% - 75px)
+
+.card {
+	background-color: #fff;
+
+	border-radius: 5px;
+	overflow: hidden;
 }
-.detailContainer{
-  text-align: center;
-  margin-top: 60px;
+
+.card__hover {
+
 }
-.seprator{
-  height:  1px;
-  width: 100%;
-  background-color: #eee;
-  margin-top: 10px;
-  margin-bottom: 10px;
+
+.card__body {
+	padding: 10px 40px;
+	line-height: 1.7;
+	font-size: 1.1rem;
 }
-.title{
-  font-weight: bold;
+
+.cover {
+	background-color: #1b70ec;
+	height: 200px;
 }
+
+.avatar {
+	width: 150px;
+	height: 150px;
+
+	border-radius: 75px;
+
+	position: absolute;
+
+	bottom: 0;
+	right: 0;
+	left: 0;
+
+	margin: 0 auto;
+
+	transform: translateY(50%);
+
+	box-shadow: 0 3px 5px rgba(0,0,0,.4);
+}
+
+.seprator {
+	height: 1px;
+	width: 100%;
+	background-color: #eee;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.title {
+	font-weight: bold;
+}
+
 .profImage {
-  width: 100px;
-  height: 100px;
-  margin-left: 10px;
+	width: 100px;
+	height: 100px;
+	margin-left: 10px;
 }
