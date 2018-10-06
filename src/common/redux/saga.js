@@ -23,6 +23,16 @@ import {
     watchLoadProficients,
 } from './modules/proficients';
 
+import {
+    LOAD_PROVINCES,
+    watchLoadProvinces
+} from './modules/provinces';
+
+import {
+    LOAD_PROFESSIONAL,
+    watchLoadProfessional
+} from './modules/professional';
+
 export default function* root(client, store) {
     yield all([
         takeEvery(REHYDRATE, watchRehydrate),
@@ -31,6 +41,8 @@ export default function* root(client, store) {
         takeEvery(LOADER, watchLoader, client),
         takeEvery(LOAD_PROFICIENTS, watchLoadProficients, client),
         takeEvery(LOAD_QUESTIONS, watchLoadQuestions, client),
-        takeEvery(SUBMIT_ANSWERS, watchSubmitAnswers, client)
+        takeEvery(SUBMIT_ANSWERS, watchSubmitAnswers, client),
+        takeEvery(LOAD_PROVINCES, watchLoadProvinces, client),
+        takeEvery(LOAD_PROFESSIONAL, watchLoadProfessional, client)
     ]);
 }

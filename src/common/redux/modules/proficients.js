@@ -12,7 +12,9 @@ const initialState = {
     proficients: [],
     error: null,
     pagination: {},
-    count: 0
+    count: 0,
+    title : '',
+    selectedProfession: {}
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -20,7 +22,9 @@ export default function reducer(state = initialState, action = {}) {
         case LOAD_PROFICIENTS:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                title: action.title,
+                selectedProfession: action.selectedProfession
             };
         case LOAD_PROFICIENTS_SUCCESS:
             return {
@@ -42,10 +46,12 @@ export default function reducer(state = initialState, action = {}) {
     }
 }
 
-export function load(professionId) {
+export function load(professionId, title, selectedProfession) {
     return {
         type: LOAD_PROFICIENTS,
-        professionId
+        professionId,
+        title,
+        selectedProfession
     };
 }
 

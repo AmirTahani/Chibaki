@@ -5,7 +5,7 @@ import reducers from './reducers';
 import saga from './saga';
 
 
-export default function create(client , preloadState) {
+export default function create(client, preloadState) {
     const sagaMiddleWare = createSagaMiddleware();
 
     const store = createStore(
@@ -16,7 +16,7 @@ export default function create(client , preloadState) {
     );
 
     persistStore(store, {
-        whitelist: []
+        whitelist: ['provinces']
     });
 
     store.rootTask = sagaMiddleWare.run(saga, client, store);
