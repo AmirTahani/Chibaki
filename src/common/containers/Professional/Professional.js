@@ -42,7 +42,21 @@ class Professional extends Component {
 نشان ها
                         </Row>
                         <Row>
-                            badge
+                            <Col span={24} className={professional.user.trust.addressProof.verified ? styles.activeBadge : styles.inactiveBadge}>
+                                تایید آدرس
+                            </Col>
+                            <Col span={24} className={professional.user.trust.backgroundCheck.verified ? styles.activeBadge : styles.inactiveBadge}>
+                                گواهی عدم سوء‌پیشینه
+                            </Col>
+                            <Col span={24} className={professional.user.trust.identity.verified &&  professional.user.trust.identity.filePath ? styles.activeBadge : styles.inactiveBadge}>
+                                تایید هویت
+                            </Col>
+                            <Col span={24} className={professional.user.trust.certificate.verified ? styles.activeBadge : styles.inactiveBadge}>
+                                مدرک تحصیلی، کارت دانشجویی و یا مدارک
+                            </Col>
+                            <Col span={24} className={professional.user.trust.idCard.verified ? styles.activeBadge : styles.inactiveBadge}>
+                                آپلود کارت ملی
+                            </Col>
                         </Row>
                     </Col>
                     <Col span={12}>
@@ -60,41 +74,27 @@ class Professional extends Component {
                 </Row>
                 <Divider type="horizontal" />
                 {professional.user.professions[selectedProfession].intro
-                && professional.user.professions[selectedProfession].intro.photo1
+                && (professional.user.professions[selectedProfession].intro.photo1
                 || professional.user.professions[selectedProfession].intro.photo2
                 || professional.user.professions[selectedProfession].intro.photo3
                 || professional.user.professions[selectedProfession].intro.photo4
                 || professional.user.professions[selectedProfession].intro.photo5
-                || professional.user.professions[selectedProfession].intro.photo6
+                || professional.user.professions[selectedProfession].intro.photo6)
                     ?  <Row>
                         <div className={styles.title}>
                             نمونه کارها
                         </div>
                         <div>
-                            {professional.user.professions[selectedProfession].intro.photo1
-                                ?  <img src={'https://chibaki.ir' + professional.user.professions[selectedProfession].intro.photo1.replace('public', '')} className={styles.profImage}/>
-                                : null
-                            }
-                            {professional.user.professions[selectedProfession].intro.photo2
-                                ?  <img src={'https://chibaki.ir' + professional.user.professions[selectedProfession].intro.photo2.replace('public', '')} className={styles.profImage}/>
-                                : null
-                            }
-                            {professional.user.professions[selectedProfession].intro.photo3
-                                ?  <img src={'https://chibaki.ir' + professional.user.professions[selectedProfession].intro.photo3.replace('public', '')} className={styles.profImage}/>
-                                : null
-                            }
-                            {professional.user.professions[selectedProfession].intro.photo4
-                                ?  <img src={'https://chibaki.ir' + professional.user.professions[selectedProfession].intro.photo4.replace('public', '')} className={styles.profImage}/>
-                                : null
-                            }
-                            {professional.user.professions[selectedProfession].intro.photo5
-                                ?  <img src={'https://chibaki.ir' + professional.user.professions[selectedProfession].intro.photo5.replace('public', '')} className={styles.profImage}/>
-                                : null
-                            }
-                            {professional.user.professions[selectedProfession].intro.photo6
-                                ?  <img src={'https://chibaki.ir' + professional.user.professions[selectedProfession].intro.photo6.replace('public', '')} className={styles.profImage}/>
-                                : null
-                            }
+
+                            {professional.user.professions[selectedProfession] && professional.user.professions[selectedProfession].intro ?
+                                Object.keys(professional.user.professions[selectedProfession].intro).map(function(key, index) {
+                                    if(key.indexOf('photo') >= 0 && professional.user.professions[selectedProfession].intro[key]) {
+                                        const url =  professional.user.professions[selectedProfession].intro[key].replace('public', '');
+                                        return (
+                                            <img src={'https://chibaki.ir' + url} className={styles.profImage}/>
+                                    );
+
+                                    }}) : null }
                         </div>
                     </Row>
                     : null
