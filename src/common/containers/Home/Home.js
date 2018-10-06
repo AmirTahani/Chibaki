@@ -1,17 +1,20 @@
+import "../../styles/container.styl";
 import "./Home.css";
 
 import { connect } from "react-redux";
 import React, { Component } from "react";
 
 import { flattenProfessionsByCategories } from "../../utils/serverHelper";
-import Categories from '../../components/Professions/Categories/Categories';
+import Categories from "../../components/Professions/Categories/Categories";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import Hero from "../../components/Hero/Hero";
+import HowItWorks from '../../components/Kit/HowItWorks/HowItWorks';
+import ProfessionSliders from "../../components/Professions/Slider/Slider";
 
 class Home extends Component {
 	render() {
-		let { professions } = this.props;
+		let { professions, sliders } = this.props;
 		professions = flattenProfessionsByCategories(
 			professions
 		);
@@ -22,6 +25,12 @@ class Home extends Component {
 				<Hero professions={professions} />
 
 				<Categories />
+
+				<ProfessionSliders
+					sliders={sliders}
+				/>
+
+				<HowItWorks />
 
 				{/* <Questions /> */}
 				<Footer />
@@ -37,5 +46,6 @@ class Home extends Component {
 }
 
 export default connect(state => ({
-	professions: state.professions.categories
+	professions: state.professions.categories,
+	sliders: state.professions.professionsList
 }))(Home);
