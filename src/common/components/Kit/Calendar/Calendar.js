@@ -31,7 +31,7 @@ export class Calendar extends Component {
     };
 
     static defaultProps = {
-        styles: require('./style.css'),
+        styles: require('./style.module.css'),
         containerProps: {}
     };
 

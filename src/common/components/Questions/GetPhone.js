@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'antd';
-import styles from './Description.module.css';
+import styles from './GetPhone.module.css';
 
-export default class Description extends Component {
+export default class GetPhone extends Component {
     static propTypes = {
         question: PropTypes.objectOf(PropTypes.any).isRequired
     };
@@ -21,16 +21,11 @@ export default class Description extends Component {
         }
     }
 
-    onChangeTextOption = (e) => {
-        const { question } = this.props;
+    onChangeMobile = (e) => {
         this.setState({
             value: e.target.value
         });
-        const answer = {
-            selected_options: [],
-            text_option: e.target.value
-        };
-        this.props.setAnswer(question._id, answer);
+        this.props.setUserMobile(e.target.value);
     };
 
     render() {
@@ -40,8 +35,8 @@ export default class Description extends Component {
                 <p className={styles.title}>{question.title}</p>
                 <div className={styles.inputWrapper}>
                     <Input
-                        placeholder="اینجا بنویسید"
-                        onChange={this.onChangeTextOption}
+                        placeholder="لطفا شماره خود را وارد کنید."
+                        onChange={this.onChangeMobile}
                         value={this.state.value}
                     />
                 </div>

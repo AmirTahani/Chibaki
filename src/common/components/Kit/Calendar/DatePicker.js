@@ -27,7 +27,7 @@ export default class DatePicker extends Component {
 
     static defaultProps = {
         inputFormat: 'jYYYY/jM/jD',
-        calendarStyles: require('./style.css'),
+        calendarStyles: require('./style.module.css'),
         calendarContainerProps: {}
     };
 
@@ -138,10 +138,10 @@ export default class DatePicker extends Component {
                     className={className}
                     type="text"
                     ref="input"
-                    onFocus={this.handleFocus.bind(this) }
-                    onBlur={this.handleBlur.bind(this) }
-                    onChange={this.handleInputChange.bind(this) }
-                    onClick={this.handleInputClick.bind(this) }
+                    onFocus={this.handleFocus.bind(this)}
+                    onBlur={this.handleBlur.bind(this)}
+                    onChange={this.handleInputChange.bind(this)}
+                    onClick={this.handleInputClick.bind(this)}
                     value={inputValue}
                 />
             </div>
@@ -159,8 +159,8 @@ export default class DatePicker extends Component {
                     max={max}
                     selectedDay={momentValue}
                     defaultMonth={defaultMonth}
-                    onSelect={this.handleSelectDay.bind(this) }
-                    onClickOutside={this.handleClickOutsideCalendar.bind(this) }
+                    onSelect={this.handleSelectDay.bind(this)}
+                    onClickOutside={this.handleClickOutsideCalendar.bind(this)}
                     outsideClickIgnoreClass={outsideClickIgnoreClass}
                     styles={calendarStyles}
                     containerProps={calendarContainerProps}
@@ -171,7 +171,7 @@ export default class DatePicker extends Component {
                                 min={min}
                                 max={max}
                                 momentValue={momentValue}
-                                setMomentValue={this.setMomentValue.bind(this) }
+                                setMomentValue={this.setMomentValue.bind(this)}
                             />
                         ) : null
                     }
@@ -181,7 +181,7 @@ export default class DatePicker extends Component {
     }
 
     removeDate() {
-        const {onChange} = this.props;
+        const { onChange } = this.props;
         if (onChange) {
             onChange('');
         }
@@ -195,9 +195,9 @@ export default class DatePicker extends Component {
         const { isOpen } = this.state;
 
         return (
-            <TetherComponent attachment="top center">
-                { this.renderInput() }
-                { isOpen ? this.renderCalendar() : null }
+            <TetherComponent attachment="top center" style={{ 'z-index': 10000 }}>
+                {this.renderInput()}
+                {isOpen ? this.renderCalendar() : null}
             </TetherComponent>
         );
     }
