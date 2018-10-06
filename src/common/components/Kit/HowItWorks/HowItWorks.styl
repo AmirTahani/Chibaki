@@ -1,0 +1,65 @@
+@import '../../../styles/variables'
+
+.c-howitworks
+	padding 9rem 0 7rem
+	// margin-top -4rem
+	text-align center
+
+	@media (max-width $xl)
+		padding-top 7rem
+		
+	&__item
+		margin-bottom 1.5rem
+		padding 0 8%
+		text-align center
+
+		@media (max-width $md - 1)
+			margin-bottom 3rem
+
+		@media (max-width $lg - 1)
+			padding 0 5%
+
+	&__icon
+		position relative
+
+		margin 0 auto 1rem
+
+		text-align center
+
+		.icon--back
+			font-size 6.5rem
+			color $color
+
+		.icon--front
+			position absolute
+
+			top 0
+			left 0
+			right 0
+			bottom 0
+
+			z-index 100
+
+			font-size 2.5rem
+
+			display flex
+			align-items center
+			justify-content center
+
+			color #ffffff
+
+			img
+				width 40px
+				height 40px
+
+	&__title
+		font-size 1.1rem
+		font-weight 900
+
+		margin-bottom .9rem
+
+	&__desc
+		font-size 1rem
+		font-weight 300
+
+		line-height 2
