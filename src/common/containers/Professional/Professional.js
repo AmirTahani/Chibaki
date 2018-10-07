@@ -1,5 +1,3 @@
-import "antd/dist/antd.less";
-
 import "../../styles/btn.styl";
 import "../../styles/card.styl";
 import "../Services/Services.css";
@@ -10,6 +8,7 @@ import React, { Component } from "react";
 
 import Header from "../../components/Header/Header";
 import styles from "./ProfessionalStyle.module.css";
+import flex from "../../styles/grid.styl";
 
 // import professions from "../../redux/modules/professions";
 
@@ -80,11 +79,7 @@ class Professional extends Component {
 										</Row>
 									</Col>
 								</Row>
-								<Row
-									type="flex"
-									className="l-flex-row l-flex-wrap"
-									justify="center"
-								>
+								<Row type="flex" justify="center">
 									<Col className="">
 										<button className="c-btn c-btn--border c-btn--lg">
 											تماس با متخصص
@@ -125,7 +120,7 @@ class Professional extends Component {
 							<Col span={24}>
 								<Row type="flex" justify="center">
 									<Col>
-										<button className='c-btn c-btn--primary c-btn--lg'>
+										<button className="c-btn c-btn--primary c-btn--lg">
 											ثبت سفارش
 										</button>
 									</Col>
@@ -133,70 +128,83 @@ class Professional extends Component {
 							</Col>
 						</Row>
 						<Divider type="horizontal" />
-						<Row>
-							<Col span={12}>
-								<Row className={styles.title}>نشان ها</Row>
-								<Row>
+						<Row className={styles.card__body}>
+							<Col span={24}>
+								<Row className={styles.title}>
+									<Col>اطلاعات</Col>
+								</Row>
+								<Row
+									style={{
+										flexWrap: "nowrap",
+										textAlign: "center"
+									}}
+									type="flex"
+									justify="space-around"
+								>
 									<Col
-										span={24}
-										className={
+										className={[
+											"l-flex-1-100",
 											professional.user.trust.addressProof
 												.verified
 												? styles.activeBadge
 												: styles.inactiveBadge
-										}
+										]}
 									>
 										تایید آدرس
 									</Col>
 									<Col
-										span={24}
-										className={
+										className={[
+											"l-flex-1-100",
 											professional.user.trust
 												.backgroundCheck.verified
 												? styles.activeBadge
 												: styles.inactiveBadge
-										}
+										]}
 									>
 										گواهی عدم سوء‌پیشینه
 									</Col>
 									<Col
-										span={24}
-										className={
+										className={[
+											"l-flex-1-100",
 											professional.user.trust.identity
 												.verified &&
 											professional.user.trust.identity
 												.filePath
 												? styles.activeBadge
 												: styles.inactiveBadge
-										}
+										]}
 									>
 										تایید هویت
 									</Col>
 									<Col
-										span={24}
-										className={
+										className={[
+											"l-flex-1-100",
 											professional.user.trust.certificate
 												.verified
 												? styles.activeBadge
 												: styles.inactiveBadge
-										}
+										]}
 									>
 										مدرک تحصیلی، کارت دانشجویی و یا مدارک
 									</Col>
 									<Col
-										span={24}
-										className={
+										className={[
+											"l-flex-1-100",
 											professional.user.trust.idCard
 												.verified
 												? styles.activeBadge
 												: styles.inactiveBadge
-										}
+										]}
 									>
 										آپلود کارت ملی
 									</Col>
 								</Row>
 							</Col>
-							<Col span={12}>
+						</Row>
+
+						<Divider type="horizontal" />
+						<Row className={styles.card__body}>
+							<Col span={24}>
 								<Row className={styles.title}>تخصص ها</Row>
 								<Row>
 									{professional.user.professions.map(prof => {

@@ -4,7 +4,6 @@ import '../Services/Services.css';
 import { Row, Col, Tooltip } from 'antd';
 import  './ServiceStyle.css';
 import { connect } from 'react-redux';
-import 'antd/dist/antd.less'
 class Services extends Component {
 
     registerProject = () => {

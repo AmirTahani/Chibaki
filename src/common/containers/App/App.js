@@ -1,3 +1,4 @@
+import "antd/dist/antd.less";
 import "./App.styl";
 import "../../styles/container.styl";
 import "../../styles/grid.styl";

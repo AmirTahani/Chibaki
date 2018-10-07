@@ -3,7 +3,6 @@ import { Link } from 'react-router';
 import '../Services/Services.css';
 import { Row, Col, Tooltip } from 'antd';
 import { connect } from 'react-redux';
-import 'antd/dist/antd.less'
 // import professions from "../../redux/modules/professions";
 
 
