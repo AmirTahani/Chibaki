@@ -49,7 +49,6 @@ class Professional extends Component {
 						</Row>
 						<Row
 							className={styles.card__body}
-							style={{ marginTop: 85 }}
 						>
 							<Col>
 								<Row type="flex" justify="center">
@@ -129,7 +128,7 @@ class Professional extends Component {
 						<Divider type="horizontal" />
 						<Row className={styles.card__body}>
 							<Col span={24}>
-								<Row className={styles.title}>
+								<Row className={styles.heading}>
 									<Col>اطلاعات</Col>
 								</Row>
 								<Row
@@ -204,13 +203,16 @@ class Professional extends Component {
 						<Divider type="horizontal" />
 						<Row className={styles.card__body}>
 							<Col span={24}>
-								<Row className={styles.title}>
+								<Row className={styles.heading}>
 									<Col span={24}>تخصص ها</Col>
 								</Row>
-								<Row style={{ marginTop: "1.2rem" }}>
+								<Row>
 									<Col span={24}>
 										<Radio.Group
-											defaultValue={professional.user.professions[0].profession._id}
+											defaultValue={
+												professional.user.professions[0]
+													.profession._id
+											}
 											className="radio-btn-round-lg"
 											buttonStyle="solid"
 										>
@@ -256,55 +258,64 @@ class Professional extends Component {
 							.photo5 ||
 						professional.user.professions[selectedProfession].intro
 							.photo6 ? (
-							<Row>
-								<div className={styles.title}>نمونه کارها</div>
-								<div>
-									{professional.user.professions[
-										selectedProfession
-									] &&
-									professional.user.professions[
-										selectedProfession
-									].intro
-										? Object.keys(
-												professional.user.professions[
-													selectedProfession
-												].intro
-										  ).map(function(key, index) {
-												if (
-													key.indexOf("photo") >= 0 &&
+							<Row className={styles.card__body}>
+								<Col span={24}>
+									<div className={styles.heading}>
+										نمونه کارها
+									</div>
+									<div className={styles.profImageWrapper}>
+										{professional.user.professions[
+											selectedProfession
+										] &&
+										professional.user.professions[
+											selectedProfession
+										].intro
+											? Object.keys(
 													professional.user
 														.professions[
 														selectedProfession
-													].intro[key]
-												) {
-													const url = professional.user.professions[
-														selectedProfession
-													].intro[key].replace(
-														"public",
-														""
-													);
-													return (
-														<img
-															src={
-																"https://chibaki.ir" +
-																url
-															}
-															className={
-																styles.profImage
-															}
-														/>
-													);
-												}
-										  })
-										: null}
-								</div>
+													].intro
+											  ).map(function(key, index) {
+													if (
+														key.indexOf("photo") >=
+															0 &&
+														professional.user
+															.professions[
+															selectedProfession
+														].intro[key]
+													) {
+														const url = professional.user.professions[
+															selectedProfession
+														].intro[key].replace(
+															"public",
+															""
+														);
+														return (
+															<div
+																className={
+																	styles.profImage
+																}
+															>
+																<img
+																	src={
+																		"https://chibaki.ir" +
+																		url
+																	}
+																/>
+															</div>
+														);
+													}
+											  })
+											: null}
+									</div>
+								</Col>
 							</Row>
 						) : null}
 						<Divider type="horizontal" />
 						<Row>
 							{comments.comments ? (
 								<Col span={24}>
-									<div className={styles.title}>
+									<div className={styles.heading}>
 										نظر مشتریان
 									</div>
 									{comments.comments.map(comment => {
