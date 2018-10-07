@@ -16,7 +16,7 @@
 }
 
 .card__body {
-	padding: 10px 40px;
+	padding: 10px 60px;
 	line-height: 1.7;
 	font-size: 1.1rem;
 }
@@ -45,6 +45,22 @@
 	box-shadow: 0 3px 5px rgba(0,0,0,.4);
 }
 
+.userName {
+	font-weight: 900;
+	font-size: 21px;
+	margin: 0;
+	text-align: center;
+}
+
+.desc {
+	color: #758CA0;
+	font-size: 17px;
+	text-align: center;
+	line-height: 2;
+
+	margin-bottom: 2rem;
+}
+
 .seprator {
 	height: 1px;
 	width: 100%;
@@ -61,4 +77,12 @@
 	width: 100px;
 	height: 100px;
 	margin-left: 10px;
+}
+
+.activeBadge{
+  color: green
+}
+
+.inactiveBadge{
+  color: gray
 }

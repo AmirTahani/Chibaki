@@ -1,10 +1,10 @@
 import "antd/dist/antd.less";
 
-import "../../styles/card.styl";
 import "../../styles/btn.styl";
+import "../../styles/card.styl";
 import "../Services/Services.css";
 
-import { Col, Divider, Rate, Row } from "antd";
+import { Button, Col, Divider, Rate, Row } from "antd";
 import { connect } from "react-redux";
 import React, { Component } from "react";
 
@@ -51,17 +51,21 @@ class Professional extends Component {
 						</Row>
 						<Row
 							className={styles.card__body}
-							style={{ "margin-top": 85 }}
+							style={{ marginTop: 85 }}
 						>
 							<Col>
 								<Row type="flex" justify="center">
 									<Col>
-										<h1>
+										<h1 className={styles.userName}>
 											{professional.user.firstname +
 												" " +
 												professional.user.lastname}
 										</h1>
-										<Row type="flex" justify="center" style={{ 'margin-bottom': 30 }}>
+										<Row
+											type="flex"
+											justify="center"
+											style={{ marginBottom: 30 }}
+										>
 											<Col>
 												<Rate
 													disabled
@@ -79,20 +83,20 @@ class Professional extends Component {
 								<Row
 									type="flex"
 									className="l-flex-row l-flex-wrap"
-									justify='center'
+									justify="center"
 								>
 									<Col className="">
-										<button className="c-btn c-btn--round c-btn--border">
+										<button className="c-btn c-btn--border c-btn--lg">
 											تماس با متخصص
 										</button>
 									</Col>
 									<Col className="">
-										<button className="c-btn c-btn--round c-btn--border">
+										<button className="c-btn c-btn--border c-btn--lg">
 											ارسال پیام برای متخصص
 										</button>
 									</Col>
 									<Col className="">
-										<button className="c-btn c-btn--round c-btn--border">
+										<button className="c-btn c-btn--border c-btn--lg">
 											دریافت قیمت از متخصص
 										</button>
 									</Col>
@@ -101,28 +105,96 @@ class Professional extends Component {
 						</Row>
 						<Divider type="horizontal" />
 						<Row className={styles.card__body}>
-							{professional.user.professions[selectedProfession]
-								.intro &&
-							professional.user.professions[selectedProfession]
-								.intro.description &&
-							professional.user.professions[selectedProfession]
-								.intro.description.length > 0 ? (
-								<p>
-									{
-										professional.user.professions[
-											selectedProfession
-										].intro.description
-									}
+							<Col span={24}>
+								<p className={styles.desc}>
+									{professional.user.professions[
+										selectedProfession
+									].intro &&
+									professional.user.professions[
+										selectedProfession
+									].intro.description &&
+									professional.user.professions[
+										selectedProfession
+									].intro.description.length > 0
+										? professional.user.professions[
+												selectedProfession
+										  ].intro.description
+										: "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد."}
 								</p>
-							) : (
-								"لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد."
-							)}
+							</Col>
+							<Col span={24}>
+								<Row type="flex" justify="center">
+									<Col>
+										<button className='c-btn c-btn--primary c-btn--lg'>
+											ثبت سفارش
+										</button>
+									</Col>
+								</Row>
+							</Col>
 						</Row>
 						<Divider type="horizontal" />
 						<Row>
 							<Col span={12}>
 								<Row className={styles.title}>نشان ها</Row>
-								<Row>badge</Row>
+								<Row>
+									<Col
+										span={24}
+										className={
+											professional.user.trust.addressProof
+												.verified
+												? styles.activeBadge
+												: styles.inactiveBadge
+										}
+									>
+										تایید آدرس
+									</Col>
+									<Col
+										span={24}
+										className={
+											professional.user.trust
+												.backgroundCheck.verified
+												? styles.activeBadge
+												: styles.inactiveBadge
+										}
+									>
+										گواهی عدم سوء‌پیشینه
+									</Col>
+									<Col
+										span={24}
+										className={
+											professional.user.trust.identity
+												.verified &&
+											professional.user.trust.identity
+												.filePath
+												? styles.activeBadge
+												: styles.inactiveBadge
+										}
+									>
+										تایید هویت
+									</Col>
+									<Col
+										span={24}
+										className={
+											professional.user.trust.certificate
+												.verified
+												? styles.activeBadge
+												: styles.inactiveBadge
+										}
+									>
+										مدرک تحصیلی، کارت دانشجویی و یا مدارک
+									</Col>
+									<Col
+										span={24}
+										className={
+											professional.user.trust.idCard
+												.verified
+												? styles.activeBadge
+												: styles.inactiveBadge
+										}
+									>
+										آپلود کارت ملی
+									</Col>
+								</Row>
 							</Col>
 							<Col span={12}>
 								<Row className={styles.title}>تخصص ها</Row>
@@ -155,100 +227,42 @@ class Professional extends Component {
 								<div>
 									{professional.user.professions[
 										selectedProfession
-									].intro.photo1 ? (
-										<img
-											src={
-												"https://chibaki.ir" +
-												professional.user.professions[
-													selectedProfession
-												].intro.photo1.replace(
-													"public",
-													""
-												)
-											}
-											className={styles.profImage}
-										/>
-									) : null}
-									{professional.user.professions[
+									] &&
+									professional.user.professions[
 										selectedProfession
-									].intro.photo2 ? (
-										<img
-											src={
-												"https://chibaki.ir" +
+									].intro
+										? Object.keys(
 												professional.user.professions[
 													selectedProfession
-												].intro.photo2.replace(
-													"public",
-													""
-												)
-											}
-											className={styles.profImage}
-										/>
-									) : null}
-									{professional.user.professions[
-										selectedProfession
-									].intro.photo3 ? (
-										<img
-											src={
-												"https://chibaki.ir" +
-												professional.user.professions[
-													selectedProfession
-												].intro.photo3.replace(
-													"public",
-													""
-												)
-											}
-											className={styles.profImage}
-										/>
-									) : null}
-									{professional.user.professions[
-										selectedProfession
-									].intro.photo4 ? (
-										<img
-											src={
-												"https://chibaki.ir" +
-												professional.user.professions[
-													selectedProfession
-												].intro.photo4.replace(
-													"public",
-													""
-												)
-											}
-											className={styles.profImage}
-										/>
-									) : null}
-									{professional.user.professions[
-										selectedProfession
-									].intro.photo5 ? (
-										<img
-											src={
-												"https://chibaki.ir" +
-												professional.user.professions[
-													selectedProfession
-												].intro.photo5.replace(
-													"public",
-													""
-												)
-											}
-											className={styles.profImage}
-										/>
-									) : null}
-									{professional.user.professions[
-										selectedProfession
-									].intro.photo6 ? (
-										<img
-											src={
-												"https://chibaki.ir" +
-												professional.user.professions[
-													selectedProfession
-												].intro.photo6.replace(
-													"public",
-													""
-												)
-											}
-											className={styles.profImage}
-										/>
-									) : null}
+												].intro
+										  ).map(function(key, index) {
+												if (
+													key.indexOf("photo") >= 0 &&
+													professional.user
+														.professions[
+														selectedProfession
+													].intro[key]
+												) {
+													const url = professional.user.professions[
+														selectedProfession
+													].intro[key].replace(
+														"public",
+														""
+													);
+													return (
+														<img
+															src={
+																"https://chibaki.ir" +
+																url
+															}
+															className={
+																styles.profImage
+															}
+														/>
+													);
+												}
+										  })
+										: null}
 								</div>
 							</Row>
 						) : null}

@@ -3,9 +3,10 @@
 .c-btn
 	appearance none
 
-	padding .3rem 1.1rem
+	padding 0 1.1rem
 	margin .3rem .6rem
 
+	line-height 40px
 	font-size 1rem
 	
 	background rgba(0,0,0,0)
@@ -15,13 +16,35 @@
 	
 	cursor pointer
 	outline none
+
+	border-radius 5px
 	
 	&:hover
-		background-color alpha($color, 5%)
+	&:focus
+		&:not(.c-btn--primary)
+			background-color alpha($color, 5%)
 
 	&:focus
-		box-shadow 0 0 12px alpha($color, 50%)
+		box-shadow 0 0 0 2px alpha($color, 60%)
+
+	&--primary
+		color #fff
+		background-color $color
+		box-shadow 0 1px 6px -1px alpha($color, 35%)
+
+		&:hover
+		&:focus
+			background-color lighten($color, 20%)
 	
 	&--round
 		border-radius 50px
 		border 1px solid $color
+
+	&--border
+		border 1px solid $color
+		
+	&--lg
+		min-width 180px
+		line-height 50px
+		&:only-child
+			font-size 1.2rem
