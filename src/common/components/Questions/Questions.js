@@ -161,6 +161,9 @@ class Questions extends Component {
 
 
     next = (contents) => {
+        setTimeout(()=>{
+            console.log(this.state , 'satte')
+        }, 1000)
         const { current } = this.state;
         const { mobile } = this.props;
         const hasAnswer = this.checkHasAnswer(contents[current].question);
@@ -182,6 +185,10 @@ class Questions extends Component {
     };
 
     prev = () => {
+        setTimeout(()=>{
+            console.log(this.state, 'satte')
+        }, 1000)
+
         this.setState({
             current: this.state.current - 1
         });

@@ -11,7 +11,6 @@ export default class SelectQuestion extends Component {
 
     componentDidMount() {
         const { answers, question } = this.props;
-        console.log(answers[question._id], 'this is answer');
         if (answers[question._id]) {
             if (answers[question._id].province) {
                 this.setState({
@@ -37,7 +36,8 @@ export default class SelectQuestion extends Component {
         const { provinces } = this.props;
         const selectedProvince = provinces.find(item => item.name === province);
         this.setState({
-            province: selectedProvince
+            province: selectedProvince,
+            city: {}
         });
         this.generateAnswer(selectedProvince, this.state.city);
     };
@@ -73,7 +73,7 @@ export default class SelectQuestion extends Component {
     render() {
         const { question, provinces, loading, loaded } = this.props;
         const { city, province } = this.state;
-        console.log(this.state, 'this is state');
+        console.log(city, province, 'this is state of locationnnnnnnn');
         return (
             <div>
                 {
@@ -83,8 +83,11 @@ export default class SelectQuestion extends Component {
                     !loading && loaded ? <div>
                         <p className={styles.title}>{question.title}</p>
                         <div className={styles.selectWrapper}>
-                            <Select style={{ width: 120 }} defaultValue={province.name}
-                                    onChange={this.handleChangeProvince}>
+                            <Select style={{ width: 120 }}
+                                    defaultValue={province.name}
+                                    key={province.name}
+                                    onChange={this.handleChangeProvince}
+                            >
                                 {
                                     provinces.map(item => {
                                         return <Select.Option value={item.name}>{item.name}</Select.Option>;
@@ -97,7 +100,10 @@ export default class SelectQuestion extends Component {
                 {
                     province && province.cities && province.cities.length ?
                         <div className={styles.selectWrapper}>
-                            <Select style={{ width: 120 }} onChange={this.handleChangeCity} defaultValue={city.name}>
+                            <Select style={{ width: 120 }} onChange={this.handleChangeCity}
+                                    defaultValue={city.name}
+                                    key={city.name}
+                            >
                                 {
                                     province.cities.map(item => {
                                         return <Select.Option value={item.name}>{item.name}</Select.Option>;
