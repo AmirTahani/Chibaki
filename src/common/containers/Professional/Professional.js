@@ -2,13 +2,12 @@ import "../../styles/btn.styl";
 import "../../styles/card.styl";
 import "../Services/Services.css";
 
-import { Button, Col, Divider, Rate, Row } from "antd";
+import { Col, Divider, Radio, Rate, Row } from "antd";
 import { connect } from "react-redux";
 import React, { Component } from "react";
 
 import Header from "../../components/Header/Header";
 import styles from "./ProfessionalStyle.module.css";
-import flex from "../../styles/grid.styl";
 
 // import professions from "../../redux/modules/professions";
 
@@ -205,13 +204,40 @@ class Professional extends Component {
 						<Divider type="horizontal" />
 						<Row className={styles.card__body}>
 							<Col span={24}>
-								<Row className={styles.title}>تخصص ها</Row>
-								<Row>
-									{professional.user.professions.map(prof => {
-										return (
-											<div>{prof.profession.title}</div>
-										);
-									})}
+								<Row className={styles.title}>
+									<Col span={24}>تخصص ها</Col>
+								</Row>
+								<Row style={{ marginTop: "1.2rem" }}>
+									<Col span={24}>
+										<Radio.Group
+											defaultValue={professional.user.professions[0].profession._id}
+											className="radio-btn-round-lg"
+											buttonStyle="solid"
+										>
+											{professional.user.professions.map(
+												(prof, idx) => {
+													return (
+														<Radio.Button
+															defaultChecked={
+																idx === 0
+																	? true
+																	: false
+															}
+															value={
+																prof.profession
+																	._id
+															}
+														>
+															{
+																prof.profession
+																	.title
+															}
+														</Radio.Button>
+													);
+												}
+											)}
+										</Radio.Group>
+									</Col>
 								</Row>
 							</Col>
 						</Row>
