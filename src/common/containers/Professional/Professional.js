@@ -47,12 +47,10 @@ class Professional extends Component {
 								className={styles.avatar}
 							/>
 						</Row>
-						<Row
-							className={styles.card__body}
-						>
+						<Row className={styles.card__body}>
 							<Col>
 								<Row type="flex" justify="center">
-									<Col>
+									<Col style={{ 'marginTop': 80 }}>
 										<h1 className={styles.userName}>
 											{professional.user.firstname +
 												" " +
@@ -312,12 +310,13 @@ class Professional extends Component {
 							</Row>
 						) : null}
 						<Divider type="horizontal" />
-						<Row>
+						<Row className={styles.card__body}>
 							{comments.comments ? (
 								<Col span={24}>
 									<div className={styles.heading}>
 										نظر مشتریان
 									</div>
+									<div className={styles.rateWrapper}>
 									{comments.comments.map(comment => {
 										return (
 											<Row>
@@ -325,11 +324,17 @@ class Professional extends Component {
 													{comment.text}
 												</Col>
 												<Col span={8}>
-													{comment.rate}
+													<Rate
+														disabled
+														defaultValue={
+															comment.rate
+														}
+													/>
 												</Col>
 											</Row>
 										);
 									})}
+									</div>
 								</Col>
 							) : null}
 						</Row>

@@ -2,6 +2,7 @@
 	background-color: #f5f7f9;
 
 	padding-top: 120px;
+	padding-bottom: 5rem;
 }
 
 .card {
@@ -108,4 +109,11 @@
 
 .inactiveBadge {
 	color: gray;
+}
+
+.rateWrapper {
+	padding: 40px 0;
+
+	max-height: 300px;
+	overflow-y: auto;
 }
