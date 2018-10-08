@@ -131,13 +131,24 @@
 	color: #334657;
 }
 
-
-@media (max-width: 960px) {
+@media (max-width: 992px) {
 	.card {
 		border-radius: 0;
 	}
 
 	.card__body {
 		padding: 7px 12px;
+	}
+}
+
+/* Badges */
+.badgesWrapper {
+	display: flex;
+	flex-flow: row nowrap;
+}
+
+@media (max-width: 767px) {
+	.badgesWrapper {
+		flex-flow: row wrap;
 	}
 }

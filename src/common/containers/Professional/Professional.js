@@ -131,15 +131,17 @@ class Professional extends Component {
 								</Row>
 								<Row
 									style={{
-										flexWrap: "nowrap",
 										textAlign: "center"
 									}}
+									className={styles.badgesWrapper}
 									type="flex"
 									justify="space-around"
 								>
 									<Col
+										span={12}
+										md={24}
 										className={[
-											"l-flex-1-100",
+											'l-flex-shrink',
 											professional.user.trust.addressProof
 												.verified
 												? styles.activeBadge
@@ -149,8 +151,10 @@ class Professional extends Component {
 										تایید آدرس
 									</Col>
 									<Col
+										span={12}
+										md={24}
 										className={[
-											"l-flex-1-100",
+											'l-flex-shrink',
 											professional.user.trust
 												.backgroundCheck.verified
 												? styles.activeBadge
@@ -160,8 +164,10 @@ class Professional extends Component {
 										گواهی عدم سوء‌پیشینه
 									</Col>
 									<Col
+										span={12}
+										md={24}
 										className={[
-											"l-flex-1-100",
+											'l-flex-shrink',
 											professional.user.trust.identity
 												.verified &&
 											professional.user.trust.identity
@@ -173,8 +179,10 @@ class Professional extends Component {
 										تایید هویت
 									</Col>
 									<Col
+										span={12}
+										md={24}
 										className={[
-											"l-flex-1-100",
+											'l-flex-shrink',
 											professional.user.trust.certificate
 												.verified
 												? styles.activeBadge
@@ -184,8 +192,10 @@ class Professional extends Component {
 										مدرک تحصیلی، کارت دانشجویی و یا مدارک
 									</Col>
 									<Col
+										span={12}
+										md={24}
 										className={[
-											"l-flex-1-100",
+											'l-flex-shrink',
 											professional.user.trust.idCard
 												.verified
 												? styles.activeBadge
