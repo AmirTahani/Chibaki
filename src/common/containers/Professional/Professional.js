@@ -141,7 +141,7 @@ class Professional extends Component {
 										span={12}
 										md={24}
 										className={[
-											'l-flex-shrink',
+											"l-flex-shrink",
 											professional.user.trust.addressProof
 												.verified
 												? styles.activeBadge
@@ -154,7 +154,7 @@ class Professional extends Component {
 										span={12}
 										md={24}
 										className={[
-											'l-flex-shrink',
+											"l-flex-shrink",
 											professional.user.trust
 												.backgroundCheck.verified
 												? styles.activeBadge
@@ -167,7 +167,7 @@ class Professional extends Component {
 										span={12}
 										md={24}
 										className={[
-											'l-flex-shrink',
+											"l-flex-shrink",
 											professional.user.trust.identity
 												.verified &&
 											professional.user.trust.identity
@@ -182,7 +182,7 @@ class Professional extends Component {
 										span={12}
 										md={24}
 										className={[
-											'l-flex-shrink',
+											"l-flex-shrink",
 											professional.user.trust.certificate
 												.verified
 												? styles.activeBadge
@@ -195,7 +195,7 @@ class Professional extends Component {
 										span={12}
 										md={24}
 										className={[
-											'l-flex-shrink',
+											"l-flex-shrink",
 											professional.user.trust.idCard
 												.verified
 												? styles.activeBadge
@@ -362,6 +362,19 @@ class Professional extends Component {
 									</div>
 								</Col>
 							) : null}
+						</Row>
+						<Divider type="horizontal" />
+						<Row
+							type="flex"
+							justify="center"
+							className={styles.card__body}
+							style={{ padding: '40px 60px 60px' }}
+						>
+							<Col>
+								<button className="c-btn c-btn--primary c-btn--lg">
+									ثبت سفارش
+								</button>
+							</Col>
 						</Row>
 					</div>
 				</div>

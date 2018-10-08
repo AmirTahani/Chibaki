@@ -52,12 +52,14 @@
 
 .radio-btn-round-lg
 	.ant-radio-button-wrapper
+		position relative
+		
 		color $color
 
 		border 2px solid $color
 		border-radius 100px !important
 		
-		margin-right 2rem
+		margin .7rem
 
 		line-height 50px
 		height auto
@@ -67,10 +69,44 @@
 		
 		font-weight 900
 		font-size 15px
+
+		overflow hidden
 		
 		&:first-child
-			margin-right 0
 			border-color $color
 			
+		// &:before
+		// 	content none
+
 		&:before
-			content none
+			content "\e907"
+			font 16px jopp !important
+			color #4FF2CA
+
+			width 22px
+			height 18px
+
+			position absolute
+			left -22px
+			top 0
+			bottom 0
+			right auto
+
+			background rgba(0,0,0,0)
+
+			vertical-align middle
+			margin auto 0
+
+			opacity 1
+
+		&
+		&:before
+			transition .15s
+			
+		&.ant-radio-button-wrapper-checked
+			padding-left 45px
+
+			&:before
+				left 15px
+				opacity 1
+				background rgba(0,0,0,0) !important
