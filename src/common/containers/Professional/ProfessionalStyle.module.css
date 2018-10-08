@@ -112,8 +112,32 @@
 }
 
 .rateWrapper {
-	padding: 40px 0;
-
 	max-height: 300px;
 	overflow-y: auto;
+}
+
+.rateItem {
+	margin-bottom: 1.8rem;
+}
+
+.rateItem:last-child {
+	/*margin-bottom: 0;*/
+}
+
+.rateText {
+	margin-top: 10px;
+	font-size: 14px;
+
+	color: #334657;
+}
+
+
+@media (max-width: 960px) {
+	.card {
+		border-radius: 0;
+	}
+
+	.card__body {
+		padding: 7px 12px;
+	}
 }

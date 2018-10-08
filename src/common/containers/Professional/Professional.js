@@ -50,7 +50,7 @@ class Professional extends Component {
 						<Row className={styles.card__body}>
 							<Col>
 								<Row type="flex" justify="center">
-									<Col style={{ 'marginTop': 80 }}>
+									<Col style={{ marginTop: 80 }}>
 										<h1 className={styles.userName}>
 											{professional.user.firstname +
 												" " +
@@ -317,23 +317,38 @@ class Professional extends Component {
 										نظر مشتریان
 									</div>
 									<div className={styles.rateWrapper}>
-									{comments.comments.map(comment => {
-										return (
-											<Row>
-												<Col span={16}>
-													{comment.text}
-												</Col>
-												<Col span={8}>
-													<Rate
-														disabled
-														defaultValue={
-															comment.rate
-														}
-													/>
-												</Col>
-											</Row>
-										);
-									})}
+										{comments.comments.map(comment => {
+											return (
+												<Row
+													className={styles.rateItem}
+												>
+													<Col span={16}>
+														<div
+															className={
+																styles.rateText
+															}
+														>
+															{comment.text}
+														</div>
+													</Col>
+													<Col span={8}>
+														<Row
+															type="flex"
+															justify="end"
+														>
+															<Col>
+																<Rate
+																	disabled
+																	defaultValue={
+																		comment.rate
+																	}
+																/>
+															</Col>
+														</Row>
+													</Col>
+												</Row>
+											);
+										})}
 									</div>
 								</Col>
 							) : null}
