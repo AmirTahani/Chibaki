@@ -76,7 +76,7 @@ export function loadFailure(error) {
 export function* watchLoadProfessional(client, { professionalId }) {
     try {
         const response = yield client.get(`/professionals/${professionalId}`);
-        const comments = yield client.get(`/v1/professionals/${professionalId}/comments`);
+        const comments = yield client.get(`/v1/professionals/${professionalId}/comments?populate=customer,userProfession,userProfession.profession`);
         yield put(loadComments(comments.data));
         yield put(loadSuccess(response.data));
         yield put(END);

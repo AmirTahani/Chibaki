@@ -12,6 +12,21 @@ import styles from "./ProfessionalStyle.module.css";
 // import professions from "../../redux/modules/professions";
 
 class Professional extends Component {
+
+	getProfImage = () => {
+        const { professional } = this.props;
+        const { selectedProfession } = this.state;
+		let images= [];
+		if (professional.user.professions && professional.user.professions[selectedProfession] &&
+            professional.user.professions[selectedProfession].intro) {
+            Object.keys(professional.user.professions[selectedProfession].intro).map(function (key, index) {
+                if (key.indexOf("photo") >= 0 && professional.user.professions[selectedProfession].intro[key]) {
+                    images.push("https://chibaki.ir" + professional.user.professions[selectedProfession].intro[key].replace("public", ""));
+                }
+            })
+        }
+        return images;
+	};
 	state = {
 		selectedProfession: 0
 	};
@@ -19,6 +34,7 @@ class Professional extends Component {
 	render() {
 		const { professional, comments } = this.props;
 		const { selectedProfession } = this.state;
+		const images = this.getProfImage()
 		console.log(professional);
 		console.log(comments);
 		return (
@@ -252,69 +268,21 @@ class Professional extends Component {
 							</Col>
 						</Row>
 						<Divider type="horizontal" />
-						{(professional.user.professions[selectedProfession]
-							.intro &&
-							professional.user.professions[selectedProfession]
-								.intro.photo1) ||
-						professional.user.professions[selectedProfession].intro
-							.photo2 ||
-						professional.user.professions[selectedProfession].intro
-							.photo3 ||
-						professional.user.professions[selectedProfession].intro
-							.photo4 ||
-						professional.user.professions[selectedProfession].intro
-							.photo5 ||
-						professional.user.professions[selectedProfession].intro
-							.photo6 ? (
+						{images && images.length > 0? (
 							<Row className={styles.card__body}>
 								<Col span={24}>
 									<div className={styles.heading}>
 										نمونه کارها
 									</div>
 									<div className={styles.profImageWrapper}>
-										{professional.user.professions[
-											selectedProfession
-										] &&
-										professional.user.professions[
-											selectedProfession
-										].intro
-											? Object.keys(
-													professional.user
-														.professions[
-														selectedProfession
-													].intro
-											  ).map(function(key, index) {
-													if (
-														key.indexOf("photo") >=
-															0 &&
-														professional.user
-															.professions[
-															selectedProfession
-														].intro[key]
-													) {
-														const url = professional.user.professions[
-															selectedProfession
-														].intro[key].replace(
-															"public",
-															""
-														);
-														return (
-															<div
-																className={
-																	styles.profImage
-																}
-															>
-																<img
-																	src={
-																		"https://chibaki.ir" +
-																		url
-																	}
-																/>
-															</div>
-														);
-													}
-											  })
-											: null}
+                                        {images.map(function (item) {
+                                            return (
+                                                <div className={styles.profImage}>
+                                                    <img src={item}/>
+                                                </div>
+                                            );
+                                        })
+                                        }
 									</div>
 								</Col>
 							</Row>
@@ -333,6 +301,11 @@ class Professional extends Component {
 													className={styles.rateItem}
 												>
 													<Col span={16}>
+														<div>{comment.customer.firstname + ' ' + comment.customer.lastname}</div>
+														<div>{comment.userProfession && comment.userProfession.userProfession && comment.userProfession.userProfession.title ?
+                                                            comment.userProfession.userProfession.title
+															: ''
+													}</div>
 														<div
 															className={
 																styles.rateText
