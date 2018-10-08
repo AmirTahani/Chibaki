@@ -301,6 +301,11 @@ class Professional extends Component {
 													className={styles.rateItem}
 												>
 													<Col span={16}>
+														<div>{comment.customer.firstname + ' ' + comment.customer.lastname}</div>
+														<div>{comment.userProfession && comment.userProfession.userProfession && comment.userProfession.userProfession.title ?
+                                                            comment.userProfession.userProfession.title
+															: ''
+													}</div>
 														<div
 															className={
 																styles.rateText
