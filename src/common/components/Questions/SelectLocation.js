@@ -25,7 +25,7 @@ export default class SelectQuestion extends Component {
 
             if (answers['address'].text_option) {
                 this.setState({
-                    address: answers[question._id].text_option
+                    address: answers['address'].text_option
                 });
             }
         }
@@ -73,7 +73,7 @@ export default class SelectQuestion extends Component {
     render() {
         const { question, provinces, loading, loaded } = this.props;
         const { city, province } = this.state;
-        console.log(city, province, 'this is state of locationnnnnnnn');
+        console.log(this.state, 'this is state of locationnnnnnnn');
         return (
             <div>
                 {
@@ -117,6 +117,7 @@ export default class SelectQuestion extends Component {
                         <Input
                             placeholder="آدرس خود را وارد کنید."
                             onChange={this.onChangeTextOption}
+                            value={this.state.address}
                         />
                     </div> : null
                 }

@@ -51,8 +51,7 @@ export default class ApiClient {
         const fetchOptions = options;
         fetchOptions.headers = fetchOptions.headers || {};
 
-        if (data && url !== '/login') {
-
+        if (data) {
             if (fetchOptions.type === 'formdata') {
                 fetchOptions.body = new FormData();
 
@@ -65,17 +64,23 @@ export default class ApiClient {
                 }
             } else {
                 fetchOptions.body = JSON.stringify(data);
-                fetchOptions.headers['Content-Type'] = 'text/plain';
+                fetchOptions.headers['Content-Type'] = 'application/json';
             }
         }
         if (this.jwt) {
             fetchOptions.headers.Authorization = this.jwt;
         }
-        const requestHandler = axios.create({
+        const instance = axios.create({
             baseURL: apiPath,
+            headers: fetchOptions.headers,
+            validateStatus: function (status) {
+                return true;
+            }
         });
-        console.log(fetchOptions, 'fetch opetions');
-        console.log('before request ');
-        return requestHandler(url);
+        if (data) {
+            return instance[options.method](url, data);
+        } else {
+            return instance[options.method](url);
+        }
     }
 }

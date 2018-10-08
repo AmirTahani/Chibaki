@@ -1,21 +1,33 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Steps, Modal, Col, Row, Button, message, Progress } from 'antd';
 import { connect } from 'react-redux';
 import { loadProvinces } from '../../redux/modules/provinces';
-import { loadQuestions, setAnswer } from '../../redux/modules/questions';
-import { login, setUserMobile } from '../../redux/modules/auth';
+import { loadQuestions, setAnswer, submitAnswers } from '../../redux/modules/questions';
+import {
+    login,
+    setUserMobile,
+    setUserCode,
+    setUserLastName,
+    setUserName,
+    register,
+    verify
+} from '../../redux/modules/auth';
 import Single from './Single';
 import SelectLocation from './SelectLocation';
 import Multi from './Multi';
 import Description from './Description';
 import SingleWithDatePicker from './SingleWithDatePicker';
 import GetPhone from './GetPhone';
-import styles from './Questions.module.css'
+import Verify from './Verify';
+import styles from './Questions.module.css';
+import GetName from './GetName';
+import Success from './Success';
 
-class Questions extends Component {
+class Questions extends PureComponent {
     state = {
         visible: true,
         current: 0,
+        questions: []
     };
 
     toggleModal = () => {
@@ -34,10 +46,17 @@ class Questions extends Component {
         this.props.loadProvincesConnect();
     }
 
-    getQuestions = () => {
-        const { gender, questions, user } = this.props;
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.questions && nextProps.questions !== this.props.questions && !nextProps.loading && nextProps.loaded) {
+            this.getQuestions(nextProps.questions);
+        }
+    }
+
+    getQuestions = (questions) => {
+        const { gender, user } = this.props;
+        let newQuestions = [...questions];
         if (gender === 'ask') {
-            return [...questions, {
+            newQuestions = [...newQuestions, {
                 _id: 'gender',
                 title: 'جنسیت متخصص مربوطه را مشخص کنید.',
                 options: [
@@ -47,19 +66,19 @@ class Questions extends Component {
                 ],
                 type: 'single',
                 skipable: false
-            }]
+            }];
         }
         if (!user.id) {
-            return [
-                ...questions, {
-                    _id: 'getPhone',
-                    title: 'لطفا شماره خود را وارد کنید.',
-                    skipable: false,
-                    type: 'getPhone'
-                }
-            ];
+            newQuestions = [...newQuestions, {
+                _id: 'getPhone',
+                title: 'لطفا شماره خود را وارد کنید.',
+                skipable: false,
+                type: 'getPhone'
+            }];
         }
-        return questions;
+        this.setState({
+            questions: newQuestions
+        });
     };
 
     getContent = () => {
@@ -72,12 +91,14 @@ class Questions extends Component {
             setAnswerConnect,
             answers,
             loginConnect,
-            setUserMobileConnect
+            setUserMobileConnect,
+            setUserCodeConnect,
+            setUserLastNameConnect,
+            setUserNameConnect,
         } = this.props;
-        const newQuestions = this.getQuestions();
-
+        const { questions } = this.state;
         if (!loading && loaded) {
-            return newQuestions.map((question, index) => {
+            return questions.map(question => {
                 if (question.type === 'multi' || question.type === 'mtext') {
                     return {
                         title: '',
@@ -139,7 +160,34 @@ class Questions extends Component {
                             question={question}
                             login={loginConnect}
                             setUserMobile={setUserMobileConnect}
+                            answers={answers}
                         />
+                    };
+                } else if (question.type === 'verify') {
+                    return {
+                        title: '',
+                        question: question,
+                        content: <Verify
+                            question={question}
+                            answers={answers}
+                            setUserCode={setUserCodeConnect}
+                        />
+                    };
+                } else if (question.type === 'getName') {
+                    return {
+                        title: '',
+                        question: question,
+                        content: <GetName
+                            question={question}
+                            setUserName={setUserNameConnect}
+                            setUserLastName={setUserLastNameConnect}
+                        />
+                    };
+                } else if (question.type === 'success') {
+                    return {
+                        title: '',
+                        question: question,
+                        content: <Success />
                     };
                 }
             });
@@ -154,28 +202,94 @@ class Questions extends Component {
     };
 
     checkHasAnswer = (question) => {
-        const { answers } = this.props;
+        const { answers, firstName, lastName } = this.props;
         const answer = answers[question._id];
+        if (question._id === 'location') {
+            if (
+                answers[question._id].province &&
+                answers[question._id].city &&
+                answers[question._id].province._id &&
+                answers[question._id].city._id &&
+                answers['address'] &&
+                answers['address'].text_option
+            ) {
+                return true;
+            }
+        }
+
+        if (question._id === 'getName') {
+            if (firstName && lastName) {
+                return true;
+            }
+        }
         return !!((answer && answer.text_option) || (answer && answer.selected_options && answer.selected_options.length));
     };
 
 
     next = (contents) => {
-        setTimeout(()=>{
-            console.log(this.state , 'satte')
-        }, 1000)
         const { current } = this.state;
-        const { mobile } = this.props;
+        const { mobile, firstName, lastName, registerConnect, code, verifyConnect, submitAnswersConnect } = this.props;
         const hasAnswer = this.checkHasAnswer(contents[current].question);
         if (mobile && contents[current].question.type === 'getPhone') {
             new Promise((resolve, reject) => {
                 this.props.loginConnect(mobile, resolve, reject);
             }).then(() => {
                 this.setState({
+                    questions: [...this.state.questions, {
+                        _id: 'verify',
+                        title: 'لطفا کد ارسال شده را وارد کنید.',
+                        skipable: false,
+                        type: 'verify'
+                    }],
                     current: current + 1
                 });
+            }).catch((error) => {
+                console.log('this is error', error);
+                if (error.status === 422) {
+                    this.setState({
+                        questions: [...this.state.questions, {
+                            _id: 'getName',
+                            title: 'لطفا نام و نام خانوادگی خود را وارد کنید.',
+                            skipable: false,
+                            type: 'getName'
+                        }, {
+                            _id: 'verify',
+                            title: 'لطفا کد ارسال شده را وارد کنید.',
+                            skipable: false,
+                            type: 'verify'
+                        }],
+                        current: current + 1
+                    });
+                }
             });
-        } else if (contents[current].question.skipable || hasAnswer) {
+        }
+        else if (firstName && lastName && contents[current].question.type === 'getName') {
+            new Promise((resolve, reject) => {
+                registerConnect({ firstName, lastName, mobile }, resolve, reject);
+            }).then(() => {
+                this.setState({
+                    current: current + 1
+                });
+            })
+        }
+        else if (code && contents[current].question.type === 'verify') {
+            new Promise((resolve, reject) => {
+                verifyConnect(code, resolve, reject);
+            }).then(() => {
+                new Promise((resolve, reject) => {
+                    submitAnswersConnect(resolve, reject);
+                }).then(() => {
+                    this.setState({
+                        questions: [...this.state.questions, {
+                            _id: 'success',
+                            type: 'success',
+                            title: 'درخواست شما با موفقیت ثبت شد.'
+                        }]
+                    });
+                });
+            });
+        }
+        else if (contents[current].question.skipable || hasAnswer) {
             this.setState({
                 current: current + 1
             });
@@ -185,10 +299,6 @@ class Questions extends Component {
     };
 
     prev = () => {
-        setTimeout(()=>{
-            console.log(this.state, 'satte')
-        }, 1000)
-
         this.setState({
             current: this.state.current - 1
         });
@@ -201,6 +311,7 @@ class Questions extends Component {
     render() {
         const contents = this.getContent();
         const { current } = this.state;
+        console.log('renedered questions');
         return (
             <Row>
                 <Col>
@@ -219,19 +330,25 @@ class Questions extends Component {
                         }
                         <div className={styles.footer}>
                             {
-                                current < contents.length - 1
+                                (
+                                    current < contents.length - 1 ||
+                                    (
+                                        contents[current] &&
+                                        contents[current].question &&
+                                        contents[current].question._id === 'getPhone'
+                                    )
+                                )
                                 && <Button type="primary" onClick={() => this.next(contents)}>بعدی</Button>
                             }
                             {
-                                current === contents.length - 1
-                                && <Button onClick={this.handleClick} type="primary">ثبت درخواست</Button>
+                                current === contents.length - 1 &&
+                                contents[current].question._id !== 'getPhone' &&
+                                <Button onClick={this.handleClick} type="primary">ثبت درخواست</Button>
                             }
                             {
-                                current > 0 && (
-                                    <Button style={{ marginLeft: 8 }} onClick={() => this.prev()}>
-                                        قبلی
-                                    </Button>
-                                )
+                                current > 0 && <Button style={{ marginLeft: 8 }} onClick={() => this.prev()}>
+                                    قبلی
+                                </Button>
                             }
                         </div>
                     </Modal>
@@ -253,11 +370,20 @@ export default connect(state => ({
     provinces: state.provinces.provinces,
     loadingProvinces: state.provinces.loading,
     loadedProvinces: state.provinces.loaded,
-    mobile: state.auth.mobile
+    mobile: state.auth.mobile,
+    firstName: state.auth.firstName,
+    lastName: state.auth.lastName,
+    code: state.auth.code
 }), {
     loadProvincesConnect: loadProvinces,
     loadQuestionsConnect: loadQuestions,
     setAnswerConnect: setAnswer,
     loginConnect: login,
-    setUserMobileConnect: setUserMobile
+    setUserMobileConnect: setUserMobile,
+    setUserCodeConnect: setUserCode,
+    setUserNameConnect: setUserName,
+    setUserLastNameConnect: setUserLastName,
+    registerConnect: register,
+    verifyConnect: verify,
+    submitAnswersConnect: submitAnswers
 })(Questions)

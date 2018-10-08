@@ -15,6 +15,9 @@ export const REGISTER_SUCCESS = 'ssr/auth/REGISTER_SUCCESS';
 export const REGISTER_FAILURE = 'ssr/auth/REGISTER_FAILURE';
 
 export const SET_USER_MOBILE = 'ssr/auth/SET_USER_MOBILE';
+export const SET_USER_CODE = 'ssr/auth/SET_USER_CODE';
+export const SET_USER_NAME = 'ssr/auth/SET_USER_NAME';
+export const SET_USER_LAST_NAME = 'ssr/auth/SET_USER_LAST_NAME';
 
 const initialState = {
     user: {},
@@ -27,7 +30,10 @@ const initialState = {
     verifyError: null,
     registering: false,
     registered: false,
-    registerError: null
+    registerError: null,
+    code: '',
+    firstName: '',
+    lastName: ''
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -89,6 +95,23 @@ export default function reducer(state = initialState, action = {}) {
                 ...state,
                 mobile: action.mobile
             };
+        case SET_USER_CODE:
+            return {
+                ...state,
+                code: action.code
+            };
+        case SET_USER_NAME:
+            console.log(action, 'this is fuckiong action ');
+            return {
+                ...state,
+                firstName: action.name
+            };
+        case SET_USER_LAST_NAME:
+            console.log(action, 'this is fuckong acitomn');
+            return {
+                ...state,
+                lastName: action.name
+            };
         default:
             return state;
     }
@@ -116,10 +139,12 @@ export function loginFailure(error) {
     };
 }
 
-export function verify(code) {
+export function verify(code, resolve, reject) {
     return {
         type: VERIFY,
-        code
+        code,
+        resolve,
+        reject
     };
 }
 
@@ -137,12 +162,14 @@ export function verifyFailure(error) {
     };
 }
 
-export function register({ firstName, lastName, mobile }) {
+export function register({ firstName, lastName, mobile }, resolve, reject) {
     return {
         type: REGISTER,
         firstName,
         lastName,
-        mobile
+        mobile,
+        resolve,
+        reject
     };
 }
 
@@ -166,6 +193,28 @@ export function setUserMobile(mobile) {
     };
 }
 
+export function setUserCode(code) {
+    return {
+        type: SET_USER_MOBILE,
+        code
+    };
+}
+
+export function setUserName(name) {
+    console.log('set user nmae', name);
+    return {
+        type: SET_USER_NAME,
+        name
+    };
+}
+
+export function setUserLastName(name) {
+    console.log('set lastname', name);
+    return {
+        type: SET_USER_LAST_NAME,
+        name
+    };
+}
 
 export function* watchLogin(client, { mobile, resolve, reject }) {
     try {
@@ -175,34 +224,40 @@ export function* watchLogin(client, { mobile, resolve, reject }) {
         yield client.post('/login', options);
         resolve && resolve();
     } catch (error) {
+        reject(error);
         yield handleSagaError(error);
         yield put(loginFailure(error));
-        reject && reject();
     }
 }
 
-export function* watchRegister(client, { data }) {
+export function* watchRegister(client, { firstName, lastName, mobile, resolve, reject }) {
     try {
+        const data = {
+            firstname: firstName,
+            lastname: lastName,
+            username: mobile,
+            mobile
+        };
         const response = yield client.post('/signup', { data });
-        yield put(registerSuccess(response));
+        yield put(registerSuccess(response.data));
+        console.log(response, ' this is response');
+        resolve && resolve();
     } catch (error) {
-        if (error.status === 409) {
-            console.log('its here');
-            // Toast.showWithGravity('شما قبلا ثبت نام کردید.', Toast.LONG, Toast.TOP);
-        } else {
-            // Toast.showWithGravity('متاسفانه با مشکل مواجه شد.', Toast.LONG, Toast.TOP);
-        }
+        console.log(error, 'this is error');
         yield put(registerFailure(error));
+        handleSagaError(error);
+        reject && reject(error);
     }
 }
 
-export function* watchVerifyMobile(client, store, { data }) {
+export function* watchVerifyMobile(client, { code, resolve, reject }) {
     try {
-        const response = yield client.post('/verify-mobile', { data });
+        const response = yield client.post('/verify-mobile', { code });
         yield put(verifySuccess(response));
-
+        resolve && resolve();
     } catch (error) {
         yield handleSagaError(error);
+        reject && reject(error);
     }
 }
 
