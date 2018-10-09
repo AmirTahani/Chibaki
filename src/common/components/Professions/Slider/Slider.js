@@ -17,11 +17,11 @@ export default class ProfessionSliders extends Component {
 		typeof window !== "undefined" &&
 		window.innerWidth < 500;
 
-	SHOULD_SLIDER_INIT =
+	SHOULD_INIT_SLIDER =
 		this.IS_WEB && !this.IS_MOBILE;
 
 	componentWillMount() {
-		if (this.SHOULD_SLIDER_INIT) {
+		if (this.SHOULD_INIT_SLIDER) {
 			require("flickity");
 			require("flickity/dist/flickity.min.css");
 		}

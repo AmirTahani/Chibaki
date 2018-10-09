@@ -57,7 +57,7 @@ class Professional extends Component {
 
 	render() {
 		const { professional, comments } = this.props;
-		const { selectedProfession } = this.state;
+		const { selectedProfession, isLightboxOpen } = this.state;
 		const images = this.getProfImage();
 		console.log(professional);
 		console.log(comments);
@@ -257,12 +257,13 @@ class Professional extends Component {
 											);
 										})}
 									</div>
-									<Lightbox
-										images={this.getProfImage()}
-										photoIndex={this.state.selectedProfPhoto}
-										isOpen={this.state.isLightboxOpen}
-										onClose={this.onLightboxClose}
-									/>
+									{isLightboxOpen ? (
+										<Lightbox
+											images={this.getProfImage()}
+											photoIndex={this.state.selectedProfPhoto}
+											onClose={this.onLightboxClose}
+										/>
+									) : null}
 								</Col>
 							</Row>
 						) : null}
@@ -276,7 +277,7 @@ class Professional extends Component {
 											return (
 												<Row className={styles.rateItem}>
 													<Col span={24}>
-														<Row type="flex" justify="space-between" align='middle'>
+														<Row type="flex" justify="space-between" align="middle">
 															<Col>
 																{comment.customer.firstname +
 																	" " +
