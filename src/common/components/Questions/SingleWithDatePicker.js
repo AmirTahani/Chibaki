@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Radio } from 'antd';
+import moment from 'moment-jalali';
 import DatePicker from '../Kit/Calendar/DatePicker';
 import styles from './SingleWithDatePicker.module.css';
 
@@ -11,8 +12,8 @@ export default class SingleWithDatePicker extends Component {
 
     state = {
         options: [],
-        shouldShowDatePicker: false,
-        value: -1
+        value: -1,
+        date: ''
     };
 
     componentDidMount() {
@@ -27,30 +28,54 @@ export default class SingleWithDatePicker extends Component {
     }
 
     setOptions = (question) => {
-        const options = question.options.map(option => {
-            return {
-                ...option,
-                value: option.title,
-                checked: false
-            };
+        const { answers } = this.props;
+        let result = question.options.map((option) => {
+            if (answers[question._id] && answers[question._id].selected_options.includes(option)) {
+                return {
+                    ...option,
+                    value: option.title,
+                    checked: true
+                };
+            } else if (answers[question._id] && answers[question._id].text_option) {
+                return {
+                    ...option,
+                    value: option.title,
+                    checked: option.hasDatePicker
+                };
+            } else {
+                return {
+                    ...option,
+                    value: option.title,
+                    checked: false
+                };
+            }
         });
-
-        this.setState({
-            options
-        });
+        if (answers[question._id] && answers[question._id].text_option) {
+            this.setState({
+                options: result,
+                date: answers[question._id].text_option,
+                value: answers[question._id].selected_options[0]
+            });
+        } else if (answers[question._id] && answers[question._id].selected_options.length) {
+            this.setState({
+                options: result,
+                date: '',
+                value: answers[question._id].selected_options[0]
+            });
+        }
+        else {
+            this.setState({
+                options: result,
+                date: ''
+            });
+        }
     };
 
     onChangeTextOption = (e) => {
-        const { question } = this.props;
-        const answer = {
-            selected_options: [],
-            text_option: e.target.value
-        };
-        this.props.setAnswer(question._id, answer);
+        this.generateAnswer(this.state.date, e.target.value);
     };
 
     getShouldShowDatePicker = () => {
-        const { question } = this.props;
         const { options } = this.state;
         let shouldShowDatePicker = false;
         options.map(option => {
@@ -62,7 +87,10 @@ export default class SingleWithDatePicker extends Component {
     };
 
     onChangeDate = (date) => {
-        console.log(date, 'date');
+        this.setState({
+            date: date.format('jYYYY/jM/jD')
+        });
+        this.generateAnswer(date.format('jYYYY/jM/jD'), this.state.options);
     };
 
     onChange = (e) => {
@@ -84,13 +112,30 @@ export default class SingleWithDatePicker extends Component {
             options: result,
             value: e.target.value
         });
+        this.generateAnswer(this.state.date, result);
+    };
+
+    generateAnswer = (date, options) => {
+        const { setAnswer, question } = this.props;
+        const result = options.reduce((acc, current) => {
+            if (current.checked) {
+                acc.push(current.title);
+                return acc;
+            }
+            return acc;
+        }, []);
+        const answer = {
+            selected_options: result,
+            text_option: date
+        };
+        setAnswer(question._id, answer);
     };
 
     render() {
         const { question } = this.props;
         const { options, value } = this.state;
         const shouldShowDatePicker = this.getShouldShowDatePicker();
-        console.log(options, ' its here');
+        console.log(this.state, 'this istate');
         return (
             <div>
                 <p className={styles.title}>{question.title}</p>
@@ -104,7 +149,12 @@ export default class SingleWithDatePicker extends Component {
                     }
                 </Radio.Group>
                 {
-                    shouldShowDatePicker ? <DatePicker onChange={this.onChangeDate} /> : null
+                    shouldShowDatePicker ? <div className={styles.datePickerWrapper}>
+                        <DatePicker
+                            defaultValue={this.state.date ? moment(this.state.date, 'jYYYY/jM/jD') : false}
+                            onChange={this.onChangeDate}
+                        />
+                    </div> : null
                 }
             </div>
         );

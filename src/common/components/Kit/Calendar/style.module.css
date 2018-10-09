@@ -9,6 +9,10 @@
     background-color: #fff;
 }
 
+.datePickerWrapper {
+    z-index: 1001;
+}
+
 .calendarContainer * {
     box-sizing: border-box;
 }
@@ -74,7 +78,7 @@
 
 /* Day wrapper styles */
 .calendarContainer .dayWrapper {
-    padding: 5;
+    padding: 5px;
     float: right;
     width: 14.28571429%;
 }
