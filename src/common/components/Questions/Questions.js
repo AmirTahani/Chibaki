@@ -289,11 +289,25 @@ class Questions extends PureComponent {
                 });
             });
         }
+        else if (contents[current].question._id === 'location' && current === contents.length - 1) {
+            new Promise((resolve, reject) => {
+                submitAnswersConnect(resolve, reject);
+            }).then(() => {
+                this.setState({
+                    questions: [...this.state.questions, {
+                        _id: 'success',
+                        type: 'success',
+                        title: 'درخواست شما با موفقیت ثبت شد.'
+                    }]
+                });
+            });
+        }
         else if (contents[current].question.skipable || hasAnswer) {
             this.setState({
                 current: current + 1
             });
-        } else {
+        }
+        else {
             message.error('لطفا ابتدا پاسخ مناسب را انتخاب کنید.', 3)
         }
     };
@@ -311,7 +325,6 @@ class Questions extends PureComponent {
     render() {
         const contents = this.getContent();
         const { current } = this.state;
-        console.log('renedered questions');
         return (
             <Row>
                 <Col>
