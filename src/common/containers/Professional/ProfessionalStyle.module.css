@@ -1,8 +1,6 @@
 .wrapper {
 	background-color: #f5f7f9;
-
-	padding-top: 120px;
-	padding-bottom: 5rem;
+	padding-top: 60px;
 }
 
 .card {
@@ -90,7 +88,7 @@
 	flex: 0 0 120px;
 
 	border-radius: 5px;
-	border: 1px solid rgba(155, 178, 198, 0.30);
+	border: 1px solid rgba(155, 178, 198, 0.3);
 
 	overflow: hidden;
 }
@@ -150,5 +148,12 @@
 @media (max-width: 767px) {
 	.badgesWrapper {
 		flex-flow: row wrap;
+	}
+}
+
+@media (min-width: 768px) {
+	.wrapper {
+		padding-top: 120px;
+		padding-bottom: 5rem;
 	}
 }

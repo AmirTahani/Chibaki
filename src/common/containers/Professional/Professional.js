@@ -276,7 +276,7 @@ class Professional extends Component {
 											return (
 												<Row className={styles.rateItem}>
 													<Col span={24}>
-														<Row type="flex" justify="space-between">
+														<Row type="flex" justify="space-between" align='middle'>
 															<Col>
 																{comment.customer.firstname +
 																	" " +
