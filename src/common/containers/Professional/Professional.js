@@ -7,34 +7,58 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 
 import Header from "../../components/Header/Header";
+import Lightbox from "../../components/Kit/Lightbox/Lightbox";
 import styles from "./ProfessionalStyle.module.css";
 
 // import professions from "../../redux/modules/professions";
 
 class Professional extends Component {
+	onProfImageClick = (e, idx) => {
+		e.preventDefault();
+
+		this.setState({
+			selectedProfPhoto: idx,
+			isLightboxOpen: true
+		});
+	};
+
+	onLightboxClose = () => {
+		this.setState({
+			isLightboxOpen: false
+		})
+	}
 
 	getProfImage = () => {
-        const { professional } = this.props;
-        const { selectedProfession } = this.state;
-		let images= [];
-		if (professional.user.professions && professional.user.professions[selectedProfession] &&
-            professional.user.professions[selectedProfession].intro) {
-            Object.keys(professional.user.professions[selectedProfession].intro).map(function (key, index) {
-                if (key.indexOf("photo") >= 0 && professional.user.professions[selectedProfession].intro[key]) {
-                    images.push("https://chibaki.ir" + professional.user.professions[selectedProfession].intro[key].replace("public", ""));
-                }
-            })
-        }
-        return images;
+		const { professional } = this.props;
+		const { selectedProfession } = this.state;
+		let images = [];
+		if (
+			professional.user.professions &&
+			professional.user.professions[selectedProfession] &&
+			professional.user.professions[selectedProfession].intro
+		) {
+			Object.keys(professional.user.professions[selectedProfession].intro).map(function(key, index) {
+				if (key.indexOf("photo") >= 0 && professional.user.professions[selectedProfession].intro[key]) {
+					images.push(
+						"https://chibaki.ir" +
+							professional.user.professions[selectedProfession].intro[key].replace("public", "")
+					);
+				}
+			});
+		}
+		return images;
 	};
+
 	state = {
-		selectedProfession: 0
+		selectedProfession: 0,
+		selectedProfPhoto: 0,
+		isLightboxOpen: false
 	};
 
 	render() {
 		const { professional, comments } = this.props;
 		const { selectedProfession } = this.state;
-		const images = this.getProfImage()
+		const images = this.getProfImage();
 		console.log(professional);
 		console.log(comments);
 		return (
@@ -51,13 +75,9 @@ class Professional extends Component {
 									professional.user &&
 									professional.user.trust &&
 									professional.user.trust.profilePicture &&
-									professional.user.trust.profilePicture
-										.filePath
+									professional.user.trust.profilePicture.filePath
 										? "https://chibaki.ir" +
-										  professional.user.trust.profilePicture.filePath.replace(
-												"public",
-												""
-										  )
+										  professional.user.trust.profilePicture.filePath.replace("public", "")
 										: "https://chibaki.ir/profile/images/unknown.jpg"
 								}
 								className={styles.avatar}
@@ -68,23 +88,14 @@ class Professional extends Component {
 								<Row type="flex" justify="center">
 									<Col style={{ marginTop: 80 }}>
 										<h1 className={styles.userName}>
-											{professional.user.firstname +
-												" " +
-												professional.user.lastname}
+											{professional.user.firstname + " " + professional.user.lastname}
 										</h1>
-										<Row
-											type="flex"
-											justify="center"
-											style={{ marginBottom: 30 }}
-										>
+										<Row type="flex" justify="center" style={{ marginBottom: 30 }}>
 											<Col>
 												<Rate
 													disabled
 													defaultValue={
-														professional.user
-															.professions[
-															selectedProfession
-														].rateSum
+														professional.user.professions[selectedProfession].rateSum
 													}
 												/>
 											</Col>
@@ -93,19 +104,13 @@ class Professional extends Component {
 								</Row>
 								<Row type="flex" justify="center">
 									<Col className="">
-										<button className="c-btn c-btn--border c-btn--lg">
-											تماس با متخصص
-										</button>
+										<button className="c-btn c-btn--border c-btn--lg">تماس با متخصص</button>
 									</Col>
 									<Col className="">
-										<button className="c-btn c-btn--border c-btn--lg">
-											ارسال پیام برای متخصص
-										</button>
+										<button className="c-btn c-btn--border c-btn--lg">ارسال پیام برای متخصص</button>
 									</Col>
 									<Col className="">
-										<button className="c-btn c-btn--border c-btn--lg">
-											دریافت قیمت از متخصص
-										</button>
+										<button className="c-btn c-btn--border c-btn--lg">دریافت قیمت از متخصص</button>
 									</Col>
 								</Row>
 							</Col>
@@ -114,27 +119,17 @@ class Professional extends Component {
 						<Row className={styles.card__body}>
 							<Col span={24}>
 								<p className={styles.desc}>
-									{professional.user.professions[
-										selectedProfession
-									].intro &&
-									professional.user.professions[
-										selectedProfession
-									].intro.description &&
-									professional.user.professions[
-										selectedProfession
-									].intro.description.length > 0
-										? professional.user.professions[
-												selectedProfession
-										  ].intro.description
+									{professional.user.professions[selectedProfession].intro &&
+									professional.user.professions[selectedProfession].intro.description &&
+									professional.user.professions[selectedProfession].intro.description.length > 0
+										? professional.user.professions[selectedProfession].intro.description
 										: "لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد."}
 								</p>
 							</Col>
 							<Col span={24}>
 								<Row type="flex" justify="center">
 									<Col>
-										<button className="c-btn c-btn--primary c-btn--lg">
-											ثبت سفارش
-										</button>
+										<button className="c-btn c-btn--primary c-btn--lg">ثبت سفارش</button>
 									</Col>
 								</Row>
 							</Col>
@@ -158,8 +153,7 @@ class Professional extends Component {
 										md={24}
 										className={[
 											"l-flex-shrink",
-											professional.user.trust.addressProof
-												.verified
+											professional.user.trust.addressProof.verified
 												? styles.activeBadge
 												: styles.inactiveBadge
 										]}
@@ -171,8 +165,7 @@ class Professional extends Component {
 										md={24}
 										className={[
 											"l-flex-shrink",
-											professional.user.trust
-												.backgroundCheck.verified
+											professional.user.trust.backgroundCheck.verified
 												? styles.activeBadge
 												: styles.inactiveBadge
 										]}
@@ -184,10 +177,8 @@ class Professional extends Component {
 										md={24}
 										className={[
 											"l-flex-shrink",
-											professional.user.trust.identity
-												.verified &&
-											professional.user.trust.identity
-												.filePath
+											professional.user.trust.identity.verified &&
+											professional.user.trust.identity.filePath
 												? styles.activeBadge
 												: styles.inactiveBadge
 										]}
@@ -199,8 +190,7 @@ class Professional extends Component {
 										md={24}
 										className={[
 											"l-flex-shrink",
-											professional.user.trust.certificate
-												.verified
+											professional.user.trust.certificate.verified
 												? styles.activeBadge
 												: styles.inactiveBadge
 										]}
@@ -212,8 +202,7 @@ class Professional extends Component {
 										md={24}
 										className={[
 											"l-flex-shrink",
-											professional.user.trust.idCard
-												.verified
+											professional.user.trust.idCard.verified
 												? styles.activeBadge
 												: styles.inactiveBadge
 										]}
@@ -233,57 +222,47 @@ class Professional extends Component {
 								<Row>
 									<Col span={24}>
 										<Radio.Group
-											defaultValue={
-												professional.user.professions[0]
-													.profession._id
-											}
+											defaultValue={professional.user.professions[0].profession._id}
 											className="radio-btn-round-lg"
 											buttonStyle="solid"
 										>
-											{professional.user.professions.map(
-												(prof, idx) => {
-													return (
-														<Radio.Button
-															defaultChecked={
-																idx === 0
-																	? true
-																	: false
-															}
-															value={
-																prof.profession
-																	._id
-															}
-														>
-															{
-																prof.profession
-																	.title
-															}
-														</Radio.Button>
-													);
-												}
-											)}
+											{professional.user.professions.map((prof, idx) => {
+												return (
+													<Radio.Button
+														defaultChecked={idx === 0 ? true : false}
+														value={prof.profession._id}
+													>
+														{prof.profession.title}
+													</Radio.Button>
+												);
+											})}
 										</Radio.Group>
 									</Col>
 								</Row>
 							</Col>
 						</Row>
 						<Divider type="horizontal" />
-						{images && images.length > 0? (
+						{images && images.length > 0 ? (
 							<Row className={styles.card__body}>
 								<Col span={24}>
-									<div className={styles.heading}>
-										نمونه کارها
-									</div>
+									<div className={styles.heading}>نمونه کارها</div>
 									<div className={styles.profImageWrapper}>
-                                        {images.map(function (item) {
-                                            return (
-                                                <div className={styles.profImage}>
-                                                    <img src={item}/>
-                                                </div>
-                                            );
-                                        })
-                                        }
+										{images.map((item, idx) => {
+											return (
+												<div className={styles.profImage}>
+													<a href={item} onClick={e => this.onProfImageClick(e, idx)}>
+														<img src={item} />
+													</a>
+												</div>
+											);
+										})}
 									</div>
+									<Lightbox
+										images={this.getProfImage()}
+										photoIndex={this.state.selectedProfPhoto}
+										isOpen={this.state.isLightboxOpen}
+										onClose={this.onLightboxClose}
+									/>
 								</Col>
 							</Row>
 						) : null}
@@ -291,41 +270,30 @@ class Professional extends Component {
 						<Row className={styles.card__body}>
 							{comments.comments ? (
 								<Col span={24}>
-									<div className={styles.heading}>
-										نظر مشتریان
-									</div>
+									<div className={styles.heading}>نظر مشتریان</div>
 									<div className={styles.rateWrapper}>
 										{comments.comments.map(comment => {
 											return (
-												<Row
-													className={styles.rateItem}
-												>
+												<Row className={styles.rateItem}>
 													<Col span={16}>
-														<div>{comment.customer.firstname + ' ' + comment.customer.lastname}</div>
-														<div>{comment.userProfession && comment.userProfession.userProfession && comment.userProfession.userProfession.title ?
-                                                            comment.userProfession.userProfession.title
-															: ''
-													}</div>
-														<div
-															className={
-																styles.rateText
-															}
-														>
-															{comment.text}
+														<div>
+															{comment.customer.firstname +
+																" " +
+																comment.customer.lastname}
 														</div>
+														<div>
+															{comment.userProfession &&
+															comment.userProfession.userProfession &&
+															comment.userProfession.userProfession.title
+																? comment.userProfession.userProfession.title
+																: ""}
+														</div>
+														<div className={styles.rateText}>{comment.text}</div>
 													</Col>
 													<Col span={8}>
-														<Row
-															type="flex"
-															justify="end"
-														>
+														<Row type="flex" justify="end">
 															<Col>
-																<Rate
-																	disabled
-																	defaultValue={
-																		comment.rate
-																	}
-																/>
+																<Rate disabled defaultValue={comment.rate} />
 															</Col>
 														</Row>
 													</Col>
@@ -341,12 +309,10 @@ class Professional extends Component {
 							type="flex"
 							justify="center"
 							className={styles.card__body}
-							style={{ padding: '40px 60px 60px' }}
+							style={{ padding: "40px 60px 60px" }}
 						>
 							<Col>
-								<button className="c-btn c-btn--primary c-btn--lg">
-									ثبت سفارش
-								</button>
+								<button className="c-btn c-btn--primary c-btn--lg">ثبت سفارش</button>
 							</Col>
 						</Row>
 					</div>
