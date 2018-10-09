@@ -19,6 +19,8 @@
     "less-loader": "4.1.0",
     "moment-jalali": "0.3.9",
     "bloodhound-js": "1.2.3",
+    "flickity": "^2.1.2",
+    "object-fit-images": "^3.2.4",
     "prop-types": "15.6.1",
     "razzle": "0.8.12",
     "react": "16.3.0",
