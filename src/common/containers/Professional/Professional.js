@@ -25,8 +25,8 @@ class Professional extends Component {
 	onLightboxClose = () => {
 		this.setState({
 			isLightboxOpen: false
-		})
-	}
+		});
+	};
 
 	getProfImage = () => {
 		const { professional } = this.props;
@@ -275,12 +275,17 @@ class Professional extends Component {
 										{comments.comments.map(comment => {
 											return (
 												<Row className={styles.rateItem}>
-													<Col span={16}>
-														<div>
-															{comment.customer.firstname +
-																" " +
-																comment.customer.lastname}
-														</div>
+													<Col span={24}>
+														<Row type="flex" justify="space-between">
+															<Col>
+																{comment.customer.firstname +
+																	" " +
+																	comment.customer.lastname}
+															</Col>
+															<Col>
+																<Rate disabled defaultValue={comment.rate} />
+															</Col>
+														</Row>
 														<div>
 															{comment.userProfession &&
 															comment.userProfession.userProfession &&
@@ -289,13 +294,6 @@ class Professional extends Component {
 																: ""}
 														</div>
 														<div className={styles.rateText}>{comment.text}</div>
-													</Col>
-													<Col span={8}>
-														<Row type="flex" justify="end">
-															<Col>
-																<Rate disabled defaultValue={comment.rate} />
-															</Col>
-														</Row>
 													</Col>
 												</Row>
 											);
