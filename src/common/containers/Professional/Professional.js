@@ -1,14 +1,14 @@
+import "../../styles/Profile.styl";
 import "../../styles/btn.styl";
 import "../../styles/card.styl";
 import "../Services/Services.css";
 
-import { Col, Divider, Radio, Rate, Row } from "antd";
+import { Button, Col, Divider, Dropdown, Menu, Radio, Rate, Row } from "antd";
 import { connect } from "react-redux";
 import React, { Component } from "react";
 
 import Header from "../../components/Header/Header";
 import styles from "./ProfessionalStyle.module.css";
-import "../../styles/Profile.styl";
 
 // import professions from "../../redux/modules/professions";
 
@@ -46,6 +46,24 @@ class Professional extends Component {
 		e.preventDefault();
 
 		this.flkty.viewFullscreen();
+	};
+
+	getProfsDropdown = () => {
+		const { professions } = this.props.professional.user;
+
+		const profs = professions.map((prof, idx) => {
+			return (
+				<Menu.Item key={idx} onClick={() => this.createProject(prof.profession._id)}>
+					{prof.profession.title}
+				</Menu.Item>
+			);
+		});
+
+		return <Menu>{profs}</Menu>;
+	};
+
+	createProject = profId => {
+		console.log(profId);
 	};
 
 	getProfImage = () => {
@@ -119,13 +137,35 @@ class Professional extends Component {
 								</Row>
 								<Row type="flex" justify="center">
 									<Col className="">
-										<button className="c-btn c-btn--border c-btn--lg">تماس با متخصص</button>
+										<Dropdown
+											overlay={this.getProfsDropdown()}
+											trigger={["click"]}
+											placement="bottomCenter"
+										>
+											<button className="c-btn c-btn--border c-btn--lg">تماس با متخصص</button>
+										</Dropdown>
 									</Col>
 									<Col className="">
-										<button className="c-btn c-btn--border c-btn--lg">ارسال پیام برای متخصص</button>
+										<Dropdown
+											overlay={this.getProfsDropdown()}
+											trigger={["click"]}
+											placement="bottomCenter"
+										>
+											<button className="c-btn c-btn--border c-btn--lg">
+												ارسال پیام برای متخصص
+											</button>
+										</Dropdown>
 									</Col>
 									<Col className="">
-										<button className="c-btn c-btn--border c-btn--lg">دریافت قیمت از متخصص</button>
+										<Dropdown
+											overlay={this.getProfsDropdown()}
+											trigger={["click"]}
+											placement="bottomCenter"
+										>
+											<button className="c-btn c-btn--border c-btn--lg">
+												دریافت قیمت از متخصص
+											</button>
+										</Dropdown>
 									</Col>
 								</Row>
 							</Col>
@@ -144,7 +184,13 @@ class Professional extends Component {
 							<Col span={24}>
 								<Row type="flex" justify="center">
 									<Col>
-										<button className="c-btn c-btn--primary c-btn--lg">ثبت سفارش</button>
+										<Dropdown
+											overlay={this.getProfsDropdown()}
+											trigger={["click"]}
+											placement="bottomCenter"
+										>
+											<button className="c-btn c-btn--primary c-btn--lg">ثبت سفارش</button>
+										</Dropdown>
 									</Col>
 								</Row>
 							</Col>
@@ -263,10 +309,7 @@ class Professional extends Component {
 									<div className={styles.heading}>نمونه کارها</div>
 									<div>
 										{this.SHOULD_INIT_SLIDER ? (
-											<Flickity
-												options={this.sliderOptions}
-												flickityRef={c => (this.flkty = c)}
-											>
+											<Flickity options={this.sliderOptions} flickityRef={c => (this.flkty = c)}>
 												{images.map((item, idx) => {
 													return (
 														<div className="profImage">
@@ -326,7 +369,13 @@ class Professional extends Component {
 							style={{ padding: "40px 60px 60px" }}
 						>
 							<Col>
-								<button className="c-btn c-btn--primary c-btn--lg">ثبت سفارش</button>
+								<Dropdown
+									overlay={this.getProfsDropdown()}
+									trigger={["click"]}
+									placement="bottomCenter"
+								>
+									<button className="c-btn c-btn--primary c-btn--lg">ثبت سفارش</button>
+								</Dropdown>
 							</Col>
 						</Row>
 					</div>
