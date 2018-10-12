@@ -7,25 +7,45 @@ import { connect } from "react-redux";
 import React, { Component } from "react";
 
 import Header from "../../components/Header/Header";
-import Lightbox from "../../components/Kit/Lightbox/Lightbox";
 import styles from "./ProfessionalStyle.module.css";
+import "../../styles/Profile.styl";
 
 // import professions from "../../redux/modules/professions";
 
 class Professional extends Component {
+	state = {
+		selectedProfession: 0,
+		selectedProfPhoto: 0,
+		isLightboxOpen: false
+	};
+
+	sliderOptions = {
+		fullscreen: true,
+		lazyLoad: 1,
+		rightToLeft: true,
+		cellAlign: "right",
+		groupCells: true,
+		pageDots: false,
+		prevNextButtons: false
+	};
+
+	SHOULD_INIT_SLIDER = typeof window !== "undefined";
+
+	Flickity = null;
+
+	componentWillMount() {
+		if (this.SHOULD_INIT_SLIDER) {
+			this.Flickity = require("react-flickity-component");
+			require("flickity-fullscreen");
+			require("flickity/dist/flickity.min.css");
+			require("flickity-fullscreen/fullscreen.css");
+		}
+	}
+
 	onProfImageClick = (e, idx) => {
 		e.preventDefault();
 
-		this.setState({
-			selectedProfPhoto: idx,
-			isLightboxOpen: true
-		});
-	};
-
-	onLightboxClose = () => {
-		this.setState({
-			isLightboxOpen: false
-		});
+		this.flkty.viewFullscreen();
 	};
 
 	getProfImage = () => {
@@ -49,15 +69,10 @@ class Professional extends Component {
 		return images;
 	};
 
-	state = {
-		selectedProfession: 0,
-		selectedProfPhoto: 0,
-		isLightboxOpen: false
-	};
-
 	render() {
 		const { professional, comments } = this.props;
 		const { selectedProfession, isLightboxOpen } = this.state;
+		const { Flickity } = this;
 		const images = this.getProfImage();
 		console.log(professional);
 		console.log(comments);
@@ -246,24 +261,24 @@ class Professional extends Component {
 							<Row className={styles.card__body}>
 								<Col span={24}>
 									<div className={styles.heading}>نمونه کارها</div>
-									<div className={styles.profImageWrapper}>
-										{images.map((item, idx) => {
-											return (
-												<div className={styles.profImage}>
-													<a href={item} onClick={e => this.onProfImageClick(e, idx)}>
-														<img src={item} />
-													</a>
-												</div>
-											);
-										})}
+									<div>
+										{this.SHOULD_INIT_SLIDER ? (
+											<Flickity
+												options={this.sliderOptions}
+												flickityRef={c => (this.flkty = c)}
+											>
+												{images.map((item, idx) => {
+													return (
+														<div className="profImage">
+															<a href={item} onClick={e => this.onProfImageClick(e, idx)}>
+																<img src={item} />
+															</a>
+														</div>
+													);
+												})}
+											</Flickity>
+										) : null}
 									</div>
-									{isLightboxOpen ? (
-										<Lightbox
-											images={this.getProfImage()}
-											photoIndex={this.state.selectedProfPhoto}
-											onClose={this.onLightboxClose}
-										/>
-									) : null}
 								</Col>
 							</Row>
 						) : null}

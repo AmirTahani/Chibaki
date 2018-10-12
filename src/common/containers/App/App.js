@@ -3,6 +3,7 @@ import "./App.styl";
 import "../../styles/container.styl";
 import "../../styles/grid.styl";
 import "../../styles/icon.styl";
+import "../../styles/App.styl";
 
 import { Router, Route, browserHistory } from "react-router";
 import React from "react";
