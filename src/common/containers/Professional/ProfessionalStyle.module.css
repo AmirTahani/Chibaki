@@ -113,12 +113,23 @@
 	flex-flow: row nowrap;
 }
 
-.activeBadge {
-	color: green;
+.badgeText {
+	font-size: 12px;
+	color: #334657;
+	font-weight: 900;
 }
 
-.inactiveBadge {
-	color: gray;
+.badge:not(.badgeActive) {
+	opacity: .3;
+}
+
+.badge svg {
+	width: 70px;
+	height: 70px;
+}
+
+.badgeActive {
+	opacity: 1;
 }
 
 .rateWrapper {
