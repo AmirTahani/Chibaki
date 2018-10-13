@@ -33,6 +33,15 @@ import {
     watchLoadProfessional
 } from './modules/professional';
 
+import {
+    LOGIN,
+    watchLogin,
+    REGISTER,
+    watchRegister,
+    VERIFY,
+    watchVerifyMobile
+} from './modules/auth';
+
 export default function* root(client, store) {
     yield all([
         takeEvery(REHYDRATE, watchRehydrate),
@@ -43,6 +52,9 @@ export default function* root(client, store) {
         takeEvery(LOAD_QUESTIONS, watchLoadQuestions, client),
         takeEvery(SUBMIT_ANSWERS, watchSubmitAnswers, client),
         takeEvery(LOAD_PROVINCES, watchLoadProvinces, client),
-        takeEvery(LOAD_PROFESSIONAL, watchLoadProfessional, client)
+        takeEvery(LOAD_PROFESSIONAL, watchLoadProfessional, client),
+        takeEvery(LOGIN, watchLogin, client),
+        takeEvery(REGISTER, watchRegister, client),
+        takeEvery(VERIFY, watchVerifyMobile, client)
     ]);
 }

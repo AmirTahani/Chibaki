@@ -4,16 +4,7 @@
     margin-bottom: 30px;
 }
 
-.row {
-    margin: 10px;
-}
-
 .inputWrapper {
     margin-top: 10px;
     margin-bottom: 10px;
-}
-
-.datePickerWrapper {
-    z-index: 10001;
-    position: relative;
 }

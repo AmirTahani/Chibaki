@@ -29,17 +29,41 @@ export default class Multi extends Component {
     }
 
     setOptions = (question) => {
-        let result = question.options.map(option => {
-            return {
-                label: option,
-                value: option,
-                checked: false
-            };
+        const { answers } = this.props;
+
+
+        let result = question.options.map((option, index) => {
+            if (answers[question._id]) {
+                this.setState({
+                    value: answers[question._id].selected_options[0]
+                });
+                return {
+                    label: option,
+                    value: option,
+                    checked: answers[question._id].selected_options.includes(option)
+                };
+            } else {
+                return {
+                    label: option,
+                    value: option,
+                    checked: false
+                };
+            }
         });
 
+
         if (question.textOption) {
-            result = [...result, { label: question.textOption, value: question.textOption, checked: false }];
+            if (answers[question._id] && answers[question._id].text_option) {
+                this.setState({
+                    textValue: answers[question._id].text_option,
+                    value: question.textOption
+                });
+                result = [...result, { label: question.textOption, value: question.textOption, checked: true }];
+            } else {
+                result = [...result, { label: question.textOption, value: question.textOption, checked: false }];
+            }
         }
+
         this.setState({
             options: result
         });
@@ -125,6 +149,7 @@ export default class Multi extends Component {
                     {
                         shouldShowInput ? <div className={styles.inputWrapper}>
                             <Input
+                                value={this.state.textValue}
                                 placeholder="اینجا بنویسید"
                                 onChange={this.onChangeTextOption}
                             />

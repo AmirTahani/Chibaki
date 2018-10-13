@@ -96,9 +96,12 @@ export function setAnswer(questionId, answer) {
     };
 }
 
-export function submitAnswers() {
+export function submitAnswers(resolve, reject, profUserId) {
     return {
-        type: SUBMIT_ANSWERS
+        type: SUBMIT_ANSWERS,
+        reject,
+        resolve,
+        profUserId
     };
 }
 
@@ -120,7 +123,7 @@ export function* watchLoadQuestions(client, { professionId, isDirect }) {
     }
 }
 
-export function* watchSubmitAnswers(client, { profUserId }) {
+export function* watchSubmitAnswers(client, { profUserId, resolve, reject }) {
     try {
         const questionsState = yield select(state => state.questions);
         if (questionsState.isDirect) {
@@ -128,8 +131,9 @@ export function* watchSubmitAnswers(client, { profUserId }) {
         } else {
             yield client.post('/customers/jobs', { data: questionsState.answer });
         }
-
+        resolve && resolve();
     } catch (error) {
         yield handleSagaError(error);
+        reject && reject(error);
     }
 }
