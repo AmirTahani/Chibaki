@@ -1,0 +1,171 @@
+.wrapper {
+	background-color: #f5f7f9;
+	padding-top: 60px;
+}
+
+.card {
+	background-color: #fff;
+
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.card__hover {
+}
+
+.card__body {
+	padding: 10px 60px;
+	line-height: 1.7;
+	font-size: 1.1rem;
+}
+
+.cover {
+	background-color: #1b70ec;
+	height: 200px;
+}
+
+.avatar {
+	width: 150px;
+	height: 150px;
+
+	border-radius: 75px;
+
+	position: absolute;
+
+	bottom: 0;
+	right: 0;
+	left: 0;
+
+	margin: 0 auto;
+
+	transform: translateY(50%);
+
+	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+}
+
+.userName {
+	font-weight: 900;
+	font-size: 21px;
+	margin: 0;
+	text-align: center;
+}
+
+.desc {
+	color: #758ca0;
+	font-size: 17px;
+	text-align: center;
+	line-height: 2;
+
+	margin-bottom: 2rem;
+}
+
+.seprator {
+	height: 1px;
+	width: 100%;
+	background-color: #9bb2c6;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.heading {
+	font-weight: bold;
+	font-size: 19px;
+	margin-bottom: 1.5rem;
+}
+
+.profImage {
+	width: 120px;
+	height: 120px;
+	margin-right: 20px;
+
+	flex: 0 0 120px;
+
+	border-radius: 5px;
+	border: 1px solid rgba(155, 178, 198, 0.3);
+
+	overflow: hidden;
+}
+
+.is-fullscreen .profImage {
+	width: auto;
+	height: auto;
+	margin: 0;
+
+	flex: 0 0 auto;
+}
+
+.flickity-enabled.is-fullscreen {
+	z-index: 99999;
+}
+
+.profImage a {
+	display: block;
+}
+
+.profImage img {
+	width: 100%;
+}
+
+.profImageWrapper:not(.flickity-enabled) {
+	overflow-x: auto;
+
+	display: flex;
+	flex-flow: row nowrap;
+}
+
+.activeBadge {
+	color: green;
+}
+
+.inactiveBadge {
+	color: gray;
+}
+
+.rateWrapper {
+	max-height: 300px;
+	overflow-y: auto;
+}
+
+.rateItem {
+	margin-bottom: 1.8rem;
+}
+
+.rateItem:last-child {
+	/*margin-bottom: 0;*/
+}
+
+.rateText {
+	margin-top: 10px;
+	font-size: 14px;
+
+	color: #334657;
+}
+
+@media (max-width: 992px) {
+	.card {
+		border-radius: 0;
+	}
+
+	.card__body {
+		padding: 7px 12px;
+	}
+}
+
+/* Badges */
+.badgesWrapper {
+	display: flex;
+	flex-flow: row nowrap;
+}
+
+@media (max-width: 767px) {
+	.badgesWrapper {
+		flex-flow: row wrap;
+	}
+}
+
+@media (min-width: 768px) {
+	.wrapper {
+		padding-top: 120px;
+		padding-bottom: 5rem;
+	}
+}

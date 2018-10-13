@@ -12,11 +12,7 @@ export default class HowItWorks extends Component {
 					<div className="c-howitworks">
 						<Row>
 							<Col>
-								<h4 className="c-section__heading">
-									چی باکی
-									چگونه کار می
-									کند
-								</h4>
+								<h4 className="c-section__heading">چی باکی چگونه کار می کند</h4>
 							</Col>
 						</Row>
 						<Row>
@@ -27,25 +23,9 @@ export default class HowItWorks extends Component {
 										<i className="icon-list icon--front" />
 									</div>
 									<div className="c-howitworks__text">
-										<div className="c-howitworks__title">
-											ثبت
-											رایگان
-											پروژه
-										</div>
+										<div className="c-howitworks__title">ثبت رایگان پروژه</div>
 										<div className="c-howitworks__desc">
-											در
-											ابتدا
-											مشخص
-											کنید
-											به چه
-											متخصصی
-											نیاز
-											دارید
-											و به
-											سوالات
-											ما
-											پاسخ
-											دهید
+											در ابتدا مشخص کنید به چه متخصصی نیاز دارید و به سوالات ما پاسخ دهید
 										</div>
 									</div>
 								</div>
@@ -57,23 +37,9 @@ export default class HowItWorks extends Component {
 										<i className="icon-people icon--front" />
 									</div>
 									<div className="c-howitworks__text">
-										<div className="c-howitworks__title">
-											بررسی
-											و
-											مقایسه
-										</div>
+										<div className="c-howitworks__title">بررسی و مقایسه</div>
 										<div className="c-howitworks__desc">
-											در عرض
-											چند
-											ساعت
-											چندین
-											پیشنهاد
-											قیمت
-											از
-											متخصصین
-											دریافت
-											می
-											کنید
+											در عرض چند ساعت چندین پیشنهاد قیمت از متخصصین دریافت می کنید
 										</div>
 									</div>
 								</div>
@@ -85,22 +51,9 @@ export default class HowItWorks extends Component {
 										<i className="icon-check icon--front" />
 									</div>
 									<div className="c-howitworks__text">
-										<div className="c-howitworks__title">
-											انتخاب
-										</div>
+										<div className="c-howitworks__title">انتخاب</div>
 										<div className="c-howitworks__desc">
-											پس از
-											بررسی
-											قیمت,
-											پروفایل,
-											درصد
-											اطمینان
-											و ...
-											, فرد
-											مناسب
-											را
-											انتخاب
-											کنید
+											پس از بررسی قیمت, پروفایل, درصد اطمینان و ... , فرد مناسب را انتخاب کنید
 										</div>
 									</div>
 								</div>

@@ -27,7 +27,7 @@ export const HeaderInner = styled("div")`
 
 	padding: 0 20px;
 
-	@media (max-width: 960px) {
+	@media (max-width: 992px) {
 		padding: 0 10px;
 	}
 `;
