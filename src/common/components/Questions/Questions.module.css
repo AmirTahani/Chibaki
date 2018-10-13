@@ -1,3 +1,20 @@
 .modal {
     margin-top: 10px;
 }
+
+.stepsContent {
+    min-height: 270px;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.closeButton {
+    background-color: #ffffff;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    border: none;
+}

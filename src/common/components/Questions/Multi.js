@@ -19,9 +19,6 @@ export default class Multi extends Component {
         const { question } = this.props;
         if (question._id !== nextProps.question._id) {
             this.setOptions(nextProps.question);
-            this.setState({
-                textValue: ''
-            });
         }
     }
 
@@ -30,21 +27,33 @@ export default class Multi extends Component {
     }
 
     setOptions = (question) => {
+        const { answers } = this.props;
+
         let result = question.options.map(option => {
             return {
                 label: option,
                 value: option,
-                checked: false
+                checked: answers[question._id] && answers[question._id].selected_options.includes(option)
             };
         });
 
+
         if (question.textOption) {
-            result = [...result, { label: question.textOption, value: question.textOption, checked: false }];
+            this.setState({
+                textValue: answers[question._id] && answers[question._id].text_option ? answers[question._id].text_option : '',
+                options: [...result, {
+                    label: question.textOption,
+                    value: question.textOption,
+                    checked: !!(answers[question._id] && answers[question._id].text_option)
+                }]
+            });
+        } else {
+            this.setState({
+                options: result,
+                textValue: ''
+            });
         }
 
-        this.setState({
-            options: result
-        });
     };
 
     onChange = (selecteOption) => {
@@ -107,6 +116,7 @@ export default class Multi extends Component {
         const { question } = this.props;
         const { options } = this.state;
         const shouldShowInput = this.getInputVisibility();
+        console.log(this.state.textValue, 'this.state.textValue');
         return (
             <div>
                 <p className={styles.title}>{question.title}</p>
@@ -128,6 +138,7 @@ export default class Multi extends Component {
                 {
                     shouldShowInput ? <div className={styles.inputWrapper}>
                         <Input
+                            value={this.state.textValue}
                             placeholder="اینجا بنویسید"
                             onChange={this.onChangeTextOption}
                         />
