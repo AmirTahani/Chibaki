@@ -316,7 +316,7 @@ class Professional extends Component {
 														fill="#1e87f0"
 														d="M241.47 338.81H121.61a7 7 0 0 1-7-7V212a7 7 0 0 1 7-7h119.86a7 7 0 0 1 7 7v119.81a7 7 0 0 1-7 7zm-112.86-14h105.86V219H128.61zM338.32 336.4a7 7 0 0 1-4.95-2l-23.1-23.1a7 7 0 0 1 9.9-9.9l18.15 18.15 47.85-47.85a7 7 0 0 1 9.9 9.9l-52.8 52.8a7 7 0 0 1-4.95 2z"
 													/>
-												</svg>{" "}
+												</svg>
 											</Col>
 											<Col className={styles.badgeText} span={24}>گواهی عدم سوء‌پیشینه</Col>
 										</Row>
@@ -341,7 +341,7 @@ class Professional extends Component {
 											{professional.user.professions.map((prof, idx) => {
 												return (
 													<Radio.Button
-														defaultChecked={idx === 0 ? true : false}
+														defaultChecked={idx === 0}
 														value={prof.profession._id}
 													>
 														{prof.profession.title}

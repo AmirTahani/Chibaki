@@ -17,11 +17,7 @@ const postcssPlugins = rtl => {
 	return plugins;
 };
 module.exports = {
-	modify: (
-		config,
-		{ target, dev },
-		webpack
-	) => {
+	modify: (config, { target, dev }, webpack) => {
 		const appConfig = config;
 		const IS_DEV = dev;
 		const IS_WEB = target === "web";
@@ -44,8 +40,7 @@ module.exports = {
 				loader: "less-loader", // compiles Less to CSS
 				options: {
 					modifyVars: {
-						"font-family":
-							"Shabnam FD"
+						"font-family": "Shabnam FD"
 					},
 					javascriptEnabled: true
 				}
@@ -53,7 +48,10 @@ module.exports = {
 		];
 
 		let stylusLoaders = [
-			"css-loader",
+			{
+				loader: "css-loader",
+				options: { url: false }
+			},
 			"stylus-loader"
 		];
 
