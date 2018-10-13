@@ -314,7 +314,7 @@ class Questions extends PureComponent {
     };
 
     handleClick = () => {
-        this.props.submitAnswers();
+        this.props.submitAnswersConnect();
     };
 
     render() {
