@@ -31,6 +31,7 @@ class Questions extends PureComponent {
     };
 
     toggleModal = () => {
+        this.props.onClose();
         this.setState({
             visible: !this.state.visible
         });
@@ -42,7 +43,7 @@ class Questions extends PureComponent {
             duration: 2,
             maxCount: 1,
         });
-        this.props.loadQuestionsConnect('589d9c5ec38184ca3e38b3da', false);
+        this.props.loadQuestionsConnect(this.props.professionId, this.props.direct);
         this.props.loadProvincesConnect();
     }
 
@@ -195,12 +196,6 @@ class Questions extends PureComponent {
         return [];
     };
 
-    handleCancel = () => {
-        this.setState({
-            visible: false
-        });
-    };
-
     checkHasAnswer = (question) => {
         const { answers, firstName, lastName } = this.props;
         const answer = answers[question._id];
@@ -319,7 +314,7 @@ class Questions extends PureComponent {
     };
 
     handleClick = () => {
-        console.log('its here');
+        this.props.submitAnswers();
     };
 
     render() {
@@ -336,7 +331,7 @@ class Questions extends PureComponent {
                     >
                         <button className={styles.closeButton} onClick={() => this.toggleModal()}>X</button>
                         <Row>
-                            <Progress percent={(current / contents.length - 1) * 100} showInfo={false} />
+                            <Progress percent={((current / (contents.length - 1)) * 100)} showInfo={false} />
                         </Row>
                         {
                             <div className={styles.stepsContent}>{contents[current] && contents[current].content}</div>
