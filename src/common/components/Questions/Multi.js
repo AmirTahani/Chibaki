@@ -116,7 +116,6 @@ export default class Multi extends Component {
         const { question } = this.props;
         const { options } = this.state;
         const shouldShowInput = this.getInputVisibility();
-        console.log(this.state.textValue, 'this.state.textValue');
         return (
             <div>
                 <p className={styles.title}>{question.title}</p>

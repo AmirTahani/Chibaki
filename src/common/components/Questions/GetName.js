@@ -24,13 +24,13 @@ export default class GetName extends PureComponent {
                 <div className={styles.inputsWrapper}>
                     <div className={styles.inputWrapper}>
                         <Input
-                            placeholder="نام خود را وارد کنید."
+                            placeholder="نام خود را وارد کنید.(فارسی)"
                             onChange={this.onChangeName}
                         />
                     </div>
                     <div className={styles.inputWrapper}>
                         <Input
-                            placeholder="نام خانوادگی خود را وارد کنید."
+                            placeholder="نام خانوادگی خود را وارد کنید.(فارسی)"
                             onChange={this.onChangeLastName}
                         />
                     </div>

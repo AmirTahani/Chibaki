@@ -1,8 +1,12 @@
+import { message } from 'antd';
 
-// @TODO alert the error here
 export function* handleSagaError(error) {
-    console.log(error,'this is error');
-    // if (msg && msg.message) {
-    //     console.log(msg.message);
-    // }
+    message.config({
+        top: 70,
+        duration: 2,
+        maxCount: 1,
+    });
+    if (error && error.data && error.data.message) {
+        message.error(error.data.message, 3)
+    }
 }

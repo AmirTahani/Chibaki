@@ -13,10 +13,9 @@ export default class GetPhone extends Component {
     };
 
     componentDidMount() {
-        const { answers, question } = this.props;
-        if (answers[question._id] && answers[question._id].text_option) {
+        if (this.props.mobile) {
             this.setState({
-                value: answers[question._id].text_option
+                value: this.props.mobile
             });
         }
     }
