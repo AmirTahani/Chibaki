@@ -7,12 +7,11 @@ import { connect } from 'react-redux';
 class Services extends Component {
 
     registerProject = () => {
-        console.log('this')
+        console.log(this.props.selectedProfession, 'askjdakjdbasjkldb')
     };
 
     render() {
         const { proficients, title, selectedProfession, count } = this.props;
-        console.log(proficients)
         return (
             <div>
             <Row type={'flex'} gutter={30}>

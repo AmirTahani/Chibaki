@@ -6,6 +6,7 @@ import "../Services/Services.css";
 import { Button, Col, Divider, Dropdown, Menu, Radio, Rate, Row } from "antd";
 import { connect } from "react-redux";
 import React, { Component } from "react";
+import Questions from '../../components/Questions/Questions';
 
 import Header from "../../components/Header/Header";
 import styles from "./ProfessionalStyle.module.css";
@@ -14,7 +15,9 @@ import styles from "./ProfessionalStyle.module.css";
 
 class Professional extends Component {
 	state = {
-		selectedProfession: 0
+		selectedProfession: 0,
+		showQuestions: false,
+		professionId: ''
 	};
 
 	sliderOptions = {
@@ -32,7 +35,7 @@ class Professional extends Component {
 	Flickity = null;
 
 	componentWillMount() {
-		if (this.SHOULD_INIT_SLIDER) {
+		if ( this.SHOULD_INIT_SLIDER ) {
 			this.Flickity = require("react-flickity-component");
 			require("flickity-fullscreen");
 			require("flickity/dist/flickity.min.css");
@@ -44,6 +47,12 @@ class Professional extends Component {
 		e.preventDefault();
 
 		this.flkty.viewFullscreen();
+	};
+
+	onProfessionChange = e => {
+		this.setState({
+			selectedProfession: e.target.value
+		});
 	};
 
 	getProfsDropdown = () => {
@@ -60,8 +69,18 @@ class Professional extends Component {
 		return <Menu>{profs}</Menu>;
 	};
 
-	createProject = profId => {
-		console.log(profId);
+	createProject = professionId => {
+		this.setState({
+			showQuestions: true,
+			professionId
+		});
+	};
+
+	handleClose = () => {
+		this.setState({
+			showQuestions: false,
+			professionId: ''
+		});
 	};
 
 	getProfImage = () => {
@@ -73,11 +92,11 @@ class Professional extends Component {
 			professional.user.professions[selectedProfession] &&
 			professional.user.professions[selectedProfession].intro
 		) {
-			Object.keys(professional.user.professions[selectedProfession].intro).map(function(key, index) {
-				if (key.indexOf("photo") >= 0 && professional.user.professions[selectedProfession].intro[key]) {
+			Object.keys(professional.user.professions[selectedProfession].intro).map(function (key, index) {
+				if ( key.indexOf("photo") >= 0 && professional.user.professions[selectedProfession].intro[key] ) {
 					images.push(
 						"https://chibaki.ir" +
-							professional.user.professions[selectedProfession].intro[key].replace("public", "")
+						professional.user.professions[selectedProfession].intro[key].replace("public", "")
 					);
 				}
 			});
@@ -87,14 +106,16 @@ class Professional extends Component {
 
 	render() {
 		const { professional, comments } = this.props;
-		const { selectedProfession, isLightboxOpen } = this.state;
+		const { selectedProfession, isLightboxOpen, showQuestions, professionId } = this.state;
 		const { Flickity } = this;
 		const images = this.getProfImage();
-		console.log(professional);
-		console.log(comments);
 		return (
 			<div className={styles.wrapper}>
-				<Header />
+				<Header/>
+				{
+					showQuestions && professionId ?
+						<Questions professionId={professionId} direct={true} onClose={this.handleClose}/> : null
+				}
 				<div className="l-container l-container--sm">
 					<div className={styles.card}>
 						<Row className={styles.card__hover}>
@@ -108,7 +129,7 @@ class Professional extends Component {
 									professional.user.trust.profilePicture &&
 									professional.user.trust.profilePicture.filePath
 										? "https://chibaki.ir" +
-										  professional.user.trust.profilePicture.filePath.replace("public", "")
+										professional.user.trust.profilePicture.filePath.replace("public", "")
 										: "https://chibaki.ir/profile/images/unknown.jpg"
 								}
 								className={styles.avatar}
@@ -134,17 +155,19 @@ class Professional extends Component {
 									</Col>
 								</Row>
 								<Row type="flex" justify="center">
-									<Col className="">
-										<Dropdown
+									<Col>
+										{professional.user.professions.length > 1 ? <Dropdown
 											overlay={this.getProfsDropdown()}
 											trigger={["click"]}
 											placement="bottomCenter"
 										>
 											<button className="c-btn c-btn--border c-btn--lg">تماس با متخصص</button>
-										</Dropdown>
+										</Dropdown> : <button
+											onClick={() => this.createProject(professional.user.professions[0].profession._id)}
+											className="c-btn c-btn--border c-btn--lg">تماس با متخصص</button>}
 									</Col>
-									<Col className="">
-										<Dropdown
+									<Col>
+										{professional.user.professions.length > 1 ? <Dropdown
 											overlay={this.getProfsDropdown()}
 											trigger={["click"]}
 											placement="bottomCenter"
@@ -152,10 +175,12 @@ class Professional extends Component {
 											<button className="c-btn c-btn--border c-btn--lg">
 												ارسال پیام برای متخصص
 											</button>
-										</Dropdown>
+										</Dropdown> : <button
+											onClick={() => this.createProject(professional.user.professions[0].profession._id)}
+											className="c-btn c-btn--border c-btn--lg">ارسال پیام برای متخصص</button>}
 									</Col>
-									<Col className="">
-										<Dropdown
+									<Col>
+										{professional.user.professions.length > 1 ? <Dropdown
 											overlay={this.getProfsDropdown()}
 											trigger={["click"]}
 											placement="bottomCenter"
@@ -163,12 +188,14 @@ class Professional extends Component {
 											<button className="c-btn c-btn--border c-btn--lg">
 												دریافت قیمت از متخصص
 											</button>
-										</Dropdown>
+										</Dropdown> : <button
+											onClick={() => this.createProject(professional.user.professions[0].profession._id)}
+											className="c-btn c-btn--border c-btn--lg">دریافت قیمت از متخصص</button>}
 									</Col>
 								</Row>
 							</Col>
 						</Row>
-						<Divider type="horizontal" />
+						<Divider type="horizontal"/>
 						<Row className={styles.card__body}>
 							<Col span={24}>
 								<p className={styles.desc}>
@@ -182,18 +209,20 @@ class Professional extends Component {
 							<Col span={24}>
 								<Row type="flex" justify="center">
 									<Col>
-										<Dropdown
+										{professional.user.professions.length > 1 ? <Dropdown
 											overlay={this.getProfsDropdown()}
 											trigger={["click"]}
 											placement="bottomCenter"
 										>
 											<button className="c-btn c-btn--primary c-btn--lg">ثبت سفارش</button>
-										</Dropdown>
+										</Dropdown> : <button
+											onClick={() => this.createProject(professional.user.professions[0].profession._id)}
+											className="c-btn c-btn--primary c-btn--lg">ثبت سفارش</button>}
 									</Col>
 								</Row>
 							</Col>
 						</Row>
-						<Divider type="horizontal" />
+						<Divider type="horizontal"/>
 						<Row className={styles.card__body}>
 							<Col span={24}>
 								<Row className={styles.heading}>
@@ -226,7 +255,9 @@ class Professional extends Component {
 													/>
 												</svg>
 											</Col>
-											<Col className={styles.badgeText} span={24}>آدرس</Col>
+											<Col className={styles.badgeText} span={24}>
+												آدرس
+											</Col>
 										</Row>
 									</Col>
 									<Col
@@ -248,7 +279,9 @@ class Professional extends Component {
 													/>
 												</svg>
 											</Col>
-											<Col className={styles.badgeText} span={24}>کارت ملی</Col>
+											<Col className={styles.badgeText} span={24}>
+												کارت ملی
+											</Col>
 										</Row>
 									</Col>
 									<Col
@@ -274,7 +307,9 @@ class Professional extends Component {
 													/>
 												</svg>
 											</Col>
-											<Col className={styles.badgeText} span="24">مدرک تحصیلی</Col>
+											<Col className={styles.badgeText} span="24">
+												مدرک تحصیلی
+											</Col>
 										</Row>
 									</Col>
 									<Col
@@ -292,7 +327,9 @@ class Professional extends Component {
 													/>
 												</svg>
 											</Col>
-											<Col className={styles.badgeText} span="24">تایید هویت</Col>
+											<Col className={styles.badgeText} span={24}>
+												تایید هویت
+											</Col>
 										</Row>
 									</Col>
 									<Col
@@ -318,14 +355,16 @@ class Professional extends Component {
 													/>
 												</svg>
 											</Col>
-											<Col className={styles.badgeText} span={24}>گواهی عدم سوء‌پیشینه</Col>
+											<Col className={styles.badgeText} span={24}>
+												گواهی عدم سوء‌پیشینه
+											</Col>
 										</Row>
 									</Col>
 								</Row>
 							</Col>
 						</Row>
 
-						<Divider type="horizontal" />
+						<Divider type="horizontal"/>
 						<Row className={styles.card__body}>
 							<Col span={24}>
 								<Row className={styles.heading}>
@@ -334,16 +373,14 @@ class Professional extends Component {
 								<Row>
 									<Col span={24}>
 										<Radio.Group
-											defaultValue={professional.user.professions[0].profession._id}
+											defaultValue={0}
 											className="radio-btn-round-lg"
 											buttonStyle="solid"
+											onChange={this.onProfessionChange}
 										>
 											{professional.user.professions.map((prof, idx) => {
 												return (
-													<Radio.Button
-														defaultChecked={idx === 0}
-														value={prof.profession._id}
-													>
+													<Radio.Button defaultChecked={idx === 0} value={idx} key={idx}>
 														{prof.profession.title}
 													</Radio.Button>
 												);
@@ -353,66 +390,76 @@ class Professional extends Component {
 								</Row>
 							</Col>
 						</Row>
-						<Divider type="horizontal" />
+						<Divider type="horizontal"/>
 						{images && images.length > 0 ? (
-							<Row className={styles.card__body}>
-								<Col span={24}>
-									<div className={styles.heading}>نمونه کارها</div>
-									<div>
-										{this.SHOULD_INIT_SLIDER ? (
-											<Flickity options={this.sliderOptions} flickityRef={c => (this.flkty = c)}>
-												{images.map((item, idx) => {
-													return (
-														<div className="profImage">
-															<a href={item} onClick={e => this.onProfImageClick(e, idx)}>
-																<img src={item} />
-															</a>
-														</div>
-													);
-												})}
-											</Flickity>
-										) : null}
-									</div>
-								</Col>
-							</Row>
+							<div>
+								<Row className={styles.card__body}>
+									<Col span={24}>
+										<div className={styles.heading}>نمونه کارها</div>
+										<div>
+											{this.SHOULD_INIT_SLIDER ? (
+												<Flickity
+													options={this.sliderOptions}
+													flickityRef={c => (this.flkty = c)}
+												>
+													{images.map((item, idx) => {
+														return (
+															<div className="profImage" key={idx}>
+																<a
+																	href={item}
+																	onClick={e => this.onProfImageClick(e, idx)}
+																>
+																	<img src={item}/>
+																</a>
+															</div>
+														);
+													})}
+												</Flickity>
+											) : null}
+										</div>
+									</Col>
+								</Row>
+								<Divider type="horizontal"/>
+							</div>
 						) : null}
-						<Divider type="horizontal" />
-						<Row className={styles.card__body}>
-							{comments.comments ? (
-								<Col span={24}>
-									<div className={styles.heading}>نظر مشتریان</div>
-									<div className={styles.rateWrapper}>
-										{comments.comments.map(comment => {
-											return (
-												<Row className={styles.rateItem}>
-													<Col span={24}>
-														<Row type="flex" justify="space-between" align="middle">
-															<Col>
-																{comment.customer.firstname +
+						{comments.comments && comments.comments.length ? (
+							<div>
+								<Row className={styles.card__body}>
+									<Col span={24}>
+										<div className={styles.heading}>نظر مشتریان</div>
+										<div className={styles.rateWrapper}>
+											{comments.comments.map((comment, idx) => {
+												return (
+													<Row className={styles.rateItem} key={idx}>
+														<Col span={24}>
+															<Row type="flex" justify="space-between" align="middle">
+																<Col>
+																	{comment.customer.firstname +
 																	" " +
 																	comment.customer.lastname}
-															</Col>
-															<Col>
-																<Rate disabled defaultValue={comment.rate} />
-															</Col>
-														</Row>
-														<div>
-															{comment.userProfession &&
-															comment.userProfession.userProfession &&
-															comment.userProfession.userProfession.title
-																? comment.userProfession.userProfession.title
-																: ""}
-														</div>
-														<div className={styles.rateText}>{comment.text}</div>
-													</Col>
-												</Row>
-											);
-										})}
-									</div>
-								</Col>
-							) : null}
-						</Row>
-						<Divider type="horizontal" />
+																</Col>
+																<Col>
+																	<Rate disabled defaultValue={comment.rate}/>
+																</Col>
+															</Row>
+															<div>
+																{comment.userProfession &&
+																comment.userProfession.userProfession &&
+																comment.userProfession.userProfession.title
+																	? comment.userProfession.userProfession.title
+																	: ""}
+															</div>
+															<div className={styles.rateText}>{comment.text}</div>
+														</Col>
+													</Row>
+												);
+											})}
+										</div>
+									</Col>
+								</Row>
+								<Divider type="horizontal"/>
+							</div>
+						) : null}
 						<Row
 							type="flex"
 							justify="center"
@@ -420,13 +467,15 @@ class Professional extends Component {
 							style={{ padding: "40px 60px 60px" }}
 						>
 							<Col>
-								<Dropdown
+								{professional.user.professions.length > 1 ? <Dropdown
 									overlay={this.getProfsDropdown()}
 									trigger={["click"]}
 									placement="bottomCenter"
 								>
 									<button className="c-btn c-btn--primary c-btn--lg">ثبت سفارش</button>
-								</Dropdown>
+								</Dropdown> : <button
+									onClick={() => this.createProject(professional.user.professions[0].profession._id)}
+									className="c-btn c-btn--primary c-btn--lg">ثبت سفارش</button>}
 							</Col>
 						</Row>
 					</div>
@@ -435,6 +484,7 @@ class Professional extends Component {
 		);
 	}
 }
+
 export default connect(state => ({
 	professional: state.professional.professional,
 	comments: state.professional.comments
