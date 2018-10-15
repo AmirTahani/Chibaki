@@ -32,8 +32,8 @@ export default function reducer(state = initialState, action = {}) {
                 loading: false,
                 loaded: true,
                 proficients: action.response.professionals,
-                pagination: action.response.pagination,
-                count: action.response.count
+                pagination: action.response.meta.page,
+                count: action.response.meta.total_count
             };
         case LOAD_PROFICIENTS_FAILURE:
             return {
