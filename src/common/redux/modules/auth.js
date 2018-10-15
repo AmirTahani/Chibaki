@@ -1,5 +1,6 @@
 import { put } from 'redux-saga/effects';
 import { handleSagaError } from '../../utils/handleSagaError';
+import { CLEAR_ANSWERS } from "./questions";
 
 
 export const LOGIN = 'ssr/auth/LOGIN';
@@ -18,6 +19,9 @@ export const SET_USER_MOBILE = 'ssr/auth/SET_USER_MOBILE';
 export const SET_USER_CODE = 'ssr/auth/SET_USER_CODE';
 export const SET_USER_NAME = 'ssr/auth/SET_USER_NAME';
 export const SET_USER_LAST_NAME = 'ssr/auth/SET_USER_LAST_NAME';
+
+export const CLEAR_STATE = 'ssr/question/CLEAR_STATE';
+
 
 const initialState = {
     user: {},
@@ -38,6 +42,11 @@ const initialState = {
 
 export default function reducer(state = initialState, action = {}) {
     switch (action.type) {
+        case CLEAR_STATE:
+            return {
+                ...state,
+                [action.stateKey]: action.stateValue
+            };
         case LOGIN:
             return {
                 ...state,
@@ -115,6 +124,12 @@ export default function reducer(state = initialState, action = {}) {
         default:
             return state;
     }
+}
+
+export function clearState() {
+    return {
+        type: CLEAR_STATE
+    };
 }
 
 export function login(mobile, resolve, reject) {

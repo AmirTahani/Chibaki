@@ -1,14 +1,13 @@
- import { END } from 'redux-saga';
+import { END } from 'redux-saga';
 import { loader, loadCategories } from '../redux/modules/professions'; //, LOAD_CATEGORIES_SUCCESS
 import { load as loadProficients } from '../redux/modules/proficients';
 import { load as loadProfessional } from '../redux/modules/professional';
 
 export async function handleRequestsByRoute(store, route) {
-    console.log('its x', route);
     const subRoute = route.split('/').reverse();
     if (route === '/') {
         store.dispatch(loader());
-    }else if (decodeURI(subRoute[0]) === 'خدمات') {
+    } else if (decodeURI(subRoute[0]) === 'خدمات') {
         store.dispatch(loader());
     } else if (decodeURI(subRoute[1]) === 'خدمات') {
         const routeTitle = subRoute[0].split('_').join(' ');
@@ -25,12 +24,11 @@ export async function handleRequestsByRoute(store, route) {
                 selectedProfession = profession
             }
         });
-        console.log(professionId, 'professionId');
-        store.dispatch(loadProficients(professionId, decodeURI(routeTitle), selectedProfession ));
-    } else if (subRoute[1] === 'professional'  ) {
+        store.dispatch(loadProficients(professionId, decodeURI(routeTitle), selectedProfession));
+    } else if (subRoute[1] === 'professional') {
         store.dispatch(loadProfessional(subRoute[0]))
-    } else{
-         store.dispatch(END)
+    } else {
+        store.dispatch(END)
     }
 }
 

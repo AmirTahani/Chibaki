@@ -80,8 +80,8 @@ export function* watchLoadProfessional(client, { professionalId }) {
         yield put(loadComments(comments.data));
         yield put(loadSuccess(response.data));
         yield put(END);
-
     } catch (error) {
+        console.log('error ',error);
         handleSagaError(error);
         yield put(loadFailure(error));
     }

@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { Steps, Modal, Col, Row, Button, message, Progress } from 'antd';
 import { connect } from 'react-redux';
 import { loadProvinces } from '../../redux/modules/provinces';
+import { Icon } from '../Kit';
 import { loadQuestions, setAnswer, submitAnswers } from '../../redux/modules/questions';
 import {
     login,
@@ -10,7 +11,8 @@ import {
     setUserLastName,
     setUserName,
     register,
-    verify
+    verify,
+    clearState
 } from '../../redux/modules/auth';
 import Single from './Single';
 import SelectLocation from './SelectLocation';
@@ -27,7 +29,8 @@ class Questions extends PureComponent {
     state = {
         visible: true,
         current: 0,
-        questions: []
+        questions: [],
+        shouldRegister: false
     };
 
     toggleModal = () => {
@@ -96,6 +99,8 @@ class Questions extends PureComponent {
             setUserCodeConnect,
             setUserLastNameConnect,
             setUserNameConnect,
+            clearStateConnect,
+            mobile
         } = this.props;
         const { questions } = this.state;
         if (!loading && loaded) {
@@ -158,10 +163,11 @@ class Questions extends PureComponent {
                         title: '',
                         question: question,
                         content: <GetPhone
+                            mobile={mobile}
                             question={question}
                             login={loginConnect}
                             setUserMobile={setUserMobileConnect}
-                            answers={answers}
+                            clearState={clearStateConnect}
                         />
                     };
                 } else if (question.type === 'verify') {
@@ -201,6 +207,7 @@ class Questions extends PureComponent {
         const answer = answers[question._id];
         if (question._id === 'location') {
             if (
+                answers[question._id] &&
                 answers[question._id].province &&
                 answers[question._id].city &&
                 answers[question._id].province._id &&
@@ -239,22 +246,28 @@ class Questions extends PureComponent {
                     current: current + 1
                 });
             }).catch((error) => {
-                console.log('this is error', error);
                 if (error.status === 422) {
-                    this.setState({
-                        questions: [...this.state.questions, {
-                            _id: 'getName',
-                            title: 'لطفا نام و نام خانوادگی خود را وارد کنید.',
-                            skipable: false,
-                            type: 'getName'
-                        }, {
-                            _id: 'verify',
-                            title: 'لطفا کد ارسال شده را وارد کنید.',
-                            skipable: false,
-                            type: 'verify'
-                        }],
-                        current: current + 1
-                    });
+                    if (!this.state.questions.find(item => item._id === 'getName')) {
+                        this.setState({
+                            questions: [...this.state.questions, {
+                                _id: 'getName',
+                                title: 'لطفا نام و نام خانوادگی خود را وارد کنید.',
+                                skipable: false,
+                                type: 'getName'
+                            }, {
+                                _id: 'verify',
+                                title: 'لطفا کد ارسال شده را وارد کنید.',
+                                skipable: false,
+                                type: 'verify'
+                            }],
+                            current: current + 1,
+                            shouldRegister: true
+                        });
+                    } else {
+                        this.setState({
+                            current: current + 1
+                        });
+                    }
                 }
             });
         }
@@ -318,8 +331,10 @@ class Questions extends PureComponent {
     };
 
     render() {
+
+        const { current, shouldRegister } = this.state;
         const contents = this.getContent();
-        const { current } = this.state;
+        const contentsLength = shouldRegister ? contents.length + 1 : contents.length;
         return (
             <Row>
                 <Col>
@@ -331,11 +346,9 @@ class Questions extends PureComponent {
                     >
                         <button className={styles.closeButton} onClick={() => this.toggleModal()}>X</button>
                         <Row>
-                            <Progress percent={((current / (contents.length - 1)) * 100)} showInfo={false} />
+                            <Progress percent={((current / contentsLength) * 100)} showInfo={false} />
                         </Row>
-                        {
-                            <div className={styles.stepsContent}>{contents[current] && contents[current].content}</div>
-                        }
+                        <div className={styles.stepsContent}>{contents[current] && contents[current].content}</div>
                         <div className={styles.footer}>
                             {
                                 (
@@ -346,7 +359,9 @@ class Questions extends PureComponent {
                                         contents[current].question._id === 'getPhone'
                                     )
                                 )
-                                && <Button type="primary" onClick={() => this.next(contents)}>بعدی</Button>
+                                && <Button className={styles.button} onClick={() => this.next(contents)}>
+                                    <Icon iconName="next" />
+                                </Button>
                             }
                             {
                                 current === contents.length - 1 &&
@@ -354,8 +369,8 @@ class Questions extends PureComponent {
                                 <Button onClick={this.handleClick} type="primary">ثبت درخواست</Button>
                             }
                             {
-                                current > 0 && <Button style={{ marginLeft: 8 }} onClick={() => this.prev()}>
-                                    قبلی
+                                current > 0 && <Button className={styles.button} onClick={() => this.prev()}>
+                                    <Icon iconName="back" />
                                 </Button>
                             }
                         </div>
@@ -393,5 +408,6 @@ export default connect(state => ({
     setUserLastNameConnect: setUserLastName,
     registerConnect: register,
     verifyConnect: verify,
-    submitAnswersConnect: submitAnswers
+    submitAnswersConnect: submitAnswers,
+    clearStateConnect: clearState
 })(Questions)

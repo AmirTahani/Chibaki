@@ -15,9 +15,12 @@ export default function create(client, preloadState) {
         autoRehydrate()
     );
 
-    persistStore(store, {
-        whitelist: ['provinces']
-    });
+    if (typeof window === 'object') {
+        persistStore(store, {
+            whitelist: ['provinces']
+        });
+    }
+
 
     store.rootTask = sagaMiddleWare.run(saga, client, store);
 

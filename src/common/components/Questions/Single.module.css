@@ -2,11 +2,11 @@
     text-align: center;
     margin-top: 30px;
     margin-bottom: 30px;
-
+    font-weight: bold;
 }
 
 .row {
-    margin: 10px;
+    margin-bottom: 20px;
 }
 
 .inputWrapper {

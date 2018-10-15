@@ -23,7 +23,7 @@ export default class SelectQuestion extends Component {
                 });
             }
 
-            if (answers['address'].text_option) {
+            if (answers['address'] && answers['address'].text_option) {
                 this.setState({
                     address: answers['address'].text_option
                 });
@@ -83,7 +83,7 @@ export default class SelectQuestion extends Component {
                     !loading && loaded ? <div>
                         <p className={styles.title}>{question.title}</p>
                         <div className={styles.selectWrapper}>
-                            <Select style={{ width: 120 }}
+                            <Select placeholder="استان خود را انتخاب کنید." style={{ width: 200 }}
                                     defaultValue={province.name}
                                     key={province.name}
                                     onChange={this.handleChangeProvince}
@@ -100,7 +100,7 @@ export default class SelectQuestion extends Component {
                 {
                     province && province.cities && province.cities.length ?
                         <div className={styles.selectWrapper}>
-                            <Select style={{ width: 120 }} onChange={this.handleChangeCity}
+                            <Select placeholder="شهر خود را انتخاب کنید." style={{ width: 200 }} onChange={this.handleChangeCity}
                                     defaultValue={city.name}
                                     key={city.name}
                             >
@@ -115,7 +115,7 @@ export default class SelectQuestion extends Component {
                 {
                     city && city.name ? <div className={styles.inputWrapper}>
                         <Input
-                            placeholder="آدرس خود را وارد کنید."
+                            placeholder="محدوده خود را وارد کنید."
                             onChange={this.onChangeTextOption}
                             value={this.state.address}
                         />

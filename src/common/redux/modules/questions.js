@@ -10,6 +10,8 @@ export const LOAD_QUESTIONS_FAILURE = 'ssr/questions/LOAD_QUESTIONS_FAILURE';
 export const SET_ANSWER = 'ssr/questions/SET_ANSWER';
 export const SUBMIT_ANSWERS = 'ssr/question/SUBMIT_ANSWERS';
 export const CLEAR_ANSWERS = 'ssr/question/CLEAR_ANSWERS';
+export const SET_PROF_ID = 'ssr/question/SET_PROF_ID';
+
 
 const initialState = {
     loading: false,
@@ -20,11 +22,17 @@ const initialState = {
     professionId: '',
     answers: {},
     isDirect: false,
-    title: ''
+    title: '',
+    profId: ''
 };
 
 export default function reducer(state = initialState, action = {}) {
     switch (action.type) {
+        case SET_PROF_ID:
+            return {
+                ...state,
+                profId: action.profId
+            };
         case LOAD_QUESTIONS:
             return {
                 ...state,
@@ -111,10 +119,16 @@ export function clearAnswers() {
     };
 }
 
+export function setProfId(profId) {
+    return {
+        type: SET_PROF_ID,
+        profId
+    };
+}
+
 export function* watchLoadQuestions(client, { professionId, isDirect }) {
     try {
         const response = yield client.get(`/professions/${professionId}/questions`);
-
         yield put(loadQuestionsSuccess(response.data));
     } catch (error) {
         console.log(error, 'this is error');
@@ -123,11 +137,11 @@ export function* watchLoadQuestions(client, { professionId, isDirect }) {
     }
 }
 
-export function* watchSubmitAnswers(client, { profUserId, resolve, reject }) {
+export function* watchSubmitAnswers(client, { resolve, reject }) {
     try {
         const questionsState = yield select(state => state.questions);
         if (questionsState.isDirect) {
-            yield client.post(`/professionals/${profUserId}/jobs`, { data: questionsState.answers });
+            yield client.post(`/professionals/${questionsState.profId}/jobs`, { data: questionsState.answers });
         } else {
             yield client.post('/customers/jobs', { data: questionsState.answer });
         }
