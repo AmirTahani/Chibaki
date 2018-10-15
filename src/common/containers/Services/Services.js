@@ -22,15 +22,15 @@ class Services extends Component {
         return (
             <div className="Home Container">
                 <Header/>
-                <div>
-                    {cat.map((item)=>{
+                <div className={'paddingTop'}>
+                    {cat.map((item, index)=>{
                         return(
-                            <section  ref={item.category} >
+                            <section  ref={item.category} key={index}>
                                     <h2 className="services_heading">{item.category}</h2>
                                     <Row>
-                                    {item.professions.map((it, index)=>{
+                                    {item.professions.map((it, ind)=>{
                                         return(
-                                            <Col xs={24} sm={12} md={8} lg={8} xl={8} xxl={6} key={index}>
+                                            <Col xs={24} sm={12} md={8} lg={8} xl={8} xxl={6} key={1000 + ind}>
                                                 <h3 className='title'>
                                                     <Tooltip title={it.description}>
                                                         <Link to={`/${encodeURI('خدمات')}/${it.title.split(' ').join('_')}`}>{it.title}</Link>
