@@ -100,7 +100,8 @@ export default class SelectQuestion extends Component {
                 {
                     province && province.cities && province.cities.length ?
                         <div className={styles.selectWrapper}>
-                            <Select placeholder="شهر خود را انتخاب کنید." style={{ width: 200 }} onChange={this.handleChangeCity}
+                            <Select placeholder="شهر خود را انتخاب کنید." style={{ width: 200 }}
+                                    onChange={this.handleChangeCity}
                                     defaultValue={city.name}
                                     key={city.name}
                             >

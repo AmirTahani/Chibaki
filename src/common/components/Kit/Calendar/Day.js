@@ -3,14 +3,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { persianNumber } from '../../../utils/persian';
 
-const styles = {
-    wrapper: {},
-    button: {
-        outline: 'none',
-        cursor: 'pointer'
-    }
-};
-
 export default class Day extends Component {
     static propTypes = {
         day: PropTypes.object.isRequired,
@@ -38,7 +30,7 @@ export default class Day extends Component {
     }
 
     render() {
-        const { day, disabled, selected, isCurrentMonth, onClick, styles, ...rest } = this.props;
+        const { day, disabled, selected, isCurrentMonth, styles, ...rest } = this.props;
 
         const className = classnames(styles.dayWrapper, {
             [styles.selected]: selected,

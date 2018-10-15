@@ -12,48 +12,47 @@ import Footer from "../../components/Footer/Footer";
 
 class Services extends Component {
 
-    componentDidMount () {
-        if(this.props.location && this.props.location.query && this.props.location.query.cat && this.refs[this.props.location.query.cat]){
+    componentDidMount() {
+        if (this.props.location && this.props.location.query && this.props.location.query.cat && this.refs[this.props.location.query.cat]) {
             ReactDOM.findDOMNode(this.refs[this.props.location.query.cat]).scrollIntoView()
         }
     }
+
     render() {
         const { cat } = this.props;
         return (
             <div className="Home Container">
-                <Header/>
+                <Header />
                 <div>
-                    {cat.map((item)=>{
-                        return(
-                            <section  ref={item.category} >
-                                    <h2 className="services_heading">{item.category}</h2>
-                                    <Row>
-                                    {item.professions.map((it, index)=>{
-                                        return(
+                    {cat.map((item) => {
+                        return (
+                            <section ref={item.category}>
+                                <h2 className="services_heading">{item.category}</h2>
+                                <Row>
+                                    {item.professions.map((it, index) => {
+                                        return (
                                             <Col xs={24} sm={12} md={8} lg={8} xl={8} xxl={6} key={index}>
-                                                <h3 className='title'>
+                                                <h3 className="title">
                                                     <Tooltip title={it.description}>
-                                                        <Link to={`/${encodeURI('خدمات')}/${it.title.split(' ').join('_')}`}>{it.title}</Link>
+                                                        <Link
+                                                            to={`/${encodeURI('خدمات')}/${it.title.split(' ').join('_')}`}>{it.title}</Link>
                                                     </Tooltip>
                                                 </h3>
                                             </Col>
                                         )
                                     })}
-                                    </Row>
-                                    <div className='seprator'/>
+                                </Row>
+                                <div className="seprator" />
                             </section>
-
                         )
                     })}
                 </div>
-                <Footer/>
+                <Footer />
             </div>
         );
     }
 }
-export default connect(
-    state => ({
-        cat: state.professions.categories
-    }),
-    undefined
-)(Services)
+
+export default connect(state => ({
+    cat: state.professions.categories
+}))(Services)

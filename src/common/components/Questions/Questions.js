@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Steps, Modal, Col, Row, Button, message, Progress } from 'antd';
+import { Modal, Col, Row, Button, message, Progress } from 'antd';
 import { connect } from 'react-redux';
 import { loadProvinces } from '../../redux/modules/provinces';
 import { Icon } from '../Kit';

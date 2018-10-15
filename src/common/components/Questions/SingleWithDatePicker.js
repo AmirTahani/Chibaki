@@ -141,8 +141,8 @@ export default class SingleWithDatePicker extends Component {
                 <p className={styles.title}>{question.title}</p>
                 <Radio.Group onChange={this.onChange} value={value}>
                     {
-                        options.map(option => {
-                            return <Row className={styles.row}>
+                        options.map((option, index) => {
+                            return <Row key={index} className={styles.row}>
                                 <Radio value={option.value}>{option.title}</Radio>
                             </Row>
                         })

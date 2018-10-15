@@ -86,27 +86,27 @@ class Professional extends Component {
     getProfImage = () => {
         const { professional } = this.props;
         const { selectedProfession } = this.state;
-        let images = [];
         if (
             professional.user.professions &&
             professional.user.professions[selectedProfession] &&
             professional.user.professions[selectedProfession].intro
         ) {
-            Object.keys(professional.user.professions[selectedProfession].intro).map(function (key, index) {
-                if (key.indexOf("photo") >= 0 && professional.user.professions[selectedProfession].intro[key]) {
-                    images.push(
+            return Object.keys(professional.user.professions[selectedProfession].intro).reduce((acc, currenct) => {
+                if (currenct.indexOf("photo") >= 0 && professional.user.professions[selectedProfession].intro[currenct]) {
+                    acc.push(
                         "https://chibaki.ir" +
-                        professional.user.professions[selectedProfession].intro[key].replace("public", "")
+                        professional.user.professions[selectedProfession].intro[currenct].replace("public", "")
                     );
+                    return acc;
                 }
-            });
+                return acc;
+            }, []);
         }
-        return images;
     };
 
     render() {
         const { professional, comments } = this.props;
-        const { selectedProfession, isLightboxOpen, showQuestions, professionId } = this.state;
+        const { selectedProfession, showQuestions, professionId } = this.state;
         const { Flickity } = this;
         const images = this.getProfImage();
         return (
@@ -132,6 +132,7 @@ class Professional extends Component {
                                         professional.user.trust.profilePicture.filePath.replace("public", "")
                                         : "https://chibaki.ir/profile/images/unknown.jpg"
                                 }
+                                alt="user avatar"
                                 className={styles.avatar}
                             />
                         </Row>
@@ -403,13 +404,17 @@ class Professional extends Component {
                                                     flickityRef={c => (this.flkty = c)}
                                                 >
                                                     {images.map((item, idx) => {
+                                                        console.log(item, ' this is the item i want');
                                                         return (
                                                             <div className="profImage" key={idx}>
                                                                 <a
                                                                     href={item}
                                                                     onClick={e => this.onProfImageClick(e, idx)}
                                                                 >
-                                                                    <img src={item} />
+                                                                    <img
+                                                                        src={item}
+                                                                        alt="user documents"
+                                                                    />
                                                                 </a>
                                                             </div>
                                                         );

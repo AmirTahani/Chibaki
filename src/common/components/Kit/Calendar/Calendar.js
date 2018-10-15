@@ -116,7 +116,7 @@ export class Calendar extends Component {
 
     renderDays() {
         const { month, selectedDay } = this.state;
-        const { children, min, max, styles, outsideClickIgnoreClass } = this.props;
+        const { children, min, max, styles } = this.props;
 
         let days;
 
@@ -160,11 +160,6 @@ export class Calendar extends Component {
 
     render() {
         const {
-            selectedDay,
-            min,
-            max,
-            onClickOutside,
-            outsideClickIgnoreClass,
             styles,
             className
         } = this.props;

@@ -18,7 +18,7 @@ export default class Icon extends Component {
         return (
             <img
                 style={{ width: size, height: size, fill: color }}
-                src={require(`../../../icons/${iconName}.svg`)}
+                src={require(`../../../../../public/assets/images/icon/${iconName}.svg`)}
                 alt={iconName}
             />
         );
