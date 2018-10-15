@@ -5,7 +5,9 @@ import styles from './Single.module.css';
 
 export default class Multi extends Component {
     static propTypes = {
-        question: PropTypes.objectOf(PropTypes.any).isRequired
+        question: PropTypes.objectOf(PropTypes.any).isRequired,
+        answers: PropTypes.objectOf(PropTypes.any).isRequired,
+        setAnswer: PropTypes.func.isRequired
     };
 
     state = {
@@ -32,7 +34,7 @@ export default class Multi extends Component {
         const { answers } = this.props;
 
 
-        let result = question.options.map((option, index) => {
+        let result = question.options.map((option) => {
             if (answers[question._id]) {
                 this.setState({
                     value: answers[question._id].selected_options[0]
@@ -42,13 +44,12 @@ export default class Multi extends Component {
                     value: option,
                     checked: answers[question._id].selected_options.includes(option)
                 };
-            } else {
-                return {
-                    label: option,
-                    value: option,
-                    checked: false
-                };
             }
+            return {
+                label: option,
+                value: option,
+                checked: false
+            };
         });
 
 
@@ -72,18 +73,17 @@ export default class Multi extends Component {
 
     onChange = (e) => {
         const { options } = this.state;
-        const result = options.map(option => {
+        const result = options.map((option) => {
             if (option.value === e.target.value) {
                 return {
                     ...option,
                     checked: true
                 };
-            } else {
-                return {
-                    ...option,
-                    checked: false
-                };
             }
+            return {
+                ...option,
+                checked: false
+            };
         });
         this.setState({
             options: result,
@@ -113,10 +113,12 @@ export default class Multi extends Component {
         const { options } = this.state;
         let shouldShow = false;
         if (question.textOption) {
-            options.map(option => {
+            options.map((option) => {
                 if (option.checked && option.label === question.textOption) {
                     shouldShow = true;
+                    return option;
                 }
+                return option;
             });
         }
         return shouldShow;
@@ -140,10 +142,10 @@ export default class Multi extends Component {
                 <p className={styles.title}>{question.title}</p>
                 <Radio.Group onChange={this.onChange} value={this.state.value}>
                     {
-                        options.map(option => {
-                            return <Row className={styles.row}>
+                        options.map((option) => {
+                            return (<Row key={option.value} className={styles.row}>
                                 <Radio value={option.value}>{option.label}</Radio>
-                            </Row>
+                            </Row>);
                         })
                     }
                     {

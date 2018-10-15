@@ -47,7 +47,6 @@ export default class ApiClient {
     }
 
     request(url, { data, ...options } = {}) {
-
         const fetchOptions = options;
         fetchOptions.headers = fetchOptions.headers || {};
 
@@ -55,7 +54,7 @@ export default class ApiClient {
             if (fetchOptions.type === 'formdata') {
                 fetchOptions.body = new FormData();
 
-                for (let key in data) {
+                for (const key in data) {
                     if (typeof key === 'string' &&
                         data.hasOwnProperty(key) &&
                         typeof data[key] !== 'undefined') {
@@ -73,14 +72,11 @@ export default class ApiClient {
         const instance = axios.create({
             baseURL: apiPath,
             headers: fetchOptions.headers,
-            validateStatus: function (status) {
-                return true;
-            }
+            validateStatus
         });
         if (data) {
             return instance[options.method](url, data);
-        } else {
-            return instance[options.method](url);
         }
+        return instance[options.method](url);
     }
 }

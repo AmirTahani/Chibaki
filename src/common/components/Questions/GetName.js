@@ -5,7 +5,9 @@ import styles from './GetName.module.css';
 
 export default class GetName extends PureComponent {
     static propTypes = {
-        question: PropTypes.objectOf(PropTypes.any).isRequired
+        question: PropTypes.objectOf(PropTypes.any).isRequired,
+        setUserName: PropTypes.func.isRequired,
+        setUserLastName: PropTypes.func.isRequired
     };
 
     onChangeName = (e) => {

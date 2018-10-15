@@ -1,26 +1,28 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment-jalali';
+import onClickOutside from 'react-onclickoutside';
 import DaysViewHeading from './DaysViewHeading';
 import DaysOfWeek from './DaysOfWeek';
 import MonthSelector from './MonthSelector';
 import Day from './Day';
 import { getDaysOfMonth } from '../../../utils/moment-helper';
-import moment from 'moment-jalali';
-import onClickOutside from 'react-onclickoutside';
+
 
 // Load Persian localisation
 moment.loadPersian();
 
 export class Calendar extends Component {
     static propTypes = {
-        min: PropTypes.object,
-        max: PropTypes.object,
-        styles: PropTypes.object,
-        selectedDay: PropTypes.object,
-        defaultMonth: PropTypes.object,
-        onSelect: PropTypes.func,
+        min: PropTypes.objectOf(PropTypes.any).isRequired,
+        max: PropTypes.objectOf(PropTypes.any).isRequired,
+        styles: PropTypes.objectOf(PropTypes.any),
+        selectedDay: PropTypes.objectOf(PropTypes.any).isRequired,
+        defaultMonth: PropTypes.objectOf(PropTypes.any).isRequired,
+        onSelect: PropTypes.func.isRequired,
         onClickOutside: PropTypes.func,
-        containerProps: PropTypes.object
+        className: PropTypes.string,
+        children: PropTypes.node.isRequired
     };
 
     static childContextTypes = {
@@ -32,7 +34,9 @@ export class Calendar extends Component {
 
     static defaultProps = {
         styles: require('./style.module.css'),
-        containerProps: {}
+        className: '',
+        onClickOutside: () => {
+        }
     };
 
     state = {
@@ -91,7 +95,7 @@ export class Calendar extends Component {
         this.setState({ selectedDay });
     }
 
-    handleClickOnDay = selectedDay => {
+    handleClickOnDay = (selectedDay) => {
         const { onSelect } = this.props;
         this.selectDay(selectedDay);
         if (onSelect) {
@@ -116,7 +120,7 @@ export class Calendar extends Component {
 
     renderDays() {
         const { month, selectedDay } = this.state;
-        const { children, min, max, styles, outsideClickIgnoreClass } = this.props;
+        const { children, min, max, styles } = this.props;
 
         let days;
 
@@ -135,7 +139,7 @@ export class Calendar extends Component {
                 <DaysOfWeek styles={styles} />
                 <div className={styles.dayPickerContainer}>
                     {
-                        days.map(day => {
+                        days.map((day) => {
                             const isCurrentMonth = day.format('jMM') === month.format('jMM');
                             const disabled = (min ? day.isBefore(min) : false) || (max ? day.isAfter(max) : false);
                             const selected = selectedDay ? selectedDay.isSame(day, 'day') : false;
@@ -160,18 +164,13 @@ export class Calendar extends Component {
 
     render() {
         const {
-            selectedDay,
-            min,
-            max,
-            onClickOutside,
-            outsideClickIgnoreClass,
             styles,
             className
         } = this.props;
         const { mode } = this.state;
 
         return (
-            <div className={styles.calendarContainer + ' ' + className}>
+            <div className={`${styles.calendarContainer} ${className}`}>
                 {mode === 'monthSelector' ? this.renderMonthSelector() : this.renderDays()}
             </div>
         );

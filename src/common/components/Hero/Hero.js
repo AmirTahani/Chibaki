@@ -10,7 +10,7 @@ export default class Hero extends Component {
         onSelect: PropTypes.func.isRequired
     };
 
-    onAutocompleteSubmit = profession => {
+    onAutocompleteSubmit = (profession) => {
         this.props.onSelect(profession);
     };
 

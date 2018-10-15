@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Select, Input } from 'antd';
 import styles from './SelectLocation.module.css';
 
 export default class SelectQuestion extends Component {
+    static propTypes = {
+        question: PropTypes.objectOf(PropTypes.any).isRequired,
+        answers: PropTypes.objectOf(PropTypes.any).isRequired,
+        setAnswer: PropTypes.func.isRequired,
+        provinces: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+        loaded: PropTypes.bool.isRequired,
+        loading: PropTypes.bool.isRequired
+    };
+
     state = {
         province: {},
         city: {},
@@ -47,7 +57,7 @@ export default class SelectQuestion extends Component {
         this.setState({
             city: selectedCity
         });
-        this.generateAnswer(this.state.province, selectedCity)
+        this.generateAnswer(this.state.province, selectedCity);
     };
 
     generateAnswer = (province, city) => {
@@ -73,7 +83,6 @@ export default class SelectQuestion extends Component {
     render() {
         const { question, provinces, loading, loaded } = this.props;
         const { city, province } = this.state;
-        console.log(this.state, 'this is state of locationnnnnnnn');
         return (
             <div>
                 {
@@ -83,14 +92,21 @@ export default class SelectQuestion extends Component {
                     !loading && loaded ? <div>
                         <p className={styles.title}>{question.title}</p>
                         <div className={styles.selectWrapper}>
-                            <Select placeholder="استان خود را انتخاب کنید." style={{ width: 200 }}
-                                    defaultValue={province.name}
-                                    key={province.name}
-                                    onChange={this.handleChangeProvince}
+                            <Select
+                                placeholder="استان خود را انتخاب کنید."
+                                style={{ width: 200 }}
+                                defaultValue={province.name}
+                                key={province.name}
+                                onChange={this.handleChangeProvince}
                             >
                                 {
-                                    provinces.map(item => {
-                                        return <Select.Option value={item.name}>{item.name}</Select.Option>;
+                                    provinces.map((item) => {
+                                        return (<Select.Option
+                                            key={item.name}
+                                            value={item.name}
+                                        >
+                                            {item.name}
+                                        </Select.Option>);
                                     })
                                 }
                             </Select>
@@ -100,13 +116,20 @@ export default class SelectQuestion extends Component {
                 {
                     province && province.cities && province.cities.length ?
                         <div className={styles.selectWrapper}>
-                            <Select placeholder="شهر خود را انتخاب کنید." style={{ width: 200 }} onChange={this.handleChangeCity}
-                                    defaultValue={city.name}
-                                    key={city.name}
+                            <Select
+                                placeholder="شهر خود را انتخاب کنید." style={{ width: 200 }}
+                                onChange={this.handleChangeCity}
+                                defaultValue={city.name}
+                                key={city.name}
                             >
                                 {
-                                    province.cities.map(item => {
-                                        return <Select.Option value={item.name}>{item.name}</Select.Option>;
+                                    province.cities.map((item) => {
+                                        return (<Select.Option
+                                            value={item.name}
+                                            key={item.name}
+                                        >
+                                            {item.name}
+                                        </Select.Option>);
                                     })
                                 }
                             </Select>

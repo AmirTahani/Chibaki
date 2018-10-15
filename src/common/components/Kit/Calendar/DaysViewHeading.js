@@ -5,7 +5,12 @@ import { leftArrow, rightArrow } from '../../../utils/assets';
 
 export default class Heading extends Component {
     static propTypes = {
-        month: PropTypes.object.isRequired
+        month: PropTypes.objectOf(PropTypes.any).isRequired,
+        styles: PropTypes.objectOf(PropTypes.any)
+    };
+
+    static defaultProps = {
+        styles: {}
     };
 
     static contextTypes = {
@@ -28,7 +33,7 @@ export default class Heading extends Component {
         return (
             <div className={styles.heading}>
                 <button className={styles.title} onClick={this.handleMonthClick.bind(this)}>
-                    { persianNumber(month.format('jMMMM jYYYY')) }
+                    {persianNumber(month.format('jMMMM jYYYY'))}
                 </button>
                 <button
                     type="button"

@@ -7,7 +7,9 @@ import styles from './SingleWithDatePicker.module.css';
 
 export default class SingleWithDatePicker extends Component {
     static propTypes = {
-        question: PropTypes.objectOf(PropTypes.any).isRequired
+        question: PropTypes.objectOf(PropTypes.any).isRequired,
+        answers: PropTypes.objectOf(PropTypes.any).isRequired,
+        setAnswer: PropTypes.func.isRequired
     };
 
     state = {
@@ -29,7 +31,7 @@ export default class SingleWithDatePicker extends Component {
 
     setOptions = (question) => {
         const { answers } = this.props;
-        let result = question.options.map((option) => {
+        const result = question.options.map((option) => {
             if (answers[question._id] && answers[question._id].selected_options.includes(option)) {
                 return {
                     ...option,
@@ -42,13 +44,12 @@ export default class SingleWithDatePicker extends Component {
                     value: option.title,
                     checked: option.hasDatePicker
                 };
-            } else {
-                return {
-                    ...option,
-                    value: option.title,
-                    checked: false
-                };
             }
+            return {
+                ...option,
+                value: option.title,
+                checked: false
+            };
         });
         if (answers[question._id] && answers[question._id].text_option) {
             this.setState({
@@ -63,12 +64,10 @@ export default class SingleWithDatePicker extends Component {
                 value: answers[question._id].selected_options[0]
             });
         }
-        else {
-            this.setState({
-                options: result,
-                date: ''
-            });
-        }
+        this.setState({
+            options: result,
+            date: ''
+        });
     };
 
     onChangeTextOption = (e) => {
@@ -78,10 +77,12 @@ export default class SingleWithDatePicker extends Component {
     getShouldShowDatePicker = () => {
         const { options } = this.state;
         let shouldShowDatePicker = false;
-        options.map(option => {
+        options.map((option) => {
             if (option.hasDatePicker && option.checked) {
                 shouldShowDatePicker = true;
+                return option;
             }
+            return option;
         });
         return shouldShowDatePicker;
     };
@@ -95,18 +96,17 @@ export default class SingleWithDatePicker extends Component {
 
     onChange = (e) => {
         const { options } = this.state;
-        const result = options.map(option => {
+        const result = options.map((option) => {
             if (option.value === e.target.value) {
                 return {
                     ...option,
                     checked: true
                 };
-            } else {
-                return {
-                    ...option,
-                    checked: false
-                };
             }
+            return {
+                ...option,
+                checked: false
+            };
         });
         this.setState({
             options: result,
@@ -141,10 +141,12 @@ export default class SingleWithDatePicker extends Component {
                 <p className={styles.title}>{question.title}</p>
                 <Radio.Group onChange={this.onChange} value={value}>
                     {
-                        options.map(option => {
-                            return <Row className={styles.row}>
-                                <Radio value={option.value}>{option.title}</Radio>
-                            </Row>
+                        options.map((option) => {
+                            return (
+                                <Row key={option.value} className={styles.row}>
+                                    <Radio value={option.value}>{option.title}</Radio>
+                                </Row>
+                            );
                         })
                     }
                 </Radio.Group>

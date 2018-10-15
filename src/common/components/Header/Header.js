@@ -1,8 +1,8 @@
 import { Link } from 'react-router';
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { HeaderComponent, HeaderInner, Logo, LogoImg } from "./Header.styles";
-import Nav from "../Nav/Nav";
+import { HeaderComponent, HeaderInner, Logo, LogoImg } from './Header.styles';
+import Nav from '../Nav/Nav';
 
 class Header extends Component {
     render() {

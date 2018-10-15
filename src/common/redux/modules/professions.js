@@ -1,6 +1,6 @@
 import { put, take } from 'redux-saga/effects';
-import { handleSagaError } from "../../utils/handleSagaError";
 import { END } from 'redux-saga';
+import { handleSagaError } from '../../utils/handleSagaError';
 
 
 export const LOAD_PROFESSIONS_LIST = 'ssr/professions/LOAD_PROFESSIONS_LIST';

@@ -5,7 +5,9 @@ import styles from './Description.module.css';
 
 export default class Description extends Component {
     static propTypes = {
-        question: PropTypes.objectOf(PropTypes.any).isRequired
+        question: PropTypes.objectOf(PropTypes.any).isRequired,
+        answers: PropTypes.objectOf(PropTypes.any).isRequired,
+        setAnswer: PropTypes.func.isRequired
     };
 
     state = {

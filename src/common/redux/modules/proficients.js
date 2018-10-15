@@ -13,7 +13,7 @@ const initialState = {
     error: null,
     pagination: {},
     count: 0,
-    title : '',
+    title: '',
     selectedProfession: {}
 };
 

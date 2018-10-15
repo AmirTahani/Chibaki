@@ -1,8 +1,8 @@
 import React from 'react';
-import Routes from './common/containers/App/App';
 import { Provider } from 'react-redux';
-import apiClient from './common/utils/apiClient';
 import { hydrate } from 'react-dom';
+import Routes from './common/containers/App/App';
+import apiClient from './common/utils/apiClient';
 import createStore from './common/redux/create';
 
 const store = createStore(new apiClient(), window.__PRELOADED_STATE__);

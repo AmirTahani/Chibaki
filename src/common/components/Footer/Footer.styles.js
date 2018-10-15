@@ -1,24 +1,24 @@
-import { Link } from "react-router";
-import { css } from "emotion";
-import styled from "react-emotion";
+import { Link } from 'react-router';
+import { css } from 'emotion';
+import styled from 'react-emotion';
 
-import { primaryColor } from "../../styles/vars";
+import { primaryColor } from '../../styles/vars';
 
-export const FooterInner = styled("div")`
+export const FooterInner = styled('div')`
 	padding: 20px 15px;
 `;
 
-export const Copyright = styled("div")`
+export const Copyright = styled('div')`
 	text-align: center;
 	padding: 10px;
 `;
 
-export const CopyrightText = styled("span")`
+export const CopyrightText = styled('span')`
 	font-weight: 100;
 	font-size: 1.1rem;
 `;
 
-export const Logo = styled("img")`
+export const Logo = styled('img')`
 	width: 50px;
 	height: 50px;
 
@@ -58,7 +58,7 @@ export const PageLink = styled(Link)`
 	}
 `;
 
-export const IconLink = styled("a")`
+export const IconLink = styled('a')`
 	${FooterLink};
 
 	padding: 4px;

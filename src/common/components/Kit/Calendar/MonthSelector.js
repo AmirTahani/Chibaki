@@ -22,13 +22,17 @@ const months = [
 
 export default class MonthSelector extends Component {
     static propTypes = {
-        styles: PropTypes.object,
-        selectedMonth: PropTypes.object.isRequired
+        styles: PropTypes.ObjectOf(PropTypes.any),
+        selectedMonth: PropTypes.objectOf(PropTypes.any).isRequired
     };
 
     static contextTypes = {
         setCalendarMode: PropTypes.func.isRequired,
         setMonth: PropTypes.func.isRequired
+    };
+
+    static defaultProps = {
+        styles: {}
     };
 
     state = {
@@ -62,13 +66,13 @@ export default class MonthSelector extends Component {
                 <MonthsViewHeading
                     styles={styles}
                     year={year}
-                    onNextYear={this.nextYear.bind(this) }
-                    onPrevYear={this.prevYear.bind(this) }
+                    onNextYear={this.nextYear.bind(this)}
+                    onPrevYear={this.prevYear.bind(this)}
                 />
                 <div className={styles.monthsList}>
                     {
                         months.map((name, key) => {
-                            const buttonFingerprint = (key + 1) + '-' + year.format('jYYYY');
+                            const buttonFingerprint = `${key + 1}-${year.format('jYYYY')}`;
                             const selectedMonthFingerprint = selectedMonth.format('jM-jYYYY');
                             const isCurrent = selectedMonthFingerprint === buttonFingerprint;
 
@@ -77,7 +81,7 @@ export default class MonthSelector extends Component {
                             });
 
                             return (
-                                <div key={key} className={className}>
+                                <div key={name} className={className}>
                                     <button onClick={this.handleClick.bind(this, buttonFingerprint)}>
                                         {name}
                                     </button>

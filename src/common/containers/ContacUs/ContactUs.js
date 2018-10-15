@@ -1,5 +1,5 @@
-import "../Home/Home.css";
-import React from "react";
+import React from 'react';
+import '../Home/Home.css';
 
 export default class About extends React.Component {
     render() {

@@ -5,7 +5,9 @@ import styles from './Verify.module.css';
 
 export default class GetPhone extends Component {
     static propTypes = {
-        question: PropTypes.objectOf(PropTypes.any).isRequired
+        question: PropTypes.objectOf(PropTypes.any).isRequired,
+        answers: PropTypes.objectOf(PropTypes.any).isRequired,
+        setUserCode: PropTypes.func.isRequired
     };
 
     state = {
