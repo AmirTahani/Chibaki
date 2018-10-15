@@ -23,7 +23,7 @@ class Nav extends Component {
                 <List>
                     {navItems.map((item) => {
                         return (
-                            <ListItem key={item.name}>
+                            <ListItem key={item.label}>
                                 <ListLink to={item.link} className="c-nav__link">
                                     {item.label}
                                 </ListLink>
