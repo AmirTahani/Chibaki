@@ -22,7 +22,7 @@ export default function reducer(state = initialState, action = {}) {
                 ...state,
                 loading: true,
             };
-            case LOADED_COMMENTS:
+        case LOADED_COMMENTS:
             return {
                 ...state,
                 comments: action.comments,
@@ -52,11 +52,11 @@ export function load(professionalId) {
     };
 }
 
-export function loadComments(comments){
+export function loadComments(comments) {
     return {
         type: LOADED_COMMENTS,
         comments
-    }
+    };
 }
 
 export function loadSuccess(response) {
@@ -81,7 +81,7 @@ export function* watchLoadProfessional(client, { professionalId }) {
         yield put(loadSuccess(response.data));
         yield put(END);
     } catch (error) {
-        console.log('error ',error);
+        console.log('error ', error);
         handleSagaError(error);
         yield put(loadFailure(error));
     }

@@ -5,7 +5,9 @@ import styles from './GetPhone.module.css';
 
 export default class GetPhone extends Component {
     static propTypes = {
-        question: PropTypes.objectOf(PropTypes.any).isRequired
+        question: PropTypes.objectOf(PropTypes.any).isRequired,
+        setUserMobile: PropTypes.func.isRequired,
+        mobile: PropTypes.string.isRequired
     };
 
     state = {

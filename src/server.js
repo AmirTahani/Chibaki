@@ -1,3 +1,4 @@
+// eslint-ignore-file
 import { Provider } from 'react-redux';
 import { match } from 'react-router';
 import { renderToString } from 'react-dom/server';
@@ -25,10 +26,6 @@ server
                 } else if (redirectLocation) {
                     res.redirect(302, redirectLocation.pathname + redirectLocation.search);
                 } else if (renderProps) {
-
-                    // You can also check renderProps.components or renderProps.routes for
-                    // your "not found" component or route respectively, and send a 404 as
-                    // below, if you're using a catch-all route.
                     const context = {};
                     const client = new apiClient();
                     const store = createStore(client);
@@ -77,18 +74,18 @@ server
                     <meta charset="utf-8" />
                     <title>${metaTags.title}</title>
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
-                                ${
-                                assets.client.css
-                                    ? `<link rel="stylesheet" href="${assets.client.css}">`
-                                    : ''
-                                }
-                    ${
-                                process.env.NODE_ENV === 'production'
-                                    ? `<script src="${assets.client.js}" defer></script>`
-                                    : `<script src="${
-                                        assets.client.js
-                                        }" defer crossorigin></script>`
-                                }
+${
+    assets.client.css
+        ? `<link rel="stylesheet" href="${assets.client.css}">`
+        : ''
+}
+${
+    process.env.NODE_ENV === 'production'
+        ? `<script src="${assets.client.js}" defer></script>`
+        : `<script src="${
+            assets.client.js
+        }" defer crossorigin></script>`
+}
                 </head>
                 <body>
                     <div id="root">${markup}</div>

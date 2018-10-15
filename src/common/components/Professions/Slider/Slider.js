@@ -1,9 +1,9 @@
-import "./Slider.styl";
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { Button } from 'antd';
+import objectFitImages from 'object-fit-images';
+import './Slider.styl';
 
-import PropTypes from "prop-types";
-import React, { Component } from "react";
-import { Button } from "antd";
-import objectFitImages from "object-fit-images";
 
 export default class ProfessionSliders extends Component {
     static propTypes = {
@@ -11,18 +11,15 @@ export default class ProfessionSliders extends Component {
         onSelect: PropTypes.func.isRequired
     };
 
-    IS_WEB = typeof window !== "undefined";
-    IS_MOBILE =
-        typeof window !== "undefined" &&
-        window.innerWidth < 500;
+    IS_WEB = typeof window !== 'undefined';
+    IS_MOBILE = typeof window !== 'undefined' && window.innerWidth < 500;
 
-    SHOULD_INIT_SLIDER =
-        this.IS_WEB && !this.IS_MOBILE;
+    SHOULD_INIT_SLIDER = this.IS_WEB && !this.IS_MOBILE;
 
     componentWillMount() {
         if (this.SHOULD_INIT_SLIDER) {
-            require("flickity");
-            require("flickity/dist/flickity.min.css");
+            require('flickity');
+            require('flickity/dist/flickity.min.css');
         }
     }
 
@@ -33,7 +30,7 @@ export default class ProfessionSliders extends Component {
     sliderOptions = {
         lazyLoad: 1,
         pageDots: true,
-        cellSelector: ".catSlider__slide",
+        cellSelector: '.catSlider__slide',
         rightToLeft: true,
         wrapAround: true,
         groupCells: true,
@@ -43,11 +40,11 @@ export default class ProfessionSliders extends Component {
         freeScroll: false
     };
 
-    onBtnClick = profession => {
+    onBtnClick = (profession) => {
         this.props.onSelect(profession);
     };
 
-    getSlider = slider => {
+    getSlider = (slider) => {
         return (
             <div
                 className="catSlider"
@@ -84,10 +81,10 @@ export default class ProfessionSliders extends Component {
                                 onClick={() => this.onBtnClick(slide._id)}
                             >
                                 <div>
-										<span>
-											ثبت
-											درخواست
-										</span>
+                                    <span>
+                                        ثبت
+                                        درخواست
+                                    </span>
                                 </div>
                             </Button>
                         </div>
@@ -110,11 +107,11 @@ export default class ProfessionSliders extends Component {
                 <div className="l-container l-container--sm">
                     {
                         this.props.sliders.map(
-                            (slider, idx) => {
+                            (slider) => {
                                 return (
                                     <div
                                         className="catSlider__wrapper"
-                                        key={idx}
+                                        key={slider.title}
                                     >
                                         <div>
                                             <h2 className="catSlider__heading">

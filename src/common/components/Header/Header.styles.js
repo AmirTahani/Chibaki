@@ -1,12 +1,12 @@
-import styled from "react-emotion";
+import styled from 'react-emotion';
 
-export const HeaderHeight = "60px";
+export const HeaderHeight = '60px';
 
-const LogoHeight = "40px";
-const LogoWidth = "116px";
-const LogoPadding = "10px";
+const LogoHeight = '40px';
+const LogoWidth = '116px';
+const LogoPadding = '10px';
 
-export const HeaderComponent = styled("header")`
+export const HeaderComponent = styled('header')`
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -19,7 +19,7 @@ export const HeaderComponent = styled("header")`
 	z-index: 99999;
 `;
 
-export const HeaderInner = styled("div")`
+export const HeaderInner = styled('div')`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -32,12 +32,12 @@ export const HeaderInner = styled("div")`
 	}
 `;
 
-export const Logo = styled("div")`
+export const Logo = styled('div')`
 	height: ${HeaderHeight};
 	padding: ${LogoPadding};
 `;
 
-export const LogoImg = styled("img")`
+export const LogoImg = styled('img')`
 	width: ${LogoWidth};
 	height: ${LogoHeight};
 `;

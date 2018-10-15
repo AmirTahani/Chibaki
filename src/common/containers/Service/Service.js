@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import '../Services/Services.css';
-import { Row, Col } from 'antd';
-import './ServiceStyle.css';
 import { connect } from 'react-redux';
+import { Row, Col } from 'antd';
+import '../Services/Services.css';
+import './ServiceStyle.css';
 
 class Services extends Component {
+    static propTypes = {
+        selectedProfession: PropTypes.objectOf(PropTypes.any).isRequired,
+        proficients: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+        title: PropTypes.string.isRequired,
+        count: PropTypes.number.isRequired
+    };
 
     registerProject = () => {
-        console.log(this.props.selectedProfession, 'askjdakjdbasjkldb')
+        console.log(this.props.selectedProfession, 'askjdakjdbasjkldb');
     };
 
     render() {
@@ -35,7 +42,9 @@ class Services extends Component {
                         </div>
                         <div>
                             متخصصین
-                            {' ' + title + ' '}
+                            {' '}
+                            {title}
+                            {' '}
                             در چی‌باکی (
                             {count}
                             متخصص)
@@ -65,7 +74,7 @@ class Services extends Component {
                                             </Row>
                                             <Row>
                                                 <Col span={24}>
-                                                    <span>{item.firstname + ' ' + item.lastname}</span>
+                                                    <span>{item.firstname}{' '}{item.lastname}</span>
                                                 </Col>
                                             </Row>
 
@@ -84,7 +93,7 @@ class Services extends Component {
                                 </Col>
                             </Link>
                         </Row>
-                    )
+                    );
                 })}
                 <div>
                     <button>
@@ -96,13 +105,10 @@ class Services extends Component {
     }
 }
 
-export default connect(
-    state => ({
-        proficients: state.proficients.proficients,
-        title: state.proficients.title,
-        selectedProfession: state.proficients.selectedProfession,
-        count: state.proficients.count
+export default connect(state => ({
+    proficients: state.proficients.proficients,
+    title: state.proficients.title,
+    selectedProfession: state.proficients.selectedProfession,
+    count: state.proficients.count
+}))(Services);
 
-    }),
-    undefined
-)(Services)

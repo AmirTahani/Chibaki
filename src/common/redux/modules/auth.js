@@ -1,6 +1,5 @@
 import { put } from 'redux-saga/effects';
 import { handleSagaError } from '../../utils/handleSagaError';
-import { CLEAR_ANSWERS } from "./questions";
 
 
 export const LOGIN = 'ssr/auth/LOGIN';

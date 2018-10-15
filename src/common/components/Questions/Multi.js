@@ -5,7 +5,11 @@ import styles from './Multi.module.css';
 
 export default class Multi extends Component {
     static propTypes = {
-        question: PropTypes.objectOf(PropTypes.any).isRequired
+        question: PropTypes.objectOf(PropTypes.any).isRequired,
+        answers: PropTypes.objectOf(PropTypes.any).isRequired,
+        setAnswer: PropTypes.func.isRequired
+
+
     };
 
     state = {
@@ -29,7 +33,7 @@ export default class Multi extends Component {
     setOptions = (question) => {
         const { answers } = this.props;
 
-        let result = question.options.map(option => {
+        const result = question.options.map((option) => {
             return {
                 label: option,
                 value: option,
@@ -53,20 +57,18 @@ export default class Multi extends Component {
                 textValue: ''
             });
         }
-
     };
 
     onChange = (selecteOption) => {
         const { options } = this.state;
-        const result = options.map(option => {
+        const result = options.map((option) => {
             if (option.label === selecteOption.label) {
                 return {
                     ...option,
                     checked: !option.checked
                 };
-            } else {
-                return option;
             }
+            return option;
         });
         this.setState({
             options: result
@@ -96,10 +98,12 @@ export default class Multi extends Component {
         const { options } = this.state;
         let shouldShow = false;
         if (question.textOption) {
-            options.map(option => {
+            options.map((option) => {
                 if (option.checked && option.label === question.textOption) {
                     shouldShow = true;
+                    return option;
                 }
+                return option;
             });
         }
         return shouldShow;
@@ -120,9 +124,9 @@ export default class Multi extends Component {
             <div>
                 <p className={styles.title}>{question.title}</p>
                 {
-                    options.map(option => {
+                    options.map((option) => {
                         return (
-                            <Row className={styles.row}>
+                            <Row key={option.label} className={styles.row}>
                                 <Checkbox
                                     checked={option.checked}
                                     disabled={option.disabled}

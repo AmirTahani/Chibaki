@@ -1,0 +1,83 @@
+{
+  "extends": [
+    "airbnb"
+  ],
+  "parser": "babel-eslint",
+  "rules": {
+    "comma-dangle": 0,
+    "no-use-before-define": 0,
+    "react/jsx-filename-extension": [
+      "error",
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ],
+    "jsx-a11y/img-has-alt": [
+      0
+    ],
+    "jsx-a11y/href-no-hash": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+    "import/prefer-default-export": "off",
+    "indent": [
+      2,
+      4,
+      {
+        "SwitchCase": 1,
+        "VariableDeclarator": 2
+      }
+    ],
+    "react/jsx-indent": [
+      4,
+      4
+    ],
+    "react/jsx-indent-props": [
+      0,
+      4
+    ],
+    "no-underscore-dangle": 0,
+    "react/jsx-no-bind": "off",
+    "react/no-did-mount-set-state": "off",
+    "global-require": "off",
+    "react/no-string-refs": "off",
+    "react/sort-comp": "off",
+    "no-unused-vars": "off",
+    "dot-notation": "off",
+    "import/no-dynamic-require": "off",
+    "import/no-named-as-default": "off",
+    "no-prototype-builtins": "off",
+    "react/prefer-stateless-function": "off",
+    "spaced-comment": "off",
+    "react/no-find-dom-node": "off",
+    "no-restricted-syntax": "off",
+    "no-param-reassign": "off",
+    "no-undef": "off",
+    "no-unused-expressions": "off",
+    "consistent-return": "off",
+    "array-callback-return": "off",
+    "no-plusplus": "off",
+    "arrow-body-style": "off",
+    "no-mixed-operators": "off",
+    "prefer-arrow-callback": "off",
+    "new-cap": "off",
+    "max-len": [
+      "error",
+      {
+        "code": 160,
+        "ignoreComments": true,
+        "ignoreStrings": true,
+        "ignoreUrls": true
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["**/*.styles.js" ],
+      "rules": {
+        "no-tabs": "off"
+      }
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Modal, Col, Row, Button, message, Progress } from 'antd';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loadProvinces } from '../../redux/modules/provinces';
 import { Icon } from '../Kit';
@@ -26,6 +27,41 @@ import GetName from './GetName';
 import Success from './Success';
 
 class Questions extends PureComponent {
+    static propTypes = {
+        onClose: PropTypes.func.isRequired,
+        loadProvincesConnect: PropTypes.func.isRequired,
+        loadQuestionsConnect: PropTypes.func.isRequired,
+        direct: PropTypes.bool,
+        professionId: PropTypes.string.isRequired,
+        questions: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+        gender: PropTypes.string.isRequired,
+        user: PropTypes.objectOf(PropTypes.any).isRequired,
+        provinces: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+        loadedProvinces: PropTypes.bool.isRequired,
+        loadingProvinces: PropTypes.bool.isRequired,
+        loading: PropTypes.bool.isRequired,
+        loaded: PropTypes.bool.isRequired,
+        setAnswerConnect: PropTypes.func.isRequired,
+        answers: PropTypes.objectOf(PropTypes.any).isRequired,
+        loginConnect: PropTypes.func.isRequired,
+        setUserMobileConnect: PropTypes.func.isRequired,
+        setUserCodeConnect: PropTypes.func.isRequired,
+        setUserLastNameConnect: PropTypes.func.isRequired,
+        setUserNameConnect: PropTypes.func.isRequired,
+        clearStateConnect: PropTypes.func.isRequired,
+        registerConnect: PropTypes.func.isRequired,
+        verifyConnect: PropTypes.func.isRequired,
+        submitAnswersConnect: PropTypes.func.isRequired,
+        mobile: PropTypes.string.isRequired,
+        lastName: PropTypes.string.isRequired,
+        firstName: PropTypes.string.isRequired,
+        code: PropTypes.string.isRequired,
+    };
+
+    static defaultProps = {
+        direct: false
+    };
+
     state = {
         visible: true,
         current: 0,
@@ -104,21 +140,21 @@ class Questions extends PureComponent {
         } = this.props;
         const { questions } = this.state;
         if (!loading && loaded) {
-            return questions.map(question => {
+            return questions.map((question) => {
                 if (question.type === 'multi' || question.type === 'mtext') {
                     return {
                         title: '',
-                        question: question,
+                        question,
                         content: <Multi
                             question={question}
                             setAnswer={setAnswerConnect}
                             answers={answers}
                         />
-                    }
+                    };
                 } else if (question.type === 'single' || question.type === 'stext') {
                     return {
                         title: '',
-                        question: question,
+                        question,
                         content: <Single
                             question={question}
                             setAnswer={setAnswerConnect}
@@ -128,7 +164,7 @@ class Questions extends PureComponent {
                 } else if (question.type === 'location') {
                     return {
                         title: '',
-                        question: question,
+                        question,
                         content: <SelectLocation
                             question={question}
                             loading={loadingProvinces}
@@ -141,7 +177,7 @@ class Questions extends PureComponent {
                 } else if (question.type === 'singleWithDatePicker') {
                     return {
                         title: '',
-                        question: question,
+                        question,
                         content: <SingleWithDatePicker
                             question={question}
                             answers={answers}
@@ -151,7 +187,7 @@ class Questions extends PureComponent {
                 } else if (question.type === 'text') {
                     return {
                         title: '',
-                        question: question,
+                        question,
                         content: <Description
                             question={question}
                             setAnswer={setAnswerConnect}
@@ -161,7 +197,7 @@ class Questions extends PureComponent {
                 } else if (question.type === 'getPhone') {
                     return {
                         title: '',
-                        question: question,
+                        question,
                         content: <GetPhone
                             mobile={mobile}
                             question={question}
@@ -173,7 +209,7 @@ class Questions extends PureComponent {
                 } else if (question.type === 'verify') {
                     return {
                         title: '',
-                        question: question,
+                        question,
                         content: <Verify
                             question={question}
                             answers={answers}
@@ -183,7 +219,7 @@ class Questions extends PureComponent {
                 } else if (question.type === 'getName') {
                     return {
                         title: '',
-                        question: question,
+                        question,
                         content: <GetName
                             question={question}
                             setUserName={setUserNameConnect}
@@ -193,7 +229,7 @@ class Questions extends PureComponent {
                 } else if (question.type === 'success') {
                     return {
                         title: '',
-                        question: question,
+                        question,
                         content: <Success />
                     };
                 }
@@ -270,17 +306,15 @@ class Questions extends PureComponent {
                     }
                 }
             });
-        }
-        else if (firstName && lastName && contents[current].question.type === 'getName') {
+        } else if (firstName && lastName && contents[current].question.type === 'getName') {
             new Promise((resolve, reject) => {
                 registerConnect({ firstName, lastName, mobile }, resolve, reject);
             }).then(() => {
                 this.setState({
                     current: current + 1
                 });
-            })
-        }
-        else if (code && contents[current].question.type === 'verify') {
+            });
+        } else if (code && contents[current].question.type === 'verify') {
             new Promise((resolve, reject) => {
                 verifyConnect(code, resolve, reject);
             }).then(() => {
@@ -296,8 +330,7 @@ class Questions extends PureComponent {
                     });
                 });
             });
-        }
-        else if (contents[current].question._id === 'location' && current === contents.length - 1) {
+        } else if (contents[current].question._id === 'location' && current === contents.length - 1) {
             new Promise((resolve, reject) => {
                 submitAnswersConnect(resolve, reject);
             }).then(() => {
@@ -309,14 +342,12 @@ class Questions extends PureComponent {
                     }]
                 });
             });
-        }
-        else if (contents[current].question.skipable || hasAnswer) {
+        } else if (contents[current].question.skipable || hasAnswer) {
             this.setState({
                 current: current + 1
             });
-        }
-        else {
-            message.error('لطفا ابتدا پاسخ مناسب را انتخاب کنید.', 3)
+        } else {
+            message.error('لطفا ابتدا پاسخ مناسب را انتخاب کنید.', 3);
         }
     };
 
@@ -331,7 +362,6 @@ class Questions extends PureComponent {
     };
 
     render() {
-
         const { current, shouldRegister } = this.state;
         const contents = this.getContent();
         const contentsLength = shouldRegister ? contents.length + 1 : contents.length;
@@ -410,4 +440,4 @@ export default connect(state => ({
     verifyConnect: verify,
     submitAnswersConnect: submitAnswers,
     clearStateConnect: clearState
-})(Questions)
+})(Questions);

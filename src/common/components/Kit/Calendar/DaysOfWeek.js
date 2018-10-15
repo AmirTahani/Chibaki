@@ -6,7 +6,11 @@ const dayOfWeekNames = ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج'];
 
 export default class DaysOfWeek extends Component {
     static propTypes = {
-        styles: PropTypes.object
+        styles: PropTypes.objectOf(PropTypes.any)
+    };
+
+    static defaultProps = {
+        styles: {}
     };
 
     render() {
@@ -14,7 +18,7 @@ export default class DaysOfWeek extends Component {
 
         return (
             <div className={styles.daysOfWeek}>
-                { dayOfWeekNames.map((name, key) => <div key={key}>{name}</div>) }
+                {dayOfWeekNames.map(name => <div key={name}>{name}</div>)}
             </div>
         );
     }

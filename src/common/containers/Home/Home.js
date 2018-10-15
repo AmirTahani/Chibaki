@@ -1,19 +1,22 @@
-import "../../styles/container.styl";
-import "./Home.css";
-
-import { connect } from "react-redux";
-import React, { Component } from "react";
-
-import { flattenProfessionsByCategories } from "../../utils/serverHelper";
-import Categories from "../../components/Professions/Categories/Categories";
-import Footer from "../../components/Footer/Footer";
-import Header from "../../components/Header/Header";
-import Hero from "../../components/Hero/Hero";
-import Questions from "../../components/Questions/Questions";
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { flattenProfessionsByCategories } from '../../utils/serverHelper';
+import Categories from '../../components/Professions/Categories/Categories';
+import Footer from '../../components/Footer/Footer';
+import Header from '../../components/Header/Header';
+import Hero from '../../components/Hero/Hero';
+import Questions from '../../components/Questions/Questions';
 import HowItWorks from '../../components/Kit/HowItWorks/HowItWorks';
-import ProfessionSliders from "../../components/Professions/Slider/Slider";
+import ProfessionSliders from '../../components/Professions/Slider/Slider';
+import '../../styles/container.styl';
+import './Home.css';
 
 class Home extends Component {
+    static propTypes = {
+        professions: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+        sliders: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired
+    };
 
     state = {
         showQuestions: false,
@@ -37,15 +40,14 @@ class Home extends Component {
     };
 
     render() {
-        let { professions, sliders } = this.props;
+        const { professions, sliders } = this.props;
         const { professionId, showQuestions } = this.state;
-        professions = flattenProfessionsByCategories(professions);
         return (
             <div className="Home">
                 <Header />
 
                 <Hero
-                    professions={professions}
+                    professions={flattenProfessionsByCategories(professions)}
                     onSelect={this.handleSelect}
                 />
 

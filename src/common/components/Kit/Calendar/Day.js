@@ -5,11 +5,16 @@ import { persianNumber } from '../../../utils/persian';
 
 export default class Day extends Component {
     static propTypes = {
-        day: PropTypes.object.isRequired,
-        isCurrentMonth: PropTypes.bool,
-        disabled: PropTypes.bool,
-        selected: PropTypes.bool,
-        onClick: PropTypes.func
+        day: PropTypes.objectOf(PropTypes.any).isRequired,
+        isCurrentMonth: PropTypes.bool.isRequired,
+        disabled: PropTypes.bool.isRequired,
+        selected: PropTypes.bool.isRequired,
+        onClick: PropTypes.func.isRequired,
+        styles: PropTypes.objectOf(PropTypes.any)
+    };
+
+    static defaultProps = {
+        styles: {}
     };
 
     shouldComponentUpdate(nextProps) {
@@ -41,11 +46,11 @@ export default class Day extends Component {
             <div className={className}>
                 <button
                     type="button"
-                    onClick={this.handleClick.bind(this) }
+                    onClick={this.handleClick.bind(this)}
                     disabled={disabled}
                     {...rest}
                 >
-                    { persianNumber(day.format('jD')) }
+                    {persianNumber(day.format('jD'))}
                 </button>
             </div>
         );

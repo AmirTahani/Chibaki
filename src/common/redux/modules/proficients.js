@@ -13,7 +13,7 @@ const initialState = {
     error: null,
     pagination: {},
     count: 0,
-    title : '',
+    title: '',
     selectedProfession: {}
 };
 
@@ -74,7 +74,6 @@ export function* watchLoadProficients(client, { professionId }) {
         const response = yield client.get(`/professions/${professionId}/proficients`);
         yield put(loadSuccess(response.data));
         yield put(END);
-
     } catch (error) {
         handleSagaError(error);
         yield put(loadFailure(error));

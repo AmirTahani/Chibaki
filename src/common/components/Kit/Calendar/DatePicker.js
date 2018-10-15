@@ -1,34 +1,37 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import moment from 'moment-jalali';
 import TetherComponent from 'react-tether';
 import Calendar from './Calendar';
-import classnames from 'classnames';
 
 export const outsideClickIgnoreClass = 'ignore--click--outside';
 
 export default class DatePicker extends Component {
     static propTypes = {
-        value: PropTypes.object,
-        defaultValue: PropTypes.object,
-        onChange: PropTypes.func,
-        onFocus: PropTypes.func,
+        value: PropTypes.objectOf(PropTypes.any).isRequired,
+        defaultValue: PropTypes.objectOf(PropTypes.any).isRequired,
+        onChange: PropTypes.func.isRequired,
         onBlur: PropTypes.func,
-        children: PropTypes.node,
-        min: PropTypes.object,
-        max: PropTypes.object,
-        defaultMonth: PropTypes.object,
+        min: PropTypes.objectOf(PropTypes.any).isRequired,
+        max: PropTypes.objectOf(PropTypes.any).isRequired,
+        defaultMonth: PropTypes.objectOf(PropTypes.any).isRequired,
         inputFormat: PropTypes.string,
-        removable: PropTypes.bool,
-        timePickerComponent: PropTypes.func,
-        calendarStyles: PropTypes.object,
-        calendarContainerProps: PropTypes.object
+        timePickerComponent: PropTypes.func.isRequired,
+        calendarStyles: PropTypes.objectOf(PropTypes.any).isRequired,
+        calendarContainerProps: PropTypes.objectOf(PropTypes.any).isRequired,
+        className: PropTypes.string,
+        disabled: PropTypes.bool
     };
 
     static defaultProps = {
         inputFormat: 'jYYYY/jM/jD',
         calendarStyles: require('./style.module.css'),
-        calendarContainerProps: {}
+        calendarContainerProps: {},
+        onBlur: () => {
+        },
+        className: '',
+        disabled: false
     };
 
     state = {
@@ -38,14 +41,14 @@ export default class DatePicker extends Component {
             this.props.defaultValue.format(this.props.inputFormat) : ''
     };
 
-    setOpen(isOpen) {
-        this.setState({ isOpen });
-    }
-
     componentWillReceiveProps(nextProps) {
         if ('value' in nextProps && nextProps.value !== this.props.value) {
             this.setMomentValue(nextProps.value);
         }
+    }
+
+    setOpen(isOpen) {
+        this.setState({ isOpen });
     }
 
     setMomentValue(momentValue) {
@@ -55,9 +58,10 @@ export default class DatePicker extends Component {
             this.props.onChange(momentValue);
         }
 
-        let inputValue = "";
-        if (momentValue)
+        let inputValue = '';
+        if (momentValue) {
             inputValue = momentValue.format(inputFormat);
+        }
         this.setState({ momentValue, inputValue });
     }
 
@@ -115,38 +119,10 @@ export default class DatePicker extends Component {
 
     handleInputClick() {
         if (!this.props.disabled) {
-            this.setOpen(true)
+            this.setOpen(true);
         }
     }
 
-    renderInput() {
-        let { isOpen, inputValue } = this.state;
-
-        if (this.props.value) {
-            let value = this.props.value;
-            let inputFormat = this.props.inputFormat;
-            inputValue = value.format(inputFormat);
-        }
-
-        const className = classnames(this.props.className, {
-            [outsideClickIgnoreClass]: isOpen
-        });
-
-        return (
-            <div>
-                <input
-                    className={className}
-                    type="text"
-                    ref="input"
-                    onFocus={this.handleFocus.bind(this)}
-                    onBlur={this.handleBlur.bind(this)}
-                    onChange={this.handleInputChange.bind(this)}
-                    onClick={this.handleInputClick.bind(this)}
-                    value={inputValue}
-                />
-            </div>
-        );
-    }
 
     renderCalendar() {
         const { momentValue } = this.state;
@@ -190,6 +166,36 @@ export default class DatePicker extends Component {
             inputValue: ''
         });
     }
+
+    renderInput() {
+        let { inputValue } = this.state;
+
+        if (this.props.value) {
+            const value = this.props.value;
+            const inputFormat = this.props.inputFormat;
+            inputValue = value.format(inputFormat);
+        }
+
+        const className = classnames(this.props.className, {
+            [outsideClickIgnoreClass]: this.state.isOpen
+        });
+
+        return (
+            <div>
+                <input
+                    className={className}
+                    type="text"
+                    ref="input"
+                    onFocus={this.handleFocus.bind(this)}
+                    onBlur={this.handleBlur.bind(this)}
+                    onChange={this.handleInputChange.bind(this)}
+                    onClick={this.handleInputClick.bind(this)}
+                    value={inputValue}
+                />
+            </div>
+        );
+    }
+
 
     render() {
         const { isOpen } = this.state;
