@@ -32,7 +32,7 @@ server
                     const context = {};
                     const client = new apiClient();
                     const store = createStore(client);
-                    await handleRequestsByRoute(store, req.path);
+                    await handleRequestsByRoute(store, req);
 
                     store.rootTask.done.then(() => {
                         // Render the component to a string

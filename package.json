@@ -23,6 +23,7 @@
     "moment-jalali": "0.3.9",
     "object-fit-images": "3.2.4",
     "prop-types": "15.6.1",
+    "qs": "^6.5.2",
     "razzle": "0.8.12",
     "react": "16.3.0",
     "react-dom": "16.3.0",

@@ -11,7 +11,8 @@ class Services extends Component {
     };
 
     render() {
-        const { proficients, title, selectedProfession, count } = this.props;
+        const { proficients, title, selectedProfession, count, provinces } = this.props;
+        console.log(proficients)
         return (
             <div>
             <Row type={'flex'} gutter={30}>
@@ -55,7 +56,7 @@ class Services extends Component {
                                     <Col span={20}>
                                         <Row>
                                             <Col span={24}>
-                                                <img src={'https://chibaki.ir/' + item.profilePicture.filePath.replace('public', '')} className={'prof-image'}/>
+                                                {/*<img src={'https://chibaki.ir/' + item.trust.profilePicture.filePath.replace('public', '')} className={'prof-image'}/>*/}
 
                                             </Col>
                                         </Row>
@@ -96,7 +97,8 @@ export default connect(
         proficients: state.proficients.proficients,
         title: state.proficients.title,
         selectedProfession: state.proficients.selectedProfession,
-        count: state.proficients.count
+        count: state.proficients.count,
+        provinces: state.provinces.provinces
 
     }),
     undefined

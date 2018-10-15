@@ -32,7 +32,6 @@ export default function reducer(state = initialState, action = {}) {
                 loading: true
             };
         case LOAD_PROFESSIONS_LIST_SUCCESS:
-            console.log(action, 'this is action');
             return {
                 ...state,
                 loading: false,
@@ -128,9 +127,9 @@ export function* watchLoadProfessionsList(client) {
 
 export function* watchLoadCategories(client, { resolve, reject }) {
     try {
-        const response = yield client.get('/signup');
-        yield put(loadCategoriesSuccess(response.data.categorires));
-        resolve && resolve(response.data.categorires);
+        const response = yield client.get('/v1/categories?populate=professions');
+        yield put(loadCategoriesSuccess(response.data.categories));
+        resolve && resolve(response.data.categories);
     } catch (error) {
         console.log('this is error,', error);
         yield put(loadCategoriesFailure(error));

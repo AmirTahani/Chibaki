@@ -31,7 +31,7 @@ export default function reducer(state = initialState, action = {}) {
                 ...state,
                 loading: false,
                 loaded: true,
-                proficients: action.response.results,
+                proficients: action.response.professionals,
                 pagination: action.response.pagination,
                 count: action.response.count
             };
@@ -46,12 +46,13 @@ export default function reducer(state = initialState, action = {}) {
     }
 }
 
-export function load(professionId, title, selectedProfession) {
+export function load(professionId, title, selectedProfession, provinceId) {
     return {
         type: LOAD_PROFICIENTS,
         professionId,
         title,
-        selectedProfession
+        selectedProfession,
+        provinceId
     };
 }
 
@@ -69,12 +70,12 @@ export function loadFailure(error) {
     };
 }
 
-export function* watchLoadProficients(client, { professionId }) {
+export function* watchLoadProficients(client, { professionId, provinceId }) {
     try {
-        const response = yield client.get(`/professions/${professionId}/proficients`);
+        console.log(`/v1/professionals?profession=${professionId}${provinceId ? '&province='+provinceId : ''   }`)
+        const response = yield client.get(`/v1/professionals?profession=${professionId}${provinceId ? '&province='+provinceId : ''   }`);
         yield put(loadSuccess(response.data));
         yield put(END);
-
     } catch (error) {
         handleSagaError(error);
         yield put(loadFailure(error));

@@ -37,9 +37,11 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 
-export function loadProvinces() {
+export function loadProvinces(resolve, reject) {
     return {
-        type: LOAD_PROVINCES
+        type: LOAD_PROVINCES,
+        resolve,
+        reject
     };
 }
 
@@ -57,11 +59,14 @@ export function loadProvincesFailure(error) {
     };
 }
 
-export function* watchLoadProvinces(client) {
+export function* watchLoadProvinces(client, {resolve, reject}) {
     try {
         const response = yield client.get('/provinces');
         yield put(loadProvincesSuccess(response.data));
+        resolve && resolve(response.data);
     } catch (error) {
         yield put(loadProvincesFailure(error));
+        reject && reject();
+
     }
 }
