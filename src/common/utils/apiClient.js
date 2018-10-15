@@ -72,7 +72,9 @@ export default class ApiClient {
         const instance = axios.create({
             baseURL: apiPath,
             headers: fetchOptions.headers,
-            validateStatus
+            validateStatus: () => {
+                return true;
+            }
         });
         if (data) {
             return instance[options.method](url, data);

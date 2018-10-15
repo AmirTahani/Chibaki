@@ -21,6 +21,7 @@
     "jsx-a11y/href-no-hash": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "import/prefer-default-export": "off",
+    "import/no-unresolved": "off",
     "indent": [
       2,
       4,
@@ -74,7 +75,9 @@
   },
   "overrides": [
     {
-      "files": ["**/*.styles.js" ],
+      "files": [
+        "**/*.styles.js"
+      ],
       "rules": {
         "no-tabs": "off"
       }
