@@ -59,7 +59,7 @@ export function loadProvincesFailure(error) {
     };
 }
 
-export function* watchLoadProvinces(client, {resolve, reject}) {
+export function* watchLoadProvinces(client, { resolve, reject }) {
     try {
         const response = yield client.get('/provinces');
         yield put(loadProvincesSuccess(response.data));
@@ -67,6 +67,5 @@ export function* watchLoadProvinces(client, {resolve, reject}) {
     } catch (error) {
         yield put(loadProvincesFailure(error));
         reject && reject();
-
     }
 }

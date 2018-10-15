@@ -22,7 +22,7 @@ const months = [
 
 export default class MonthSelector extends Component {
     static propTypes = {
-        styles: PropTypes.ObjectOf(PropTypes.any),
+        styles: PropTypes.objectOf(PropTypes.any),
         selectedMonth: PropTypes.objectOf(PropTypes.any).isRequired
     };
 

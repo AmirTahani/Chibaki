@@ -11,7 +11,8 @@ class Services extends Component {
         selectedProfession: PropTypes.objectOf(PropTypes.any).isRequired,
         proficients: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         title: PropTypes.string.isRequired,
-        count: PropTypes.number.isRequired
+        count: PropTypes.number.isRequired,
+        provinces: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired
     };
 
     registerProject = () => {
@@ -20,7 +21,7 @@ class Services extends Component {
 
     render() {
         const { proficients, title, selectedProfession, count, provinces } = this.props;
-        console.log(proficients)
+        console.log(proficients);
         return (
             <div>
                 <Row type={'flex'} gutter={30}>
@@ -66,9 +67,9 @@ class Services extends Component {
                                             <Row>
                                                 <Col span={24}>
                                                     {/*<img*/}
-                                                        {/*src={`https://chibaki.ir/${item.profilePicture.filePath.replace('public', '')}`}*/}
-                                                        {/*className="prof-image"*/}
-                                                        {/*alt="user profile"*/}
+                                                    {/*src={`https://chibaki.ir/${item.profilePicture.filePath.replace('public', '')}`}*/}
+                                                    {/*className="prof-image"*/}
+                                                    {/*alt="user profile"*/}
                                                     {/*/>*/}
                                                 </Col>
                                             </Row>
@@ -104,6 +105,7 @@ class Services extends Component {
         );
     }
 }
+
 export default connect(
     state => ({
         proficients: state.proficients.proficients,
@@ -111,5 +113,5 @@ export default connect(
         selectedProfession: state.proficients.selectedProfession,
         count: state.proficients.count,
         provinces: state.provinces.provinces
-}))(Services);
+    }))(Services);
 

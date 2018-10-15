@@ -1,4 +1,3 @@
-// eslint-ignore-file
 import { Provider } from 'react-redux';
 import { match } from 'react-router';
 import { renderToString } from 'react-dom/server';

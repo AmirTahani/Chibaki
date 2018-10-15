@@ -1,5 +1,5 @@
 import { END } from 'redux-saga';
-import { loader, loadCategories } from '../redux/modules/professions'; //, LOAD_CATEGORIES_SUCCESS
+import { loader, loadCategories } from '../redux/modules/professions';
 import { load as loadProficients } from '../redux/modules/proficients';
 import { load as loadProfessional } from '../redux/modules/professional';
 import { loadProvinces } from '../redux/modules/provinces';
@@ -26,25 +26,25 @@ export async function handleRequestsByRoute(store, route) {
         const allData = await Promise.all([categories, Provinces]);
 
         let found = {};
-        if(query && query.city){
-            found = Provinces.find(item=> item.name  === query.city.replace('_', ' '));
+        if (query && query.city) {
+            found = Provinces.find(item => item.name === query.city.replace('_', ' '));
         }
 
         const professions = flattenProfessionsByCategories(categories);
         let professionId = '';
         let selectedProfession = {};
-        professions.forEach(profession => {
+        professions.forEach((profession) => {
             if (decodeURI(routeTitle) === profession.title) {
                 professionId = profession._id;
-                selectedProfession = profession
+                selectedProfession = profession;
             }
         });
 
-        store.dispatch(loadProficients(professionId, decodeURI(routeTitle), selectedProfession,found && found._id));
+        store.dispatch(loadProficients(professionId, decodeURI(routeTitle), selectedProfession, found && found._id));
     } else if (subRoute[1] === 'professional') {
-        store.dispatch(loadProfessional(subRoute[0]))
+        store.dispatch(loadProfessional(subRoute[0]));
     } else {
-        store.dispatch(END)
+        store.dispatch(END);
     }
 }
 
@@ -58,7 +58,7 @@ export function getMetaTags(state, route) {
     if (decodeURI(subRoute[1]) === 'خدمات') {
         const categories = state.professions.categories;
         const professions = flattenProfessionsByCategories(categories);
-        professions.forEach(profession => {
+        professions.forEach((profession) => {
             const professionUrlTitle = profession.title.split(' ').join('_');
             if (decodeURI(subRoute[0]) === professionUrlTitle) {
                 metaTags.description = profession.description;

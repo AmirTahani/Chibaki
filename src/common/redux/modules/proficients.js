@@ -72,8 +72,7 @@ export function loadFailure(error) {
 
 export function* watchLoadProficients(client, { professionId, provinceId }) {
     try {
-        console.log(`/v1/professionals?profession=${professionId}${provinceId ? '&province='+provinceId : ''   }`)
-        const response = yield client.get(`/v1/professionals?profession=${professionId}${provinceId ? '&province='+provinceId : ''   }`);
+        const response = yield client.get(`/v1/professionals?profession=${professionId}${provinceId ? `&province=${provinceId}` : ''}`);
         yield put(loadSuccess(response.data));
         yield put(END);
     } catch (error) {
