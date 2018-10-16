@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import styles from './ServiceStyle.module.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import Autocomplete from '../../components/Kit/AutoComplete/AutoComplete';
 
 class Services extends Component {
     static propTypes = {
@@ -25,6 +26,36 @@ class Services extends Component {
 
     registerProject = () => {
         console.log(this.props.selectedProfession, 'askjdakjdbasjkldb');
+    };
+
+    onProvinceSelect = (value, option) => {
+        // console.log('onSubmit', value, option);
+    };
+
+    getProfessionPrice = () => {
+        const { priceBase, priceRange } = this.props.selectedProfession;
+
+        let unit;
+        switch (priceBase) {
+            case 'Second':
+                unit = 'ثانیه ای';
+                break;
+            case 'Hour':
+                unit = 'ساعتی';
+                break;
+            case 'Day':
+                unit = 'روزی';
+                break;
+            case 'Month':
+                unit = 'ماهی';
+                break;
+            case 'Session':
+                unit = 'جلسه ای';
+                break;
+            case 'Project':
+                unit = 'پروژه ای';
+        }
+        return ` از ${unit} ${priceRange.min} تومان`;
     };
 
     render() {
@@ -51,80 +82,98 @@ class Services extends Component {
                 <div className={`l-container ${styles.container}`}>
 
                     <div className={styles.price}>
-                        شروع قیمت در چی باکی: از جلسه‌ای
+                        شروع قیمت در چی باکی:
+                        {this.getProfessionPrice()}
                     </div>
 
                     <div className={styles.desc}>
                         {selectedProfession.description}
                     </div>
 
-                    <Row type="flex">
-                        <Col span={24}>
+                    <div className={`${styles.section}`}>
+                        <div style={{ display: 'none' }}>
+                            <div>استان خود را انتخاب کنید</div>
                             <div>
-                                <Button onClick={this.registerProject}>
-                                    ثبت درخواست
-                                </Button>
+                                <Autocomplete
+                                    options={provinces.map((province) => {
+                                        province.title = province.name;
+                                        return province;
+                                    })}
+                                    onSubmit={this.onProvinceSelect}
+                                    showBtn={false}
+                                    placeholder="انتخاب استان"
+                                />
                             </div>
-                            <div>
-                                متخصصین
-                                {' '}
-                                {title}
-                                {' '}
-                                در چی‌باکی (
-                                {count}
-                                {' '}
-                                متخصص)
-                            </div>
-                            <span>نمایش تضادفی</span>
-                        </Col>
-                    </Row>
-                    {proficients.map((item) => {
-                        return (
-                            <Row type={'flex'} align={'middle'} justify={'center'}>
-                                <Link to={`/profession/${item.id}`}>
-                                    <Col span={8}>
-                                        <Row>
-                                            <Col span={4}>
-                                                <span>badge</span>
+                        </div>
+                        <div>
+                            <button className="c-btn c-btn--primary c-btn--lg" onClick={this.registerProject}>
+                                ثبت درخواست
+                            </button>
 
-                                            </Col>
-                                            <Col span={20}>
-                                                <Row>
-                                                    <Col span={24}>
-                                                        <img
-                                                            src={item.profilePicture && `https://chibaki.ir/${item.profilePicture.filePath.replace('public', '')}`}
-                                                            className={'prof-image'}
-                                                        />
+                        </div>
+                    </div>
 
-                                                    </Col>
-                                                </Row>
-                                                <Row>
-                                                    <Col span={24}>
-                                                        <span>{`${item.firstname} ${item.lastname}`}</span>
-                                                    </Col>
-                                                </Row>
 
-                                            </Col>
-                                        </Row>
-                                    </Col>
-                                    <Col span={16}>
-                                        <Row>
-                                            {item.introDescription}
-                                        </Row>
-                                        <Row>
-                                            <button>
-                                                مشاهده پروفایل
-                                            </button>
-                                        </Row>
-                                    </Col>
-                                </Link>
-                            </Row>
-                        );
-                    })}
-                    <div>
-                        <button>
-                            مشاهده بیشتر
-                        </button>
+                    <div style={{ display: 'none' }}>
+                        <div>
+                            متخصصین
+                            {' '}
+                            {title}
+                            {' '}
+                            در چی‌باکی (
+                            {count}
+                            {' '}
+                            متخصص)
+                        </div>
+                        <span>نمایش تضادفی</span>
+                        {proficients.map((item) => {
+                            return (
+                                <Row type={'flex'} align={'middle'} justify={'center'}>
+                                    <Link to={`/profession/${item.id}`}>
+                                        <Col span={8}>
+                                            <Row>
+                                                <Col span={4}>
+                                                    <span>badge</span>
+
+                                                </Col>
+                                                <Col span={20}>
+                                                    <Row>
+                                                        <Col span={24}>
+                                                            <img
+                                                                src={item.profilePicture && `https://chibaki.ir/${item.profilePicture.filePath.replace('public', '')}`}
+                                                                className={'prof-image'}
+                                                            />
+
+                                                        </Col>
+                                                    </Row>
+                                                    <Row>
+                                                        <Col span={24}>
+                                                            <span>{`${item.firstname} ${item.lastname}`}</span>
+                                                        </Col>
+                                                    </Row>
+
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                        <Col span={16}>
+                                            <Row>
+                                                {item.introDescription}
+                                            </Row>
+                                            <Row>
+                                                <button>
+                                                    مشاهده پروفایل
+                                                </button>
+                                            </Row>
+                                        </Col>
+                                    </Link>
+                                </Row>
+                            );
+                        })}
+                        <div>
+                            <button>
+                                مشاهده بیشتر
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <Footer />

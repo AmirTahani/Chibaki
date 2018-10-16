@@ -1,9 +1,13 @@
 .wrapper {
-	background-color: #DEE5EB;
+	background-color: #f6f7f9;
 }
 
 .container {
 	padding: 0 20px;
+}
+
+.section {
+	padding: 20px;
 }
 
 .hero {
@@ -82,14 +86,21 @@
 	text-align: center;
 
 	color: #02BE64;
+
+	margin-top: 3.8rem;
 }
 
 .desc {
 	background-color: #fff;
 
-	padding: 2rem;
+	padding: 1.8rem 2.2rem;
 	border-radius: 5px;
 	margin-top: 2.8rem;
+
+	color: #334657;
+
+	font-size: 1.1rem;
+	line-height: 2.1;
 }
 
 @media (max-width: 768px) {
