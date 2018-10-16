@@ -6,6 +6,7 @@ import questions from './modules/questions';
 import provinces from './modules/provinces';
 import professional from './modules/professional';
 import auth from './modules/auth';
+import ProjectsForProfession from './modules/projectsForProfession';
 
 export default combineReducers({
     professions,
@@ -13,5 +14,6 @@ export default combineReducers({
     questions,
     provinces,
     professional,
-    auth
+    auth,
+    ProjectsForProfession
 });

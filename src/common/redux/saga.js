@@ -34,6 +34,11 @@ import {
 } from './modules/professional';
 
 import {
+    LOAD as LOAD_PROJECTS_PROF,
+    watchLoad as watchLoadProjectsForProfession
+} from './modules/projectsForProfession';
+
+import {
     LOGIN,
     watchLogin,
     REGISTER,
@@ -55,6 +60,7 @@ export default function* root(client, store) {
         takeEvery(LOAD_PROFESSIONAL, watchLoadProfessional, client),
         takeEvery(LOGIN, watchLogin, client),
         takeEvery(REGISTER, watchRegister, client),
-        takeEvery(VERIFY, watchVerifyMobile, client)
+        takeEvery(VERIFY, watchVerifyMobile, client),
+        takeEvery(LOAD_PROJECTS_PROF, watchLoadProjectsForProfession, client)
     ]);
 }

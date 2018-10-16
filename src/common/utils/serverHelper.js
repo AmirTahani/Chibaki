@@ -3,6 +3,7 @@ import { loader, loadCategories } from '../redux/modules/professions';
 import { load as loadProficients } from '../redux/modules/proficients';
 import { load as loadProfessional } from '../redux/modules/professional';
 import { loadProvinces } from '../redux/modules/provinces';
+import { load as loadProjectsForProf } from '../redux/modules/projectsForProfession';
 
 
 export async function handleRequestsByRoute(store, route) {
@@ -25,9 +26,9 @@ export async function handleRequestsByRoute(store, route) {
         });
         const allData = await Promise.all([categories, Provinces]);
 
-        let found = {};
+        let foundProvince = {};
         if (query && query.city) {
-            found = Provinces.find(item => item.name === query.city.replace('_', ' '));
+            foundProvince = Provinces.find(item => item.name === query.city.replace('_', ' '));
         }
 
         const professions = flattenProfessionsByCategories(categories);
@@ -39,8 +40,15 @@ export async function handleRequestsByRoute(store, route) {
                 selectedProfession = profession;
             }
         });
+        const Prof = await new Promise((resolve, reject) => {
+            store.dispatch(loadProficients(resolve, reject, professionId, decodeURI(routeTitle), selectedProfession, foundProvince && foundProvince._id));
+        });
+        const projects = await new Promise((resolve, reject) => {
+            store.dispatch(loadProjectsForProf(resolve, reject, professionId, foundProvince && foundProvince._id));
+        });
+        await Promise.all([Prof, projects]);
 
-        store.dispatch(loadProficients(professionId, decodeURI(routeTitle), selectedProfession, found && found._id));
+        store.dispatch(END);
     } else if (subRoute[1] === 'professional') {
         store.dispatch(loadProfessional(subRoute[0]));
     } else {
