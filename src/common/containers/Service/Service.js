@@ -12,7 +12,8 @@ class Services extends Component {
         proficients: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         title: PropTypes.string.isRequired,
         count: PropTypes.number.isRequired,
-        provinces: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired
+        provinces: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+        ProjectsForProfession: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired
     };
 
     registerProject = () => {
@@ -20,8 +21,8 @@ class Services extends Component {
     };
 
     render() {
-        const { proficients, title, selectedProfession, count, provinces } = this.props;
-        console.log(proficients);
+        const { proficients, title, selectedProfession, count, provinces, ProjectsForProfession } = this.props;
+        console.log(ProjectsForProfession);
         return (
             <div>
                 <Row type={'flex'} gutter={30}>
@@ -112,6 +113,7 @@ export default connect(
         title: state.proficients.title,
         selectedProfession: state.proficients.selectedProfession,
         count: state.proficients.count,
-        provinces: state.provinces.provinces
+        provinces: state.provinces.provinces,
+        ProjectsForProfession: state.ProjectsForProfession.ProjectsForProfession
     }))(Services);
 
