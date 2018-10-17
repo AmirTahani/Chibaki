@@ -1,7 +1,6 @@
 import { put } from 'redux-saga/effects';
 import { handleSagaError } from '../../utils/handleSagaError';
 
-
 export const LOGIN = 'ssr/auth/LOGIN';
 export const LOGIN_SUCCESS = 'ssr/auth/LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'ssr/auth/LOGIN_FAILURE';
@@ -109,13 +108,11 @@ export default function reducer(state = initialState, action = {}) {
                 code: action.code
             };
         case SET_USER_NAME:
-            console.log(action, 'this is fuckiong action ');
             return {
                 ...state,
                 firstName: action.name
             };
         case SET_USER_LAST_NAME:
-            console.log(action, 'this is fuckong acitomn');
             return {
                 ...state,
                 lastName: action.name
@@ -125,9 +122,11 @@ export default function reducer(state = initialState, action = {}) {
     }
 }
 
-export function clearState() {
+export function clearState(stateKey, stateValue) {
     return {
-        type: CLEAR_STATE
+        type: CLEAR_STATE,
+        stateValue,
+        stateKey
     };
 }
 
@@ -215,7 +214,6 @@ export function setUserCode(code) {
 }
 
 export function setUserName(name) {
-    console.log('set user nmae', name);
     return {
         type: SET_USER_NAME,
         name
@@ -223,7 +221,6 @@ export function setUserName(name) {
 }
 
 export function setUserLastName(name) {
-    console.log('set lastname', name);
     return {
         type: SET_USER_LAST_NAME,
         name
@@ -254,7 +251,6 @@ export function* watchRegister(client, { firstName, lastName, mobile, resolve, r
         };
         const response = yield client.post('/signup', { data });
         yield put(registerSuccess(response.data));
-        console.log(response, ' this is response');
         resolve && resolve();
     } catch (error) {
         console.log(error, 'this is error');
@@ -267,11 +263,10 @@ export function* watchRegister(client, { firstName, lastName, mobile, resolve, r
 export function* watchVerifyMobile(client, { code, resolve, reject }) {
     try {
         const response = yield client.post('/verify-mobile', { code });
-        yield put(verifySuccess(response));
+        yield put(verifySuccess(response.data));
         resolve && resolve();
     } catch (error) {
         yield handleSagaError(error);
         reject && reject(error);
     }
 }
-

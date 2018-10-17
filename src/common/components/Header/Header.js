@@ -10,7 +10,6 @@ class Header extends Component {
             <HeaderComponent>
                 <HeaderInner>
                     <Nav />
-
                     <Logo>
                         <Link to="/">
                             <div className="sr-only">چی باکی</div>
