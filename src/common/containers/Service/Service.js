@@ -5,10 +5,10 @@ import { Row, Col, Tooltip, Button } from 'antd';
 import objectFitImages from 'object-fit-images';
 import { connect } from 'react-redux';
 
-import styles from './ServiceStyle.module.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Autocomplete from '../../components/Kit/AutoComplete/AutoComplete';
+import styles from './Service.module.styl';
 
 class Services extends Component {
     static propTypes = {
@@ -60,7 +60,7 @@ class Services extends Component {
 
     render() {
         const { proficients, title, selectedProfession, count, provinces, ProjectsForProfession } = this.props;
-        console.log(ProjectsForProfession);
+        console.log(proficients);
         return (
             <div className={styles.wrapper}>
                 <Header />
@@ -79,7 +79,7 @@ class Services extends Component {
                     </div>
                 </div>
 
-                <div className={`l-container ${styles.container}`}>
+                <div className={styles.container}>
 
                     <div className={styles.price}>
                         شروع قیمت در چی باکی:
@@ -90,7 +90,7 @@ class Services extends Component {
                         {selectedProfession.description}
                     </div>
 
-                    <div className={`${styles.section}`}>
+                    <div className={`${styles.section} u-t--c`}>
                         <div style={{ display: 'none' }}>
                             <div>استان خود را انتخاب کنید</div>
                             <div>
@@ -114,64 +114,96 @@ class Services extends Component {
                     </div>
 
 
-                    <div style={{ display: 'none' }}>
+                    <div>
                         <div>
-                            متخصصین
-                            {' '}
-                            {title}
-                            {' '}
-                            در چی‌باکی (
-                            {count}
-                            {' '}
-                            متخصص)
+                            <h1 className={styles.title}>
+                                متخصصین
+                                {' '}
+                                {title}
+                                {' '}
+                                در چی باکی (
+                                {count}
+                                {' '}
+                                متخصص)
+                            </h1>
+                            <div className={styles.subtitle}>نمایش تصادفی</div>
                         </div>
-                        <span>نمایش تضادفی</span>
-                        {proficients.map((item) => {
-                            return (
-                                <Row type={'flex'} align={'middle'} justify={'center'}>
+                        <div>
+                            {proficients.map((item) => {
+                                return (
                                     <Link to={`/profession/${item.id}`}>
-                                        <Col span={8}>
-                                            <Row>
-                                                <Col span={4}>
-                                                    <span>badge</span>
+                                        <div className={`c-card ${styles.card}`}>
+                                            <Row type="flex">
+                                                <Col span={8}>
+                                                    <Row type="flex" className="l-flex-row-r">
+                                                        <Col span={4}>
+                                                            <span>badge</span>
 
-                                                </Col>
-                                                <Col span={20}>
-                                                    <Row>
-                                                        <Col span={24}>
-                                                            <img
-                                                                src={item.profilePicture && `https://chibaki.ir/${item.profilePicture.filePath.replace('public', '')}`}
-                                                                className={'prof-image'}
-                                                            />
+                                                        </Col>
+                                                        <Col span={20}>
+                                                            <Row type="flex">
+                                                                <Col span={24}>
+                                                                    <img
+                                                                        src={
+                                                                            item &&
+                                                                            item.trust &&
+                                                                            item.trust.profilePicture &&
+                                                                            item.trust.profilePicture.filePath
+                                                                                ? `https://chibaki.ir${item.trust.profilePicture.filePath.replace('public', '')}`
+                                                                                : 'https://chibaki.ir/profile/images/unknown.jpg'
+                                                                        }
+                                                                        alt={`${item.firstname} ${item.lastname}`}
+                                                                        className={styles.avatar}
+                                                                    />
+                                                                </Col>
+                                                            </Row>
+                                                            <Row>
+                                                                <Col span={24}>
+                                                                    <div
+                                                                        className={styles.cardName}
+                                                                    >
+                                                                        {`${item.firstname} ${item.lastname}`}
+                                                                    </div>
+                                                                </Col>
+                                                            </Row>
 
                                                         </Col>
                                                     </Row>
-                                                    <Row>
-                                                        <Col span={24}>
-                                                            <span>{`${item.firstname} ${item.lastname}`}</span>
+                                                </Col>
+                                                <Col span={16}>
+                                                    <Row type={'flex'}>
+                                                        <Col>
+                                                            <div className={styles.cardDesc}>
+                                                                {item.introDescription || 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. '}
+                                                            </div>
                                                         </Col>
                                                     </Row>
-
+                                                    <Row>
+                                                        <Col>
+                                                            <Row type="flex" justify="space-between">
+                                                                <Col>
+                                                                    تعداد دفعات
+                                                                </Col>
+                                                                <Col>
+                                                                    <button
+                                                                        className={styles.btn}
+                                                                    >
+                                                                        مشاهده پروفایل
+                                                                    </button>
+                                                                </Col>
+                                                            </Row>
+                                                        </Col>
+                                                    </Row>
                                                 </Col>
                                             </Row>
-                                        </Col>
-                                        <Col span={16}>
-                                            <Row>
-                                                {item.introDescription}
-                                            </Row>
-                                            <Row>
-                                                <button>
-                                                    مشاهده پروفایل
-                                                </button>
-                                            </Row>
-                                        </Col>
+                                        </div>
                                     </Link>
-                                </Row>
-                            );
-                        })}
+                                );
+                            })}
+                        </div>
                         <div>
                             <button>
-                                مشاهده بیشتر
+                                شاهده بیشتر
                             </button>
                         </div>
                     </div>
@@ -190,4 +222,5 @@ export default connect(
         count: state.proficients.count,
         provinces: state.provinces.provinces,
         ProjectsForProfession: state.ProjectsForProfession.ProjectsForProfession
-    }))(Services);
+    })
+)(Services);

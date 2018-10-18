@@ -147,7 +147,7 @@ class Professional extends Component {
                                         ${professional.user.trust.profilePicture.filePath.replace('public', '')}`
                                         : 'https://chibaki.ir/profile/images/unknown.jpg'
                                 }
-                                alt="user avatar"
+                                alt={`${professional.user.firstname} ${professional.user.lastname}`}
                                 className={styles.avatar}
                             />
                         </Row>

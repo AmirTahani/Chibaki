@@ -1,0 +1,438 @@
+@import 'variables'
+
+.u
+	
+	&-h
+		// @heading
+		&--1
+		&--2
+			font-size 1.2rem
+			font-weight 900
+			margin-bottom .7rem
+		
+		&--2
+			font-size 1rem
+	
+		&--3
+			font-size 1rem
+			margin-bottom .6rem
+	
+		&--4
+			font-size .75rem
+			margin-bottom .5rem
+	
+		&--5
+			font-size 13px
+			font-weight 500
+			margin 16px 0 12px
+			text-align center
+
+	&-hr
+		// @header
+		&--1
+		&--2
+			font-size 1.2rem
+			font-weight 900
+			margin-bottom 1.6rem
+			text-align center
+			color $black1
+
+		&--1
+			margin-top 1.6rem
+
+		&--2
+			margin-top .9rem
+
+	&-b
+		// @weight
+		&--1
+			font-weight 100
+
+		&--3
+			font-weight 300
+
+		&--5
+			font-weight 600
+
+		&--7
+			font-weight 700
+
+		&--9
+			font-weight 900
+
+	&-s
+		// @size
+		&--1
+			font-size .5rem
+		
+		&--2
+			font-size 11.5px
+
+		&--3
+			font-size .9rem
+
+		&--4
+			font-size 1rem
+
+		&--5
+			font-size 1.2rem
+
+		&--7
+			font-size 3rem
+
+	&-c
+		// @color
+		&--1
+			color $black1
+
+		&--2
+			color $black2
+
+		&--3
+			color $black3
+
+		&--p
+			// @primary color
+			color $color !important
+
+		&--b
+			// @blue
+			color #19ede9
+
+		&r
+			// @red
+			&--1
+				color #e53935
+
+			&--2
+				color #d84315
+
+			&--3
+				color #d50000
+
+		&y
+			// @yellow
+			&--1
+				color #E65100
+
+		&-o
+			// @orange
+			&--1
+				color #FF8160
+
+	&-p
+		&--1
+			line-height 2
+			font-size .85rem
+			font-weight 600
+
+	&-height
+		// @height
+		&-1
+			min-height 100%
+
+		&-a
+			height auto !important
+
+	&-w
+		// @width
+		&--1
+			min-width 100%
+
+	&-lh
+		// @lineheight
+		&--16
+			line-height 1.6
+
+	&-of
+		// @overflow
+		&--auto
+			&-y
+				overflow-y auto !important
+
+	&-d
+		&--ib
+			display inline-block !important
+
+		~/-hide
+			display none
+
+			&-lg
+				@media (max-width $lg)
+					display none
+
+			&-sm
+				@media (max-width $sm)
+					display none
+					
+			&-gt-sm
+				@media (min-width $sm + 1)
+					display none
+
+		// @display
+		&--b
+			display block !important
+
+			&-lg
+				@media (max-width $lg)
+					display block
+
+			&-sm
+				@media (max-width $sm)
+					display block
+
+		&--f
+			
+			&-sm
+				@media (max-width $sm)
+					display flex
+
+	&-f
+		// @flex
+		display flex !important
+
+		&--eq
+			> *
+				flex 1 1 100%
+
+		&--sa
+			justify-content space-around
+
+		&--cen
+			justify-content center
+
+		&--mid
+			align-items center
+
+		&-as
+			// @align-self
+			&--e
+				// @end
+				align-self flex-end
+
+	&-t
+		// @text
+		&--c
+			text-align center
+
+	&-mute
+		// grey color for links
+		color #999
+
+		a
+			color #999
+
+			&:hover
+				color #666
+
+	&-fl
+		// @float
+
+		&--l
+			float left
+
+		&--r
+			float right
+
+	&-lk
+		// @link
+
+		&--no-u
+			// @no-underline
+			&
+			a
+				text-decoration none
+
+	&-m
+		// @margin
+		&--0
+			margin 0
+
+		// Y Axis Margin
+		&--y
+			margin-top 10px
+			margin-bottom 10px
+
+			&-m
+				margin-top 20px
+				margin-bottom 20px
+
+		&--r
+			// Right margin
+			&-m
+				margin-right 20px
+
+			&-0
+				margin-right 0
+
+			&-a
+				margin-right auto
+
+		&--b
+			// Bottom margin
+			margin-bottom 15px
+
+			&-m
+				margin-bottom 20px
+
+			&-s
+				margin-bottom 10px
+
+			&-0
+				margin-bottom 0
+
+			&-0-s
+				@media (min-width 600px)
+					margin-bottom 0
+
+		&--t
+			// Top margin
+			margin-top 10px
+
+			&-m
+				margin-top 20px
+
+			&-l
+				margin-top 40px
+
+			&-0
+				margin-top 0
+
+
+		&--l
+			// Left margin
+			margin-left 10px
+
+			&-s
+				margin-left 5px
+
+	&-p
+		// @padding
+		&--a
+			padding 10px
+
+			&-l
+				padding 40px
+
+		&--x
+			padding-right 10px
+			padding-left 10px
+
+			&-m
+				padding-left 20px
+				padding-right 20px
+
+		&--y
+			padding-top 10px
+			padding-bottom 10px
+
+			&-s
+				padding-top 5px
+				padding-bottom 5px
+
+		&--t
+			padding-top 10px
+
+			&-m
+				padding-top 20px
+
+			// Extra large
+			&-x
+				padding-top 60px
+
+		&--b
+
+			&-0
+				padding-bottom 0
+
+			&-l
+				padding-bottom 40px
+
+
+		&--l
+			// Left padding
+			padding-left 10px
+
+			&-s
+				padding-left 5px
+
+	&-strike
+		position relative
+		overflow hidden
+		padding 5px 0
+		color inherit
+
+		&:after
+			content ''
+
+			color inherit
+			position absolute
+			top 50%
+			left 0
+			width 100%
+
+			border-bottom 2px solid
+			transform skewY(-45deg)
+
+	&--remove-spacer
+		// remove md-errors-spacer of angularjsMaterial for showing errors
+		.md-errors-spacer
+			min-height 0
+
+.progress
+	position relative
+	margin 0 auto
+	border-radius 16px
+
+	.card--profile &
+		margin-top 2rem
+
+	&--md
+		max-width 15rem
+		margin-left auto
+		margin-right auto
+
+	&--sm
+		max-width 10rem
+		margin-top 11px
+
+	&--over
+		.progress-bar:after
+			color #fff
+
+.input
+
+	&--large
+		font-weight 900
+		font-size 2.4rem
+		text-align center
+		width 300px
+		line-height 70px
+		height 70px !important
+
+	&::-webkit-input-placeholder
+		font-size 1.2rem
+		line-height 70px
+		transform translateY(-5px)
+
+	&::-moz-placeholder
+		font-size 1.2rem
+		line-height 70px
+		transform translateY(-5px)
+
+	&:-ms-input-placeholder
+		font-size 1.2rem
+		line-height 70px
+		transform translateY(-5px)
+
+	&__meta
+		margin-top .2rem
+		color #757575
+		font-size .8rem
+		line-height 1.6
+
+		&--mt
+			margin-top .55rem
+
+.ui-select-placeholder
+		padding-right 1rem
