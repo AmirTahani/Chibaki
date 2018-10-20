@@ -2,7 +2,7 @@ import { Router, Route, browserHistory } from 'react-router';
 import React from 'react';
 import 'antd/dist/antd.less';
 import './App.styl';
-import '../../styles/container.styl';
+import '../../styles/container.module.styl';
 import '../../styles/grid.styl';
 import '../../styles/icon.styl';
 import '../../styles/App.styl';

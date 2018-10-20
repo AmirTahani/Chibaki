@@ -142,9 +142,9 @@ module.exports = {
                     loader: require.resolve('css-loader/locals'),
                     options: {
                         modules: true,
-                        importLoaders: 1,
+                        importLoaders: 2,
                         localIdentName: '[path]__[name]___[local]',
-                    },
+                    }
                 },
                 'stylus-loader'
             ] : IS_DEV ? [
@@ -153,7 +153,7 @@ module.exports = {
                     loader: require.resolve('css-loader'),
                     options: {
                         modules: true,
-                        importLoaders: 1,
+                        importLoaders: 2,
                         localIdentName: '[path]__[name]___[local]',
                     },
                 },
@@ -176,7 +176,7 @@ module.exports = {
                         loader: require.resolve('css-loader'),
                         options: {
                             modules: true,
-                            importLoaders: 1,
+                            importLoaders: 2,
                             minimize: true,
                             localIdentName: '[path]__[name]___[local]',
                         },

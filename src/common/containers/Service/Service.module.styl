@@ -1,10 +1,12 @@
+@import '../../styles/variables.styl'
+
 .wrapper
 	background-color: #f6f7f9
-	
+
 .container
-	composes l-container from '../../styles/container.styl'
+	composes l-container from '../../styles/container.module.styl'
 	padding: 0 20px
-	
+
 .section
 	padding: 40px 20px;
 
@@ -31,7 +33,7 @@
 	height: 100%;
 	
 	z-index: 1;
-
+	
 	&:after
 		content: '';
 		
@@ -44,7 +46,7 @@
 		
 		background-color: rgba(0, 0, 0, .3);
 		z-index: 2;
-
+	
 	img
 		width: 100%;
 		height: 100%;
@@ -106,21 +108,68 @@
 	line-height: 1;
 
 .card
+	composes c-card from '../../styles/card.styl'
+	
 	margin: 30px 0 0 0 !important
-	padding: 2.4rem
+	padding: 0 !important
+	
+	border 1px solid alpha(#9BB2C6, 30%) !important
+	box-shadow: none !important
 	
 	color: #000
-	
-	composes c-card from '../../styles/card.styl'
 	
 	&:hover
 	&:focus
 		.btn
 			background-color: #0e6ccb;
-			
+	
+	&Right
+	&Left
+		padding: 2.4rem
+	
+	&Left
+		display: flex
+		flex-direction: column
+		justify-content: space-between;
+	
+	&Right
+		border-left: 1px solid alpha(#9BB2C6, 30%)
+	
+	&Rate
+		text-align: center
+		margin-top: 10px
+
 .btn
 	composes c-btn c-btn--primary c-btn--lg from '../../styles/btn.styl'
-
+	
+	&More
+		appearance: none
+		
+		color: alpha(#758CA0, 75%)
+		font-size: 18px
+		
+		padding: 11px 27px
+		border-radius: 50px
+		
+		line-height: 27px
+		
+		box-shadow: 0 3px 6px alpha(#758CA0, 60%);
+		border 1px solid rgba(0, 0, 0, 0)
+		
+		cursor: pointer
+		transition .1s
+		
+		margin: 30px 10px
+		text-align: center
+		
+		&:hover
+		&:focus
+			outline none
+			color $color
+		
+		&:active
+			color darken($color, 30%)
+			
 .avatar
 	width: 150px;
 	height: 150px;
@@ -139,16 +188,50 @@
 	color: #000;
 	font-size: 1.5rem;
 	font-weight: 900;
-	margin-top: 5px;
+	margin-top: 8px;
 	text-align: center;
 
 .cardDesc
+	position: relative
+	
 	color: #758CA0;
 	font-size: 21px;
 	
-	line-height: 1.7;
-	padding: 20px;
-	margin-bottom: 20px;
+	line-height: 36px;
+	height: 144px
+	
+	margin: 20px 10px 30px 50px
+	
+	overflow: hidden
+	
+	&:after
+		content ''
+		
+		position: absolute
+		bottom: 0
+		left: 0
+		width: 90%
+		height: 36px
+		
+		background linear-gradient(to right, #fff 90%, rgba(0, 0, 0, 0))
+
+.badge
+	margin: 5px
+	text-align: center
+	opacity: .4
+	
+	&Active
+		opacity: 1
+	
+	&Wrapper
+		//
+	&Text
+		display: none
+	
+	&Img
+		width: 60px
+		height: 47px
+		object-fit cover
 
 @media (max-width: 768px)
 	.container
@@ -164,3 +247,5 @@
 		margin-bottom: .7rem;
 		
 		line-height: 1.5;
+
+

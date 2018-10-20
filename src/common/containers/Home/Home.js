@@ -9,7 +9,7 @@ import Hero from '../../components/Hero/Hero';
 import Questions from '../../components/Questions/Questions';
 import HowItWorks from '../../components/Kit/HowItWorks/HowItWorks';
 import ProfessionSliders from '../../components/Professions/Slider/Slider';
-import '../../styles/container.styl';
+import '../../styles/container.module.styl';
 import './Home.css';
 
 class Home extends Component {

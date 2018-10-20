@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { Row, Col, Tooltip, Button } from 'antd';
+import { Row, Col, Tooltip, Button, Rate } from 'antd';
 import objectFitImages from 'object-fit-images';
 import { connect } from 'react-redux';
 
@@ -60,7 +60,7 @@ class Services extends Component {
 
     render() {
         const { proficients, title, selectedProfession, count, provinces, ProjectsForProfession } = this.props;
-        console.log(proficients);
+        console.log(ProjectsForProfession);
         return (
             <div className={styles.wrapper}>
                 <Header />
@@ -134,13 +134,82 @@ class Services extends Component {
                                     <Link to={`/profession/${item.id}`}>
                                         <div className={`c-card ${styles.card}`}>
                                             <Row type="flex">
-                                                <Col span={8}>
-                                                    <Row type="flex" className="l-flex-row-r">
-                                                        <Col span={4}>
-                                                            <span>badge</span>
+                                                <Col span={9} className={styles.cardRight}>
+                                                    <Row type="flex" justify="space-between" className="l-flex-row-r">
+                                                        <Col span={6}>
+                                                            <div
+                                                                className={styles.badgeWrapper}
+                                                            >
+                                                                <div
+                                                                    className={`l-flex-shrink ${styles.badge}
+                                                                    ${item.trust.addressProof.verified && styles.badgeActive}`}
+                                                                >
+                                                                    <Row>
+                                                                        <Col span={24}>
+                                                                            <img src="/assets/images/badge/address.svg" alt="آدرس" className={styles.badgeImg} />
+                                                                        </Col>
+                                                                        <Col className={styles.badgeText} span={24}>
+                                                                            آدرس
+                                                                        </Col>
+                                                                    </Row>
+                                                                </div>
+                                                                <div
+                                                                    className={`l-flex-shrink ${styles.badge}
+                                        ${item.trust.idCard.verified && styles.badgeActive}`}
+                                                                >
+                                                                    <Row>
+                                                                        <Col span={24}>
+                                                                            <img src="/assets/images/badge/idCard.svg" alt="" className={styles.badgeImg} />
+                                                                        </Col>
+                                                                        <Col className={styles.badgeText} span={24}>
+                                                                            کارت ملی
+                                                                        </Col>
+                                                                    </Row>
+                                                                </div>
+                                                                <div
+                                                                    className={`l-flex-shrink ${styles.badge}
+                                        ${item.trust.certificate.verified && styles.badgeActive}`}
+                                                                >
+                                                                    <Row>
+                                                                        <Col span="24">
+                                                                            <img src="/assets/images/badge/degree.svg" alt="مدرک تحصیلی" className={styles.badgeImg} />
+                                                                        </Col>
+                                                                        <Col className={styles.badgeText} span="24">
+                                                                            مدرک تحصیلی
+                                                                        </Col>
+                                                                    </Row>
+                                                                </div>
+                                                                <div
+                                                                    className={`l-flex-shrink ${styles.badge}
+                                       ${item.trust.identity.verified && item.trust.identity.filePath && styles.badgeActive}`}
+                                                                >
+                                                                    <Row>
+                                                                        <Col span="24">
+                                                                            <img src="/assets/images/badge/identity.svg" alt="تایید هویت" className={styles.badgeImg} />
+                                                                        </Col>
+                                                                        <Col className={styles.badgeText} span={24}>
+                                                                            تایید هویت
+                                                                        </Col>
+                                                                    </Row>
+                                                                </div>
+                                                                <div
+                                                                    span={24}
+                                                                    className={`l-flex-shrink ${styles.badge}
+                                        ${item.trust.backgroundCheck.verified && styles.badgeActive}`}
+                                                                >
+                                                                    <Row>
+                                                                        <Col span={24}>
+                                                                            <img src="/assets/images/badge/backgroundcheck.svg" alt="گواهی عدم سو پیشینه" className={styles.badgeImg} />
+                                                                        </Col>
+                                                                        <Col className={styles.badgeText} span={24}>
+                                                                            گواهی عدم سوء‌پیشینه
+                                                                        </Col>
+                                                                    </Row>
+                                                                </div>
+                                                            </div>
 
                                                         </Col>
-                                                        <Col span={20}>
+                                                        <Col span={16}>
                                                             <Row type="flex">
                                                                 <Col span={24}>
                                                                     <img
@@ -164,13 +233,19 @@ class Services extends Component {
                                                                     >
                                                                         {`${item.firstname} ${item.lastname}`}
                                                                     </div>
+                                                                    <div className={styles.cardRate}>
+                                                                        <Rate
+                                                                            disabled
+                                                                            defaultValue={item.rate}
+                                                                        />
+                                                                    </div>
                                                                 </Col>
                                                             </Row>
 
                                                         </Col>
                                                     </Row>
                                                 </Col>
-                                                <Col span={16}>
+                                                <Col span={15} className={styles.cardLeft}>
                                                     <Row type={'flex'}>
                                                         <Col>
                                                             <div className={styles.cardDesc}>
@@ -182,7 +257,7 @@ class Services extends Component {
                                                         <Col>
                                                             <Row type="flex" justify="space-between">
                                                                 <Col>
-                                                                    تعداد دفعات
+                                                                    {/*<div> تعداد دفعات</div>*/}
                                                                 </Col>
                                                                 <Col>
                                                                     <button
@@ -201,9 +276,9 @@ class Services extends Component {
                                 );
                             })}
                         </div>
-                        <div>
-                            <button>
-                                شاهده بیشتر
+                        <div className="u-t--c">
+                            <button className={styles.btnMore}>
+                                نمایش بیشتر
                             </button>
                         </div>
                     </div>
