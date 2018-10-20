@@ -9,6 +9,7 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Autocomplete from '../../components/Kit/AutoComplete/AutoComplete';
 import HowItWorks from '../../components/Kit/HowItWorks/HowItWorks';
+import Features from '../../components/Features/Features';
 import styles from './Service.module.styl';
 
 class Services extends Component {
@@ -132,8 +133,8 @@ class Services extends Component {
                         <div>
                             {proficients.map((item) => {
                                 return (
-                                    <Link to={`/profession/${item.id}`}>
-                                        <div className={`c-card ${styles.card}`}>
+                                    <Link to={`/professional/${item._id}`} className={styles.cardLink}>
+                                        <div className={styles.card}>
                                             <Row type="flex">
                                                 <Col span={9} className={styles.cardRight}>
                                                     <Row type="flex" justify="space-between" className="l-flex-row-r">
@@ -283,10 +284,12 @@ class Services extends Component {
                             </button>
                         </div>
                     </div>
-
-                    <HowItWorks />
-
                 </div>
+
+                <HowItWorks />
+
+                <Features />
+
                 <Footer />
             </div>
         );

@@ -4,7 +4,7 @@
 	background-color: #f6f7f9
 
 .container
-	composes l-container from '../../styles/container.module.styl'
+	composes l-container from '../../styles/container.styl'
 	padding: 0 20px
 
 .section
@@ -118,11 +118,18 @@
 	
 	color: #000
 	
-	&:hover
-	&:focus
-		.btn
-			background-color: #0e6ccb;
-	
+	&Link
+		&:hover
+		&:focus
+			outline none
+			text-decoration: none
+			
+			.card
+				//border-color $color !important
+			
+			.btn
+				background-color: #0e6ccb;
+				
 	&Right
 	&Left
 		padding: 2.4rem
@@ -166,9 +173,11 @@
 		&:focus
 			outline none
 			color $color
+			border-color $color
 		
 		&:active
 			color darken($color, 30%)
+			border-color darken($color, 30%)
 			
 .avatar
 	width: 150px;
