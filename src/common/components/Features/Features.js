@@ -6,6 +6,9 @@ export default class Features extends Component {
     render() {
         return (
             <div>
+                <div className="c-section__heading">
+                    چرا چی باکی؟
+                </div>
                 <div className={styles.features} id="features">
                     <div className="l-container">
                         <div className={styles.features__grid}>

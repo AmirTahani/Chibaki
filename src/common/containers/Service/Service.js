@@ -10,6 +10,7 @@ import Footer from '../../components/Footer/Footer';
 import Autocomplete from '../../components/Kit/AutoComplete/AutoComplete';
 import HowItWorks from '../../components/Kit/HowItWorks/HowItWorks';
 import Features from '../../components/Features/Features';
+import GetApp from '../../components/GetApp/GetApp';
 import styles from './Service.module.styl';
 
 class Services extends Component {
@@ -289,6 +290,8 @@ class Services extends Component {
                 <HowItWorks />
 
                 <Features />
+
+                <GetApp />
 
                 <Footer />
             </div>

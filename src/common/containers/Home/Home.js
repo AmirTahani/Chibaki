@@ -9,6 +9,7 @@ import Hero from '../../components/Hero/Hero';
 import Questions from '../../components/Questions/Questions';
 import HowItWorks from '../../components/Kit/HowItWorks/HowItWorks';
 import Features from '../../components/Features/Features';
+import GetApp from '../../components/GetApp/GetApp';
 import ProfessionSliders from '../../components/Professions/Slider/Slider';
 import './Home.css';
 
@@ -61,6 +62,8 @@ class Home extends Component {
                 <HowItWorks />
 
                 <Features />
+
+                <GetApp />
 
                 {
                     showQuestions && professionId ?
