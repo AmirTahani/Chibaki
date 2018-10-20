@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Autocomplete from '../../components/Kit/AutoComplete/AutoComplete';
+import HowItWorks from '../../components/Kit/HowItWorks/HowItWorks';
 import styles from './Service.module.styl';
 
 class Services extends Component {
@@ -142,7 +143,7 @@ class Services extends Component {
                                                             >
                                                                 <div
                                                                     className={`l-flex-shrink ${styles.badge}
-                                                                    ${item.trust.addressProof.verified && styles.badgeActive}`}
+                                                                    ${item.trust && item.trust.addressProof.verified && styles.badgeActive}`}
                                                                 >
                                                                     <Row>
                                                                         <Col span={24}>
@@ -155,7 +156,7 @@ class Services extends Component {
                                                                 </div>
                                                                 <div
                                                                     className={`l-flex-shrink ${styles.badge}
-                                        ${item.trust.idCard.verified && styles.badgeActive}`}
+                                        ${item.trust && item.trust.idCard.verified && styles.badgeActive}`}
                                                                 >
                                                                     <Row>
                                                                         <Col span={24}>
@@ -168,7 +169,7 @@ class Services extends Component {
                                                                 </div>
                                                                 <div
                                                                     className={`l-flex-shrink ${styles.badge}
-                                        ${item.trust.certificate.verified && styles.badgeActive}`}
+                                        ${item.trust && item.trust.certificate.verified && styles.badgeActive}`}
                                                                 >
                                                                     <Row>
                                                                         <Col span="24">
@@ -181,7 +182,7 @@ class Services extends Component {
                                                                 </div>
                                                                 <div
                                                                     className={`l-flex-shrink ${styles.badge}
-                                       ${item.trust.identity.verified && item.trust.identity.filePath && styles.badgeActive}`}
+                                       ${item.trust && item.trust.identity.verified && item.trust.identity.filePath && styles.badgeActive}`}
                                                                 >
                                                                     <Row>
                                                                         <Col span="24">
@@ -195,7 +196,7 @@ class Services extends Component {
                                                                 <div
                                                                     span={24}
                                                                     className={`l-flex-shrink ${styles.badge}
-                                        ${item.trust.backgroundCheck.verified && styles.badgeActive}`}
+                                        ${item.trust && item.trust.backgroundCheck.verified && styles.badgeActive}`}
                                                                 >
                                                                     <Row>
                                                                         <Col span={24}>
@@ -282,6 +283,9 @@ class Services extends Component {
                             </button>
                         </div>
                     </div>
+
+                    <HowItWorks />
+
                 </div>
                 <Footer />
             </div>

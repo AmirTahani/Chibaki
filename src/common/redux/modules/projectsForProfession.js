@@ -52,10 +52,10 @@ export function load(resolve, reject, professionId, provinceId) {
     };
 }
 
-export function loadProvincesSuccess(projects) {
+export function loadProvincesSuccess(response) {
     return {
         type: LOAD_SUCCESS,
-        projects
+        response
     };
 }
 
@@ -68,7 +68,7 @@ export function loadProvincesFailure(error) {
 
 export function* watchLoad(client, { resolve, reject, professionId, provinceId }) {
     try {
-        const response = yield client.get(`/v1/jobs?province=${professionId}${provinceId ? `&profession=${provinceId}` : ''}`);
+        const response = yield client.get(`/v1/jobs?profession=${professionId}${provinceId ? `&province=${provinceId}` : ''}`);
         yield put(loadProvincesSuccess(response.data));
         resolve && resolve();
     } catch (error) {

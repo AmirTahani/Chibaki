@@ -1,5 +1,5 @@
 const paths = require('razzle/config/paths');
-
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const postCssOptions = (rtl) => {
     const plugins = [
