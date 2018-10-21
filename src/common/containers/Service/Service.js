@@ -223,10 +223,10 @@ class Services extends Component {
                                                                     <Row>
                                                                         <Col span={24}>
                                                                             <Tooltip title="کارت ملی">
-                                                                            <img
-                                                                                src="/assets/images/badge/idCard.svg"
-                                                                                alt="کارت ملی" className={styles.badgeImg}
-                                                                            />
+                                                                                <img
+                                                                                    src="/assets/images/badge/idCard.svg"
+                                                                                    alt="کارت ملی" className={styles.badgeImg}
+                                                                                />
                                                                             </Tooltip>
                                                                         </Col>
                                                                         <Col className={styles.badgeText} span={24}>
@@ -241,11 +241,11 @@ class Services extends Component {
                                                                     <Row>
                                                                         <Col span="24">
                                                                             <Tooltip title="مدرک تحصیلی">
-                                                                            <img
-                                                                                src="/assets/images/badge/degree.svg"
-                                                                                alt="مدرک تحصیلی"
-                                                                                className={styles.badgeImg}
-                                                                            />
+                                                                                <img
+                                                                                    src="/assets/images/badge/degree.svg"
+                                                                                    alt="مدرک تحصیلی"
+                                                                                    className={styles.badgeImg}
+                                                                                />
                                                                             </Tooltip>
                                                                         </Col>
                                                                         <Col className={styles.badgeText} span="24">
@@ -260,11 +260,11 @@ class Services extends Component {
                                                                     <Row>
                                                                         <Col span="24">
                                                                             <Tooltip title="تایید هویت">
-                                                                            <img
-                                                                                src="/assets/images/badge/identity.svg"
-                                                                                alt="تایید هویت"
-                                                                                className={styles.badgeImg}
-                                                                            />
+                                                                                <img
+                                                                                    src="/assets/images/badge/identity.svg"
+                                                                                    alt="تایید هویت"
+                                                                                    className={styles.badgeImg}
+                                                                                />
                                                                             </Tooltip>
                                                                         </Col>
                                                                         <Col className={styles.badgeText} span={24}>
@@ -280,11 +280,11 @@ class Services extends Component {
                                                                     <Row>
                                                                         <Col span={24}>
                                                                             <Tooltip title="گواهی عدم سو پیشینه">
-                                                                            <img
-                                                                                src="/assets/images/badge/backgroundcheck.svg"
-                                                                                alt="گواهی عدم سو پیشینه"
-                                                                                className={styles.badgeImg}
-                                                                            />
+                                                                                <img
+                                                                                    src="/assets/images/badge/backgroundcheck.svg"
+                                                                                    alt="گواهی عدم سو پیشینه"
+                                                                                    className={styles.badgeImg}
+                                                                                />
                                                                             </Tooltip>
                                                                         </Col>
                                                                         <Col className={styles.badgeText} span={24}>
