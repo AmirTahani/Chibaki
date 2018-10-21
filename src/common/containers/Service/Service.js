@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import { Row, Col, Tooltip, Button, Rate } from 'antd';
 import objectFitImages from 'object-fit-images';
 import { connect } from 'react-redux';
+import moment from 'moment-jalali';
 
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
@@ -13,6 +14,10 @@ import Features from '../../components/Features/Features';
 import GetApp from '../../components/GetApp/GetApp';
 import styles from './Service.module.styl';
 
+const SHOULD_INIT_SLIDER = typeof window !== 'undefined' && window.innerWidth > 500;
+const Flickity = SHOULD_INIT_SLIDER ? require('react-flickity-component') : 'div';
+require('flickity/dist/flickity.min.css');
+
 class Services extends Component {
     static propTypes = {
         selectedProfession: PropTypes.objectOf(PropTypes.any).isRequired,
@@ -20,12 +25,27 @@ class Services extends Component {
         title: PropTypes.string.isRequired,
         count: PropTypes.number.isRequired,
         provinces: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
-        ProjectsForProfession: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired
+        professionsJobs: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired
+    };
+
+    sliderOptions = {
+        lazyLoad: 1,
+        rightToLeft: true,
+        cellAlign: 'right',
+        contain: true,
+        groupCells: '100%',
+        pageDots: false,
+        prevNextButtons: true,
+        // watchCSS: true
     };
 
     componentDidMount() {
         objectFitImages();
     }
+
+    formatJobDate = (date) => {
+        return moment(date).format(' jD jMMMM jYYYY');
+    };
 
     registerProject = () => {
         console.log(this.props.selectedProfession, 'askjdakjdbasjkldb');
@@ -62,8 +82,8 @@ class Services extends Component {
     };
 
     render() {
-        const { proficients, title, selectedProfession, count, provinces, ProjectsForProfession } = this.props;
-        console.log(ProjectsForProfession);
+        const { proficients, title, selectedProfession, count, provinces, professionsJobs } = this.props;
+        console.log(professionsJobs);
         return (
             <div className={styles.wrapper}>
                 <Header />
@@ -131,88 +151,15 @@ class Services extends Component {
                             </h1>
                             <div className={styles.subtitle}>نمایش تصادفی</div>
                         </div>
-                        <div>
+                        <div className={styles.cardWrapper}>
                             {proficients.map((item) => {
                                 return (
                                     <Link to={`/professional/${item._id}`} className={styles.cardLink}>
                                         <div className={styles.card}>
                                             <Row type="flex">
-                                                <Col span={9} className={styles.cardRight}>
-                                                    <Row type="flex" justify="space-between" className="l-flex-row-r">
-                                                        <Col span={6}>
-                                                            <div
-                                                                className={styles.badgeWrapper}
-                                                            >
-                                                                <div
-                                                                    className={`l-flex-shrink ${styles.badge}
-                                                                    ${item.trust && item.trust.addressProof.verified && styles.badgeActive}`}
-                                                                >
-                                                                    <Row>
-                                                                        <Col span={24}>
-                                                                            <img src="/assets/images/badge/address.svg" alt="آدرس" className={styles.badgeImg} />
-                                                                        </Col>
-                                                                        <Col className={styles.badgeText} span={24}>
-                                                                            آدرس
-                                                                        </Col>
-                                                                    </Row>
-                                                                </div>
-                                                                <div
-                                                                    className={`l-flex-shrink ${styles.badge}
-                                        ${item.trust && item.trust.idCard.verified && styles.badgeActive}`}
-                                                                >
-                                                                    <Row>
-                                                                        <Col span={24}>
-                                                                            <img src="/assets/images/badge/idCard.svg" alt="" className={styles.badgeImg} />
-                                                                        </Col>
-                                                                        <Col className={styles.badgeText} span={24}>
-                                                                            کارت ملی
-                                                                        </Col>
-                                                                    </Row>
-                                                                </div>
-                                                                <div
-                                                                    className={`l-flex-shrink ${styles.badge}
-                                        ${item.trust && item.trust.certificate.verified && styles.badgeActive}`}
-                                                                >
-                                                                    <Row>
-                                                                        <Col span="24">
-                                                                            <img src="/assets/images/badge/degree.svg" alt="مدرک تحصیلی" className={styles.badgeImg} />
-                                                                        </Col>
-                                                                        <Col className={styles.badgeText} span="24">
-                                                                            مدرک تحصیلی
-                                                                        </Col>
-                                                                    </Row>
-                                                                </div>
-                                                                <div
-                                                                    className={`l-flex-shrink ${styles.badge}
-                                       ${item.trust && item.trust.identity.verified && item.trust.identity.filePath && styles.badgeActive}`}
-                                                                >
-                                                                    <Row>
-                                                                        <Col span="24">
-                                                                            <img src="/assets/images/badge/identity.svg" alt="تایید هویت" className={styles.badgeImg} />
-                                                                        </Col>
-                                                                        <Col className={styles.badgeText} span={24}>
-                                                                            تایید هویت
-                                                                        </Col>
-                                                                    </Row>
-                                                                </div>
-                                                                <div
-                                                                    span={24}
-                                                                    className={`l-flex-shrink ${styles.badge}
-                                        ${item.trust && item.trust.backgroundCheck.verified && styles.badgeActive}`}
-                                                                >
-                                                                    <Row>
-                                                                        <Col span={24}>
-                                                                            <img src="/assets/images/badge/backgroundcheck.svg" alt="گواهی عدم سو پیشینه" className={styles.badgeImg} />
-                                                                        </Col>
-                                                                        <Col className={styles.badgeText} span={24}>
-                                                                            گواهی عدم سوء‌پیشینه
-                                                                        </Col>
-                                                                    </Row>
-                                                                </div>
-                                                            </div>
-
-                                                        </Col>
-                                                        <Col span={16}>
+                                                <Col span={24} md={9} className={styles.cardRight}>
+                                                    <Row type="flex" justify="space-between" className="l-flex-row">
+                                                        <Col span={24} md={16}>
                                                             <Row type="flex">
                                                                 <Col span={24}>
                                                                     <img
@@ -246,9 +193,111 @@ class Services extends Component {
                                                             </Row>
 
                                                         </Col>
+                                                        <Col span={24} md={6}>
+                                                            <div
+                                                                className={styles.badgeWrapper}
+                                                            >
+                                                                <div
+                                                                    className={`${styles.badge}
+                                                                    ${item.trust && item.trust.addressProof.verified && styles.badgeActive}`}
+                                                                >
+                                                                    <Row>
+                                                                        <Col span={24}>
+                                                                            <Tooltip title="آدرس">
+                                                                                <img
+                                                                                    src="/assets/images/badge/address.svg"
+                                                                                    alt="آدرس"
+                                                                                    className={styles.badgeImg}
+                                                                                />
+                                                                            </Tooltip>
+                                                                        </Col>
+                                                                        <Col className={styles.badgeText} span={24}>
+                                                                            آدرس
+                                                                        </Col>
+                                                                    </Row>
+                                                                </div>
+                                                                <div
+                                                                    className={`${styles.badge}
+                                        ${item.trust && item.trust.idCard.verified && styles.badgeActive}`}
+                                                                >
+                                                                    <Row>
+                                                                        <Col span={24}>
+                                                                            <Tooltip title="کارت ملی">
+                                                                            <img
+                                                                                src="/assets/images/badge/idCard.svg"
+                                                                                alt="کارت ملی" className={styles.badgeImg}
+                                                                            />
+                                                                            </Tooltip>
+                                                                        </Col>
+                                                                        <Col className={styles.badgeText} span={24}>
+                                                                            کارت ملی
+                                                                        </Col>
+                                                                    </Row>
+                                                                </div>
+                                                                <div
+                                                                    className={`${styles.badge}
+                                        ${item.trust && item.trust.certificate.verified && styles.badgeActive}`}
+                                                                >
+                                                                    <Row>
+                                                                        <Col span="24">
+                                                                            <Tooltip title="مدرک تحصیلی">
+                                                                            <img
+                                                                                src="/assets/images/badge/degree.svg"
+                                                                                alt="مدرک تحصیلی"
+                                                                                className={styles.badgeImg}
+                                                                            />
+                                                                            </Tooltip>
+                                                                        </Col>
+                                                                        <Col className={styles.badgeText} span="24">
+                                                                            مدرک تحصیلی
+                                                                        </Col>
+                                                                    </Row>
+                                                                </div>
+                                                                <div
+                                                                    className={`${styles.badge}
+                                       ${item.trust && item.trust.identity.verified && item.trust.identity.filePath && styles.badgeActive}`}
+                                                                >
+                                                                    <Row>
+                                                                        <Col span="24">
+                                                                            <Tooltip title="تایید هویت">
+                                                                            <img
+                                                                                src="/assets/images/badge/identity.svg"
+                                                                                alt="تایید هویت"
+                                                                                className={styles.badgeImg}
+                                                                            />
+                                                                            </Tooltip>
+                                                                        </Col>
+                                                                        <Col className={styles.badgeText} span={24}>
+                                                                            تایید هویت
+                                                                        </Col>
+                                                                    </Row>
+                                                                </div>
+                                                                <div
+                                                                    span={24}
+                                                                    className={`${styles.badge}
+                                        ${item.trust && item.trust.backgroundCheck.verified && styles.badgeActive}`}
+                                                                >
+                                                                    <Row>
+                                                                        <Col span={24}>
+                                                                            <Tooltip title="گواهی عدم سو پیشینه">
+                                                                            <img
+                                                                                src="/assets/images/badge/backgroundcheck.svg"
+                                                                                alt="گواهی عدم سو پیشینه"
+                                                                                className={styles.badgeImg}
+                                                                            />
+                                                                            </Tooltip>
+                                                                        </Col>
+                                                                        <Col className={styles.badgeText} span={24}>
+                                                                            گواهی عدم سوء‌پیشینه
+                                                                        </Col>
+                                                                    </Row>
+                                                                </div>
+                                                            </div>
+
+                                                        </Col>
                                                     </Row>
                                                 </Col>
-                                                <Col span={15} className={styles.cardLeft}>
+                                                <Col span={24} md={15} className={styles.cardLeft}>
                                                     <Row type={'flex'}>
                                                         <Col>
                                                             <div className={styles.cardDesc}>
@@ -285,6 +334,53 @@ class Services extends Component {
                             </button>
                         </div>
                     </div>
+
+                    <div>
+                        <div>
+                            <div className={styles.title}>درخواست‌های مشابه ثبت شده در چی‌با‌کی</div>
+                            <div className={styles.subtitle}>
+                                {selectedProfession.title}
+                            </div>
+                        </div>
+                        <Flickity
+                            options={this.sliderOptions}
+                            className={styles.jobCardWrapper}
+                        >
+                            {professionsJobs.map((job) => {
+                                return (
+                                    <div key={job._id} className={styles.jobCard}>
+                                        <div className={styles.jobCardDate}>
+                                            ثبت شده در تاریخ
+                                            {this.formatJobDate(job.createdAt)}
+                                        </div>
+
+                                        <div className={styles.jobCardRow}>
+                                            <div className={styles.jobCardTitle}>
+                                                {`${job.location.province.name}, ${job.location.city.name}`}
+                                            </div>
+                                            <div className={styles.jobCardSub}>
+                                                شهر
+                                            </div>
+                                        </div>
+
+                                        {job.attributes.map((attr) => {
+                                            return (
+                                                <div className={styles.jobCardRow}>
+                                                    <div className={styles.jobCardTitle}>
+                                                        {attr.text || attr.options.join(' ')}
+                                                    </div>
+                                                    <div className={styles.jobCardSub}>
+                                                        {attr.title}
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+
+                                    </div>
+                                );
+                            })}
+                        </Flickity>
+                    </div>
                 </div>
 
                 <HowItWorks />
@@ -306,6 +402,6 @@ export default connect(
         selectedProfession: state.proficients.selectedProfession,
         count: state.proficients.count,
         provinces: state.provinces.provinces,
-        ProjectsForProfession: state.ProjectsForProfession.ProjectsForProfession
+        professionsJobs: state.ProjectsForProfession.ProjectsForProfession
     })
 )(Services);

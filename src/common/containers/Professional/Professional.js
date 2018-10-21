@@ -430,7 +430,7 @@ class Professional extends Component {
                             </Col>
                         </Row>
                         <Divider type="horizontal" />
-                        {images && images.length > 0 ? (
+                        {images && images.length ? (
                             <div>
                                 <Row className={styles.card__body}>
                                     <Col span={24}>

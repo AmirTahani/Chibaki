@@ -12,7 +12,7 @@ export default class ProfessionSliders extends Component {
     };
 
     IS_WEB = typeof window !== 'undefined';
-    IS_MOBILE = typeof window !== 'undefined' && window.innerWidth < 500;
+    IS_MOBILE = window.innerWidth < 500;
 
     SHOULD_INIT_SLIDER = this.IS_WEB && !this.IS_MOBILE;
 

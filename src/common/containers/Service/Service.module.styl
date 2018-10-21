@@ -6,6 +6,9 @@
 .container
 	composes l-container from '../../styles/container.styl'
 	padding: 0 20px
+	
+	@media (max-width $md)
+		padding: 0
 
 .section
 	padding: 40px 20px;
@@ -106,11 +109,16 @@
 	font-size: 1.1rem;
 	font-weight: 500;
 	line-height: 1;
+	
+.title
+.subtitle
+	@media (max-width $md)
+		padding: 0 15px
 
 .card
 	composes c-card from '../../styles/card.styl'
 	
-	margin: 30px 0 0 0 !important
+	margin: 0 0 30px 0 !important
 	padding: 0 !important
 	
 	border 1px solid alpha(#9BB2C6, 30%) !important
@@ -118,18 +126,18 @@
 	
 	color: #000
 	
+	&Wrapper
+		margin-top: 30px
+	
 	&Link
 		&:hover
 		&:focus
 			outline none
 			text-decoration: none
 			
-			.card
-				//border-color $color !important
-			
 			.btn
 				background-color: #0e6ccb;
-				
+	
 	&Right
 	&Left
 		padding: 2.4rem
@@ -145,7 +153,20 @@
 	&Rate
 		text-align: center
 		margin-top: 10px
-
+		
+	@media (max-width $md)
+		padding: 20px 0 !important
+		margin-bottom: 0!important
+		
+		border none !important
+		border-top: 1px solid alpha(#9bb2c6, 30%) !important
+		
+		border-radius: 0
+		
+		&Right
+		&Left
+			padding: 1rem
+		
 .btn
 	composes c-btn c-btn--primary c-btn--lg from '../../styles/btn.styl'
 	
@@ -162,11 +183,12 @@
 		
 		box-shadow: 0 3px 6px alpha(#758CA0, 60%);
 		border 1px solid rgba(0, 0, 0, 0)
+		background: #fff
 		
 		cursor: pointer
 		transition .1s
 		
-		margin: 30px 10px
+		margin: 10px 10px 50px
 		text-align: center
 		
 		&:hover
@@ -178,7 +200,7 @@
 		&:active
 			color darken($color, 30%)
 			border-color darken($color, 30%)
-			
+
 .avatar
 	width: 150px;
 	height: 150px;
@@ -223,8 +245,61 @@
 		height: 36px
 		
 		background linear-gradient(to right, #fff 90%, rgba(0, 0, 0, 0))
+		
+	@media (max-width $md)
+		margin: 0
+
+.jobCard
+	width: 290px
+	flex 1 0 290px
+	
+	//height: 100%
+	
+	margin-left: 30px
+	padding: 1.6rem 2rem
+	
+	background-color: #fff;
+	border 1px solid alpha(#9BB2C6, 30%)
+	
+	border-radius: 5px
+	
+	&Wrapper
+		margin-top: 2rem
+		
+		&:not(:global(.flickity-enabled))
+			display: flex
+			flex-flow row nowrap
+			overflow: auto;
+		
+		//:global(.flickity-slider)
+		//	display: flex
+		//	align-items: stretch
+		//	flex-direction: row
+		//	> *
+		//		height: 100%
+	
+	&Date
+		color: alpha(#758CA0, 75%)
+		font-size: 14px
+		text-align: center
+		
+		margin-bottom: 41px
+	
+	&Row
+		margin-bottom: 30px
+	
+	&Title
+		font-size: 18px
+		font-weight: 900
+		color: #334657
+		margin-bottom: 5px
+	
+	&Sub
+		font-size: 16px
+		color: #758CA0
 
 .badge
+	composes l-flex-shrink from '../../styles/grid.styl'
 	margin: 5px
 	text-align: center
 	opacity: .4
@@ -233,19 +308,26 @@
 		opacity: 1
 	
 	&Wrapper
-		//
+		@media (max-width $md)
+			display: flex
+			flex-flow row nowrap
+			justify-content: space-between;
+			
+			margin-top: 15px
+	
 	&Text
 		display: none
 	
 	&Img
-		width: 60px
+		max-width: 60px
+		width: 100%
 		height: 47px
 		object-fit cover
+		
+	@media (max-width $md)
+		margin: 0
 
 @media (max-width: 768px)
-	.container
-		padding: 0 10px;
-	
 	.hero
 		min-height: 250px;
 		padding: 30px 10px;
