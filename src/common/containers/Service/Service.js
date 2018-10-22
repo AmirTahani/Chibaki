@@ -82,8 +82,13 @@ class Services extends Component {
     };
 
     render() {
-        const { proficients, title, selectedProfession, count, provinces, professionsJobs } = this.props;
-        console.log(professionsJobs);
+        const { title, selectedProfession, count, provinces, professionsJobs } = this.props;
+        const proficients = this.props.proficients.reduce((acc, cur) => {
+            const profession = cur.professions.find(prof => prof.profession === selectedProfession._id);
+            acc.push({ ...cur, profession });
+            return acc;
+        }, []);
+        console.log(proficients);
         return (
             <div className={styles.wrapper}>
                 <Header />
@@ -186,7 +191,7 @@ class Services extends Component {
                                                                     <div className={styles.cardRate}>
                                                                         <Rate
                                                                             disabled
-                                                                            defaultValue={item.rate}
+                                                                            defaultValue={item.profession.rate}
                                                                         />
                                                                     </div>
                                                                 </Col>
@@ -225,7 +230,8 @@ class Services extends Component {
                                                                             <Tooltip title="کارت ملی">
                                                                                 <img
                                                                                     src="/assets/images/badge/idCard.svg"
-                                                                                    alt="کارت ملی" className={styles.badgeImg}
+                                                                                    alt="کارت ملی"
+                                                                                    className={styles.badgeImg}
                                                                                 />
                                                                             </Tooltip>
                                                                         </Col>
@@ -301,7 +307,7 @@ class Services extends Component {
                                                     <Row type={'flex'}>
                                                         <Col>
                                                             <div className={styles.cardDesc}>
-                                                                {item.introDescription || 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. '}
+                                                                { item.profession.intro && item.profession.intro.description }
                                                             </div>
                                                         </Col>
                                                     </Row>

@@ -74,7 +74,7 @@ export function loadFailure(error) {
 
 export function* watchLoadProficients(client, { resolve, reject, professionId, provinceId }) {
     try {
-        const response = yield client.get(`/v1/professionals?profession=${professionId}${provinceId ? `&province=${provinceId}` : ''}`);
+        const response = yield client.get(`/v1/professionals?profession=${professionId}${provinceId ? `&province=${provinceId}` : ''}&select=firstname,lastname,trust&populate=professions`);
         yield put(loadSuccess(response.data));
         resolve && resolve();
     } catch (error) {
