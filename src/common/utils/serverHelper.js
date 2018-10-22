@@ -11,7 +11,7 @@ export async function handleRequestsByRoute(store, route) {
     const query = route.query;
 
     const subRoute = path.split('/').reverse();
-    if (route === '/') {
+    if (path === '/') {
         store.dispatch(loader());
     } else if (decodeURI(subRoute[0]) === 'خدمات') {
         store.dispatch(loader());
@@ -47,7 +47,6 @@ export async function handleRequestsByRoute(store, route) {
             store.dispatch(loadProjectsForProf(resolve, reject, professionId, foundProvince && foundProvince._id));
         });
         await Promise.all([Prof, projects]);
-
         store.dispatch(END);
     } else if (subRoute[1] === 'professional') {
         store.dispatch(loadProfessional(subRoute[0]));

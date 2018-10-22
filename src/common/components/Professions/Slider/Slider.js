@@ -12,21 +12,9 @@ export default class ProfessionSliders extends Component {
     };
 
     IS_WEB = typeof window !== 'undefined';
-    IS_MOBILE = window.innerWidth < 500;
+    IS_MOBILE = typeof window !== 'undefined' && window.innerWidth < 500;
 
     SHOULD_INIT_SLIDER = this.IS_WEB && !this.IS_MOBILE;
-
-    componentWillMount() {
-        if (this.SHOULD_INIT_SLIDER) {
-            require('flickity');
-            require('flickity/dist/flickity.min.css');
-        }
-    }
-
-    componentDidMount() {
-        objectFitImages();
-    }
-
     sliderOptions = {
         lazyLoad: 1,
         pageDots: true,
@@ -39,11 +27,9 @@ export default class ProfessionSliders extends Component {
         friction: 0.2,
         freeScroll: false
     };
-
     onBtnClick = (profession) => {
         this.props.onSelect(profession);
     };
-
     getSlider = (slider) => {
         return (
             <div
@@ -56,8 +42,6 @@ export default class ProfessionSliders extends Component {
             </div>
         );
     };
-
-
     mapSlides = (slide, idx) => {
         return (
             <div
@@ -100,6 +84,16 @@ export default class ProfessionSliders extends Component {
         );
     };
 
+    componentWillMount() {
+        if (this.SHOULD_INIT_SLIDER) {
+            require('flickity');
+            require('flickity/dist/flickity.min.css');
+        }
+    }
+
+    componentDidMount() {
+        objectFitImages();
+    }
 
     render() {
         return (

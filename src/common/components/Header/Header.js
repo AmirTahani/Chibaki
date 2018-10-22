@@ -1,6 +1,6 @@
 import { Link } from 'react-router';
 import React, { Component } from 'react';
-
+import {} from 'react-redux';
 import { HeaderComponent, HeaderInner, Logo, LogoImg } from './Header.styles';
 import Nav from '../Nav/Nav';
 

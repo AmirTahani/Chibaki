@@ -25,7 +25,6 @@ class Home extends Component {
     };
 
     handleSelect = (professionId) => {
-        console.log('its here', professionId);
         this.setState({
             showQuestions: true,
             professionId
@@ -33,7 +32,6 @@ class Home extends Component {
     };
 
     handleClose = () => {
-        console.log('its here this is ');
         this.setState({
             showQuestions: false,
             professionId: ''
