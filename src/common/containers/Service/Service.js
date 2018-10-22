@@ -57,6 +57,9 @@ class Services extends Component {
 
     getProfessionPrice = () => {
         const { priceBase, priceRange } = this.props.selectedProfession;
+        if (!priceRange.min || !priceRange.min) {
+            return '';
+        }
 
         let unit;
         switch (priceBase) {
@@ -362,7 +365,18 @@ class Services extends Component {
 
                                         <div className={styles.jobCardRow}>
                                             <div className={styles.jobCardTitle}>
-                                                {`${job.location.province.name}, ${job.location.city.name}`}
+                                                {}
+                                                {`${job.location
+                                                    && job.location.province
+                                                    && job.location.province.name
+                                                    ? job.location.province.name
+                                                    : ''
+                                                }, ${job.location
+                                                    && job.location.city
+                                                    && job.location.city.name
+                                                    ? job.location.city.name
+                                                    : ''
+                                                }`}
                                             </div>
                                             <div className={styles.jobCardSub}>
                                                 شهر
