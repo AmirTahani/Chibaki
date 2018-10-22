@@ -75,8 +75,7 @@ class Professional extends Component {
             ).reduce((acc, current) => {
                 if (current.indexOf('photo') >= 0 && professional.user.professions[selectedProfession].intro[current]) {
                     acc.push(
-                        `https://chibaki.ir
-                        ${professional.user.professions[selectedProfession].intro[current].replace('public', '')}`
+                        `https://chibaki.ir${professional.user.professions[selectedProfession].intro[current].replace('public', '')}`
                     );
                     return acc;
                 }
@@ -143,8 +142,7 @@ class Professional extends Component {
                                     professional.user.trust &&
                                     professional.user.trust.profilePicture &&
                                     professional.user.trust.profilePicture.filePath
-                                        ? `https://chibaki.ir
-                                        ${professional.user.trust.profilePicture.filePath.replace('public', '')}`
+                                        ? `https://chibaki.ir${professional.user.trust.profilePicture.filePath.replace('public', '')}`
                                         : 'https://chibaki.ir/profile/images/unknown.jpg'
                                 }
                                 alt={`${professional.user.firstname} ${professional.user.lastname}`}
@@ -278,7 +276,7 @@ class Professional extends Component {
                                     <Col
                                         span={12}
                                         md={24}
-                                        className={`l-flex-shrink ${styles.badge}
+                                        className={`${styles.badge}
                                         ${professional.user.trust.addressProof.verified && styles.badgeActive}`}
                                     >
                                         <Row>
@@ -302,7 +300,7 @@ class Professional extends Component {
                                     <Col
                                         span={12}
                                         md={24}
-                                        className={`l-flex-shrink ${styles.badge}
+                                        className={`${styles.badge}
                                         ${professional.user.trust.idCard.verified && styles.badgeActive}`}
                                     >
                                         <Row>
@@ -326,7 +324,7 @@ class Professional extends Component {
                                     <Col
                                         span={12}
                                         md={24}
-                                        className={`l-flex-shrink ${styles.badge}
+                                        className={`${styles.badge}
                                         ${professional.user.trust.certificate.verified && styles.badgeActive}`}
                                     >
                                         <Row>
@@ -354,7 +352,7 @@ class Professional extends Component {
                                     <Col
                                         span={12}
                                         md={24}
-                                        className={`l-flex-shrink ${styles.badge}
+                                        className={`${styles.badge}
                                        ${professional.user.trust.identity.verified && professional.user.trust.identity.filePath && styles.badgeActive}`}
                                     >
                                         <Row>
@@ -374,7 +372,7 @@ class Professional extends Component {
                                     <Col
                                         span={12}
                                         md={24}
-                                        className={`l-flex-shrink ${styles.badge}
+                                        className={`${styles.badge}
                                         ${professional.user.trust.backgroundCheck.verified && styles.badgeActive}`}
                                     >
                                         <Row>

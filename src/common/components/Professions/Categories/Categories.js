@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import './Categories.styl';
 
 export default class Categories extends Component {
@@ -58,7 +59,7 @@ export default class Categories extends Component {
                         key={cat.label}
                         className="cat__item"
                     >
-                        <a className="cat__link">
+                        <Link className="cat__link" to={`/${encodeURI('خدمات')}?cat=${cat.label.replace(' ', '_')}`}>
                             <div className="cat__icon">
                                 <i
                                     className={cat.icon}
@@ -69,7 +70,7 @@ export default class Categories extends Component {
                                     {cat.label}
                                 </h2>
                             </div>
-                        </a>
+                        </Link>
                     </li>
                 );
             }

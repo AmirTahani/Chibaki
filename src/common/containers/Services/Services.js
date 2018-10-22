@@ -28,11 +28,11 @@ class Services extends Component {
         return (
             <div className="Home Container">
                 <Header />
-                <div>
+                <div className="l-container l-container--fixed-header">
                     {cat.map((item) => {
                         return (
-                            <section ref={item.category}>
-                                <h2 className="services_heading">{item.category}</h2>
+                            <section ref={item.label}>
+                                <h2 className="services_heading">{item.label}</h2>
                                 <Row>
                                     {
                                         item.professions.map((profession) => {
