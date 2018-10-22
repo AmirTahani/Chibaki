@@ -1,39 +1,57 @@
-import React from 'react';
-import '../Home/Home.css';
+import React, { Component } from 'react';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
+import styles from './Contact.module.styl';
 
-export default class About extends React.Component {
+export default class Contact extends Component {
     render() {
         return (
-            <div className="container">
-                <img
-                    src="https://chibaki.ir/assets/images/about/hero.jpg"
-                    alt="Chibaki Team"
-                />
-                <p>
-                    هر گامی در اعتلای اقتصاد
-                    برداشته شود، رفاه اجتماعی را
-                    به همراه خواهد داشت. جامعه
-                    سالم در سایه اشتغال، دوام می
-                    یابد. این گام را هر چند کوچک،
-                    ما برداشتیم. فرزندان این
-                    سرزمین که خود برتافته از جمع
-                    شما و از برگزیدگان دانشگاه‌های
-                    معتبر این مرز و بومند، در قالب
-                    گروهی متخصص، برآنند که دستان
-                    خود را به دستان شما گره زده
-                    انبوهی از نیازها را با درایت و
-                    تخصص ویژه به همیاری یکدیگر
-                    سامان بخشند. شبکه متخصص دست
-                    می‌دهد، دست می‌گیرد و به دستان
-                    دیگر می‌سپارد. نگاه متخصص،
-                    نگاهبان کمال در فرآیند برآورده
-                    شدن نیازمندی‌های جامعه در
-                    تمامی زمینه‌های شغلی می‌باشد.
-                    متخصص، برآیند رشد و کمال جامعه
-                    و تخصص، خدمت بهینه شده آن است.
-                    به ما بپیوندید، پیوند با شما
-                    دوام ما و شما را تضمین می‌کند.
-                </p>
+            <div>
+                <Header />
+                <div className="hero">
+                    <div className="heroBg">
+                        <img
+                            src="https://chibaki.ir/assets/images/about/hero.jpg"
+                            alt="Chibaki Team"
+                        />
+                    </div>
+                    <div className="heroContent">
+                        <div className="heroTitle">
+                            با ما در تماس باشید
+                        </div>
+                    </div>
+                </div>
+
+                <div className="l-container">
+                    <div className={styles.card}>
+
+                        <div className={styles.row}>
+                            <div className={styles.label}>
+                                <i className="fa fa-phone fa-fw fa-lg" /> شماره تماس:
+                            </div>
+                            <div className={styles.text} dir="ltr"><a href="tel:+982191072580">(۰۲۱) ۹۱۰۷ ۲۵۸۰</a>
+                            </div>
+                        </div>
+
+                        <div className={styles.row}>
+                            <div className={styles.label}>
+                                <i className="fa fa-map-marker fa-fw fa-lg" /> آدرس:
+                            </div>
+                            <div className={styles.text}>مرزداران - خیابان ابراهیمی - برج الوند - ط ۱۱ جنوبی - و
+                                ۱۱۰۵
+                            </div>
+                        </div>
+
+                        <div className={styles.row}>
+                            <div className={styles.label}>
+                                <i className="fa fa-envelope-o fa-fw fa-lg" /> پست الکترونیکی:
+                            </div>
+                            <div className={styles.text}>info@chibaki.ir</div>
+                        </div>
+
+                    </div>
+                </div>
+                <Footer />
             </div>
         );
     }

@@ -1,10 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import { Row, Col, Tooltip, Button, Rate } from 'antd';
+import objectFitImages from 'object-fit-images';
 import { connect } from 'react-redux';
-import { Row, Col } from 'antd';
-import '../Services/Services.css';
-import './ServiceStyle.css';
+import moment from 'moment-jalali';
+
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
+import Autocomplete from '../../components/Kit/AutoComplete/AutoComplete';
+import HowItWorks from '../../components/Kit/HowItWorks/HowItWorks';
+import Features from '../../components/Features/Features';
+import GetApp from '../../components/GetApp/GetApp';
+import styles from './Service.module.styl';
+
+const SHOULD_INIT_SLIDER = typeof window !== 'undefined' && window.innerWidth > 500;
+const Flickity = SHOULD_INIT_SLIDER ? require('react-flickity-component') : 'div';
+require('flickity/dist/flickity.min.css');
 
 class Services extends Component {
     static propTypes = {
@@ -12,95 +24,372 @@ class Services extends Component {
         proficients: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         title: PropTypes.string.isRequired,
         count: PropTypes.number.isRequired,
-        provinces: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired
+        provinces: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+        professionsJobs: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired
+    };
+
+    sliderOptions = {
+        lazyLoad: 1,
+        rightToLeft: true,
+        cellAlign: 'right',
+        contain: true,
+        groupCells: '100%',
+        pageDots: false,
+        prevNextButtons: true,
+        // watchCSS: true
+    };
+
+    componentDidMount() {
+        objectFitImages();
+    }
+
+    formatJobDate = (date) => {
+        return moment(date).format(' jD jMMMM jYYYY');
     };
 
     registerProject = () => {
         console.log(this.props.selectedProfession, 'askjdakjdbasjkldb');
     };
 
-    render() {
-        const { proficients, title, selectedProfession, count, provinces } = this.props;
-        console.log(proficients);
-        return (
-            <div>
-                <Row type={'flex'} gutter={30}>
-                    <Col span={24} className="header-image_container">
-                        <img src="https://chibaki.ir/assets/images/hero/architect.jpg" alt="architect" />
-                        <div className={'absolute-cover'}>
-                            <h1 className={'page-title'}> {title}</h1>
-                            <button onClick={this.registerProject}>
-                                ثبت درخواست
-                            </button>
-                        </div>
-                    </Col>
-                </Row>
-                <Row type={'flex'}>
-                    <Col span={24}>
-                        <div>
-                            <button onClick={this.registerProject}>
-                                ثبت درخواست
-                            </button>
-                        </div>
-                        <div>
-                            متخصصین
-                            {' '}
-                            {title}
-                            {' '}
-                            در چی‌باکی (
-                            {count}
-                            متخصص)
-                        </div>
-                        <span>نمایش تضادفی</span>
-                    </Col>
-                </Row>
-                {proficients.map((item) => {
-                    return (
-                        <Row type={'flex'} align={'middle'} justify={'center'}>
-                            <Link to={`/profession/${item.id}`}>
-                                <Col span={8}>
-                                    <Row>
-                                        <Col span={4}>
-                                            <span>badge</span>
-                                        </Col>
-                                        <Col span={20}>
-                                            <Row>
-                                                <Col span={24}>
-                                                    {/*<img*/}
-                                                    {/*src={`https://chibaki.ir/${item.profilePicture.filePath.replace('public', '')}`}*/}
-                                                    {/*className="prof-image"*/}
-                                                    {/*alt="user profile"*/}
-                                                    {/*/>*/}
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col span={24}>
-                                                    <span>{item.firstname}{' '}{item.lastname}</span>
-                                                </Col>
-                                            </Row>
+    onProvinceSelect = (value, option) => {
+        // console.log('onSubmit', value, option);
+    };
 
-                                        </Col>
-                                    </Row>
-                                </Col>
-                                <Col span={16}>
-                                    <Row>
-                                        {item.introDescription}
-                                    </Row>
-                                    <Row>
-                                        <button>
-                                            مشاهده پروفایل
-                                        </button>
-                                    </Row>
-                                </Col>
-                            </Link>
-                        </Row>
-                    );
-                })}
-                <div>
-                    <button>
-                        مشاهده بیشتر
-                    </button>
+    getProfessionPrice = () => {
+        const { priceBase, priceRange } = this.props.selectedProfession;
+
+        let unit;
+        switch (priceBase) {
+            case 'Second':
+                unit = 'ثانیه ای';
+                break;
+            case 'Hour':
+                unit = 'ساعتی';
+                break;
+            case 'Day':
+                unit = 'روزی';
+                break;
+            case 'Month':
+                unit = 'ماهی';
+                break;
+            case 'Session':
+                unit = 'جلسه ای';
+                break;
+            case 'Project':
+                unit = 'پروژه ای';
+        }
+        return ` از ${unit} ${priceRange.min} تومان`;
+    };
+
+    render() {
+        const { proficients, title, selectedProfession, count, provinces, professionsJobs } = this.props;
+        console.log(professionsJobs);
+        return (
+            <div className={styles.wrapper}>
+                <Header />
+
+                <div className={styles.hero}>
+                    <div className={styles.heroBg}>
+                        <img src="https://chibaki.ir/assets/images/hero/architect.jpg" alt="Smiley face" />
+                    </div>
+                    <div className={styles.heroContent}>
+                        <div>
+                            <h1 className={styles.heroTitle}>{title}</h1>
+                            <Button type="primary" size="large" onClick={this.registerProject}>
+                                ثبت درخواست
+                            </Button>
+                        </div>
+                    </div>
                 </div>
+
+                <div className={styles.container}>
+
+                    <div className={styles.price}>
+                        شروع قیمت در چی باکی:
+                        {this.getProfessionPrice()}
+                    </div>
+
+                    <div className={styles.desc}>
+                        {selectedProfession.description}
+                    </div>
+
+                    <div className={`${styles.section} u-t--c`}>
+                        <div style={{ display: 'none' }}>
+                            <div>استان خود را انتخاب کنید</div>
+                            <div>
+                                <Autocomplete
+                                    options={provinces.map((province) => {
+                                        province.title = province.name;
+                                        return province;
+                                    })}
+                                    onSubmit={this.onProvinceSelect}
+                                    showBtn={false}
+                                    placeholder="انتخاب استان"
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <button className="c-btn c-btn--primary c-btn--lg" onClick={this.registerProject}>
+                                ثبت درخواست
+                            </button>
+
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <div>
+                            <h1 className={styles.title}>
+                                متخصصین
+                                {' '}
+                                {title}
+                                {' '}
+                                در چی باکی (
+                                {count}
+                                {' '}
+                                متخصص)
+                            </h1>
+                            <div className={styles.subtitle}>نمایش تصادفی</div>
+                        </div>
+                        <div className={styles.cardWrapper}>
+                            {proficients.map((item) => {
+                                return (
+                                    <Link to={`/professional/${item._id}`} className={styles.cardLink}>
+                                        <div className={styles.card}>
+                                            <Row type="flex">
+                                                <Col span={24} md={9} className={styles.cardRight}>
+                                                    <Row type="flex" justify="space-between" className="l-flex-row">
+                                                        <Col span={24} md={16}>
+                                                            <Row type="flex">
+                                                                <Col span={24}>
+                                                                    <img
+                                                                        src={
+                                                                            item &&
+                                                                            item.trust &&
+                                                                            item.trust.profilePicture &&
+                                                                            item.trust.profilePicture.filePath
+                                                                                ? `https://chibaki.ir${item.trust.profilePicture.filePath.replace('public', '')}`
+                                                                                : 'https://chibaki.ir/profile/images/unknown.jpg'
+                                                                        }
+                                                                        alt={`${item.firstname} ${item.lastname}`}
+                                                                        className={styles.avatar}
+                                                                    />
+                                                                </Col>
+                                                            </Row>
+                                                            <Row>
+                                                                <Col span={24}>
+                                                                    <div
+                                                                        className={styles.cardName}
+                                                                    >
+                                                                        {`${item.firstname} ${item.lastname}`}
+                                                                    </div>
+                                                                    <div className={styles.cardRate}>
+                                                                        <Rate
+                                                                            disabled
+                                                                            defaultValue={item.rate}
+                                                                        />
+                                                                    </div>
+                                                                </Col>
+                                                            </Row>
+
+                                                        </Col>
+                                                        <Col span={24} md={6}>
+                                                            <div
+                                                                className={styles.badgeWrapper}
+                                                            >
+                                                                <div
+                                                                    className={`${styles.badge}
+                                                                    ${item.trust && item.trust.addressProof.verified && styles.badgeActive}`}
+                                                                >
+                                                                    <Row>
+                                                                        <Col span={24}>
+                                                                            <Tooltip title="آدرس">
+                                                                                <img
+                                                                                    src="/assets/images/badge/address.svg"
+                                                                                    alt="آدرس"
+                                                                                    className={styles.badgeImg}
+                                                                                />
+                                                                            </Tooltip>
+                                                                        </Col>
+                                                                        <Col className={styles.badgeText} span={24}>
+                                                                            آدرس
+                                                                        </Col>
+                                                                    </Row>
+                                                                </div>
+                                                                <div
+                                                                    className={`${styles.badge}
+                                        ${item.trust && item.trust.idCard.verified && styles.badgeActive}`}
+                                                                >
+                                                                    <Row>
+                                                                        <Col span={24}>
+                                                                            <Tooltip title="کارت ملی">
+                                                                                <img
+                                                                                    src="/assets/images/badge/idCard.svg"
+                                                                                    alt="کارت ملی" className={styles.badgeImg}
+                                                                                />
+                                                                            </Tooltip>
+                                                                        </Col>
+                                                                        <Col className={styles.badgeText} span={24}>
+                                                                            کارت ملی
+                                                                        </Col>
+                                                                    </Row>
+                                                                </div>
+                                                                <div
+                                                                    className={`${styles.badge}
+                                        ${item.trust && item.trust.certificate.verified && styles.badgeActive}`}
+                                                                >
+                                                                    <Row>
+                                                                        <Col span="24">
+                                                                            <Tooltip title="مدرک تحصیلی">
+                                                                                <img
+                                                                                    src="/assets/images/badge/degree.svg"
+                                                                                    alt="مدرک تحصیلی"
+                                                                                    className={styles.badgeImg}
+                                                                                />
+                                                                            </Tooltip>
+                                                                        </Col>
+                                                                        <Col className={styles.badgeText} span="24">
+                                                                            مدرک تحصیلی
+                                                                        </Col>
+                                                                    </Row>
+                                                                </div>
+                                                                <div
+                                                                    className={`${styles.badge}
+                                       ${item.trust && item.trust.identity.verified && item.trust.identity.filePath && styles.badgeActive}`}
+                                                                >
+                                                                    <Row>
+                                                                        <Col span="24">
+                                                                            <Tooltip title="تایید هویت">
+                                                                                <img
+                                                                                    src="/assets/images/badge/identity.svg"
+                                                                                    alt="تایید هویت"
+                                                                                    className={styles.badgeImg}
+                                                                                />
+                                                                            </Tooltip>
+                                                                        </Col>
+                                                                        <Col className={styles.badgeText} span={24}>
+                                                                            تایید هویت
+                                                                        </Col>
+                                                                    </Row>
+                                                                </div>
+                                                                <div
+                                                                    span={24}
+                                                                    className={`${styles.badge}
+                                        ${item.trust && item.trust.backgroundCheck.verified && styles.badgeActive}`}
+                                                                >
+                                                                    <Row>
+                                                                        <Col span={24}>
+                                                                            <Tooltip title="گواهی عدم سو پیشینه">
+                                                                                <img
+                                                                                    src="/assets/images/badge/backgroundcheck.svg"
+                                                                                    alt="گواهی عدم سو پیشینه"
+                                                                                    className={styles.badgeImg}
+                                                                                />
+                                                                            </Tooltip>
+                                                                        </Col>
+                                                                        <Col className={styles.badgeText} span={24}>
+                                                                            گواهی عدم سوء‌پیشینه
+                                                                        </Col>
+                                                                    </Row>
+                                                                </div>
+                                                            </div>
+
+                                                        </Col>
+                                                    </Row>
+                                                </Col>
+                                                <Col span={24} md={15} className={styles.cardLeft}>
+                                                    <Row type={'flex'}>
+                                                        <Col>
+                                                            <div className={styles.cardDesc}>
+                                                                {item.introDescription || 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. '}
+                                                            </div>
+                                                        </Col>
+                                                    </Row>
+                                                    <Row>
+                                                        <Col>
+                                                            <Row type="flex" justify="space-between">
+                                                                <Col>
+                                                                    {/*<div> تعداد دفعات</div>*/}
+                                                                </Col>
+                                                                <Col>
+                                                                    <button
+                                                                        className={styles.btn}
+                                                                    >
+                                                                        مشاهده پروفایل
+                                                                    </button>
+                                                                </Col>
+                                                            </Row>
+                                                        </Col>
+                                                    </Row>
+                                                </Col>
+                                            </Row>
+                                        </div>
+                                    </Link>
+                                );
+                            })}
+                        </div>
+                        <div className="u-t--c">
+                            <button className={styles.btnMore}>
+                                نمایش بیشتر
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div>
+                            <div className={styles.title}>درخواست‌های مشابه ثبت شده در چی‌با‌کی</div>
+                            <div className={styles.subtitle}>
+                                {selectedProfession.title}
+                            </div>
+                        </div>
+                        <Flickity
+                            options={this.sliderOptions}
+                            className={styles.jobCardWrapper}
+                        >
+                            {professionsJobs.map((job) => {
+                                return (
+                                    <div key={job._id} className={styles.jobCard}>
+                                        <div className={styles.jobCardDate}>
+                                            ثبت شده در تاریخ
+                                            {this.formatJobDate(job.createdAt)}
+                                        </div>
+
+                                        <div className={styles.jobCardRow}>
+                                            <div className={styles.jobCardTitle}>
+                                                {`${job.location.province.name}, ${job.location.city.name}`}
+                                            </div>
+                                            <div className={styles.jobCardSub}>
+                                                شهر
+                                            </div>
+                                        </div>
+
+                                        {job.attributes.map((attr) => {
+                                            return (
+                                                <div className={styles.jobCardRow}>
+                                                    <div className={styles.jobCardTitle}>
+                                                        {attr.text || attr.options.join(' ')}
+                                                    </div>
+                                                    <div className={styles.jobCardSub}>
+                                                        {attr.title}
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+
+                                    </div>
+                                );
+                            })}
+                        </Flickity>
+                    </div>
+                </div>
+
+                <HowItWorks />
+
+                <Features />
+
+                <GetApp />
+
+                <Footer />
             </div>
         );
     }
@@ -112,6 +401,7 @@ export default connect(
         title: state.proficients.title,
         selectedProfession: state.proficients.selectedProfession,
         count: state.proficients.count,
-        provinces: state.provinces.provinces
-    }))(Services);
-
+        provinces: state.provinces.provinces,
+        professionsJobs: state.ProjectsForProfession.ProjectsForProfession
+    })
+)(Services);

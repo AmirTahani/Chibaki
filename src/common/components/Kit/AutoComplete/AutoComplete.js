@@ -11,13 +11,19 @@ const Option = AntAutoComplete.Option;
 export default class AutoComplete extends Component {
     static propTypes = {
         options: PropTypes.arrayOf(PropTypes.object).isRequired,
-        onSubmit: PropTypes.func.isRequired
+        onSubmit: PropTypes.func.isRequired,
+        showBtn: PropTypes.bool,
+        placeholder: PropTypes.string
+    };
+
+    static defaultProps = {
+        showBtn: true,
+        placeholder: 'به چه خدمتی نیاز دارید؟'
     };
 
     state = {
-        options: []
+        options: [],
     };
-
 
     componentDidMount() {
         this.engine = this.engineConf.initialize();
@@ -26,8 +32,7 @@ export default class AutoComplete extends Component {
     engineConf = new Bloodhound({
         initialize: true,
         local: this.props.options,
-        queryTokenizer:
-        Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
         datumTokenizer: obj =>
             Bloodhound.tokenizers.whitespace(
                 obj.title
@@ -37,10 +42,12 @@ export default class AutoComplete extends Component {
 
 
     handleChange = (value) => {
-        this.engineConf.search(value, options =>
-            this.setState({
-                options
-            })
+        this.engineConf.search(value,
+            (options) => {
+                this.setState({
+                    options
+                });
+            }
         );
     };
 
@@ -56,7 +63,7 @@ export default class AutoComplete extends Component {
     };
 
     render() {
-        const { onSubmit } = this.props;
+        const { onSubmit, showBtn, placeholder } = this.props;
         const { options } = this.state;
 
         return (
@@ -67,23 +74,20 @@ export default class AutoComplete extends Component {
                             this.renderOption
                         )}
                         style={{ width: '100%' }}
-                        onChange={
-                            this.handleChange
-                        }
                         onSearch={
                             this.handleChange
                         }
                         onSelect={onSubmit}
-                        placeholder="به چه خدمتی نیاز دارید؟"
+                        placeholder={placeholder}
                     >
                         <input
                             type="text"
                             className="c-autocomplete__field"
                         />
                     </AntAutoComplete>
-                    <button className="c-autocomplete__btn">
+                    {showBtn && <button className="c-autocomplete__btn">
                         ادامه
-                    </button>
+                    </button>}
                 </div>
             </div>
         );

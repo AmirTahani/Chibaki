@@ -46,9 +46,11 @@ export default function reducer(state = initialState, action = {}) {
     }
 }
 
-export function load(professionId, title, selectedProfession, provinceId) {
+export function load(resolve, reject, professionId, title, selectedProfession, provinceId) {
     return {
         type: LOAD_PROFICIENTS,
+        resolve,
+        reject,
         professionId,
         title,
         selectedProfession,
@@ -70,12 +72,13 @@ export function loadFailure(error) {
     };
 }
 
-export function* watchLoadProficients(client, { professionId, provinceId }) {
+export function* watchLoadProficients(client, { resolve, reject, professionId, provinceId }) {
     try {
         const response = yield client.get(`/v1/professionals?profession=${professionId}${provinceId ? `&province=${provinceId}` : ''}`);
         yield put(loadSuccess(response.data));
-        yield put(END);
+        resolve && resolve();
     } catch (error) {
+        reject && reject();
         handleSagaError(error);
         yield put(loadFailure(error));
     }

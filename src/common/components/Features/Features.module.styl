@@ -1,0 +1,113 @@
+@import '../../styles/variables'
+
+.features
+	position relative
+	
+	color #fff
+	background $color
+	
+	z-index 10
+	
+	composes -bg-pattern -bg-pattern--dark-blue from '../../styles/utils.styl'
+	
+	@media (min-width $xl)
+		padding-left 4rem
+		padding-right 4rem
+	
+	&__grid
+		display flex
+		align-items center
+		justify-content center
+		
+		> div:first-child
+			flex 1
+		
+		@media (max-width $sm)
+			flex-direction column
+	
+	&__item
+		position relative
+		
+		margin-bottom 4.5rem
+		padding-right 3.5rem
+		
+		@media (max-width $md - 1)
+			text-align center
+		
+		@media (max-width $xl - 1)
+			&
+			~/__col
+				margin-bottom 2.5rem
+		
+		~/__col
+		&
+			&:last-child
+				margin-bottom 0
+		
+		&:before
+			content ''
+			width 2.5rem
+			height 2.5rem
+			
+			position absolute
+			
+			top -40%
+			right 5px
+			bottom 0
+			
+			margin auto 0
+			
+			background url('/assets/images/icon/check.svg') no-repeat center center
+			background-size contain
+	
+	&__icon
+		margin 0 .25rem
+		width 4rem
+	
+	&__text
+		overflow-wrap break-word
+		word-wrap break-word
+		
+		*
+			font-size 1.2rem
+			font-weight 900
+			line-height 2
+
+			color #fff
+	
+	/.phone
+		max-height 550px
+		max-width 300px
+		height 550px
+		margin -100px auto -46px 0
+		
+		overflow hidden
+		
+		img
+			max-height 100%
+			max-width 100%
+			user-select none
+			text-align left
+		
+		&__heading
+			font-size 30px
+			font-weight 900
+			
+			padding 5rem
+			max-width 450px
+			
+			@media (max-width $sm)
+				max-width none
+				padding 5rem 2rem 0
+				display block
+				text-align center
+		
+		@media (max-width $sm)
+			margin 0 auto
+	
+	@media (max-width $xl - 1)
+		padding 2.4rem .7rem
+	
+	@media (max-width $md - 1)
+		&__col:last-child
+			margin-bottom 0

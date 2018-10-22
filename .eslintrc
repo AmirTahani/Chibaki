@@ -42,6 +42,7 @@
     "react/jsx-no-bind": "off",
     "react/no-did-mount-set-state": "off",
     "global-require": "off",
+    "default-case": "off",
     "react/no-string-refs": "off",
     "react/sort-comp": "off",
     "no-unused-vars": "off",
