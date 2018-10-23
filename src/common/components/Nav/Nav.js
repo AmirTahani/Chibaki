@@ -14,13 +14,9 @@ class Nav extends Component {
 
     navItems = [
         {
-            label: 'ثبت نام',
+            label: 'ثبت نام/ورود',
             link: 'signup',
             action: this.handleAuth
-        },
-        {
-            label: 'ورود',
-            link: '#'
         },
         {
             label: 'خدمات',

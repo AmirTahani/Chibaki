@@ -53,7 +53,7 @@ import {
 
 export default function* root(client, store) {
     yield all([
-        takeEvery(REHYDRATE, watchRehydrate),
+        takeEvery(REHYDRATE, watchRehydrate, store),
         takeEvery(LOAD_PROFESSIONS_LIST, watchLoadProfessionsList, client),
         takeEvery(LOAD_CATEGORIES, watchLoadCategories, client),
         takeEvery(LOADER, watchLoader, client),

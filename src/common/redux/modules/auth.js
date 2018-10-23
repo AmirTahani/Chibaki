@@ -329,6 +329,7 @@ export function* watchVerifyMobile(client, { code, resolve, reject }) {
 }
 
 export function watchSetJwt(client, { token }) {
+    localStorage.setItem('ngStorage-userToken', token);
     client.jwt = token;
 }
 
