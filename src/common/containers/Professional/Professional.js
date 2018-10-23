@@ -2,15 +2,11 @@ import React, { Component } from 'react';
 import { Col, Divider, Dropdown, Menu, Radio, Rate, Row } from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import objectFitImages from 'object-fit-images';
 import Questions from '../../components/Questions/Questions';
 import Header from '../../components/Header/Header';
 import styles from './ProfessionalStyle.module.css';
 import { setProfId } from '../../redux/modules/questions';
-
-import '../../styles/Profile.styl';
-import '../../styles/btn.styl';
-import '../../styles/card.styl';
-import '../Services/Services.css';
 
 // import professions from "../../redux/modules/professions";
 
@@ -35,6 +31,10 @@ class Professional extends Component {
             require('flickity/dist/flickity.min.css');
             require('flickity-fullscreen/fullscreen.css');
         }
+    }
+
+    componentDidMount() {
+        objectFitImages();
     }
 
     onProfImageClick = (e) => {

@@ -38,6 +38,9 @@
 
 	margin: 0 auto;
 
+	object-fit: cover;
+	font-family: "object-fit: cover;";
+
 	transform: translateY(50%);
 
 	box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);

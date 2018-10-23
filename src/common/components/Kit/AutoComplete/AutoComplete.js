@@ -1,10 +1,9 @@
 import { AutoComplete as AntAutoComplete } from 'antd';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-
 import Bloodhound from 'bloodhound-js';
-import './AutoComplete.styl';
 
+import styles from './AutoComplete.module.styl';
 
 const Option = AntAutoComplete.Option;
 
@@ -67,8 +66,8 @@ export default class AutoComplete extends Component {
         const { options } = this.state;
 
         return (
-            <div className="c-autocomplete c-autocomplete--home">
-                <div className="c-autocomplete__form">
+            <div className={`${styles.wrapper} c-autocomplete`}>
+                <div className={styles.form}>
                     <AntAutoComplete
                         dataSource={options.map(
                             this.renderOption
@@ -79,13 +78,14 @@ export default class AutoComplete extends Component {
                         }
                         onSelect={onSubmit}
                         placeholder={placeholder}
+                        className={styles.field}
                     >
                         <input
                             type="text"
-                            className="c-autocomplete__field"
+                            className={styles.input}
                         />
                     </AntAutoComplete>
-                    {showBtn && <button className="c-autocomplete__btn">
+                    {showBtn && <button className={styles.btn}>
                         ادامه
                     </button>}
                 </div>

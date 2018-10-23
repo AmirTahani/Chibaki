@@ -36,6 +36,7 @@ class Services extends Component {
         groupCells: '100%',
         pageDots: false,
         prevNextButtons: true,
+        adaptiveHeight: true
         // watchCSS: true
     };
 
@@ -111,15 +112,12 @@ class Services extends Component {
                 </div>
 
                 <div className={styles.container}>
-
                     <div className={styles.price}>
                         شروع قیمت در چی باکی:
                         {this.getProfessionPrice()}
                     </div>
 
-                    <div className={styles.desc}>
-                        {selectedProfession.description}
-                    </div>
+                    <div className={styles.desc}>{selectedProfession.description}</div>
 
                     <div className={`${styles.section} u-t--c`}>
                         <div style={{ display: 'none' }}>
@@ -140,22 +138,13 @@ class Services extends Component {
                             <button className="c-btn c-btn--primary c-btn--lg" onClick={this.registerProject}>
                                 ثبت درخواست
                             </button>
-
                         </div>
                     </div>
-
 
                     <div>
                         <div>
                             <h1 className={styles.title}>
-                                متخصصین
-                                {' '}
-                                {title}
-                                {' '}
-                                در چی باکی (
-                                {count}
-                                {' '}
-                                متخصص)
+                                متخصصین {title} در چی باکی ({count} متخصص)
                             </h1>
                             <div className={styles.subtitle}>نمایش تصادفی</div>
                         </div>
@@ -165,169 +154,169 @@ class Services extends Component {
                                     <Link to={`/professional/${item._id}`} className={styles.cardLink}>
                                         <div className={styles.card}>
                                             <Row type="flex">
-                                                <Col span={24} md={9} className={styles.cardRight}>
-                                                    <Row type="flex" justify="space-between" className="l-flex-row">
-                                                        <Col span={24} md={16}>
-                                                            <Row type="flex">
-                                                                <Col span={24}>
-                                                                    <img
-                                                                        src={
-                                                                            item &&
-                                                                            item.trust &&
-                                                                            item.trust.profilePicture &&
-                                                                            item.trust.profilePicture.filePath
-                                                                                ? `https://chibaki.ir${item.trust.profilePicture.filePath.replace('public', '')}`
-                                                                                : 'https://chibaki.ir/profile/images/unknown.jpg'
-                                                                        }
-                                                                        alt={`${item.firstname} ${item.lastname}`}
-                                                                        className={styles.avatar}
-                                                                    />
-                                                                </Col>
-                                                            </Row>
-                                                            <Row>
-                                                                <Col span={24}>
-                                                                    <div
-                                                                        className={styles.cardName}
-                                                                    >
-                                                                        {`${item.firstname} ${item.lastname}`}
-                                                                    </div>
-                                                                    <div className={styles.cardRate}>
-                                                                        <Rate
-                                                                            disabled
-                                                                            defaultValue={item.profession.rate}
-                                                                        />
-                                                                    </div>
-                                                                </Col>
-                                                            </Row>
-
-                                                        </Col>
-                                                        <Col span={24} md={6}>
-                                                            <div
-                                                                className={styles.badgeWrapper}
-                                                            >
-                                                                <div
-                                                                    className={`${styles.badge}
-                                                                    ${item.trust && item.trust.addressProof.verified && styles.badgeActive}`}
-                                                                >
-                                                                    <Row>
-                                                                        <Col span={24}>
-                                                                            <Tooltip title="آدرس">
-                                                                                <img
-                                                                                    src="/assets/images/badge/address.svg"
-                                                                                    alt="آدرس"
-                                                                                    className={styles.badgeImg}
-                                                                                />
-                                                                            </Tooltip>
-                                                                        </Col>
-                                                                        <Col className={styles.badgeText} span={24}>
-                                                                            آدرس
-                                                                        </Col>
-                                                                    </Row>
-                                                                </div>
-                                                                <div
-                                                                    className={`${styles.badge}
-                                        ${item.trust && item.trust.idCard.verified && styles.badgeActive}`}
-                                                                >
-                                                                    <Row>
-                                                                        <Col span={24}>
-                                                                            <Tooltip title="کارت ملی">
-                                                                                <img
-                                                                                    src="/assets/images/badge/idCard.svg"
-                                                                                    alt="کارت ملی"
-                                                                                    className={styles.badgeImg}
-                                                                                />
-                                                                            </Tooltip>
-                                                                        </Col>
-                                                                        <Col className={styles.badgeText} span={24}>
-                                                                            کارت ملی
-                                                                        </Col>
-                                                                    </Row>
-                                                                </div>
-                                                                <div
-                                                                    className={`${styles.badge}
-                                        ${item.trust && item.trust.certificate.verified && styles.badgeActive}`}
-                                                                >
-                                                                    <Row>
-                                                                        <Col span="24">
-                                                                            <Tooltip title="مدرک تحصیلی">
-                                                                                <img
-                                                                                    src="/assets/images/badge/degree.svg"
-                                                                                    alt="مدرک تحصیلی"
-                                                                                    className={styles.badgeImg}
-                                                                                />
-                                                                            </Tooltip>
-                                                                        </Col>
-                                                                        <Col className={styles.badgeText} span="24">
-                                                                            مدرک تحصیلی
-                                                                        </Col>
-                                                                    </Row>
-                                                                </div>
-                                                                <div
-                                                                    className={`${styles.badge}
-                                       ${item.trust && item.trust.identity.verified && item.trust.identity.filePath && styles.badgeActive}`}
-                                                                >
-                                                                    <Row>
-                                                                        <Col span="24">
-                                                                            <Tooltip title="تایید هویت">
-                                                                                <img
-                                                                                    src="/assets/images/badge/identity.svg"
-                                                                                    alt="تایید هویت"
-                                                                                    className={styles.badgeImg}
-                                                                                />
-                                                                            </Tooltip>
-                                                                        </Col>
-                                                                        <Col className={styles.badgeText} span={24}>
-                                                                            تایید هویت
-                                                                        </Col>
-                                                                    </Row>
-                                                                </div>
-                                                                <div
-                                                                    span={24}
-                                                                    className={`${styles.badge}
-                                        ${item.trust && item.trust.backgroundCheck.verified && styles.badgeActive}`}
-                                                                >
-                                                                    <Row>
-                                                                        <Col span={24}>
-                                                                            <Tooltip title="گواهی عدم سو پیشینه">
-                                                                                <img
-                                                                                    src="/assets/images/badge/backgroundcheck.svg"
-                                                                                    alt="گواهی عدم سو پیشینه"
-                                                                                    className={styles.badgeImg}
-                                                                                />
-                                                                            </Tooltip>
-                                                                        </Col>
-                                                                        <Col className={styles.badgeText} span={24}>
-                                                                            گواهی عدم سوء‌پیشینه
-                                                                        </Col>
-                                                                    </Row>
-                                                                </div>
-                                                            </div>
-
-                                                        </Col>
-                                                    </Row>
-                                                </Col>
-                                                <Col span={24} md={15} className={styles.cardLeft}>
-                                                    <Row type={'flex'}>
-                                                        <Col>
-                                                            <div className={styles.cardDesc}>
-                                                                { item.profession.intro && item.profession.intro.description }
-                                                            </div>
+                                                <Col span={24} md={5} className={styles.cardRight}>
+                                                    <Row type="flex">
+                                                        <Col span={24}>
+                                                            <img
+                                                                src={
+                                                                    item &&
+                                                                    item.trust &&
+                                                                    item.trust.profilePicture &&
+                                                                    item.trust.profilePicture.filePath
+                                                                        ? `https://chibaki.ir${item.trust.profilePicture.filePath.replace(
+                                                                            'public',
+                                                                            ''
+                                                                        )}`
+                                                                        : 'https://chibaki.ir/profile/images/unknown.jpg'
+                                                                }
+                                                                alt={`${item.firstname} ${item.lastname}`}
+                                                                className={styles.avatar}
+                                                            />
                                                         </Col>
                                                     </Row>
                                                     <Row>
+                                                        <Col span={24}>
+                                                            <div className={styles.cardName}>
+                                                                {`${item.firstname} ${item.lastname}`}
+                                                            </div>
+                                                            <div className={styles.cardRate}>
+                                                                <Rate disabled defaultValue={item.profession.rate} />
+                                                            </div>
+                                                        </Col>
+                                                    </Row>
+                                                </Col>
+                                                <Col span={24} md={19} className={styles.cardLeft}>
+                                                    <div className={styles.cardDesc}>
+                                                        {item.profession.intro && item.profession.intro.description}
+                                                    </div>
+                                                    <Row>
                                                         <Col>
-                                                            <Row type="flex" justify="space-between">
-                                                                <Col>
-                                                                    {/*<div> تعداد دفعات</div>*/}
-                                                                </Col>
-                                                                <Col>
-                                                                    <button
-                                                                        className={styles.btn}
-                                                                    >
+                                                            <div className={styles.cardLeftBottom}>
+                                                                <div>
+                                                                    <div className={styles.badgeWrapper}>
+                                                                        <div
+                                                                            className={`${styles.badge}
+                                                                            ${item.trust &&
+                                                                            item.trust.addressProof.verified &&
+                                                                            styles.badgeActive}`}
+                                                                        >
+                                                                            <Row>
+                                                                                <Col span={24}>
+                                                                                    <Tooltip title="آدرس">
+                                                                                        <img
+                                                                                            src="/assets/images/badge/address.svg"
+                                                                                            alt="آدرس"
+                                                                                            className={styles.badgeImg}
+                                                                                        />
+                                                                                    </Tooltip>
+                                                                                </Col>
+                                                                                <Col span={24}>
+                                                                                    <div className={styles.badgeText}>
+                                                                                        آدرس
+                                                                                    </div>
+                                                                                </Col>
+                                                                            </Row>
+                                                                        </div>
+                                                                        <div
+                                                                            className={`${styles.badge}
+                                                                            ${item.trust &&
+                                                                            item.trust.idCard.verified &&
+                                                                            styles.badgeActive}`}
+                                                                        >
+                                                                            <Row>
+                                                                                <Col span={24}>
+                                                                                    <Tooltip title="کارت ملی">
+                                                                                        <img
+                                                                                            src="/assets/images/badge/idCard.svg"
+                                                                                            alt="کارت ملی"
+                                                                                            className={styles.badgeImg}
+                                                                                        />
+                                                                                    </Tooltip>
+                                                                                </Col>
+                                                                                <Col span={24}>
+                                                                                    <div className={styles.badgeText}>
+                                                                                        کارت ملی
+                                                                                    </div>
+                                                                                </Col>
+                                                                            </Row>
+                                                                        </div>
+                                                                        <div
+                                                                            className={`${styles.badge}
+                                        ${item.trust && item.trust.certificate.verified && styles.badgeActive}`}
+                                                                        >
+                                                                            <Row>
+                                                                                <Col span="24">
+                                                                                    <Tooltip title="مدرک تحصیلی">
+                                                                                        <img
+                                                                                            src="/assets/images/badge/degree.svg"
+                                                                                            alt="مدرک تحصیلی"
+                                                                                            className={styles.badgeImg}
+                                                                                        />
+                                                                                    </Tooltip>
+                                                                                </Col>
+                                                                                <Col span="24">
+                                                                                    <div className={styles.badgeText}>
+                                                                                        مدرک تحصیلی
+                                                                                    </div>
+                                                                                </Col>
+                                                                            </Row>
+                                                                        </div>
+                                                                        <div
+                                                                            className={`${styles.badge}
+                                       ${item.trust &&
+                                                                            item.trust.identity.verified &&
+                                                                            item.trust.identity.filePath &&
+                                                                            styles.badgeActive}`}
+                                                                        >
+                                                                            <Row>
+                                                                                <Col span="24">
+                                                                                    <Tooltip title="تایید هویت">
+                                                                                        <img
+                                                                                            src="/assets/images/badge/identity.svg"
+                                                                                            alt="تایید هویت"
+                                                                                            className={styles.badgeImg}
+                                                                                        />
+                                                                                    </Tooltip>
+                                                                                </Col>
+                                                                                <Col span={24}>
+                                                                                    <div className={styles.badgeText}>
+                                                                                        تایید هویت
+                                                                                    </div>
+                                                                                </Col>
+                                                                            </Row>
+                                                                        </div>
+                                                                        <div
+                                                                            span={24}
+                                                                            className={`${styles.badge}
+                                        ${item.trust && item.trust.backgroundCheck.verified && styles.badgeActive}`}
+                                                                        >
+                                                                            <Row>
+                                                                                <Col span={24}>
+                                                                                    <Tooltip
+                                                                                        title="گواهی عدم سو پیشینه"
+                                                                                    >
+                                                                                        <img
+                                                                                            src="/assets/images/badge/backgroundcheck.svg"
+                                                                                            alt="گواهی عدم سو پیشینه"
+                                                                                            className={styles.badgeImg}
+                                                                                        />
+                                                                                    </Tooltip>
+                                                                                </Col>
+                                                                                <Col span={24}>
+                                                                                    <div className={styles.badgeText}>
+                                                                                        گواهی عدم سوء‌پیشینه
+                                                                                    </div>
+                                                                                </Col>
+                                                                            </Row>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <button className={styles.cardBtn}>
                                                                         مشاهده پروفایل
                                                                     </button>
-                                                                </Col>
-                                                            </Row>
+                                                                </div>
+                                                            </div>
                                                         </Col>
                                                     </Row>
                                                 </Col>
@@ -338,23 +327,16 @@ class Services extends Component {
                             })}
                         </div>
                         <div className="u-t--c">
-                            <button className={styles.btnMore}>
-                                نمایش بیشتر
-                            </button>
+                            <button className={styles.btnMore}>نمایش بیشتر</button>
                         </div>
                     </div>
 
                     <div>
                         <div>
                             <div className={styles.title}>درخواست‌های مشابه ثبت شده در چی‌با‌کی</div>
-                            <div className={styles.subtitle}>
-                                {selectedProfession.title}
-                            </div>
+                            <div className={styles.subtitle}>{selectedProfession.title}</div>
                         </div>
-                        <Flickity
-                            options={this.sliderOptions}
-                            className={styles.jobCardWrapper}
-                        >
+                        <Flickity options={this.sliderOptions} className={styles.jobCardWrapper}>
                             {professionsJobs.map((job) => {
                                 return (
                                     <div key={job._id} className={styles.jobCard}>
@@ -365,22 +347,20 @@ class Services extends Component {
 
                                         <div className={styles.jobCardRow}>
                                             <div className={styles.jobCardTitle}>
-                                                {}
-                                                {`${job.location
-                                                    && job.location.province
-                                                    && job.location.province.name
-                                                    ? job.location.province.name
-                                                    : ''
-                                                }, ${job.location
-                                                    && job.location.city
-                                                    && job.location.city.name
-                                                    ? job.location.city.name
-                                                    : ''
-                                                }`}
+                                                {`
+                                                    ${
+                                    job.location &&
+                                                    job.location.province &&
+                                                    job.location.province.name
+                                        ? `${job.location.province.name},`
+                                        : '-'
+                                    } ${
+                                        job.location && job.location.city && job.location.city.name
+                                            ? job.location.city.name
+                                            : ''
+                                    }`}
                                             </div>
-                                            <div className={styles.jobCardSub}>
-                                                شهر
-                                            </div>
+                                            <div className={styles.jobCardSub}>شهر</div>
                                         </div>
 
                                         {job.attributes.map((attr) => {
@@ -389,13 +369,10 @@ class Services extends Component {
                                                     <div className={styles.jobCardTitle}>
                                                         {attr.text || attr.options.join(' ')}
                                                     </div>
-                                                    <div className={styles.jobCardSub}>
-                                                        {attr.title}
-                                                    </div>
+                                                    <div className={styles.jobCardSub}>{attr.title}</div>
                                                 </div>
                                             );
                                         })}
-
                                     </div>
                                 );
                             })}
@@ -415,13 +392,11 @@ class Services extends Component {
     }
 }
 
-export default connect(
-    state => ({
-        proficients: state.proficients.proficients,
-        title: state.proficients.title,
-        selectedProfession: state.proficients.selectedProfession,
-        count: state.proficients.count,
-        provinces: state.provinces.provinces,
-        professionsJobs: state.ProjectsForProfession.ProjectsForProfession
-    })
-)(Services);
+export default connect(state => ({
+    proficients: state.proficients.proficients,
+    title: state.proficients.title,
+    selectedProfession: state.proficients.selectedProfession,
+    count: state.proficients.count,
+    provinces: state.provinces.provinces,
+    professionsJobs: state.ProjectsForProfession.ProjectsForProfession
+}))(Services);
