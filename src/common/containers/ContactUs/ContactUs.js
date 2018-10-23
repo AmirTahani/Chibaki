@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import styles from './ContacUS.styl';
+import styles from './ContacUS.module.styl';
 
 export default class Contact extends Component {
     render() {

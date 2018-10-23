@@ -119,6 +119,10 @@
 	font-weight: 900;
 }
 
+.badge {
+	flex-shrink: 1;
+}
+
 .badge:not(.badgeActive) {
 	opacity: .3;
 }

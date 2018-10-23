@@ -1,4 +1,5 @@
 const paths = require('razzle/config/paths');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const postCssOptions = (rtl) => {
@@ -200,6 +201,29 @@ module.exports = {
             exclude: [/\.module\.styl$/],
             use: stylusLoaders
         });
+
+        if (!dev) {
+            const index = config.plugins.findIndex(plugin => plugin.constructor.name === 'UglifyJsPlugin');
+            if (index !== -1) {
+                appConfig.plugins[index] = new UglifyJsPlugin({
+                    uglifyOptions: {
+                        compress: {
+                            warnings: false,
+                            // Disabled because of an issue with Uglify breaking seemingly valid code:
+                            // https://github.com/facebookincubator/create-react-app/issues/2376
+                            // Pending further investigation:
+                            // https://github.com/mishoo/UglifyJS2/issues/2011
+                            comparisons: false,
+                            collapse_vars: false
+                        },
+                        output: {
+                            comments: false,
+                        },
+                    },
+                    sourceMap: true,
+                });
+            }
+        }
 
         return appConfig;
     }
