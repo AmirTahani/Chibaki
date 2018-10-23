@@ -44,7 +44,11 @@ import {
     REGISTER,
     watchRegister,
     VERIFY,
-    watchVerifyMobile
+    watchVerifyMobile,
+    SET_JWT,
+    watchSetJwt,
+    UN_SET_JWT,
+    watchUnsetJwt
 } from './modules/auth';
 
 export default function* root(client, store) {
@@ -61,6 +65,8 @@ export default function* root(client, store) {
         takeEvery(LOGIN, watchLogin, client),
         takeEvery(REGISTER, watchRegister, client),
         takeEvery(VERIFY, watchVerifyMobile, client),
-        takeEvery(LOAD_PROJECTS_PROF, watchLoadProjectsForProfession, client)
+        takeEvery(LOAD_PROJECTS_PROF, watchLoadProjectsForProfession, client),
+        takeEvery(SET_JWT, watchSetJwt, client),
+        takeEvery(UN_SET_JWT, watchUnsetJwt, client)
     ]);
 }

@@ -24,11 +24,6 @@ export default class AutoComplete extends Component {
     state = {
         options: [],
     };
-
-    componentDidMount() {
-        this.engine = this.engineConf.initialize();
-    }
-
     engineConf = new Bloodhound({
         initialize: true,
         local: this.props.options,
@@ -39,8 +34,6 @@ export default class AutoComplete extends Component {
             ),
         identify: obj => obj._id
     });
-
-
     handleChange = (value) => {
         this.engineConf.search(value,
             (options) => {
@@ -50,7 +43,6 @@ export default class AutoComplete extends Component {
             }
         );
     };
-
     renderOption = (item) => {
         return (
             <Option
@@ -61,6 +53,10 @@ export default class AutoComplete extends Component {
             </Option>
         );
     };
+
+    componentDidMount() {
+        this.engine = this.engineConf.initialize();
+    }
 
     render() {
         const { onSubmit, showBtn, placeholder } = this.props;
@@ -85,9 +81,11 @@ export default class AutoComplete extends Component {
                             className="c-autocomplete__field"
                         />
                     </AntAutoComplete>
-                    {showBtn && <button className="c-autocomplete__btn">
-                        ادامه
-                    </button>}
+                    {
+                        showBtn && <button className="c-autocomplete__btn">
+                            ادامه
+                        </button>
+                    }
                 </div>
             </div>
         );

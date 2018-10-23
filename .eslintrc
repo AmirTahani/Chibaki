@@ -49,6 +49,7 @@
     "dot-notation": "off",
     "import/no-dynamic-require": "off",
     "import/no-named-as-default": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
     "no-prototype-builtins": "off",
     "react/prefer-stateless-function": "off",
     "spaced-comment": "off",
