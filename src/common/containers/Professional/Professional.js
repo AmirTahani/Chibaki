@@ -74,9 +74,13 @@ class Professional extends Component {
                 professional.user.professions[selectedProfession].intro
             ).reduce((acc, current) => {
                 if (current.indexOf('photo') >= 0 && professional.user.professions[selectedProfession].intro[current]) {
-                    acc.push(
-                        `https://chibaki.ir${professional.user.professions[selectedProfession].intro[current].replace('public', '')}`
-                    );
+                    if (current === 'photos') {
+                        acc = professional.user.professions[selectedProfession].intro[current].map(photo => `https://chibaki.ir${photo.replace('public', '')}`);
+                    } else {
+                        acc.push(
+                            `https://chibaki.ir${professional.user.professions[selectedProfession].intro[current].replace('public', '')}`
+                        );
+                    }
                     return acc;
                 }
                 return acc;
