@@ -269,17 +269,10 @@ class Professional extends Component {
                                 <Row className={styles.heading}>
                                     <Col>اطلاعات</Col>
                                 </Row>
-                                <Row
-                                    style={{
-                                        textAlign: 'center'
-                                    }}
+                                <div
                                     className={styles.badgesWrapper}
-                                    type="flex"
-                                    justify="space-around"
                                 >
-                                    <Col
-                                        span={12}
-                                        md={24}
+                                    <div
                                         className={`${styles.badge}
                                         ${professional.user.trust.addressProof.verified && styles.badgeActive}`}
                                     >
@@ -300,10 +293,8 @@ class Professional extends Component {
                                                 آدرس
                                             </Col>
                                         </Row>
-                                    </Col>
-                                    <Col
-                                        span={12}
-                                        md={24}
+                                    </div>
+                                    <div
                                         className={`${styles.badge}
                                         ${professional.user.trust.idCard.verified && styles.badgeActive}`}
                                     >
@@ -324,10 +315,8 @@ class Professional extends Component {
                                                 کارت ملی
                                             </Col>
                                         </Row>
-                                    </Col>
-                                    <Col
-                                        span={12}
-                                        md={24}
+                                    </div>
+                                    <div
                                         className={`${styles.badge}
                                         ${professional.user.trust.certificate.verified && styles.badgeActive}`}
                                     >
@@ -352,10 +341,8 @@ class Professional extends Component {
                                                 مدرک تحصیلی
                                             </Col>
                                         </Row>
-                                    </Col>
-                                    <Col
-                                        span={12}
-                                        md={24}
+                                    </div>
+                                    <div
                                         className={`${styles.badge}
                                        ${professional.user.trust.identity.verified && professional.user.trust.identity.filePath && styles.badgeActive}`}
                                     >
@@ -372,10 +359,8 @@ class Professional extends Component {
                                                 تایید هویت
                                             </Col>
                                         </Row>
-                                    </Col>
-                                    <Col
-                                        span={12}
-                                        md={24}
+                                    </div>
+                                    <div
                                         className={`${styles.badge}
                                         ${professional.user.trust.backgroundCheck.verified && styles.badgeActive}`}
                                     >
@@ -400,8 +385,8 @@ class Professional extends Component {
                                                 گواهی عدم سوء‌پیشینه
                                             </Col>
                                         </Row>
-                                    </Col>
-                                </Row>
+                                    </div>
+                                </div>
                             </Col>
                         </Row>
 
