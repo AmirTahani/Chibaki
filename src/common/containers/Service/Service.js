@@ -14,7 +14,7 @@ import Features from '../../components/Features/Features';
 import GetApp from '../../components/GetApp/GetApp';
 import styles from './Service.module.styl';
 
-const SHOULD_INIT_SLIDER = typeof window !== 'undefined' && window.innerWidth > 500;
+const SHOULD_INIT_SLIDER = typeof window !== 'undefined' && window.innerWidth > 350;
 const Flickity = SHOULD_INIT_SLIDER ? require('react-flickity-component') : 'div';
 require('flickity/dist/flickity.min.css');
 
@@ -31,13 +31,12 @@ class Services extends Component {
     sliderOptions = {
         lazyLoad: 1,
         rightToLeft: true,
-        cellAlign: 'right',
+        cellAlign: 'center',
         contain: true,
         groupCells: '100%',
         pageDots: false,
         prevNextButtons: true,
         adaptiveHeight: true
-        // watchCSS: true
     };
 
     componentDidMount() {

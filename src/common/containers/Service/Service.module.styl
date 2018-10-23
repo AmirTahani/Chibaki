@@ -311,13 +311,13 @@
 			display: flex
 			flex-flow row nowrap
 			overflow: auto;
-		
-		//:global(.flickity-slider)
-		//	display: flex
-		//	align-items: stretch
-		//	flex-direction: row
-		//	> *
-		//		height: 100%
+			
+		@media (min-width $md + 1)
+			:global .flickity-prev-next-button.previous
+				right: -50px
+				
+			:global .flickity-prev-next-button.next
+				left: -50px
 	
 	&Date
 		color: alpha(#758CA0, 75%)
