@@ -28,4 +28,4 @@ export const defualtQuestions = [
         skipable: false
     }
 ];
-
+export const renderType = 'server';

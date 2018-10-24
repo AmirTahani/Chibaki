@@ -24,6 +24,10 @@ class Home extends Component {
         professionId: ''
     };
 
+    componentWillMount() {
+        console.log('her');
+    }
+
     handleSelect = (professionId) => {
         this.setState({
             showQuestions: true,
