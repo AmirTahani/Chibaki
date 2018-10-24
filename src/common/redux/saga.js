@@ -12,6 +12,11 @@ import {
 } from './modules/professions';
 
 import {
+    LOAD as loadService,
+    watchLoad as watchLoadService
+} from './modules/serviceContainer';
+
+import {
     LOAD_QUESTIONS,
     watchLoadQuestions,
     SUBMIT_ANSWERS,
@@ -61,6 +66,7 @@ export default function* root(client, store) {
         takeEvery(LOGIN, watchLogin, client),
         takeEvery(REGISTER, watchRegister, client),
         takeEvery(VERIFY, watchVerifyMobile, client),
-        takeEvery(LOAD_PROJECTS_PROF, watchLoadProjectsForProfession, client)
+        takeEvery(LOAD_PROJECTS_PROF, watchLoadProjectsForProfession, client),
+        takeEvery(loadService, watchLoadService, client)
     ]);
 }

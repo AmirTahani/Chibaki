@@ -12,7 +12,7 @@ const initialState = {
     loaded: false,
     professional: [],
     error: null,
-    comments: []
+    comments: {}
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -45,10 +45,13 @@ export default function reducer(state = initialState, action = {}) {
     }
 }
 
-export function load(professionalId) {
+export function load(professionalId, resolve, reject) {
+    console.log(resolve);
     return {
         type: LOAD_PROFESSIONAL,
         professionalId,
+        resolve,
+        reject
     };
 }
 
@@ -73,15 +76,16 @@ export function loadFailure(error) {
     };
 }
 
-export function* watchLoadProfessional(client, { professionalId }) {
+export function* watchLoadProfessional(client, { professionalId, resolve, reject }) {
     try {
         const response = yield client.get(`/professionals/${professionalId}`);
         const comments = yield client.get(`/v1/professionals/${professionalId}/comments?populate=customer,userProfession,userProfession.profession`);
         yield put(loadComments(comments.data));
         yield put(loadSuccess(response.data));
-        yield put(END);
+        resolve && resolve('');
     } catch (error) {
         console.log('error ', error);
+        reject && reject();
         handleSagaError(error);
         yield put(loadFailure(error));
     }

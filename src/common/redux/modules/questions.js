@@ -131,7 +131,6 @@ export function* watchLoadQuestions(client, { professionId, isDirect }) {
         const response = yield client.get(`/professions/${professionId}/questions`);
         yield put(loadQuestionsSuccess(response.data));
     } catch (error) {
-        console.log(error, 'this is error');
         yield put(loadQuestionsFailure(error));
         yield handleSagaError(error);
     }

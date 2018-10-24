@@ -1,4 +1,4 @@
-import { put, take } from 'redux-saga/effects';
+import { put, take, all } from 'redux-saga/effects';
 import { END } from 'redux-saga';
 import { handleSagaError } from '../../utils/handleSagaError';
 
@@ -19,6 +19,7 @@ const initialState = {
     professionsList: [],
     error: null,
     categories: [],
+    flattenProfessionsByCategories: [],
     loadingCategories: false,
     loadedCategories: false,
     errorCategories: null
@@ -36,7 +37,7 @@ export default function reducer(state = initialState, action = {}) {
                 ...state,
                 loading: false,
                 loaded: true,
-                professionsList: action.professionsList
+                professionsList: action.professionsList,
             };
         case LOAD_PROFESSIONS_LIST_FAILURE:
             return {
@@ -54,7 +55,8 @@ export default function reducer(state = initialState, action = {}) {
                 ...state,
                 loadingCategories: false,
                 loadedCategories: true,
-                categories: action.categories
+                categories: action.categories,
+                flattenProfessionsByCategories: action.flattenProfessionsByCategories
             };
         case LOAD_CATEGORIES_FAILURE:
             return {
@@ -95,10 +97,11 @@ export function loadCategories(resolve, reject) {
     };
 }
 
-export function loadCategoriesSuccess(categories) {
+export function loadCategoriesSuccess(categories, flattenProfessionsByCategories) {
     return {
         type: LOAD_CATEGORIES_SUCCESS,
-        categories
+        categories,
+        flattenProfessionsByCategories
     };
 }
 
@@ -109,9 +112,11 @@ export function loadCategoriesFailure(error) {
     };
 }
 
-export function loader() {
+export function loader(resolve, reject) {
     return {
-        type: LOADER
+        type: LOADER,
+        resolve,
+        reject
     };
 }
 
@@ -128,7 +133,12 @@ export function* watchLoadProfessionsList(client) {
 export function* watchLoadCategories(client, { resolve, reject }) {
     try {
         const response = yield client.get('/v1/categories?populate=professions');
-        yield put(loadCategoriesSuccess(response.data.categories));
+        const result = response.data.categories;
+        const flattenProfessionsByCategories = result.reduce((acc, current) => {
+            acc.push(...current.professions);
+            return acc;
+        }, []);
+        yield put(loadCategoriesSuccess(result, flattenProfessionsByCategories));
         resolve && resolve(response.data.categories);
     } catch (error) {
         console.log('this is error,', error);
@@ -137,14 +147,17 @@ export function* watchLoadCategories(client, { resolve, reject }) {
     }
 }
 
-export function* watchLoader() {
+export function* watchLoader(client, { resolve, reject }) {
     try {
         yield put(loadCategories());
-        yield take(LOAD_CATEGORIES_SUCCESS);
         yield put(loadProfessionsList());
-        yield take(LOAD_PROFESSIONS_LIST_SUCCESS);
-        yield put(END);
+        yield all([
+            take(LOAD_PROFESSIONS_LIST_SUCCESS),
+            take(LOAD_CATEGORIES_SUCCESS)
+        ]);
+        resolve && resolve();
     } catch (error) {
+        reject && reject();
         console.log(error, 'this is fucking error');
     }
 }

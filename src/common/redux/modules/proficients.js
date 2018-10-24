@@ -46,7 +46,7 @@ export default function reducer(state = initialState, action = {}) {
     }
 }
 
-export function load(resolve, reject, professionId, title, selectedProfession, provinceId) {
+export function load(professionId, title, selectedProfession, provinceId, resolve, reject) {
     return {
         type: LOAD_PROFICIENTS,
         resolve,

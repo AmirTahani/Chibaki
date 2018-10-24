@@ -135,7 +135,6 @@ export default class SingleWithDatePicker extends Component {
         const { question } = this.props;
         const { options, value } = this.state;
         const shouldShowDatePicker = this.getShouldShowDatePicker();
-        console.log(this.state, 'this istate');
         return (
             <div>
                 <p className={styles.title}>{question.title}</p>
