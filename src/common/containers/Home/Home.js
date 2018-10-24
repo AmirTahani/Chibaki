@@ -26,7 +26,7 @@ class Home extends Component {
         professionId: ''
     };
 
-    componentWillMount() {
+    componentDidMount() {
         if (window && window.__renderType__ === 'client') {
             this.props.loadConnect();
         }

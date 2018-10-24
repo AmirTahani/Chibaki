@@ -10,7 +10,9 @@ const Routes = (props) => {
     if (browserHistory && browserHistory.listen) {
         browserHistory.listen((location) => {
             console.log(location, ' thisi si ');
-            window.__renderType__ = 'client';
+            if (window) {
+                window.__renderType__ = 'client';
+            }
         });
     }
 
