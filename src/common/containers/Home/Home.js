@@ -12,11 +12,13 @@ import Features from '../../components/Features/Features';
 import GetApp from '../../components/GetApp/GetApp';
 import ProfessionSliders from '../../components/Professions/Slider/Slider';
 import './Home.css';
+import { loader } from '../../redux/modules/professions';
 
 class Home extends Component {
     static propTypes = {
         professions: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
-        sliders: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired
+        sliders: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+        loadConnect: PropTypes.func.isRequired
     };
 
     state = {
@@ -25,7 +27,9 @@ class Home extends Component {
     };
 
     componentWillMount() {
-        console.log('her');
+        if (window && window.__renderType__ === 'client') {
+            this.props.loadConnect();
+        }
     }
 
     handleSelect = (professionId) => {
@@ -90,4 +94,7 @@ class Home extends Component {
 export default connect(state => ({
     professions: state.professions.categories,
     sliders: state.professions.professionsList
-}))(Home);
+}),
+{
+    loadConnect: loader
+})(Home);

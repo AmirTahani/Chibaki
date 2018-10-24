@@ -6,6 +6,7 @@ export const LOAD_PROFESSIONAL = 'ssr/professional/LOAD_PROFESSIONAL';
 export const LOAD_PROFESSIONAL_SUCCESS = 'ssr/professional/LOAD_PROFESSIONAL_SUCCESS';
 export const LOADED_COMMENTS = 'ssr/professional/LOADED_COMMENTS';
 export const LOAD_PROFESSIONAL_FAILURE = 'ssr/professional/LOAD_PROFESSIONAL_FAILURE';
+export const CLEAR = 'ssr/professional/CLEAR';
 
 const initialState = {
     loading: false,
@@ -27,6 +28,12 @@ export default function reducer(state = initialState, action = {}) {
                 ...state,
                 comments: action.comments,
             };
+        case CLEAR:
+            return {
+                ...state,
+                professional: [],
+                comments: {}
+            };
         case LOAD_PROFESSIONAL_SUCCESS:
             return {
                 ...state,
@@ -46,7 +53,6 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 export function load(professionalId, resolve, reject) {
-    console.log(resolve);
     return {
         type: LOAD_PROFESSIONAL,
         professionalId,
@@ -69,6 +75,13 @@ export function loadSuccess(response) {
     };
 }
 
+export function clear() {
+    return {
+        type: CLEAR
+
+    };
+}
+
 export function loadFailure(error) {
     return {
         type: LOAD_PROFESSIONAL_FAILURE,
@@ -78,6 +91,7 @@ export function loadFailure(error) {
 
 export function* watchLoadProfessional(client, { professionalId, resolve, reject }) {
     try {
+        yield put(clear());
         const response = yield client.get(`/professionals/${professionalId}`);
         const comments = yield client.get(`/v1/professionals/${professionalId}/comments?populate=customer,userProfession,userProfession.profession`);
         yield put(loadComments(comments.data));

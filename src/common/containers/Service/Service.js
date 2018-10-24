@@ -48,7 +48,9 @@ class Services extends Component {
         const { location } = this.props;
         objectFitImages();
         const title = location.pathname.split('/').reverse()[0].split('_').join(' ');
-        this.props.loadConnect(null, null, location.query, title);
+        if (window && window.__renderType__ === 'client') {
+            this.props.loadConnect(null, null, location.query, title);
+        }
     }
 
 
@@ -100,10 +102,11 @@ class Services extends Component {
             acc.push({ ...cur, profession });
             return acc;
         }, []);
+
         return (
             <div className={styles.wrapper}>
                 <Header />
-                {loadedComplete
+                {loadedComplete && proficients.length > 0
                     ? <div>
                         <div className={styles.hero}>
                             <div className={styles.heroBg}>
