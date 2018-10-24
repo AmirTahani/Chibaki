@@ -39,3 +39,23 @@ export const ListLink = styled(Link)`
 		color: #62abf5;
 	}
 `;
+
+export const ListClickable = styled('div')`
+	display: block;
+	padding: 0 15px;
+	cursor: pointer;
+
+	font-size: .95rem;
+	font-weight: 600;
+	line-height: ${HeaderHeight};
+	height: ${HeaderHeight};
+
+	color: ${primaryColor};
+
+	transition: 0s;
+
+	&:hover {
+		color: #62abf5;
+	}
+`;
+

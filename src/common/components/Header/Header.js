@@ -1,15 +1,78 @@
 import { Link } from 'react-router';
 import React, { Component } from 'react';
-import {} from 'react-redux';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import {
+    toggleAuthModal,
+    setUserMobile,
+    setUserName,
+    setUserLastName,
+    setUserCode,
+    login,
+    register,
+    verify
+} from '../../redux/modules/auth';
 import { HeaderComponent, HeaderInner, Logo, LogoImg } from './Header.styles';
+import Auth from '../Auth/Auth';
 import Nav from '../Nav/Nav';
 
 class Header extends Component {
+    static propTypes = {
+        user: PropTypes.objectOf(PropTypes.any).isRequired,
+        professions: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+        showAuthModal: PropTypes.bool.isRequired,
+        toggleAuthModalConnect: PropTypes.func.isRequired,
+        setUserMobileConnect: PropTypes.func.isRequired,
+        verifyConnect: PropTypes.func.isRequired,
+        setUserNameConnect: PropTypes.func.isRequired,
+        setUserLastNameConnect: PropTypes.func.isRequired,
+        setUserCodeConnect: PropTypes.func.isRequired,
+        loginConnect: PropTypes.func.isRequired,
+        registerConnect: PropTypes.func.isRequired,
+        mobile: PropTypes.string.isRequired,
+        firstName: PropTypes.string.isRequired,
+        lastName: PropTypes.string.isRequired,
+        code: PropTypes.string.isRequired
+    };
+
     render() {
+        const {
+            user,
+            showAuthModal,
+            toggleAuthModalConnect,
+            setUserCodeConnect,
+            setUserLastNameConnect,
+            setUserNameConnect,
+            setUserMobileConnect,
+            mobile,
+            loginConnect,
+            firstName,
+            lastName,
+            code,
+            professions,
+            registerConnect,
+            verifyConnect
+        } = this.props;
         return (
             <HeaderComponent>
                 <HeaderInner>
-                    <Nav />
+                    <Auth
+                        showModal={showAuthModal}
+                        toggleAuthModal={toggleAuthModalConnect}
+                        setUserCode={setUserCodeConnect}
+                        setUserLastName={setUserLastNameConnect}
+                        setUserName={setUserNameConnect}
+                        setUserMobile={setUserMobileConnect}
+                        mobile={mobile}
+                        login={loginConnect}
+                        firstName={firstName}
+                        lastName={lastName}
+                        code={code}
+                        professions={professions}
+                        register={registerConnect}
+                        verify={verifyConnect}
+                    />
+                    <Nav user={user} toggleAuthModal={toggleAuthModalConnect} />
                     <Logo>
                         <Link to="/">
                             <div className="sr-only">چی باکی</div>
@@ -22,4 +85,20 @@ class Header extends Component {
     }
 }
 
-export default Header;
+export default connect(state => ({
+    user: state.auth.user,
+    showAuthModal: state.auth.showAuthModal,
+    mobile: state.auth.mobile,
+    firstName: state.auth.firstName,
+    lastName: state.auth.lastName,
+    code: state.auth.code,
+}), {
+    toggleAuthModalConnect: toggleAuthModal,
+    verifyConnect: verify,
+    setUserCodeConnect: setUserCode,
+    setUserLastNameConnect: setUserLastName,
+    setUserMobileConnect: setUserMobile,
+    setUserNameConnect: setUserName,
+    loginConnect: login,
+    registerConnect: register
+})(Header);

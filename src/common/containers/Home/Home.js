@@ -41,12 +41,16 @@ class Home extends Component {
     render() {
         const { professions, sliders } = this.props;
         const { professionId, showQuestions } = this.state;
+        const flattenProfessions = flattenProfessionsByCategories(professions);
+
         return (
             <div className="Home">
-                <Header />
+                <Header
+                    professions={flattenProfessions}
+                />
 
                 <Hero
-                    professions={flattenProfessionsByCategories(professions)}
+                    professions={flattenProfessions}
                     onSelect={this.handleSelect}
                 />
 

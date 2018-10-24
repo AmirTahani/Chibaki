@@ -49,12 +49,16 @@ import {
     REGISTER,
     watchRegister,
     VERIFY,
-    watchVerifyMobile
+    watchVerifyMobile,
+    SET_JWT,
+    watchSetJwt,
+    UN_SET_JWT,
+    watchUnsetJwt
 } from './modules/auth';
 
 export default function* root(client, store) {
     yield all([
-        takeEvery(REHYDRATE, watchRehydrate),
+        takeEvery(REHYDRATE, watchRehydrate, store),
         takeEvery(LOAD_PROFESSIONS_LIST, watchLoadProfessionsList, client),
         takeEvery(LOAD_CATEGORIES, watchLoadCategories, client),
         takeEvery(LOADER, watchLoader, client),
@@ -67,6 +71,8 @@ export default function* root(client, store) {
         takeEvery(REGISTER, watchRegister, client),
         takeEvery(VERIFY, watchVerifyMobile, client),
         takeEvery(LOAD_PROJECTS_PROF, watchLoadProjectsForProfession, client),
-        takeEvery(loadService, watchLoadService, client)
+        takeEvery(loadService, watchLoadService, client),
+        takeEvery(SET_JWT, watchSetJwt, client),
+        takeEvery(UN_SET_JWT, watchUnsetJwt, client)
     ]);
 }

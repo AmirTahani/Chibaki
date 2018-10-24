@@ -1,10 +1,31 @@
 import React, { Component } from 'react';
 import { Tabs, Input } from 'antd';
+import PropTypes from 'prop-types';
 import { AutoComplete } from '../Kit';
-import { flattenProfessionsByCategories } from '../../utils/serverHelper';
+import styles from './Register.module.styl';
 
 export default class Register extends Component {
-    renderRegisterForm = () => {
+    static propTypes = {
+        professions: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+        setUserLastName: PropTypes.func.isRequired,
+        setUserName: PropTypes.func.isRequired,
+        selectProfession: PropTypes.func.isRequired
+    };
+
+    onChangeName = (e) => {
+        this.props.setUserName(e.target.value);
+    };
+
+    onChangeLastName = (e) => {
+        this.props.setUserLastName(e.target.value);
+    };
+
+    handleSelect = (professionId) => {
+        this.props.selectProfession(professionId);
+    };
+
+    renderRegisterForm = (showAutoComplete) => {
+        const { professions } = this.props;
         return (
             <div>
                 <div className={styles.inputWrapper}>
@@ -19,11 +40,16 @@ export default class Register extends Component {
                         onChange={this.onChangeLastName}
                     />
                 </div>
-                <div className={styles.inputWrapper}>
-                    <AutoComplete
-                        options={flattenProfessionsByCategories(professions)}
-                    />
-                </div>
+                {
+                    showAutoComplete ? <div className={styles.inputWrapper}>
+                        <AutoComplete
+                            options={professions}
+                            showBtn={false}
+                            placeholder="تخصص خود را انتخاب کنید."
+                            onSubmit={this.handleSelect}
+                        />
+                    </div> : null
+                }
             </div>
         );
     };
@@ -32,8 +58,8 @@ export default class Register extends Component {
         return (
             <div>
                 <Tabs defaultActiveKey="1">
-                    <Tabs.TabPane tab="ثبت نام متخصص" key="1">{this.renderRegisterForm}</Tabs.TabPane>
-                    <Tabs.TabPane tab="ثبت نام مشتری" key="2">Content of Tab Pane 2</Tabs.TabPane>
+                    <Tabs.TabPane tab="ثبت نام متخصص" key="1">{this.renderRegisterForm(true)}</Tabs.TabPane>
+                    <Tabs.TabPane tab="ثبت نام مشتری" key="2">{this.renderRegisterForm(true)}</Tabs.TabPane>
                 </Tabs>
             </div>
         );
