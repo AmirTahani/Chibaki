@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import moment from 'moment-jalali';
 
 import Header from '../../components/Header/Header';
+import Questions from '../../components/Questions/Questions';
 import Footer from '../../components/Footer/Footer';
 import Autocomplete from '../../components/Kit/AutoComplete/AutoComplete';
 import HowItWorks from '../../components/Kit/HowItWorks/HowItWorks';
@@ -44,22 +45,18 @@ class Services extends Component {
         // watchCSS: true
     };
 
-    componentDidMount() {
-        const { location } = this.props;
-        objectFitImages();
-        const title = location.pathname.split('/').reverse()[0].split('_').join(' ');
-        if (window && window.__renderType__ === 'client') {
-            this.props.loadConnect(null, null, location.query, title);
-        }
-    }
-
+    state = {
+        showQuestions: false
+    };
 
     formatJobDate = (date) => {
         return moment(date).format(' jD jMMMM jYYYY');
     };
 
     registerProject = () => {
-        // console.log(this.props.selectedProfession, 'askjdakjdbasjkldb');
+        this.setState({
+            showQuestions: true
+        });
     };
 
     onProvinceSelect = (value, option) => {
@@ -94,9 +91,24 @@ class Services extends Component {
         }
         return ` از ${unit} ${priceRange.min} تومان`;
     };
+    handleClose = () => {
+        this.setState({
+            showQuestions: false
+        });
+    };
+
+    componentDidMount() {
+        const { location } = this.props;
+        objectFitImages();
+        const title = location.pathname.split('/').reverse()[0].split('_').join(' ');
+        if (window && window.__renderType__ === 'client') {
+            this.props.loadConnect(null, null, location.query, title);
+        }
+    }
 
     render() {
         const { title, selectedProfession, count, provinces, professionsJobs, loadedComplete } = this.props;
+        const { showQuestions } = this.state;
         const proficients = this.props.proficients.reduce((acc, cur) => {
             const profession = cur.professions.find(prof => prof.profession === selectedProfession._id);
             acc.push({ ...cur, profession });
@@ -106,6 +118,10 @@ class Services extends Component {
         return (
             <div className={styles.wrapper}>
                 <Header />
+                {
+                    showQuestions ?
+                        <Questions professionId={this.props.selectedProfession._id} onClose={this.handleClose} /> : null
+                }
                 {loadedComplete && proficients.length > 0
                     ? <div>
                         <div className={styles.hero}>
@@ -174,11 +190,18 @@ class Services extends Component {
                                 <div className={styles.cardWrapper}>
                                     {proficients.map((item) => {
                                         return (
-                                            <Link to={`/professional/${item.firstname}_${item.lastname}?id=${item._id}`} className={styles.cardLink}>
+                                            <Link
+                                                to={`/professional/${item.firstname}_${item.lastname}?id=${item._id}`}
+                                                className={styles.cardLink}
+                                            >
                                                 <div className={styles.card}>
                                                     <Row type="flex">
                                                         <Col span={24} md={9} className={styles.cardRight}>
-                                                            <Row type="flex" justify="space-between" className="l-flex-row">
+                                                            <Row
+                                                                type="flex"
+                                                                justify="space-between"
+                                                                className="l-flex-row"
+                                                            >
                                                                 <Col span={24} md={16}>
                                                                     <Row type="flex">
                                                                         <Col span={24}>
@@ -231,7 +254,10 @@ class Services extends Component {
                                                                                         />
                                                                                     </Tooltip>
                                                                                 </Col>
-                                                                                <Col className={styles.badgeText} span={24}>
+                                                                                <Col
+                                                                                    className={styles.badgeText}
+                                                                                    span={24}
+                                                                                >
                                                                                     آدرس
                                                                                 </Col>
                                                                             </Row>
@@ -250,7 +276,10 @@ class Services extends Component {
                                                                                         />
                                                                                     </Tooltip>
                                                                                 </Col>
-                                                                                <Col className={styles.badgeText} span={24}>
+                                                                                <Col
+                                                                                    className={styles.badgeText}
+                                                                                    span={24}
+                                                                                >
                                                                                     کارت ملی
                                                                                 </Col>
                                                                             </Row>
@@ -269,7 +298,10 @@ class Services extends Component {
                                                                                         />
                                                                                     </Tooltip>
                                                                                 </Col>
-                                                                                <Col className={styles.badgeText} span="24">
+                                                                                <Col
+                                                                                    className={styles.badgeText}
+                                                                                    span={24}
+                                                                                >
                                                                                     مدرک تحصیلی
                                                                                 </Col>
                                                                             </Row>
@@ -288,7 +320,10 @@ class Services extends Component {
                                                                                         />
                                                                                     </Tooltip>
                                                                                 </Col>
-                                                                                <Col className={styles.badgeText} span={24}>
+                                                                                <Col
+                                                                                    className={styles.badgeText}
+                                                                                    span={24}
+                                                                                >
                                                                                     تایید هویت
                                                                                 </Col>
                                                                             </Row>
@@ -300,7 +335,9 @@ class Services extends Component {
                                                                         >
                                                                             <Row>
                                                                                 <Col span={24}>
-                                                                                    <Tooltip title="گواهی عدم سو پیشینه">
+                                                                                    <Tooltip
+                                                                                        title="گواهی عدم سو پیشینه"
+                                                                                    >
                                                                                         <img
                                                                                             src="/assets/images/badge/backgroundcheck.svg"
                                                                                             alt="گواهی عدم سو پیشینه"
@@ -308,7 +345,10 @@ class Services extends Component {
                                                                                         />
                                                                                     </Tooltip>
                                                                                 </Col>
-                                                                                <Col className={styles.badgeText} span={24}>
+                                                                                <Col
+                                                                                    className={styles.badgeText}
+                                                                                    span={24}
+                                                                                >
                                                                                     گواهی عدم سوء‌پیشینه
                                                                                 </Col>
                                                                             </Row>
@@ -322,7 +362,7 @@ class Services extends Component {
                                                             <Row type={'flex'}>
                                                                 <Col>
                                                                     <div className={styles.cardDesc}>
-                                                                        { item.profession.intro && item.profession.intro.description }
+                                                                        {item.profession.intro && item.profession.intro.description}
                                                                     </div>
                                                                 </Col>
                                                             </Row>
@@ -377,18 +417,22 @@ class Services extends Component {
 
                                                 <div className={styles.jobCardRow}>
                                                     <div className={styles.jobCardTitle}>
-                                                        {}
-                                                        {`${job.location
-                                                        && job.location.province
-                                                        && job.location.province.name
-                                                            ? job.location.province.name
-                                                            : ''
-                                                        }, ${job.location
-                                                        && job.location.city
-                                                        && job.location.city.name
-                                                            ? job.location.city.name
-                                                            : ''
-                                                        }`}
+                                                        {
+
+                                                            job.location
+                                                            && job.location.province
+                                                            && job.location.province.name
+                                                                ? job.location.province.name
+                                                                : ''
+                                                        }
+                                                        {
+                                                            job.location
+                                                            && job.location.city
+                                                            && job.location.city.name
+                                                                ? job.location.city.name
+                                                                : ''
+                                                        }
+
                                                     </div>
                                                     <div className={styles.jobCardSub}>
                                                         شهر

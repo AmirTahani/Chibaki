@@ -139,10 +139,14 @@ export function* watchLoadQuestions(client, { professionId, isDirect }) {
 export function* watchSubmitAnswers(client, { resolve, reject }) {
     try {
         const questionsState = yield select(state => state.questions);
+        const data = {
+            answers: { ...questionsState.answers },
+            profession_id: questionsState.professionId
+        };
         if (questionsState.isDirect) {
-            yield client.post(`/professionals/${questionsState.profId}/jobs`, { data: questionsState.answers });
+            yield client.post(`/professionals/${questionsState.profId}/jobs`, { data });
         } else {
-            yield client.post('/customers/jobs', { data: questionsState.answer });
+            yield client.post('/customers/jobs', { data });
         }
         resolve && resolve();
     } catch (error) {

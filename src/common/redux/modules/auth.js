@@ -1,4 +1,4 @@
-import { put, select } from 'redux-saga/effects';
+import { put, select, take } from 'redux-saga/effects';
 import { handleSagaError } from '../../utils/handleSagaError';
 
 export const LOGIN = 'ssr/auth/LOGIN';
@@ -23,6 +23,7 @@ export const CLEAR_STATE = 'ssr/auth/CLEAR_STATE';
 export const TOGGLE_AUTH_MODAL = 'ssr/auth/TOGGLE_AUTH_MODAL';
 
 export const SET_JWT = 'ssr/auth/SET_JWT';
+export const SET_JWT_SUCCESS = 'ssr/auth/SET_JWT_SUCCESS';
 export const UN_SET_JWT = 'ssr/auth/UN_SET_JWT';
 
 
@@ -75,7 +76,6 @@ export default function reducer(state = initialState, action = {}) {
                 mobile: action.mobile
             };
         case LOGIN_SUCCESS:
-            console.log(action, 'action login success');
             return {
                 ...state,
                 loggingIn: false,
@@ -111,7 +111,6 @@ export default function reducer(state = initialState, action = {}) {
                 registering: true,
             };
         case REGISTER_SUCCESS:
-            console.log(action, 'this is action register success');
             return {
                 ...state,
                 registering: false,
@@ -153,6 +152,12 @@ export function setJwt(token) {
     return {
         type: SET_JWT,
         token
+    };
+}
+
+export function setJwtSuccess() {
+    return {
+        type: SET_JWT_SUCCESS
     };
 }
 
@@ -321,6 +326,8 @@ export function* watchVerifyMobile(client, { code, resolve, reject }) {
         };
         const response = yield client.post('/verify-mobile', { data });
         yield put(verifySuccess(response.data));
+        yield put(setJwt(response.data.token));
+        yield take(SET_JWT_SUCCESS);
         resolve && resolve();
     } catch (error) {
         yield handleSagaError(error);
@@ -328,9 +335,10 @@ export function* watchVerifyMobile(client, { code, resolve, reject }) {
     }
 }
 
-export function watchSetJwt(client, { token }) {
-    localStorage.setItem('ngStorage-userToken', token);
+export function* watchSetJwt(client, { token }) {
     client.jwt = token;
+    yield put(setJwtSuccess());
+    localStorage.setItem('ngStorage-userToken', token);
 }
 
 export function watchUnsetJwt(client) {
