@@ -152,8 +152,8 @@ class Services extends Component {
                                 return (
                                     <Link to={`/professional/${item._id}`} className={styles.cardLink}>
                                         <div className={styles.card}>
-                                            <Row type="flex">
-                                                <Col span={24} md={5} className={styles.cardRight}>
+                                            <div className={styles.cardInner}>
+                                                <div className={styles.cardRight}>
                                                     <Row type="flex">
                                                         <Col span={24}>
                                                             <img
@@ -183,8 +183,8 @@ class Services extends Component {
                                                             </div>
                                                         </Col>
                                                     </Row>
-                                                </Col>
-                                                <Col span={24} md={19} className={styles.cardLeft}>
+                                                </div>
+                                                <div className={styles.cardLeft}>
                                                     <div className={styles.cardDesc}>
                                                         {item.profession.intro && item.profession.intro.description}
                                                     </div>
@@ -318,8 +318,8 @@ class Services extends Component {
                                                             </div>
                                                         </Col>
                                                     </Row>
-                                                </Col>
-                                            </Row>
+                                                </div>
+                                            </div>
                                         </div>
                                     </Link>
                                 );

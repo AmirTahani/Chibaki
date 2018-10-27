@@ -144,12 +144,24 @@
 			
 			.cardBtn
 				background-color: #0e6ccb;
-	
+				
+	&Inner
+		display: flex
+		flex-flow row nowrap
+		
+		@media (max-width $md)
+			flex-flow column wrap
+		
 	&Right
 	&Left
 		padding: 1.2rem
+		
+	&Right
+		flex 1 0 20%
 	
 	&Left
+		flex 1 0 80%
+		
 		display: flex
 		flex-direction: column
 		justify-content: space-between;
