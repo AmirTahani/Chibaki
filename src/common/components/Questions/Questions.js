@@ -364,6 +364,7 @@ class Questions extends PureComponent {
         const { current, shouldRegister } = this.state;
         const contents = this.getContent();
         const contentsLength = shouldRegister ? contents.length + 1 : contents.length;
+        console.log(contents, current, contents[current], 'ine');
         return (
             <Row>
                 <Col>
