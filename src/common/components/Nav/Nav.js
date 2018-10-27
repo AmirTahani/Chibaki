@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { List, Navigation, ListItem, ListLink, ListClickable } from './Nav.styles';
+import { sitePath } from '../../config';
 
 class Nav extends Component {
     static propTypes = {
@@ -12,25 +13,50 @@ class Nav extends Component {
         this.props.toggleAuthModal();
     };
 
-    navItems = [
-        {
-            label: 'ثبت نام/ورود',
-            link: 'signup',
-            action: this.handleAuth
-        },
-        {
-            label: 'خدمات',
-            link: encodeURI('خدمات')
+    handleGoToAngular = () => {
+        window.open(`${sitePath}/pages/dashboard`, '_self');
+    };
+
+
+    getNavItems = () => {
+        const { user } = this.props;
+        console.log(user, ' this is user');
+        if (user && user._id) {
+            return [
+                {
+                    label: 'خدمات',
+                    link: encodeURI('خدمات')
+                },
+                {
+                    label: 'پروفایل',
+                    action: this.handleGoToAngular
+                }
+            ];
         }
-    ];
+        return [
+            {
+                label: 'ثبت نام/ورود',
+                link: 'signup',
+                action: this.handleAuth
+            },
+            {
+                label: 'خدمات',
+                link: encodeURI('خدمات')
+            },
+            {
+                label: 'پروفایل',
+                action: this.handleGoToAngular
+            }
+        ];
+    };
 
     render() {
-        const { user } = this.props;
+        const navItems = this.getNavItems();
         return (
             <Navigation>
                 <List>
                     {
-                        this.navItems.map((nav) => {
+                        navItems.map((nav) => {
                             return (
                                 <ListItem key={nav.label}>
                                     {

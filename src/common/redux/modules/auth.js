@@ -97,7 +97,8 @@ export default function reducer(state = initialState, action = {}) {
             return {
                 ...state,
                 verified: true,
-                verifying: false
+                verifying: false,
+                user: action.user
             };
         case VERIFY_FAILURE:
             return {

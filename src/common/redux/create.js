@@ -7,6 +7,12 @@ import saga from './saga';
 
 export default function create(client, preloadState) {
     const sagaMiddleWare = createSagaMiddleware();
+    if (typeof window === 'object') {
+        const presistedAuth = JSON.parse(localStorage.getItem('reduxPersist:auth'));
+        const presistedProvinces = JSON.parse(localStorage.getItem('reduxPersist:provinces'));
+        preloadState.auth = presistedAuth;
+        preloadState.provinces = presistedProvinces;
+    }
 
     const store = createStore(
         reducers,
@@ -17,10 +23,9 @@ export default function create(client, preloadState) {
 
     if (typeof window === 'object') {
         persistStore(store, {
-            whitelist: ['provinces']
+            whitelist: ['provinces', 'auth']
         });
     }
-
 
     store.rootTask = sagaMiddleWare.run(saga, client, store);
 

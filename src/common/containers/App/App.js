@@ -1,15 +1,17 @@
 import { Router, Route, browserHistory } from 'react-router';
-import React from 'react';
+import React, { Component } from 'react';
 import 'antd/dist/antd.less';
+import { exist } from '../../utils/helpers';
 import '../../styles/App.styl';
 
 import { Home, About, Services, Tos, Service, Professional, ContactUs } from '../';
 
+Component.prototype.exist = exist;
+
 
 const Routes = (props) => {
     if (browserHistory && browserHistory.listen) {
-        browserHistory.listen((location) => {
-            console.log(location, ' thisi si ');
+        browserHistory.listen(() => {
             if (window) {
                 window.__renderType__ = 'client';
             }

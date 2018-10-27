@@ -91,7 +91,7 @@ class Questions extends PureComponent {
                 skipable: false
             }];
         }
-        if (!user.id) {
+        if (!user._id) {
             newQuestions = [...newQuestions, {
                 _id: 'getPhone',
                 title: 'لطفا شماره خود را وارد کنید.',
@@ -319,7 +319,8 @@ class Questions extends PureComponent {
                         _id: 'success',
                         type: 'success',
                         title: 'درخواست شما با موفقیت ثبت شد.'
-                    }]
+                    }],
+                    current: current + 1
                 });
             });
         } else if (contents[current].question.skipable || hasAnswer) {
