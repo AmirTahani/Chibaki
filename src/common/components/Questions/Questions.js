@@ -66,7 +66,8 @@ class Questions extends PureComponent {
         visible: true,
         current: 0,
         questions: [],
-        shouldRegister: false
+        shouldRegister: false,
+        defaultQuestions: []
     };
 
     toggleModal = () => {
@@ -75,6 +76,7 @@ class Questions extends PureComponent {
             visible: !this.state.visible
         });
     };
+
     getQuestions = (questions) => {
         const { gender, user } = this.props;
         let newQuestions = [...questions];
@@ -100,9 +102,11 @@ class Questions extends PureComponent {
             }];
         }
         this.setState({
-            questions: newQuestions
+            questions: newQuestions,
+            defaultQuestions: newQuestions
         });
     };
+
     getContent = () => {
         const {
             provinces,
@@ -219,6 +223,7 @@ class Questions extends PureComponent {
         }
         return [];
     };
+
     checkHasAnswer = (question) => {
         const { answers, firstName, lastName } = this.props;
         const answer = answers[question._id];
@@ -243,6 +248,7 @@ class Questions extends PureComponent {
         }
         return !!((answer && answer.text_option) || (answer && answer.selected_options && answer.selected_options.length));
     };
+
     next = (contents) => {
         const { current } = this.state;
         const { mobile, firstName, lastName, registerConnect, code, verifyConnect, submitAnswersConnect } = this.props;
@@ -252,7 +258,7 @@ class Questions extends PureComponent {
                 this.props.loginConnect(mobile, resolve, reject);
             }).then(() => {
                 this.setState({
-                    questions: [...this.state.questions, {
+                    questions: [...this.state.defaultQuestions, {
                         _id: 'verify',
                         title: 'لطفا کد ارسال شده را وارد کنید.',
                         skipable: false,
@@ -264,7 +270,7 @@ class Questions extends PureComponent {
                 if (error.status === 422) {
                     if (!this.state.questions.find(item => item._id === 'getName')) {
                         this.setState({
-                            questions: [...this.state.questions, {
+                            questions: [...this.state.defaultQuestions, {
                                 _id: 'getName',
                                 title: 'لطفا نام و نام خانوادگی خود را وارد کنید.',
                                 skipable: false,
@@ -301,7 +307,7 @@ class Questions extends PureComponent {
                     submitAnswersConnect(resolve, reject);
                 }).then(() => {
                     this.setState({
-                        questions: [...this.state.questions, {
+                        questions: [...this.state.defaultQuestions, {
                             _id: 'success',
                             type: 'success',
                             title: 'درخواست شما با موفقیت ثبت شد.'
@@ -315,7 +321,7 @@ class Questions extends PureComponent {
                 submitAnswersConnect(resolve, reject);
             }).then(() => {
                 this.setState({
-                    questions: [...this.state.questions, {
+                    questions: [...this.state.defaultQuestions, {
                         _id: 'success',
                         type: 'success',
                         title: 'درخواست شما با موفقیت ثبت شد.'
@@ -331,6 +337,7 @@ class Questions extends PureComponent {
             message.error('لطفا ابتدا پاسخ مناسب را انتخاب کنید.', 3);
         }
     };
+
     prev = () => {
         this.setState({
             current: this.state.current - 1
@@ -368,7 +375,10 @@ class Questions extends PureComponent {
                     >
                         <button className={styles.closeButton} onClick={() => this.toggleModal()}>X</button>
                         <Row>
-                            <Progress percent={((current / contentsLength) * 100)} showInfo={false} />
+                            <Progress
+                                percent={current === contents.length - 1 ? 100 : ((current / contentsLength) * 100)}
+                                showInfo={false}
+                            />
                         </Row>
                         <div className={styles.stepsContent}>{contents[current] && contents[current].content}</div>
                         <div className={styles.footer}>
@@ -392,7 +402,7 @@ class Questions extends PureComponent {
                                 <Button onClick={() => this.next(contents)} type="primary">ثبت درخواست</Button>
                             }
                             {
-                                current > 0 && <Button className={styles.button} onClick={() => this.prev()}>
+                                current > 0 && <Button className={styles.button} onClick={() => this.prev(contents)}>
                                     <Icon iconName="back" />
                                 </Button>
                             }
