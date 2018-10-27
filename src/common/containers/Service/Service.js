@@ -183,7 +183,10 @@ class Services extends Component {
                                     <div className={styles.cardWrapper}>
                                         {proficients.map((item) => {
                                             return (
-                                                <Link to={`/professional/${item._id}`} className={styles.cardLink}>
+                                                <Link
+                                                    to={`/professional/${item.firstname.replace(' ', '_')}_${item.lastname.replace(' ', '_')}?id=${item._id}`}
+                                                    className={styles.cardLink}
+                                                >
                                                     <div className={styles.card}>
                                                         <div className={styles.cardInner}>
                                                             <div className={styles.cardRight}>
