@@ -6,12 +6,17 @@ import saga from './saga';
 
 
 export default function create(client, preloadState) {
+    console.log(preloadState, 'this is preload state');
     const sagaMiddleWare = createSagaMiddleware();
     if (typeof window === 'object') {
         const presistedAuth = JSON.parse(localStorage.getItem('reduxPersist:auth'));
         const presistedProvinces = JSON.parse(localStorage.getItem('reduxPersist:provinces'));
-        preloadState.auth = presistedAuth;
-        preloadState.provinces = presistedProvinces;
+        if (presistedAuth) {
+            preloadState.auth = presistedAuth;
+        }
+        if (presistedProvinces) {
+            preloadState.provinces = presistedProvinces;
+        }
     }
 
     const store = createStore(
