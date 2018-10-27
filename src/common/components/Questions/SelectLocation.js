@@ -62,6 +62,8 @@ export default class SelectQuestion extends Component {
 
     generateAnswer = (province, city) => {
         const { question, setAnswer } = this.props;
+        province.id = province._id;
+        city.id = city._id;
         const answer = {
             province,
             city

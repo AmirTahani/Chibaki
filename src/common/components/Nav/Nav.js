@@ -1,15 +1,22 @@
 import React, { Component } from 'react';
-import { List, Navigation, ListItem, ListLink } from './Nav.styles';
+import PropTypes from 'prop-types';
+import { List, Navigation, ListItem, ListLink, ListClickable } from './Nav.styles';
 
 class Nav extends Component {
+    static propTypes = {
+        user: PropTypes.objectOf(PropTypes.any).isRequired,
+        toggleAuthModal: PropTypes.func.isRequired
+    };
+
+    handleAuth = () => {
+        this.props.toggleAuthModal();
+    };
+
     navItems = [
         {
-            label: 'ثبت نام',
-            link: 'signup'
-        },
-        {
-            label: 'ورود',
-            link: '#'
+            label: 'ثبت نام/ورود',
+            link: 'signup',
+            action: this.handleAuth
         },
         {
             label: 'خدمات',
@@ -18,6 +25,7 @@ class Nav extends Component {
     ];
 
     render() {
+        const { user } = this.props;
         return (
             <Navigation>
                 <List>
@@ -25,9 +33,15 @@ class Nav extends Component {
                         this.navItems.map((nav) => {
                             return (
                                 <ListItem key={nav.label}>
-                                    <ListLink to={nav.link} className="c-nav__link">
-                                        {nav.label}
-                                    </ListLink>
+                                    {
+                                        nav.action
+                                            ? <ListClickable onClick={nav.action}>
+                                                {nav.label}
+                                            </ListClickable>
+                                            : <ListLink to={nav.link} className="c-nav__link">
+                                                {nav.label}
+                                            </ListLink>
+                                    }
                                 </ListItem>
                             );
                         })

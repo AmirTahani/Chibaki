@@ -5,7 +5,17 @@ import '../../styles/App.styl';
 
 import { Home, About, Services, Tos, Service, Professional, ContactUs } from '../';
 
+
 const Routes = (props) => {
+    if (browserHistory && browserHistory.listen) {
+        browserHistory.listen((location) => {
+            console.log(location, ' thisi si ');
+            if (window) {
+                window.__renderType__ = 'client';
+            }
+        });
+    }
+
     return (
         <Router history={browserHistory} {...props}>
             <Route path="/" component={Home} />

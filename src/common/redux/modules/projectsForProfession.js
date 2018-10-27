@@ -42,7 +42,7 @@ export default function reducer(state = initialState, action = {}) {
 }
 
 
-export function load(resolve, reject, professionId, provinceId) {
+export function load(professionId, provinceId, resolve, reject) {
     return {
         type: LOAD,
         resolve,

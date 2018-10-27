@@ -75,23 +75,6 @@ class Questions extends PureComponent {
             visible: !this.state.visible
         });
     };
-
-    componentDidMount() {
-        message.config({
-            top: 70,
-            duration: 2,
-            maxCount: 1,
-        });
-        this.props.loadQuestionsConnect(this.props.professionId, this.props.direct);
-        this.props.loadProvincesConnect();
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.questions && nextProps.questions !== this.props.questions && !nextProps.loading && nextProps.loaded) {
-            this.getQuestions(nextProps.questions);
-        }
-    }
-
     getQuestions = (questions) => {
         const { gender, user } = this.props;
         let newQuestions = [...questions];
@@ -120,7 +103,6 @@ class Questions extends PureComponent {
             questions: newQuestions
         });
     };
-
     getContent = () => {
         const {
             provinces,
@@ -237,7 +219,6 @@ class Questions extends PureComponent {
         }
         return [];
     };
-
     checkHasAnswer = (question) => {
         const { answers, firstName, lastName } = this.props;
         const answer = answers[question._id];
@@ -262,8 +243,6 @@ class Questions extends PureComponent {
         }
         return !!((answer && answer.text_option) || (answer && answer.selected_options && answer.selected_options.length));
     };
-
-
     next = (contents) => {
         const { current } = this.state;
         const { mobile, firstName, lastName, registerConnect, code, verifyConnect, submitAnswersConnect } = this.props;
@@ -326,7 +305,8 @@ class Questions extends PureComponent {
                             _id: 'success',
                             type: 'success',
                             title: 'درخواست شما با موفقیت ثبت شد.'
-                        }]
+                        }],
+                        current: current + 1
                     });
                 });
             });
@@ -350,16 +330,27 @@ class Questions extends PureComponent {
             message.error('لطفا ابتدا پاسخ مناسب را انتخاب کنید.', 3);
         }
     };
-
     prev = () => {
         this.setState({
             current: this.state.current - 1
         });
     };
 
-    handleClick = () => {
-        this.props.submitAnswersConnect();
-    };
+    componentDidMount() {
+        message.config({
+            top: 70,
+            duration: 2,
+            maxCount: 1,
+        });
+        this.props.loadQuestionsConnect(this.props.professionId, this.props.direct);
+        this.props.loadProvincesConnect();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.questions && nextProps.questions !== this.props.questions && !nextProps.loading && nextProps.loaded) {
+            this.getQuestions(nextProps.questions);
+        }
+    }
 
     render() {
         const { current, shouldRegister } = this.state;
@@ -396,11 +387,20 @@ class Questions extends PureComponent {
                             {
                                 current === contents.length - 1 &&
                                 contents[current].question._id !== 'getPhone' &&
-                                <Button onClick={this.handleClick} type="primary">ثبت درخواست</Button>
+                                contents[current].question._id !== 'success' &&
+                                <Button onClick={() => this.next(contents)} type="primary">ثبت درخواست</Button>
                             }
                             {
                                 current > 0 && <Button className={styles.button} onClick={() => this.prev()}>
                                     <Icon iconName="back" />
+                                </Button>
+                            }
+                            {
+                                contents[current] &&
+                                contents[current].question &&
+                                contents[current].question._id === 'success' &&
+                                <Button className={styles.button} onClick={this.toggleModal}>
+                                    باشه
                                 </Button>
                             }
                         </div>

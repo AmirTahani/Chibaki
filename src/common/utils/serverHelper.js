@@ -1,6 +1,6 @@
 import { END } from 'redux-saga';
-import { loader, loadCategories } from '../redux/modules/professions';
-import { load as loadProficients } from '../redux/modules/proficients';
+import { loader as loadProfession } from '../redux/modules/professions';
+import { load as loadServiceRedux } from '../redux/modules/serviceContainer';
 import { load as loadProfessional } from '../redux/modules/professional';
 import { loadProvinces } from '../redux/modules/provinces';
 import { load as loadProjectsForProf } from '../redux/modules/projectsForProfession';
@@ -12,44 +12,26 @@ export async function handleRequestsByRoute(store, route) {
 
     const subRoute = path.split('/').reverse();
     if (path === '/') {
-        store.dispatch(loader());
+        await new Promise((resolve, reject) => {
+            store.dispatch(loadProfession(resolve, reject));
+        });
+        store.dispatch(END);
     } else if (decodeURI(subRoute[0]) === 'خدمات') {
-        store.dispatch(loader());
+        await new Promise((resolve, reject) => {
+            store.dispatch(loadProfession(resolve, reject));
+        });
+        store.dispatch(END);
     } else if (decodeURI(subRoute[1]) === 'خدمات') {
         const routeTitle = subRoute[0].split('_').join(' ');
-
-        const categories = await new Promise((resolve, reject) => {
-            store.dispatch(loadCategories(resolve, reject));
+        const data = await new Promise((resolve, reject) => {
+            store.dispatch(loadServiceRedux(resolve, reject, query, routeTitle));
         });
-        const Provinces = await new Promise((resolve, reject) => {
-            store.dispatch(loadProvinces(resolve, reject));
-        });
-        const allData = await Promise.all([categories, Provinces]);
-
-        let foundProvince = {};
-        if (query && query.city) {
-            foundProvince = Provinces.find(item => item.name === query.city.replace('_', ' '));
-        }
-
-        const professions = flattenProfessionsByCategories(categories);
-        let professionId = '';
-        let selectedProfession = {};
-        professions.forEach((profession) => {
-            if (decodeURI(routeTitle) === profession.title) {
-                professionId = profession._id;
-                selectedProfession = profession;
-            }
-        });
-        const Prof = await new Promise((resolve, reject) => {
-            store.dispatch(loadProficients(resolve, reject, professionId, decodeURI(routeTitle), selectedProfession, foundProvince && foundProvince._id));
-        });
-        const projects = await new Promise((resolve, reject) => {
-            store.dispatch(loadProjectsForProf(resolve, reject, professionId, foundProvince && foundProvince._id));
-        });
-        await Promise.all([Prof, projects]);
         store.dispatch(END);
     } else if (subRoute[1] === 'professional') {
-        store.dispatch(loadProfessional(subRoute[0]));
+        const data = await new Promise((resolve, reject) => {
+            store.dispatch(loadProfessional(query.id, resolve, reject));
+        });
+        store.dispatch(END);
     } else {
         store.dispatch(END);
     }

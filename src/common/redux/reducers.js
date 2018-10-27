@@ -7,6 +7,7 @@ import provinces from './modules/provinces';
 import professional from './modules/professional';
 import auth from './modules/auth';
 import ProjectsForProfession from './modules/projectsForProfession';
+import serviceContainer from './modules/serviceContainer';
 
 export default combineReducers({
     professions,
@@ -15,5 +16,6 @@ export default combineReducers({
     provinces,
     professional,
     auth,
-    ProjectsForProfession
+    ProjectsForProfession,
+    serviceContainer
 });

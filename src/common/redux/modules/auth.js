@@ -1,4 +1,4 @@
-import { put } from 'redux-saga/effects';
+import { put, select, take } from 'redux-saga/effects';
 import { handleSagaError } from '../../utils/handleSagaError';
 
 export const LOGIN = 'ssr/auth/LOGIN';
@@ -18,7 +18,13 @@ export const SET_USER_CODE = 'ssr/auth/SET_USER_CODE';
 export const SET_USER_NAME = 'ssr/auth/SET_USER_NAME';
 export const SET_USER_LAST_NAME = 'ssr/auth/SET_USER_LAST_NAME';
 
-export const CLEAR_STATE = 'ssr/question/CLEAR_STATE';
+export const CLEAR_STATE = 'ssr/auth/CLEAR_STATE';
+
+export const TOGGLE_AUTH_MODAL = 'ssr/auth/TOGGLE_AUTH_MODAL';
+
+export const SET_JWT = 'ssr/auth/SET_JWT';
+export const SET_JWT_SUCCESS = 'ssr/auth/SET_JWT_SUCCESS';
+export const UN_SET_JWT = 'ssr/auth/UN_SET_JWT';
 
 
 const initialState = {
@@ -28,6 +34,7 @@ const initialState = {
     loginError: null,
     verifying: false,
     verified: false,
+    jwt: null,
     mobile: '',
     verifyError: null,
     registering: false,
@@ -35,11 +42,28 @@ const initialState = {
     registerError: null,
     code: '',
     firstName: '',
-    lastName: ''
+    lastName: '',
+    showAuthModal: false,
+    userId: ''
 };
 
 export default function reducer(state = initialState, action = {}) {
     switch (action.type) {
+        case TOGGLE_AUTH_MODAL:
+            return {
+                ...state,
+                showAuthModal: !state.showAuthModal
+            };
+        case SET_JWT:
+            return {
+                ...state,
+                jwt: action.token
+            };
+        case UN_SET_JWT:
+            return {
+                ...state,
+                jwt: null
+            };
         case CLEAR_STATE:
             return {
                 ...state,
@@ -55,7 +79,8 @@ export default function reducer(state = initialState, action = {}) {
             return {
                 ...state,
                 loggingIn: false,
-                loggedIn: true
+                loggedIn: true,
+                userId: action.userId
             };
         case LOGIN_FAILURE:
             return {
@@ -89,7 +114,8 @@ export default function reducer(state = initialState, action = {}) {
             return {
                 ...state,
                 registering: false,
-                registered: true
+                registered: true,
+                userId: action.userId
             };
         case REGISTER_FAILURE:
             return {
@@ -122,6 +148,25 @@ export default function reducer(state = initialState, action = {}) {
     }
 }
 
+export function setJwt(token) {
+    return {
+        type: SET_JWT,
+        token
+    };
+}
+
+export function setJwtSuccess() {
+    return {
+        type: SET_JWT_SUCCESS
+    };
+}
+
+export function unSetJwt() {
+    return {
+        type: UN_SET_JWT
+    };
+}
+
 export function clearState(stateKey, stateValue) {
     return {
         type: CLEAR_STATE,
@@ -139,9 +184,16 @@ export function login(mobile, resolve, reject) {
     };
 }
 
-export function loginSuccess() {
+export function toggleAuthModal() {
     return {
-        type: LOGIN_SUCCESS
+        type: TOGGLE_AUTH_MODAL
+    };
+}
+
+export function loginSuccess(userId) {
+    return {
+        type: LOGIN_SUCCESS,
+        userId
     };
 }
 
@@ -161,7 +213,7 @@ export function verify(code, resolve, reject) {
     };
 }
 
-export function verifySuccess(user) {
+export function verifySuccess({ user }) {
     return {
         type: VERIFY_SUCCESS,
         user
@@ -175,20 +227,22 @@ export function verifyFailure(error) {
     };
 }
 
-export function register({ firstName, lastName, mobile }, resolve, reject) {
+export function register({ firstName, lastName, mobile, professionId }, resolve, reject) {
     return {
         type: REGISTER,
         firstName,
         lastName,
         mobile,
+        professionId,
         resolve,
         reject
     };
 }
 
-export function registerSuccess() {
+export function registerSuccess(userId) {
     return {
-        type: REGISTER_SUCCESS
+        type: REGISTER_SUCCESS,
+        userId
     };
 }
 
@@ -208,7 +262,7 @@ export function setUserMobile(mobile) {
 
 export function setUserCode(code) {
     return {
-        type: SET_USER_MOBILE,
+        type: SET_USER_CODE,
         code
     };
 }
@@ -232,7 +286,8 @@ export function* watchLogin(client, { mobile, resolve, reject }) {
         const options = {
             data: { username: mobile },
         };
-        yield client.post('/login', options);
+        const response = yield client.post('/login', options);
+        yield put(loginSuccess(response.data.user_id));
         resolve && resolve();
     } catch (error) {
         reject(error);
@@ -241,7 +296,7 @@ export function* watchLogin(client, { mobile, resolve, reject }) {
     }
 }
 
-export function* watchRegister(client, { firstName, lastName, mobile, resolve, reject }) {
+export function* watchRegister(client, { firstName, lastName, mobile, professionId, resolve, reject }) {
     try {
         const data = {
             firstname: firstName,
@@ -249,11 +304,13 @@ export function* watchRegister(client, { firstName, lastName, mobile, resolve, r
             username: mobile,
             mobile
         };
+        if (professionId) {
+            data.professionid = professionId;
+        }
         const response = yield client.post('/signup', { data });
-        yield put(registerSuccess(response.data));
+        yield put(registerSuccess(response.data.user_id));
         resolve && resolve();
     } catch (error) {
-        console.log(error, 'this is error');
         yield put(registerFailure(error));
         handleSagaError(error);
         reject && reject(error);
@@ -262,11 +319,28 @@ export function* watchRegister(client, { firstName, lastName, mobile, resolve, r
 
 export function* watchVerifyMobile(client, { code, resolve, reject }) {
     try {
-        const response = yield client.post('/verify-mobile', { code });
+        const userId = yield select(state => state.auth.userId);
+        const data = {
+            code,
+            user_id: userId
+        };
+        const response = yield client.post('/verify-mobile', { data });
         yield put(verifySuccess(response.data));
+        yield put(setJwt(response.data.token));
+        yield take(SET_JWT_SUCCESS);
         resolve && resolve();
     } catch (error) {
         yield handleSagaError(error);
         reject && reject(error);
     }
+}
+
+export function* watchSetJwt(client, { token }) {
+    client.jwt = token;
+    yield put(setJwtSuccess());
+    localStorage.setItem('ngStorage-userToken', token);
+}
+
+export function watchUnsetJwt(client) {
+    client.jwt = null;
 }

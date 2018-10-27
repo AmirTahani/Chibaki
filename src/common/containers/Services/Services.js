@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import '../Services/Services.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import { loader } from '../../redux/modules/professions';
 
 // import professions from "../../redux/modules/professions";
 
@@ -14,12 +15,17 @@ import Footer from '../../components/Footer/Footer';
 class Services extends Component {
     static propTypes = {
         location: PropTypes.objectOf(PropTypes.any).isRequired,
-        cat: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired
+        cat: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+        loadConnect: PropTypes.func.isRequired
+
     };
 
     componentDidMount() {
         if (this.props.location && this.props.location.query && this.props.location.query.cat && this.refs[this.props.location.query.cat]) {
             ReactDOM.findDOMNode(this.refs[this.props.location.query.cat]).scrollIntoView();
+        }
+        if (window && window.__renderType__ === 'client') {
+            this.props.loadConnect();
         }
     }
 
@@ -73,4 +79,7 @@ class Services extends Component {
 
 export default connect(state => ({
     cat: state.professions.categories
-}))(Services);
+}),
+{
+    loadConnect: loader
+})(Services);

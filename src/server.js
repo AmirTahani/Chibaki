@@ -10,6 +10,7 @@ import { getMetaTags, handleRequestsByRoute } from './common/utils/serverHelper'
 import apiClient from './common/utils/apiClient';
 import createStore from './common/redux/create';
 import getRoutes from './common/containers/App/App';
+import { renderType } from './common/config';
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 const server = express();
@@ -90,6 +91,7 @@ ${
                     <div id="root">${markup}</div>
                     <script>
                         window.__PRELOADED_STATE__ = ${serialize(finalState)};
+                        window.__renderType__ = ${serialize(renderType)}
                     </script>                 
                 </body>
             </html>`,
