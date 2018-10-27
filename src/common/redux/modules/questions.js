@@ -128,7 +128,12 @@ export function setProfId(profId) {
 
 export function* watchLoadQuestions(client, { professionId, isDirect }) {
     try {
-        const response = yield client.get(`/professions/${professionId}/questions`);
+        let response;
+        if (isDirect) {
+            response = yield client.get(`/professions/${professionId}/questions?direct=${isDirect}`);
+        } else {
+            response = yield client.get(`/professions/${professionId}/questions`);
+        }
         yield put(loadQuestionsSuccess(response.data));
     } catch (error) {
         yield put(loadQuestionsFailure(error));
