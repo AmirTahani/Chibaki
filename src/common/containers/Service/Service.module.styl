@@ -4,7 +4,7 @@
 	background-color: #f6f7f9
 
 .container
-	composes l-container from '../../styles/container.styl'
+	composes l-container l-container--sm from '../../styles/container.styl'
 	padding: 0 20px
 	
 	@media (max-width $md)
@@ -119,48 +119,86 @@
 .card
 	composes c-card from '../../styles/card.styl'
 	
-	margin: 0 0 30px 0 !important
-	padding: 0 !important
+	margin: 0 0 65px 0
+	padding: 0
 	
-	border 1px solid alpha(#9BB2C6, 30%) !important
-	box-shadow: none !important
+	border 1px solid alpha(#9BB2C6, 30%)
+	box-shadow: none
 	
 	color: #000
 	
 	&Wrapper
-		margin-top: 30px
+		margin-top: 65px
+		@media (max-width $md)
+			margin-top: 30px
 	
 	&Link
+		&:last-child
+			.card
+				margin-bottom: 25px !important
+		
 		&:hover
 		&:focus
 			outline none
 			text-decoration: none
 			
-			.btn
+			.cardBtn
 				background-color: #0e6ccb;
-	
+				
+	&Inner
+		display: flex
+		flex-flow row nowrap
+		
+		@media (max-width $md)
+			flex-flow column wrap
+		
 	&Right
 	&Left
-		padding: 2.4rem
+		padding: 1.2rem
+		
+	&Right
+		flex 1 0 20%
 	
 	&Left
+		flex 1 0 80%
+		
 		display: flex
 		flex-direction: column
 		justify-content: space-between;
-	
-	&Right
-		border-left: 1px solid alpha(#9BB2C6, 30%)
+		
+		@media (max-width $md)
+			padding-top: 0
+			
+		&Bottom
+			display: flex
+			flex-direction: row
+			justify-content: space-between;
+			align-items: center
+			
+			@media (max-width $md)
+				flex-direction: column
 	
 	&Rate
 		text-align: center
 		margin-top: 10px
 		
-	@media (max-width $md)
-		padding: 20px 0 !important
-		margin-bottom: 0!important
+	&Btn
+		composes c-btn c-btn--primary c-btn--lg from '../../styles/btn.styl'
 		
-		border none !important
-		border-top: 1px solid alpha(#9bb2c6, 30%) !important
+		min-width: none
+		line-height: 45px
+		padding: 0 1rem
+		font-size: 1.1rem
+		
+		@media (max-width $md)
+			margin-top: 15px
+		
+	@media (max-width $md)
+		padding: 20px 0
+		margin-bottom: 0
+		
+		border none
+		border-top: 1px solid alpha(#9bb2c6, 30%)
 		
 		border-radius: 0
 		
@@ -175,9 +213,9 @@
 		appearance: none
 		
 		color: alpha(#758CA0, 75%)
-		font-size: 18px
+		font-size: 14px
 		
-		padding: 11px 27px
+		padding: 5px 22px
 		border-radius: 50px
 		
 		line-height: 27px
@@ -201,13 +239,18 @@
 		&:active
 			color darken($color, 30%)
 			border-color darken($color, 30%)
+			
+		@media (max-width $md)
+			font-size: 12px
+			padding: 3px 18px
 
 .avatar
-	width: 150px;
-	height: 150px;
+	$size = 120px;
+	width: $size
+	height: $size
 	
 	display: block;
-	margin: 10px auto;
+	margin: -56px auto 10px;
 	
 	border-radius: 75px;
 	
@@ -215,10 +258,13 @@
 	
 	object-fit: cover;
 	font-family: 'object-fit: cover;';
+	
+	@media (max-width $md)
+		margin-top: 10px
 
 .cardName
-	color: #000;
-	font-size: 1.5rem;
+	color: #334657;
+	font-size: 1.1rem;
 	font-weight: 900;
 	margin-top: 8px;
 	text-align: center;
@@ -227,12 +273,14 @@
 	position: relative
 	
 	color: #758CA0;
-	font-size: 21px;
+	font-size: 15px;
 	
-	line-height: 36px;
-	height: 144px
+	line-height: 31px;
+	height: 66px
 	
-	margin: 20px 10px 30px 50px
+	margin-right: 10px
+	margin-left: 50px
+	margin-bottom: 15px
 	
 	overflow: hidden
 	
@@ -242,13 +290,23 @@
 		position: absolute
 		bottom: 0
 		left: 0
-		width: 90%
+		width: 60%
 		height: 36px
 		
 		background linear-gradient(to right, #fff 90%, rgba(0, 0, 0, 0))
 		
 	@media (max-width $md)
 		margin: 0
+		text-align: center
+	
+	&:empty
+		&:after
+			content none
+		&:before
+			content: 'متخصص هنوز متن معارفه‌ای تعریف نکرده است!'
+			position: static
+			font-size: 15px
+			line-height: 66px
 
 .jobCard
 	width: 290px
@@ -271,13 +329,13 @@
 			display: flex
 			flex-flow row nowrap
 			overflow: auto;
-		
-		//:global(.flickity-slider)
-		//	display: flex
-		//	align-items: stretch
-		//	flex-direction: row
-		//	> *
-		//		height: 100%
+			
+		@media (min-width $md + 1)
+			:global .flickity-prev-next-button.previous
+				right: -50px
+				
+			:global .flickity-prev-next-button.next
+				left: -50px
 	
 	&Date
 		color: alpha(#758CA0, 75%)
@@ -290,43 +348,46 @@
 		margin-bottom: 30px
 	
 	&Title
-		font-size: 18px
+		font-size: 16px
 		font-weight: 900
 		color: #334657
 		margin-bottom: 5px
 	
 	&Sub
-		font-size: 16px
+		font-size: 14px
 		color: #758CA0
 
 .badge
-	composes l-flex-shrink from '../../styles/grid.styl'
+	flex 1 1 100%
 	margin: 5px
 	text-align: center
-	opacity: .4
+	opacity: .2
 	
 	&Active
 		opacity: 1
 	
 	&Wrapper
-		@media (max-width $md)
-			display: flex
-			flex-flow row nowrap
-			justify-content: space-between;
-			
-			margin-top: 15px
+		display flex
+		flex-flow row nowrap
+		justify-content space-between;
 	
 	&Text
-		display: none
+		font-size 11px
+		margin-top 5px
+		@media (min-width $md)
+			display none
 	
 	&Img
-		max-width: 60px
+		max-width: 55px
 		width: 100%
-		height: 47px
+		height: 39px
 		object-fit cover
 		
 	@media (max-width $md)
 		margin: 0
+		
+		~/Img
+			max-width: 45px
 
 @media (max-width: 768px)
 	.hero
@@ -339,5 +400,3 @@
 		margin-bottom: .7rem;
 		
 		line-height: 1.5;
-
-

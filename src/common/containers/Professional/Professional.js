@@ -2,16 +2,12 @@ import React, { Component } from 'react';
 import { Col, Divider, Dropdown, Menu, Radio, Rate, Row } from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import objectFitImages from 'object-fit-images';
 import Questions from '../../components/Questions/Questions';
 import Header from '../../components/Header/Header';
 import styles from './ProfessionalStyle.module.css';
 import { setProfId } from '../../redux/modules/questions';
 import { load } from '../../redux/modules/professional';
-
-import '../../styles/Profile.styl';
-import '../../styles/btn.styl';
-import '../../styles/card.styl';
-import '../Services/Services.css';
 
 // import professions from "../../redux/modules/professions";
 
@@ -42,6 +38,7 @@ class Professional extends Component {
         if (window && window.__renderType__ === 'client') {
             this.props.loadConnect(location.query.id);
         }
+        objectFitImages();
     }
 
     onProfImageClick = (e) => {
@@ -264,7 +261,8 @@ class Professional extends Component {
                                                     trigger={['click']}
                                                     placement="bottomCenter"
                                                 >
-                                                    <button className="c-btn c-btn--primary c-btn--lg">ثبت سفارش</button>
+                                                    <button className="c-btn c-btn--primary c-btn--lg">ثبت سفارش
+                                                    </button>
                                                 </Dropdown> : <button
                                                     onClick={() => this.createProject(professional.user.professions[0].profession._id)}
                                                     className="c-btn c-btn--primary c-btn--lg"
@@ -283,17 +281,10 @@ class Professional extends Component {
                                         <Col>اطلاعات</Col>
                                     </Row>
                                     {professional && professional.user && professional.user.trust
-                                        ? <Row
-                                            style={{
-                                                textAlign: 'center'
-                                            }}
+                                        ? <div
                                             className={styles.badgesWrapper}
-                                            type="flex"
-                                            justify="space-around"
                                         >
-                                            <Col
-                                                span={12}
-                                                md={24}
+                                            <div
                                                 className={`${styles.badge}
                                         ${professional.user.trust.addressProof.verified && styles.badgeActive}`}
                                             >
@@ -314,10 +305,8 @@ class Professional extends Component {
                                                         آدرس
                                                     </Col>
                                                 </Row>
-                                            </Col>
-                                            <Col
-                                                span={12}
-                                                md={24}
+                                            </div>
+                                            <div
                                                 className={`${styles.badge}
                                         ${professional.user.trust.idCard.verified && styles.badgeActive}`}
                                             >
@@ -338,10 +327,8 @@ class Professional extends Component {
                                                         کارت ملی
                                                     </Col>
                                                 </Row>
-                                            </Col>
-                                            <Col
-                                                span={12}
-                                                md={24}
+                                            </div>
+                                            <div
                                                 className={`${styles.badge}
                                         ${professional.user.trust.certificate.verified && styles.badgeActive}`}
                                             >
@@ -366,10 +353,8 @@ class Professional extends Component {
                                                         مدرک تحصیلی
                                                     </Col>
                                                 </Row>
-                                            </Col>
-                                            <Col
-                                                span={12}
-                                                md={24}
+                                            </div>
+                                            <div
                                                 className={`${styles.badge}
                                        ${professional.user.trust.identity.verified && professional.user.trust.identity.filePath && styles.badgeActive}`}
                                             >
@@ -386,10 +371,8 @@ class Professional extends Component {
                                                         تایید هویت
                                                     </Col>
                                                 </Row>
-                                            </Col>
-                                            <Col
-                                                span={12}
-                                                md={24}
+                                            </div>
+                                            <div
                                                 className={`${styles.badge}
                                         ${professional.user.trust.backgroundCheck.verified && styles.badgeActive}`}
                                             >
@@ -414,8 +397,8 @@ class Professional extends Component {
                                                         گواهی عدم سوء‌پیشینه
                                                     </Col>
                                                 </Row>
-                                            </Col>
-                                        </Row>
+                                            </div>
+                                        </div>
 
                                         : null
                                     }
@@ -438,7 +421,10 @@ class Professional extends Component {
                                             >
                                                 {professional.user.professions.map((prof, idx) => {
                                                     return (
-                                                        <Radio.Button defaultChecked={idx === 0} value={idx} key={prof._id}>
+                                                        <Radio.Button
+                                                            defaultChecked={idx === 0} value={idx}
+                                                            key={prof._id}
+                                                        >
                                                             {prof.profession.title}
                                                         </Radio.Button>
                                                     );

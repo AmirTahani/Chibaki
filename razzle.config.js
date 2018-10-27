@@ -16,7 +16,7 @@ const postCssOptions = (rtl) => {
         })
     ];
 
-    rtl && plugins.push(require('rtlcss'));
+    if (rtl) plugins.push(require('rtlcss'));
 
     return {
         ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
