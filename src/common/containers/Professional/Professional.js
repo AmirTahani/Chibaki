@@ -483,9 +483,9 @@ class Professional extends Component {
                                                             <Col span={24}>
                                                                 <Row type="flex" justify="space-between" align="middle">
                                                                     <Col>
-                                                                        {comment.customer.firstname}
+                                                                        {comment.customer && comment.customer.firstname}
                                                                         {' '}
-                                                                        {comment.customer.lastname}
+                                                                        {comment.customer && comment.customer.lastname}
                                                                     </Col>
                                                                     <Col>
                                                                         <Rate disabled defaultValue={comment.rate} />
