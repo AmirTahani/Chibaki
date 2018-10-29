@@ -9,7 +9,7 @@ import { Home, About, Services, Tos, Service, Professional, ContactUs } from '..
 
 Component.prototype.exist = exist;
 Component.prototype.event = (props) => {
-    if (window && window.__renderType__ === 'client' && !__DEV__) {
+    if (window && window.__renderType__ === 'client' && window && !window.__DEV__) {
         ReactGA.event(...props);
     }
 };

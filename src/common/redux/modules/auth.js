@@ -1,4 +1,5 @@
 import { put, select, take } from 'redux-saga/effects';
+import ReactGA from 'react-ga';
 import { handleSagaError } from '../../utils/handleSagaError';
 
 export const LOGIN = 'ssr/auth/LOGIN';
