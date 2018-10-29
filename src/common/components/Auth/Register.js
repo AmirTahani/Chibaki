@@ -60,10 +60,10 @@ export default class Register extends Component {
 
     render() {
         return (
-            <div>
+            <div className={styles.wrapper}>
                 <Tabs defaultActiveKey="1">
                     <Tabs.TabPane tab="ثبت نام متخصص" key="1">{this.renderRegisterForm(true)}</Tabs.TabPane>
-                    <Tabs.TabPane tab="ثبت نام مشتری" key="2">{this.renderRegisterForm(true)}</Tabs.TabPane>
+                    <Tabs.TabPane tab="ثبت نام مشتری" key="2">{this.renderRegisterForm(false)}</Tabs.TabPane>
                 </Tabs>
             </div>
         );
