@@ -48,6 +48,8 @@ export default class Auth extends Component {
                         title: 'کد تایید',
                         content: <Verify
                             setUserCode={setUserCode}
+                            mobile={mobile}
+                            login={this.props.login}
                         />,
                         _id: 'verify'
                     }],
@@ -69,11 +71,14 @@ export default class Auth extends Component {
                             title: 'کد تایید',
                             content: <Verify
                                 setUserCode={setUserCode}
+                                mobile={mobile}
+                                login={this.props.login}
                             />,
                             _id: 'verify'
                         }],
                         step: this.state.step + 1
-                    });
+                    })
+                    ;
                 }
             });
         }
@@ -140,7 +145,6 @@ export default class Auth extends Component {
     render() {
         const { toggleAuthModal } = this.props;
         const { step, contents } = this.state;
-        console.log(this.props.code, 'this is gonna be code');
         return (
             <Modal
                 visible={this.props.showModal}

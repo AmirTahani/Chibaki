@@ -20,7 +20,6 @@ class Nav extends Component {
 
     getNavItems = () => {
         const { user } = this.props;
-        console.log(user, ' this is user');
         if (user && user._id) {
             return [
                 {
@@ -35,7 +34,7 @@ class Nav extends Component {
         }
         return [
             {
-                label: 'ثبت نام/ورود',
+                label: 'ثبت نام / ورود',
                 link: 'signup',
                 action: this.handleAuth
             },

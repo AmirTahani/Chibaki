@@ -37,6 +37,7 @@ export default function reducer(state = initialState, action = {}) {
             return {
                 ...state,
                 loading: true,
+                loaded: false,
                 professionId: action.professionId,
                 isDirect: action.isDirect
             };
@@ -128,6 +129,7 @@ export function setProfId(profId) {
 
 export function* watchLoadQuestions(client, { professionId, isDirect }) {
     try {
+        yield put(clearAnswers());
         let response;
         if (isDirect) {
             response = yield client.get(`/professions/${professionId}/questions?direct=${isDirect}`);
@@ -136,6 +138,7 @@ export function* watchLoadQuestions(client, { professionId, isDirect }) {
         }
         yield put(loadQuestionsSuccess(response.data));
     } catch (error) {
+        console.log(error, ' this is error');
         yield put(loadQuestionsFailure(error));
         yield handleSagaError(error);
     }
@@ -158,6 +161,7 @@ export function* watchSubmitAnswers(client, { resolve, reject }) {
             };
             yield client.post('/customers/jobs', { data });
         }
+        yield put(clearAnswers());
         resolve && resolve();
     } catch (error) {
         yield handleSagaError(error);

@@ -1,5 +1,6 @@
 .modal {
     margin-top: 10px;
+    min-height: 270px;
 }
 
 .stepsContent {
@@ -25,4 +26,10 @@
     margin-left: 8px;
     border: none;
     margin-top: 10px;
+}
+
+.spinnerWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

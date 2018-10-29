@@ -13,16 +13,6 @@ export default class Description extends Component {
     state = {
         value: ''
     };
-
-    componentDidMount() {
-        const { answers, question } = this.props;
-        if (answers[question._id] && answers[question._id].text_option) {
-            this.setState({
-                value: answers[question._id].text_option
-            });
-        }
-    }
-
     onChangeTextOption = (e) => {
         const { question } = this.props;
         this.setState({
@@ -35,6 +25,15 @@ export default class Description extends Component {
         this.props.setAnswer(question._id, answer);
     };
 
+    componentDidMount() {
+        const { answers, question } = this.props;
+        if (answers[question._id] && answers[question._id].text_option) {
+            this.setState({
+                value: answers[question._id].text_option
+            });
+        }
+    }
+
     render() {
         const { question } = this.props;
         return (
@@ -42,10 +41,11 @@ export default class Description extends Component {
                 <p className={styles.title}>{question.title}</p>
                 <div className={styles.inputWrapper}>
                     <Input
-                        placeholder="اینجا بنویسید"
+                        placeholder="توضیحات"
                         onChange={this.onChangeTextOption}
                         value={this.state.value}
                     />
+                    <p className={styles.optionalText}>*این قسمت اختیاری است.</p>
                 </div>
             </div>
         );

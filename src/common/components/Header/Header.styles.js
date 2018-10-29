@@ -1,6 +1,6 @@
 import styled from 'react-emotion';
 
-export const HeaderHeight = '60px';
+export const HeaderHeight = '65px';
 
 const LogoHeight = '40px';
 const LogoWidth = '116px';
@@ -13,7 +13,7 @@ export const HeaderComponent = styled('header')`
 	right: 0;
 
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-
+    height: ${HeaderHeight};
 	background-color: #fff;
 
 	z-index: 99999;

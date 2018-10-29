@@ -26,10 +26,10 @@ export const ListLink = styled(Link)`
 	display: block;
 	padding: 0 15px;
 
-	font-size: .95rem;
-	font-weight: 600;
 	line-height: ${HeaderHeight};
 	height: ${HeaderHeight};
+	font-size: 1.2rem;
+	font-weight: 600;
 
 	color: ${primaryColor};
 
@@ -45,7 +45,7 @@ export const ListClickable = styled('div')`
 	padding: 0 15px;
 	cursor: pointer;
 
-	font-size: .95rem;
+	font-size: 1.2rem;
 	font-weight: 600;
 	line-height: ${HeaderHeight};
 	height: ${HeaderHeight};

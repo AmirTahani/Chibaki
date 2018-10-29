@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Modal, Col, Row, Button, message, Progress } from 'antd';
+import { Modal, Col, Row, Button, message, Progress, Spin } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loadProvinces } from '../../redux/modules/provinces';
@@ -200,6 +200,7 @@ class Questions extends PureComponent {
                             question={question}
                             answers={answers}
                             setUserCode={setUserCodeConnect}
+                            submit={this.next}
                         />
                     };
                 } else if (question.type === 'getName') {
@@ -249,9 +250,10 @@ class Questions extends PureComponent {
         return !!((answer && answer.text_option) || (answer && answer.selected_options && answer.selected_options.length));
     };
 
-    next = (contents) => {
+    next = () => {
         const { current } = this.state;
         const { mobile, firstName, lastName, registerConnect, code, verifyConnect, submitAnswersConnect } = this.props;
+        const contents = this.getContent();
         const hasAnswer = this.checkHasAnswer(contents[current].question);
         if (mobile && contents[current].question.type === 'getPhone') {
             new Promise((resolve, reject) => {
@@ -307,7 +309,7 @@ class Questions extends PureComponent {
                     submitAnswersConnect(resolve, reject);
                 }).then(() => {
                     this.setState({
-                        questions: [...this.state.defaultQuestions, {
+                        questions: [...this.state.questions, {
                             _id: 'success',
                             type: 'success',
                             title: 'درخواست شما با موفقیت ثبت شد.'
@@ -321,7 +323,7 @@ class Questions extends PureComponent {
                 submitAnswersConnect(resolve, reject);
             }).then(() => {
                 this.setState({
-                    questions: [...this.state.defaultQuestions, {
+                    questions: [...this.state.questions, {
                         _id: 'success',
                         type: 'success',
                         title: 'درخواست شما با موفقیت ثبت شد.'
@@ -362,9 +364,9 @@ class Questions extends PureComponent {
 
     render() {
         const { current, shouldRegister } = this.state;
+        const { loading, loaded } = this.props;
         const contents = this.getContent();
         const contentsLength = shouldRegister ? contents.length + 1 : contents.length;
-        console.log(contents, current, contents[current], 'ine');
         return (
             <Row>
                 <Col>
@@ -375,47 +377,59 @@ class Questions extends PureComponent {
                         closable={false}
                     >
                         <button className={styles.closeButton} onClick={() => this.toggleModal()}>X</button>
-                        <Row>
-                            <Progress
-                                percent={current === contents.length - 1 ? 100 : ((current / contentsLength) * 100)}
-                                showInfo={false}
-                            />
-                        </Row>
-                        <div className={styles.stepsContent}>{contents[current] && contents[current].content}</div>
-                        <div className={styles.footer}>
-                            {
-                                (
-                                    current < contents.length - 1 ||
-                                    (
+                        {
+                            loading && !loaded ? <div className={styles.spinnerWrapper}><Spin /></div> : null
+                        }
+                        {
+                            !loading && loaded ? <Col>
+                                <Row>
+                                    <Progress
+                                        percent={current === contents.length - 1 ? 100 : ((current / contentsLength) * 100)}
+                                        showInfo={false}
+                                    />
+                                </Row>
+                                <div
+                                    className={styles.stepsContent}
+                                >
+                                    {contents[current] && contents[current].content}
+                                </div>
+                                <div className={styles.footer}>
+                                    {
+                                        (
+                                            current < contents.length - 1 ||
+                                            (
+                                                contents[current] &&
+                                                contents[current].question &&
+                                                contents[current].question._id === 'getPhone'
+                                            )
+                                        )
+                                        && <Button className={styles.button} onClick={() => this.next(contents)}>
+                                            <Icon iconName="next" />
+                                        </Button>
+                                    }
+                                    {
+                                        current === contents.length - 1 &&
+                                        contents[current].question._id !== 'getPhone' &&
+                                        contents[current].question._id !== 'success' &&
+                                        <Button onClick={() => this.next(contents)} type="primary">ثبت درخواست</Button>
+                                    }
+                                    {
+                                        current > 0 &&
+                                        <Button className={styles.button} onClick={() => this.prev(contents)}>
+                                            <Icon iconName="back" />
+                                        </Button>
+                                    }
+                                    {
                                         contents[current] &&
                                         contents[current].question &&
-                                        contents[current].question._id === 'getPhone'
-                                    )
-                                )
-                                && <Button className={styles.button} onClick={() => this.next(contents)}>
-                                    <Icon iconName="next" />
-                                </Button>
-                            }
-                            {
-                                current === contents.length - 1 &&
-                                contents[current].question._id !== 'getPhone' &&
-                                contents[current].question._id !== 'success' &&
-                                <Button onClick={() => this.next(contents)} type="primary">ثبت درخواست</Button>
-                            }
-                            {
-                                current > 0 && <Button className={styles.button} onClick={() => this.prev(contents)}>
-                                    <Icon iconName="back" />
-                                </Button>
-                            }
-                            {
-                                contents[current] &&
-                                contents[current].question &&
-                                contents[current].question._id === 'success' &&
-                                <Button className={styles.button} onClick={this.toggleModal}>
-                                    باشه
-                                </Button>
-                            }
-                        </div>
+                                        contents[current].question._id === 'success' &&
+                                        <Button className={styles.button} onClick={this.toggleModal}>
+                                            باشه
+                                        </Button>
+                                    }
+                                </div>
+                            </Col> : null
+                        }
                     </Modal>
                 </Col>
             </Row>

@@ -3,7 +3,13 @@
     margin-top: 30px;
     margin-bottom: 30px;
     font-weight: bold;
+}
 
+.optionalText {
+    margin-top: .2rem;
+    color: #757575;
+    font-size: .8rem;
+    line-height: 1.6;
 }
 
 .inputWrapper {
