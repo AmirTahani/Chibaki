@@ -30,7 +30,7 @@
 	&--primary
 		color #fff
 		background-color $color
-		box-shadow 0 1px 6px -1px alpha($color, 35%)
+		box-shadow 0 3px 6px -1px alpha(#758CA0, 60%)
 
 		&:hover
 		&:focus
@@ -48,6 +48,11 @@
 		line-height 50px
 		&:only-child
 			font-size 1.2rem
+
+	&--md
+		min-width 130px
+		line-height 43px
+		font-size 1rem
 
 
 .radio-btn-round-lg
@@ -106,6 +111,69 @@
 		&.ant-radio-button-wrapper-checked
 			padding-left 45px
 
+			&:before
+				left 5px
+				opacity 1
+				background rgba(0,0,0,0) !important
+				
+.radio-btn-round-md
+	.ant-radio-button-wrapper
+		position relative
+		
+		color $color
+		
+		border 1px solid $color
+		border-radius 100px !important
+		
+		margin .7rem
+		
+		line-height 40px
+		height auto
+		
+		text-align center
+		
+		font-weight 900
+		font-size 14px
+		
+		overflow hidden
+		
+		@media (max-width 500px)
+			min-width 180px
+		
+		&:first-child
+			border-color $color
+		
+		// &:before
+		// 	content none
+		
+		&:before
+			content url('/assets/images/icon/check.svg')
+			// font 16px jopp !important
+			color #4FF2CA
+			
+			width 43px
+			height 49px
+			
+			position absolute
+			left -50px
+			top 0
+			bottom 0
+			right auto
+			
+			// background rgba(0,0,0,0) url(unquote("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGRhdGEtbmFtZT0iQ2FwYSAxIiB2aWV3Qm94PSIwIDAgNTEyIDUxMiI+CiAgPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWU4N2YwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iNDAiIGQ9Ik0xNTEuNjggMjkxLjI2bDc2LjAyIDc2LjAyIDE1MC4zMS0xNTAuMzIiLz4KPC9zdmc+"))
+			
+			vertical-align middle
+			margin auto 0
+			
+			opacity 1
+		
+		&
+		&:before
+			transition .15s
+		
+		&.ant-radio-button-wrapper-checked
+			padding-left 45px
+			
 			&:before
 				left 5px
 				opacity 1
