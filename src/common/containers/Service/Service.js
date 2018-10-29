@@ -202,7 +202,7 @@ class Services extends Component {
                                                                                         'public',
                                                                                         ''
                                                                                     )}`
-                                                                                    : 'https://chibaki.ir/profile/images/unknown.jpg'
+                                                                                    : 'https://chibaki.ir/profile/images/avatar.svg'
                                                                             }
                                                                             alt={`${item.firstname} ${item.lastname}`}
                                                                             className={styles.avatar}
