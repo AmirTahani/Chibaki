@@ -1,4 +1,5 @@
 import { select, put } from 'redux-saga/effects';
+import ReactGA from 'react-ga';
 import { handleSagaError } from '../../utils/handleSagaError';
 import { defualtQuestions } from '../../config';
 
@@ -37,6 +38,7 @@ export default function reducer(state = initialState, action = {}) {
             return {
                 ...state,
                 loading: true,
+                loaded: false,
                 professionId: action.professionId,
                 isDirect: action.isDirect
             };
@@ -128,9 +130,26 @@ export function setProfId(profId) {
 
 export function* watchLoadQuestions(client, { professionId, isDirect }) {
     try {
-        const response = yield client.get(`/professions/${professionId}/questions`);
+        yield put(clearAnswers());
+        let response;
+        if (isDirect) {
+            response = yield client.get(`/professions/${professionId}/questions?direct=${isDirect}`);
+            ReactGA.event({
+                category: 'user',
+                action: 'DIRECT_QUESTION_STARTED',
+                label: 'user started questions'
+            });
+        } else {
+            response = yield client.get(`/professions/${professionId}/questions`);
+            ReactGA.event({
+                category: 'user',
+                action: 'QUESTION_STARTED',
+                label: 'user started questions'
+            });
+        }
         yield put(loadQuestionsSuccess(response.data));
     } catch (error) {
+        console.log(error, ' this is error');
         yield put(loadQuestionsFailure(error));
         yield handleSagaError(error);
     }
@@ -139,15 +158,29 @@ export function* watchLoadQuestions(client, { professionId, isDirect }) {
 export function* watchSubmitAnswers(client, { resolve, reject }) {
     try {
         const questionsState = yield select(state => state.questions);
-        const data = {
-            answers: { ...questionsState.answers },
-            profession_id: questionsState.professionId
-        };
+
         if (questionsState.isDirect) {
-            yield client.post(`/professionals/${questionsState.profId}/jobs`, { data });
+            const job = {
+                answers: { ...questionsState.answers },
+                profession_id: questionsState.professionId
+            };
+            yield client.post(`/professionals/${questionsState.profId}/jobs`, { data: { job } });
+            ReactGA.event({
+                category: 'user',
+                action: 'SUBMIT_CREATE_REQUEST_DIRECT',
+            });
         } else {
+            const data = {
+                answers: { ...questionsState.answers },
+                profession_id: questionsState.professionId
+            };
             yield client.post('/customers/jobs', { data });
+            ReactGA.event({
+                category: 'user',
+                action: 'SUBMIT_CREATE_REQUEST',
+            });
         }
+        yield put(clearAnswers());
         resolve && resolve();
     } catch (error) {
         yield handleSagaError(error);

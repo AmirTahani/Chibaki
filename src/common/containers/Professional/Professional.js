@@ -29,6 +29,10 @@ class Professional extends Component {
     componentDidMount() {
         const { location } = this.props;
         this.props.setProfIdConnect(location.query.id);
+        this.event({
+            category: 'user',
+            action: 'PROFILE_VIEW'
+        });
         if (this.SHOULD_INIT_SLIDER) {
             this.Flickity = require('react-flickity-component');
             require('flickity-fullscreen');
@@ -452,9 +456,9 @@ class Professional extends Component {
                                                                     align="middle"
                                                                 >
                                                                     <Col>
-                                                                        {comment.customer.firstname}
+                                                                        {comment.customer && comment.customer.firstname}
                                                                         {' '}
-                                                                        {comment.customer.lastname}
+                                                                        {comment.customer && comment.customer.lastname}
                                                                     </Col>
                                                                     <Col>
                                                                         <Rate

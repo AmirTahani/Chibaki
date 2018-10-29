@@ -10,6 +10,14 @@ export default class GetName extends PureComponent {
         setUserLastName: PropTypes.func.isRequired
     };
 
+    componentWillMount() {
+        this.event({
+            category: 'user',
+            action: 'INSIDE_REGISTER',
+            label: 'user visited register page'
+        });
+    }
+
     onChangeName = (e) => {
         this.props.setUserName(e.target.value);
     };

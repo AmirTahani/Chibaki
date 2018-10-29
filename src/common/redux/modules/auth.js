@@ -1,4 +1,5 @@
 import { put, select, take } from 'redux-saga/effects';
+import ReactGA from 'react-ga';
 import { handleSagaError } from '../../utils/handleSagaError';
 
 export const LOGIN = 'ssr/auth/LOGIN';
@@ -97,7 +98,8 @@ export default function reducer(state = initialState, action = {}) {
             return {
                 ...state,
                 verified: true,
-                verifying: false
+                verifying: false,
+                user: action.user
             };
         case VERIFY_FAILURE:
             return {
@@ -308,6 +310,11 @@ export function* watchRegister(client, { firstName, lastName, mobile, profession
             data.professionid = professionId;
         }
         const response = yield client.post('/signup', { data });
+        ReactGA.event({
+            category: 'user',
+            action: 'REGISTER_SUBMITTED',
+            label: 'user completed registration'
+        });
         yield put(registerSuccess(response.data.user_id));
         resolve && resolve();
     } catch (error) {
@@ -325,6 +332,11 @@ export function* watchVerifyMobile(client, { code, resolve, reject }) {
             user_id: userId
         };
         const response = yield client.post('/verify-mobile', { data });
+        ReactGA.event({
+            category: 'user',
+            action: 'VERIFY',
+            label: 'user verified'
+        });
         yield put(verifySuccess(response.data));
         yield put(setJwt(response.data.token));
         yield take(SET_JWT_SUCCESS);

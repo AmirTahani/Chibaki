@@ -22,7 +22,11 @@ export default class Hero extends Component {
                 <div className="c-hero__front">
                     <div className="c-hero__content">
                         <div className="c-hero__text">
-                            چی باکی
+                            <h1 className="c-hero__header">هر کاری داری بگو!</h1>
+                            <h5 className="c-hero__sub">
+                                از مدرس زبان و برنامه نویس تا مربی بدن سازی و نقاش ساختمان، ما مناسبترین فرد را
+                                <strong>کاملاً رایگان</strong> برای ارائه&zwnj;ی خدمت به شما معرفی می کنیم
+                            </h5>
                         </div>
                         <AutoComplete
                             options={this.props.professions}

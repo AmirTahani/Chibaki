@@ -1,16 +1,25 @@
 import { Router, Route, browserHistory } from 'react-router';
-import React from 'react';
+import React, { Component } from 'react';
+import ReactGA from 'react-ga';
 import 'antd/dist/antd.less';
+import { exist } from '../../utils/helpers';
 import '../../styles/App.styl';
 
 import { Home, About, Services, Tos, Service, Professional, ContactUs } from '../';
 
+Component.prototype.exist = exist;
+Component.prototype.event = (props) => {
+    if (window && window.__renderType__ === 'client' && window && !window.__DEV__) {
+        ReactGA.event(...props);
+    }
+};
+ReactGA.initialize('UA-99324713-1');
 
 const Routes = (props) => {
     if (browserHistory && browserHistory.listen) {
         browserHistory.listen((location) => {
-            console.log(location, ' thisi si ');
             if (window) {
+                ReactGA.pageview(location.pathname + location.search);
                 window.__renderType__ = 'client';
             }
         });

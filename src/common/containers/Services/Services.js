@@ -53,13 +53,11 @@ class Services extends Component {
                                                     key={profession.title}
                                                 >
                                                     <h3 className="title">
-                                                        <Tooltip title={profession.description}>
-                                                            <Link
-                                                                to={`/${encodeURI('خدمات')}/${profession.title.split(' ').join('_')}`}
-                                                            >
-                                                                {profession.title}
-                                                            </Link>
-                                                        </Tooltip>
+                                                        <Link
+                                                            to={`/${encodeURI('خدمات')}/${profession.title.split(' ').join('_')}`}
+                                                        >
+                                                            {profession.title}
+                                                        </Link>
                                                     </h3>
                                                 </Col>
                                             );
@@ -79,7 +77,6 @@ class Services extends Component {
 
 export default connect(state => ({
     cat: state.professions.categories
-}),
-{
+}), {
     loadConnect: loader
 })(Services);

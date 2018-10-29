@@ -1,17 +1,28 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'antd';
+
 import styles from './Verify.module.css';
 
 export default class GetPhone extends Component {
     static propTypes = {
         question: PropTypes.objectOf(PropTypes.any).isRequired,
         answers: PropTypes.objectOf(PropTypes.any).isRequired,
-        setUserCode: PropTypes.func.isRequired
+        setUserCode: PropTypes.func.isRequired,
+        submit: PropTypes.func.isRequired
     };
 
     state = {
         value: ''
+    };
+    onChangeMobile = (e) => {
+        this.setState({
+            value: e.target.value
+        });
+        if (e.target.value.toString().length === 5) {
+            this.props.submit();
+        }
+        this.props.setUserCode(e.target.value);
     };
 
     componentDidMount() {
@@ -22,13 +33,6 @@ export default class GetPhone extends Component {
             });
         }
     }
-
-    onChangeMobile = (e) => {
-        this.setState({
-            value: e.target.value
-        });
-        this.props.setUserCode(e.target.value);
-    };
 
     render() {
         const { question } = this.props;
