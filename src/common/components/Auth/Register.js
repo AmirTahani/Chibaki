@@ -43,7 +43,9 @@ export default class Register extends Component {
                             showBtn={false}
                             placeholder="تخصص خود را انتخاب کنید."
                             onSubmit={this.handleSelect}
-                        />
+                        >
+                            <Input type="text" />
+                        </AutoComplete>
                     </div> : null
                 }
             </div>

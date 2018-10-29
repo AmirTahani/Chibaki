@@ -12,12 +12,14 @@ export default class AutoComplete extends Component {
         options: PropTypes.arrayOf(PropTypes.object).isRequired,
         onSubmit: PropTypes.func.isRequired,
         showBtn: PropTypes.bool,
-        placeholder: PropTypes.string
+        placeholder: PropTypes.string,
+        children: PropTypes.node
     };
 
     static defaultProps = {
         showBtn: true,
-        placeholder: 'به چه خدمتی نیاز دارید؟'
+        placeholder: 'به چه خدمتی نیاز دارید؟',
+        children: null
     };
 
     state = {
@@ -73,7 +75,7 @@ export default class AutoComplete extends Component {
     }
 
     render() {
-        const { onSubmit, showBtn, placeholder } = this.props;
+        const { onSubmit, showBtn, placeholder, children } = this.props;
         const { options } = this.state;
 
         return (
@@ -91,10 +93,10 @@ export default class AutoComplete extends Component {
                         placeholder={placeholder}
                         className={styles.field}
                     >
-                        <input
+                        {children || <input
                             type="text"
                             className={styles.input}
-                        />
+                        />}
                     </AntAutoComplete>
                     {
                         showBtn && <button onClick={() => onSubmit(this.state.selectedValue)} className={styles.btn}>
