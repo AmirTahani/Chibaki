@@ -11,19 +11,15 @@ export default class Register extends Component {
         setUserName: PropTypes.func.isRequired,
         selectProfession: PropTypes.func.isRequired
     };
-
     onChangeName = (e) => {
         this.props.setUserName(e.target.value);
     };
-
     onChangeLastName = (e) => {
         this.props.setUserLastName(e.target.value);
     };
-
     handleSelect = (professionId) => {
         this.props.selectProfession(professionId);
     };
-
     renderRegisterForm = (showAutoComplete) => {
         const { professions } = this.props;
         return (
@@ -53,6 +49,14 @@ export default class Register extends Component {
             </div>
         );
     };
+
+    componentWillMount() {
+        this.event({
+            category: 'user',
+            action: 'INSIDE_REGISTER',
+            label: 'user visited register page'
+        });
+    }
 
     render() {
         return (

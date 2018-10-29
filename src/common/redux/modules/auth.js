@@ -309,6 +309,11 @@ export function* watchRegister(client, { firstName, lastName, mobile, profession
             data.professionid = professionId;
         }
         const response = yield client.post('/signup', { data });
+        ReactGA.event({
+            category: 'user',
+            action: 'REGISTER_SUBMITTED',
+            label: 'user completed registration'
+        });
         yield put(registerSuccess(response.data.user_id));
         resolve && resolve();
     } catch (error) {
@@ -326,6 +331,11 @@ export function* watchVerifyMobile(client, { code, resolve, reject }) {
             user_id: userId
         };
         const response = yield client.post('/verify-mobile', { data });
+        ReactGA.event({
+            category: 'user',
+            action: 'VERIFY',
+            label: 'user verified'
+        });
         yield put(verifySuccess(response.data));
         yield put(setJwt(response.data.token));
         yield take(SET_JWT_SUCCESS);
