@@ -113,9 +113,9 @@ class Professional extends Component {
             </button>
         </Dropdown>) : (<button
             onClick={
-                () => this.createProject(professional.user.professions[0].profession._id)
+                () => this.createProject(this.props.professional.user.professions[0].profession._id)
             }
-            className={'classnames'}
+            className={`c-btn ${classnames}`}
         >
             {icon && <span className={`icon-${icon}`} />}
             <span>{text}</span>
@@ -248,7 +248,7 @@ class Professional extends Component {
                                         <Col>اطلاعات</Col>
                                     </Row>
                                     <div
-                                        className={styles.badgesWrapper}
+                                        className={`${styles.badgesWrapper} ${professional.user.trust.amount < 15 && styles.badgesEmpty}`}
                                     >
                                         <div
                                             className={`${styles.badge}
@@ -432,9 +432,7 @@ class Professional extends Component {
                                                 ) : null}
                                             </div>
                                             :
-                                            <div className={styles.cardEmpty}>
-                                                متخصص هنوز نمونه کاری اضافه نکرده ‌است
-                                            </div>}
+                                            <div className={`${styles.profImageWrapper} ${styles.profImageWrapperEmpty}`} />}
                                     </Col>
                                 </Row>
                                 <Divider type="horizontal" />
