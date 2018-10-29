@@ -19,7 +19,7 @@ export default class HowItWorks extends Component {
                                 <div className="c-howitworks__item">
                                     <div className="c-howitworks__icon">
                                         <i className="icon-circle icon--back" />
-                                        <i className="icon-list icon--front" />
+                                        <i className="icon-checklist icon--front" />
                                     </div>
                                     <div className="c-howitworks__text">
                                         <div className="c-howitworks__title">ثبت رایگان پروژه</div>
