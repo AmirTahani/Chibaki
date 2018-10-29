@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { Row, Col, Tooltip, Button, Rate } from 'antd';
+import { Row, Col, Tooltip, Button, Rate, Spin } from 'antd';
 import objectFitImages from 'object-fit-images';
 import { connect } from 'react-redux';
 import moment from 'moment-jalali';
@@ -15,6 +15,7 @@ import Features from '../../components/Features/Features';
 import GetApp from '../../components/GetApp/GetApp';
 import styles from './Service.module.styl';
 import { load } from '../../redux/modules/serviceContainer';
+import { load as loadProfessionts } from '../../redux/modules/proficients';
 
 const SHOULD_INIT_SLIDER = typeof window !== 'undefined' && window.innerWidth > 350;
 const Flickity = SHOULD_INIT_SLIDER ? require('react-flickity-component') : 'div';
@@ -30,7 +31,10 @@ class Services extends Component {
         provinces: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         professionsJobs: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         loadConnect: PropTypes.func.isRequired,
-        loadedComplete: PropTypes.bool.isRequired
+        loadedComplete: PropTypes.bool.isRequired,
+        loadMoreProfessiontsConnect: PropTypes.func.isRequired,
+        fetching: PropTypes.bool.isRequired,
+        paginationEnded: PropTypes.bool.isRequired,
 
     };
 
@@ -97,6 +101,11 @@ class Services extends Component {
         });
     };
 
+    more = () => {
+        const { title, selectedProfession } = this.props;
+        this.props.loadMoreProfessiontsConnect(selectedProfession._id, title, selectedProfession, null, true);
+    };
+
     componentDidMount() {
         const { location } = this.props;
         const title = location.pathname.split('/').reverse()[0].split('_').join(' ');
@@ -107,7 +116,7 @@ class Services extends Component {
     }
 
     render() {
-        const { title, selectedProfession, count, provinces, professionsJobs, loadedComplete } = this.props;
+        const { title, selectedProfession, count, provinces, professionsJobs, loadedComplete, fetching, paginationEnded } = this.props;
         const { showQuestions } = this.state;
         const proficients = this.props.proficients.reduce((acc, cur) => {
             const profession = cur.professions.find(prof => prof.profession === selectedProfession._id);
@@ -377,7 +386,15 @@ class Services extends Component {
                                         })}
                                     </div>
                                     <div className="u-t--c">
-                                        <button className={styles.btnMore}>نمایش بیشتر</button>
+                                        {!paginationEnded
+                                            ? <button className={styles.btnMore} onClick={this.more}>
+                                                {fetching
+                                                    ? <Spin />
+                                                    : <span>نمایش بیشتر</span>
+                                                }
+                                            </button>
+                                            : null
+                                        }
                                     </div>
                                 </div>
 
@@ -454,7 +471,10 @@ export default connect(state => ({
     count: state.proficients.count,
     provinces: state.provinces.provinces,
     professionsJobs: state.ProjectsForProfession.ProjectsForProfession,
-    loadedComplete: state.serviceContainer.loaded
+    loadedComplete: state.serviceContainer.loaded,
+    fetching: state.proficients.fetching,
+    paginationEnded: state.proficients.paginationEnded
 }), {
-    loadConnect: load
+    loadConnect: load,
+    loadMoreProfessiontsConnect: loadProfessionts
 })(Services);
