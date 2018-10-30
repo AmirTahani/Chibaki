@@ -107,7 +107,7 @@ class Services extends Component {
     };
 
     getSrc = (item) => {
-        if (this.exist('trust.profilePicture.filePath')) {
+        if (this.exist(item, 'trust.profilePicture.filePath')) {
             return `https://chibaki.ir${item.trust.profilePicture.filePath.replace('public', '')}`;
         }
         return 'https://chibaki.ir/profile/images/avatar.svg';
