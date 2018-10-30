@@ -5,6 +5,7 @@ import Header from '../../components/Header/Header';
 import HowItWorks from '../../components/Kit/HowItWorks/HowItWorks';
 import Features from '../../components/Features/Features';
 import GetApp from '../../components/GetApp/GetApp';
+import styles from './Main.module.styl';
 
 export default class Main extends Component {
     static propTypes = {
@@ -15,7 +16,9 @@ export default class Main extends Component {
         return (
             <div>
                 <Header />
-                {this.props.children}
+                <div className={styles.container}>
+                    {this.props.children}
+                </div>
                 <HowItWorks />
 
                 <Features />
