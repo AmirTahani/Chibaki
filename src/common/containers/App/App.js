@@ -28,7 +28,7 @@ const Routes = (props) => {
     return (
         <Router history={browserHistory} {...props}>
             <Route path="/" component={Main}>
-                <IndexRoute path="/" component={Home} />
+                <IndexRoute component={Home} />
                 <Route path="about" component={About} />
                 <Route path="tos" component={Tos} />
                 <Route path="contactus" component={ContactUs} />
