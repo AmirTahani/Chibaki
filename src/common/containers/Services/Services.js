@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import { Row, Col, Tooltip } from 'antd';
 import { connect } from 'react-redux';
 import '../Services/Services.css';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
 import { loader } from '../../redux/modules/professions';
 
 // import professions from "../../redux/modules/professions";
@@ -33,7 +31,6 @@ class Services extends Component {
         const { cat } = this.props;
         return (
             <div className="Home Container">
-                <Header />
                 <div className="l-container l-container--fixed-header">
                     {cat.map((item) => {
                         return (
@@ -69,7 +66,6 @@ class Services extends Component {
                         );
                     })}
                 </div>
-                <Footer />
             </div>
         );
     }

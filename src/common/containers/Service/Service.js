@@ -5,14 +5,8 @@ import { Row, Col, Tooltip, Button, Rate, Spin } from 'antd';
 import objectFitImages from 'object-fit-images';
 import { connect } from 'react-redux';
 import moment from 'moment-jalali';
-
-import Header from '../../components/Header/Header';
 import Questions from '../../components/Questions/Questions';
-import Footer from '../../components/Footer/Footer';
 import Autocomplete from '../../components/Kit/AutoComplete/AutoComplete';
-import HowItWorks from '../../components/Kit/HowItWorks/HowItWorks';
-import Features from '../../components/Features/Features';
-import GetApp from '../../components/GetApp/GetApp';
 import styles from './Service.module.styl';
 import { load } from '../../redux/modules/serviceContainer';
 import { load as loadProfessionts } from '../../redux/modules/proficients';
@@ -69,7 +63,7 @@ class Services extends Component {
 
     getProfessionPrice = () => {
         const { priceBase, priceRange } = this.props.selectedProfession;
-        if (!priceRange.min || !priceRange.min) {
+        if (priceRange && !priceRange.min) {
             return '';
         }
 
@@ -319,7 +313,6 @@ class Services extends Component {
 
         return (
             <div className={styles.wrapper}>
-                <Header />
                 {
                     showQuestions ?
                         <Questions professionId={this.props.selectedProfession._id} onClose={this.handleClose} /> : null
@@ -400,57 +393,53 @@ class Services extends Component {
                                     </div>
                                 </div>
 
-                                <div>
-                                    <div>
-                                        <div className={styles.title}>درخواست‌های مشابه ثبت شده در چی‌با‌کی</div>
-                                        <div className={styles.subtitle}>{selectedProfession.title}</div>
-                                    </div>
-                                    <Flickity options={this.sliderOptions} className={styles.jobCardWrapper}>
-                                        {professionsJobs.map((job) => {
-                                            return (
-                                                <div key={job._id} className={styles.jobCard}>
-                                                    <div className={styles.jobCardDate}>
-                                                        ثبت شده در تاریخ
-                                                        {this.formatJobDate(job.createdAt)}
-                                                    </div>
-                                                    <div className={styles.jobCardRow}>
-                                                        <div className={styles.jobCardTitle}>
-                                                            {this.exist(job, 'location.province.name') ? job.location.province.name : '-'}
-                                                            {this.exist(job, 'location.city.name') ? job.location.city.name : '-'}
-                                                        </div>
-                                                        <div className={styles.jobCardSub}>شهر</div>
-                                                    </div>
-
-                                                    {job.attributes.map((attr) => {
-                                                        return (
+                                {
+                                    professionsJobs && professionsJobs.length ?
+                                        <div>
+                                            <div>
+                                                <div className={styles.title}>درخواست‌های مشابه ثبت شده در چی‌با‌کی</div>
+                                                <div className={styles.subtitle}>{selectedProfession.title}</div>
+                                            </div>
+                                            <Flickity options={this.sliderOptions} className={styles.jobCardWrapper}>
+                                                {professionsJobs.map((job) => {
+                                                    return (
+                                                        <div key={job._id} className={styles.jobCard}>
+                                                            <div className={styles.jobCardDate}>
+                                                                ثبت شده در تاریخ
+                                                                {this.formatJobDate(job.createdAt)}
+                                                            </div>
                                                             <div className={styles.jobCardRow}>
                                                                 <div className={styles.jobCardTitle}>
-                                                                    {attr.text || attr.options.join(' ')}
+                                                                    {this.exist(job, 'location.province.name') ? job.location.province.name : '-'}
+                                                                    {this.exist(job, 'location.city.name') ? job.location.city.name : '-'}
                                                                 </div>
-                                                                <div
-                                                                    className={styles.jobCardSub}
-                                                                >{attr.title}</div>
+                                                                <div className={styles.jobCardSub}>شهر</div>
                                                             </div>
-                                                        );
-                                                    })}
-                                                </div>
-                                            );
-                                        })}
-                                    </Flickity>
-                                </div>
+
+                                                            {job.attributes.map((attr) => {
+                                                                return (
+                                                                    <div className={styles.jobCardRow}>
+                                                                        <div className={styles.jobCardTitle}>
+                                                                            {attr.text || attr.options.join(' ')}
+                                                                        </div>
+                                                                        <div
+                                                                            className={styles.jobCardSub}
+                                                                        >{attr.title}</div>
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    );
+                                                })}
+                                            </Flickity>
+                                        </div> : null
+                                }
 
                             </div>
 
                         </div>
-                        : null}
-
-                <HowItWorks />
-
-                <Features />
-
-                <GetApp />
-
-                <Footer />
+                        : null
+                }
             </div>
         );
     }

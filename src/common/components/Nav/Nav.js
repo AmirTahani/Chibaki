@@ -40,7 +40,7 @@ class Nav extends Component {
             },
             {
                 label: 'خدمات',
-                link: encodeURI('خدمات')
+                link: encodeURI('/خدمات')
             },
             {
                 label: 'پروفایل',

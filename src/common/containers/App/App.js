@@ -1,11 +1,11 @@
-import { Router, Route, browserHistory } from 'react-router';
+import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import React, { Component } from 'react';
 import ReactGA from 'react-ga';
 import 'antd/dist/antd.less';
 import { exist } from '../../utils/helpers';
 import '../../styles/App.styl';
 
-import { Home, About, Services, Tos, Service, Professional, ContactUs } from '../';
+import { Home, About, Services, Tos, Service, Professional, ContactUs, Main } from '../';
 
 Component.prototype.exist = exist;
 Component.prototype.event = (props) => {
@@ -27,14 +27,15 @@ const Routes = (props) => {
 
     return (
         <Router history={browserHistory} {...props}>
-            <Route path="/" component={Home} />
-            <Route path="home" component={Home} />
-            <Route path="about" component={About} />
-            <Route path="tos" component={Tos} />
-            <Route path="contactus" component={ContactUs} />
-            <Route exact path={encodeURI('خدمات')} component={Services} />
-            <Route path={`${encodeURI('خدمات')}/:title`} component={Service} />
-            <Route path={'professional/:id'} component={Professional} />
+            <Route path="/" component={Main}>
+                <IndexRoute path="/" component={Home} />
+                <Route path="about" component={About} />
+                <Route path="tos" component={Tos} />
+                <Route path="contactus" component={ContactUs} />
+                <Route exact path={encodeURI('خدمات')} component={Services} />
+                <Route path={`${encodeURI('خدمات')}/:title`} component={Service} />
+                <Route path={'professional/:id'} component={Professional} />
+            </Route>
         </Router>
     );
 };

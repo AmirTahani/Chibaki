@@ -1,12 +1,9 @@
 import React from 'react';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
 
 export default class About extends React.Component {
     render() {
         return (
             <div>
-                <Header />
                 <div className="hero">
                     <div className="heroBg">
                         <img
@@ -47,7 +44,6 @@ export default class About extends React.Component {
                         دوام ما و شما را تضمین می‌کند.
                     </p>
                 </div>
-                <Footer />
             </div>
         );
     }
