@@ -16,7 +16,7 @@ export default class Tos extends Component {
                     </div>
                     <div className="heroContent">
                         <div className="heroTitle">
-                            درباره ما
+                            قوانین و مقررات
                         </div>
                     </div>
                 </div>

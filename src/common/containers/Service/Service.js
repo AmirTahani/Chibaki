@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { Row, Col, Tooltip, Button, Rate } from 'antd';
+import { Row, Col, Tooltip, Button, Rate, Spin } from 'antd';
 import objectFitImages from 'object-fit-images';
 import { connect } from 'react-redux';
 import moment from 'moment-jalali';
@@ -15,6 +15,7 @@ import Features from '../../components/Features/Features';
 import GetApp from '../../components/GetApp/GetApp';
 import styles from './Service.module.styl';
 import { load } from '../../redux/modules/serviceContainer';
+import { load as loadProfessionts } from '../../redux/modules/proficients';
 
 const SHOULD_INIT_SLIDER = typeof window !== 'undefined' && window.innerWidth > 350;
 const Flickity = SHOULD_INIT_SLIDER ? require('react-flickity-component') : 'div';
@@ -30,7 +31,10 @@ class Services extends Component {
         provinces: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         professionsJobs: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         loadConnect: PropTypes.func.isRequired,
-        loadedComplete: PropTypes.bool.isRequired
+        loadedComplete: PropTypes.bool.isRequired,
+        loadMoreProfessiontsConnect: PropTypes.func.isRequired,
+        fetching: PropTypes.bool.isRequired,
+        paginationEnded: PropTypes.bool.isRequired,
 
     };
 
@@ -61,10 +65,6 @@ class Services extends Component {
 
     onProvinceSelect = (value, option) => {
         // console.log('onSubmit', value, option);
-    };
-
-    handleLoadMore = () => {
-        console.log('salam in');
     };
 
     getProfessionPrice = () => {
@@ -100,13 +100,20 @@ class Services extends Component {
             showQuestions: false
         });
     };
+
+    more = () => {
+        const { title, selectedProfession } = this.props;
+        this.props.loadMoreProfessiontsConnect(selectedProfession._id, title, selectedProfession, null, true);
+    };
+
     getSrc = (item) => {
-        if (this.exist(item, 'trust.profilePicture.filePath')) {
+        if (this.exist('trust.profilePicture.filePath')) {
             return `https://chibaki.ir${item.trust.profilePicture.filePath.replace('public', '')}`;
         }
-        return 'https://chibaki.ir/profile/images/unknown.jpg';
+        return 'https://chibaki.ir/profile/images/avatar.svg';
     };
-    renderProficentLink = (item) => {
+
+    renderProficientLink = (item) => {
         return (
             <Link
                 to={`/professional/${item.firstname.replace(' ', '_')}_${item.lastname.replace(' ', '_')}?id=${item._id}`}
@@ -180,9 +187,7 @@ class Services extends Component {
                                                 >
                                                     <Row>
                                                         <Col span={24}>
-                                                            <Tooltip
-                                                                title="کارت ملی"
-                                                            >
+                                                            <Tooltip title="کارت ملی">
                                                                 <img
                                                                     src="/assets/images/badge/idCard.svg"
                                                                     alt="کارت ملی"
@@ -233,9 +238,7 @@ class Services extends Component {
                                                 >
                                                     <Row>
                                                         <Col span="24">
-                                                            <Tooltip
-                                                                title="تایید هویت"
-                                                            >
+                                                            <Tooltip title="تایید هویت">
                                                                 <img
                                                                     src="/assets/images/badge/identity.svg"
                                                                     alt="تایید هویت"
@@ -255,7 +258,7 @@ class Services extends Component {
                                                 <div
                                                     span={24}
                                                     className={`${styles.badge}
-                                                ${item.trust && item.trust.backgroundCheck.verified && styles.badgeActive}`}
+                                        ${item.trust && item.trust.backgroundCheck.verified && styles.badgeActive}`}
                                                 >
                                                     <Row>
                                                         <Col span={24}>
@@ -295,6 +298,7 @@ class Services extends Component {
         );
     };
 
+
     componentDidMount() {
         const { location } = this.props;
         const title = location.pathname.split('/').reverse()[0].split('_').join(' ');
@@ -305,7 +309,7 @@ class Services extends Component {
     }
 
     render() {
-        const { title, selectedProfession, count, provinces, professionsJobs, loadedComplete } = this.props;
+        const { title, selectedProfession, count, provinces, professionsJobs, loadedComplete, fetching, paginationEnded } = this.props;
         const { showQuestions } = this.state;
         const proficients = this.props.proficients.reduce((acc, cur) => {
             const profession = cur.professions.find(prof => prof.profession === selectedProfession._id);
@@ -379,17 +383,20 @@ class Services extends Component {
                                         <div className={styles.subtitle}>نمایش تصادفی</div>
                                     </div>
                                     <div className={styles.cardWrapper}>
-                                        {
-                                            proficients.map((item) => {
-                                                return (
-                                                    this.renderProficentLink(item)
-                                                );
-                                            })
-                                        }
+                                        {proficients.map((item) => {
+                                            return this.renderProficientLink(item);
+                                        })}
                                     </div>
                                     <div className="u-t--c">
-                                        <button onClick={this.handleLoadMore} className={styles.btnMore}>نمایش بیشتر
-                                        </button>
+                                        {!paginationEnded
+                                            ? <button className={styles.btnMore} onClick={this.more}>
+                                                {fetching
+                                                    ? <Spin />
+                                                    : <span>نمایش بیشتر</span>
+                                                }
+                                            </button>
+                                            : null
+                                        }
                                     </div>
                                 </div>
 
@@ -408,13 +415,8 @@ class Services extends Component {
                                                     </div>
                                                     <div className={styles.jobCardRow}>
                                                         <div className={styles.jobCardTitle}>
-                                                            {
-                                                                this.exist(job, 'job.location.province.name')
-                                                            }
-                                                            {' '}
-                                                            {
-                                                                this.exist(job, 'job.location.city.name')
-                                                            }
+                                                            {this.exist(job, 'location.province.name') ? job.location.province.name : '-'}
+                                                            {this.exist(job, 'location.city.name') ? job.location.city.name : '-'}
                                                         </div>
                                                         <div className={styles.jobCardSub}>شهر</div>
                                                     </div>
@@ -436,10 +438,11 @@ class Services extends Component {
                                         })}
                                     </Flickity>
                                 </div>
+
                             </div>
+
                         </div>
-                        : null
-                }
+                        : null}
 
                 <HowItWorks />
 
@@ -460,7 +463,10 @@ export default connect(state => ({
     count: state.proficients.count,
     provinces: state.provinces.provinces,
     professionsJobs: state.ProjectsForProfession.ProjectsForProfession,
-    loadedComplete: state.serviceContainer.loaded
+    loadedComplete: state.serviceContainer.loaded,
+    fetching: state.proficients.fetching,
+    paginationEnded: state.proficients.paginationEnded
 }), {
-    loadConnect: load
+    loadConnect: load,
+    loadMoreProfessiontsConnect: loadProfessionts
 })(Services);
