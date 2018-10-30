@@ -53,10 +53,6 @@ class Home extends Component {
 
         return (
             <div className="Home">
-                <Header
-                    professions={flattenProfessions}
-                />
-
                 <Hero
                     professions={flattenProfessions}
                     onSelect={this.handleSelect}
@@ -68,18 +64,10 @@ class Home extends Component {
                     sliders={sliders}
                     onSelect={this.handleSelect}
                 />
-
-                <HowItWorks />
-
-                <Features />
-
-                <GetApp />
-
                 {
                     showQuestions && professionId ?
                         <Questions professionId={professionId} onClose={this.handleClose} /> : null
                 }
-                <Footer />
                 <link
                     rel="stylesheet"
                     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
