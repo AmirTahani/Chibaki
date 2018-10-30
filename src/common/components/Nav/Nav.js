@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import PropTypes from 'prop-types';
-import { List, Navigation, ListItem, ListLink, ListClickable } from './Nav.styles';
 import { sitePath } from '../../config';
+import styles from './Nav.module.styl';
 
 class Nav extends Component {
     static propTypes = {
@@ -52,27 +53,27 @@ class Nav extends Component {
     render() {
         const navItems = this.getNavItems();
         return (
-            <Navigation>
-                <List>
+            <nav>
+                <ul className={styles.list}>
                     {
                         navItems.map((nav) => {
                             return (
-                                <ListItem key={nav.label}>
+                                <li key={nav.label}>
                                     {
                                         nav.action
-                                            ? <ListClickable onClick={nav.action}>
+                                            ? <div className={styles.listLink} onClick={nav.action}>
                                                 {nav.label}
-                                            </ListClickable>
-                                            : <ListLink to={nav.link} className="c-nav__link">
+                                            </div>
+                                            : <Link to={nav.link} className={styles.listLink}>
                                                 {nav.label}
-                                            </ListLink>
+                                            </Link>
                                     }
-                                </ListItem>
+                                </li>
                             );
                         })
                     }
-                </List>
-            </Navigation>
+                </ul>
+            </nav>
         );
     }
 }

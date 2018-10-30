@@ -3,15 +3,9 @@ import { Link } from 'react-router';
 import { css } from 'emotion';
 import React, { Component } from 'react';
 
-import {
-    Copyright,
-    CopyrightText,
-    FooterInner,
-    IconLink,
-    Logo,
-    PageLink
-} from './Footer.styles';
 import { RemoveMargin } from '../../styles/global';
+import styles from './Footer.module.styl';
+
 
 export default class Footer extends Component {
     static propTypes = {
@@ -21,7 +15,7 @@ export default class Footer extends Component {
     render() {
         return (
             <footer>
-                <FooterInner>
+                <div className={styles.footerInner}>
                     <Row
                         type="flex"
                         align="middle"
@@ -42,46 +36,46 @@ export default class Footer extends Component {
                                 className={css`${RemoveMargin}`}
                             >
                                 <Col>
-                                    <PageLink to="/about">
+                                    <Link className={styles.footerLink} to="/about">
                                         تماس با ما
-                                    </PageLink>
-                                    <PageLink>
+                                    </Link>
+                                    <Link className={styles.footerLink} to="/contactus">
                                         درباره ما
-                                    </PageLink>
+                                    </Link>
                                 </Col>
                                 <Col>
-                                    <IconLink
+                                    <a
                                         href="https://www.instagram.com/chibaki.ir/"
-                                        className="social__link"
+                                        className={styles.iconLink}
                                         rel="nofollow noopener noreferrer"
                                         target="_blank"
                                     >
                                         <i className="fa fa-instagram fa-2x" />
-                                    </IconLink>
-                                    <IconLink
+                                    </a>
+                                    <a
                                         href="https://t.me/chibaki_ir"
-                                        className="social__link"
+                                        className={styles.iconLink}
                                         rel="nofollow noopener noreferrer"
                                         target="_blank"
                                     >
                                         <i className="fa fa-telegram fa-2x" />
-                                    </IconLink>
-                                    <IconLink
+                                    </a>
+                                    <a
                                         href="https://www.linkedin.com/company/jopp-ir/"
-                                        className="social__link"
+                                        className={styles.iconLink}
                                         rel="nofollow noopener noreferrer"
                                         target="_blank"
                                     >
                                         <i className="fa fa-linkedin fa-2x" />
-                                    </IconLink>
-                                    <IconLink
+                                    </a>
+                                    <a
                                         href="https://twitter.com/chibaki_ir"
-                                        className="social__link"
+                                        className={styles.iconLink}
                                         rel="nofollow noopener noreferrer"
                                         target="_blank"
                                     >
                                         <i className="fa fa-twitter fa-2x" />
-                                    </IconLink>
+                                    </a>
                                 </Col>
                             </Row>
                         </Col>
@@ -93,22 +87,23 @@ export default class Footer extends Component {
                             span={24}
                             order={3}
                         >
-                            <Copyright>
+                            <div className={styles.copyRight}>
                                 <div>
                                     <Link to="/">
-                                        <Logo
+                                        <img
+                                            className={styles.logo}
                                             src="/assets/images/logo/logo-1-1.svg"
                                             alt="Chibaki - چی‌باکی"
                                         />
                                     </Link>
                                 </div>
-                                <CopyrightText>
+                                <span className={styles.copyRightText}>
                                     تمامی حقوق
                                     متعلق به
                                     وبسایت چی‌باکی
                                     می باشد
-                                </CopyrightText>
-                            </Copyright>
+                                </span>
+                            </div>
                         </Col>
                         <Col
                             md={{
@@ -123,7 +118,7 @@ export default class Footer extends Component {
                             <div />
                         </Col>
                     </Row>
-                </FooterInner>
+                </div>
             </footer>
         );
     }

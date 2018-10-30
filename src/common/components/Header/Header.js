@@ -12,9 +12,9 @@ import {
     register,
     verify
 } from '../../redux/modules/auth';
-import { HeaderComponent, HeaderInner, Logo, LogoImg } from './Header.styles';
 import Auth from '../Auth/Auth';
 import Nav from '../Nav/Nav';
+import styles from './Header.module.styl';
 
 class Header extends Component {
     static propTypes = {
@@ -54,8 +54,8 @@ class Header extends Component {
             verifyConnect
         } = this.props;
         return (
-            <HeaderComponent>
-                <HeaderInner>
+            <header className={styles.header}>
+                <div className={styles.headerInner}>
                     <Auth
                         showModal={showAuthModal}
                         toggleAuthModal={toggleAuthModalConnect}
@@ -73,14 +73,14 @@ class Header extends Component {
                         verify={verifyConnect}
                     />
                     <Nav user={user} toggleAuthModal={toggleAuthModalConnect} />
-                    <Logo>
+                    <div className={styles.logo}>
                         <Link to="/">
                             <div className="sr-only">چی باکی</div>
-                            <LogoImg src="/assets/images/logo/logo-text.svg" />
+                            <img className={styles.img} src="/assets/images/logo/logo-text.svg" />
                         </Link>
-                    </Logo>
-                </HeaderInner>
-            </HeaderComponent>
+                    </div>
+                </div>
+            </header>
         );
     }
 }
