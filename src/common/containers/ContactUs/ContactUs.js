@@ -8,7 +8,7 @@ export default class Contact extends Component {
                 <div className="hero">
                     <div className="heroBg">
                         <img
-                            src="https://chibaki.ir/assets/images/about/hero.jpg"
+                            src="/assets/images/hero/contact.jpeg"
                             alt="Chibaki Team"
                         />
                     </div>
