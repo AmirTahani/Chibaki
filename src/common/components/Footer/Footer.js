@@ -50,7 +50,7 @@ export default class Footer extends Component {
                                         rel="nofollow noopener noreferrer"
                                         target="_blank"
                                     >
-                                        <i className="fa fa-instagram fa-2x" />
+                                        <i className="icon-instagram" />
                                     </a>
                                     <a
                                         href="https://t.me/chibaki_ir"
@@ -58,7 +58,7 @@ export default class Footer extends Component {
                                         rel="nofollow noopener noreferrer"
                                         target="_blank"
                                     >
-                                        <i className="fa fa-telegram fa-2x" />
+                                        <i className="icon-telegram" />
                                     </a>
                                     <a
                                         href="https://www.linkedin.com/company/jopp-ir/"
@@ -66,7 +66,7 @@ export default class Footer extends Component {
                                         rel="nofollow noopener noreferrer"
                                         target="_blank"
                                     >
-                                        <i className="fa fa-linkedin fa-2x" />
+                                        <i className="icon-linkedin" />
                                     </a>
                                     <a
                                         href="https://twitter.com/chibaki_ir"
@@ -74,7 +74,7 @@ export default class Footer extends Component {
                                         rel="nofollow noopener noreferrer"
                                         target="_blank"
                                     >
-                                        <i className="fa fa-twitter fa-2x" />
+                                        <i className="icon-twitter" />
                                     </a>
                                 </Col>
                             </Row>
