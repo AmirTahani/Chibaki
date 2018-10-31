@@ -3,13 +3,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { flattenProfessionsByCategories } from '../../utils/serverHelper';
 import Categories from '../../components/Professions/Categories/Categories';
-import Footer from '../../components/Footer/Footer';
-import Header from '../../components/Header/Header';
 import Hero from '../../components/Hero/Hero';
 import Questions from '../../components/Questions/Questions';
-import HowItWorks from '../../components/Kit/HowItWorks/HowItWorks';
-import Features from '../../components/Features/Features';
-import GetApp from '../../components/GetApp/GetApp';
 import ProfessionSliders from '../../components/Professions/Slider/Slider';
 import './Home.css';
 import { loader } from '../../redux/modules/professions';
@@ -62,7 +57,6 @@ class Home extends Component {
 
                 <ProfessionSliders
                     sliders={sliders}
-                    onSelect={this.handleSelect}
                 />
                 {
                     showQuestions && professionId ?

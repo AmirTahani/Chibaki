@@ -34,6 +34,9 @@ $cs_labelHeight = 50px
 	&__slide
 		margin-right 10px
 
+		cursor pointer
+		user-select none
+
 		@media (min-width $lg + 1)
 			width 300px
 			flex 1 0 300px
@@ -50,10 +53,15 @@ $cs_labelHeight = 50px
 				flex 1 0 250px
 
 	&__item
+		display block
 		position relative
 		border 1px solid #e0e0e0
 		border-radius 3px
 		overflow hidden
+		
+		&:hover
+		&:focus
+			text-decoration: none
 		
 		&:hover 
 

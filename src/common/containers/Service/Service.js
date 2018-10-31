@@ -217,7 +217,7 @@ class Services extends Component {
                                                             </div>
                                                             <div className={styles.jobCardRow}>
                                                                 <div className={styles.jobCardTitle}>
-                                                                    {this.exist(job, 'location.province.name') ? job.location.province.name : '-'}
+                                                                    {this.exist(job, 'location.province.name') ? `${job.location.province.name}, ` : '-'}
                                                                     {this.exist(job, 'location.city.name') ? job.location.city.name : '-'}
                                                                 </div>
                                                                 <div className={styles.jobCardSub}>شهر</div>
