@@ -25,23 +25,23 @@ class Nav extends Component {
             return [
                 {
                     label: 'خدمات',
-                    link: encodeURI('خدمات')
+                    link: `/${encodeURI('خدمات')}`
                 },
                 {
                     label: 'پروفایل',
-                    action: this.handleGoToAngular
+                    action: `/${this.handleGoToAngular}`
                 }
             ];
         }
         return [
             {
                 label: 'ثبت نام / ورود',
-                link: 'signup',
+                link: '/signup',
                 action: this.handleAuth
             },
             {
                 label: 'خدمات',
-                link: encodeURI('/خدمات')
+                link: `/${encodeURI('خدمات')}`
             }
         ];
     };
