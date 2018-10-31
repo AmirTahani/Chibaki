@@ -124,7 +124,6 @@ export function* watchLoadProficients(client, { resolve, reject, professionId, m
         if (more) {
             CurrentPage = yield select(state => state.proficients.pagination);
         }
-        console.log(CurrentPage);
 
         yield put(NextPageNumber(CurrentPage + 1));
 
@@ -132,7 +131,6 @@ export function* watchLoadProficients(client, { resolve, reject, professionId, m
             yield put(paginationEndedState(false));
         }
         const ended = yield select(state => state.proficients.paginationEnded);
-        console.log(yield select(state => state.proficients.pagination));
         if (!ended) {
             const response = yield client.get(`/v1/professionals?profession=${professionId}${provinceId ? `&province=${provinceId}` : ''}&select=firstname,lastname,trust&populate=professions&sort=-trust.amount&page=${CurrentPage}`);
             const items = response.data.professionals;
