@@ -24,15 +24,18 @@ class Professional extends Component {
         showQuestions: false,
         professionId: ''
     };
+
     onProfImageClick = (e) => {
         e.preventDefault();
         this.flkty.viewFullscreen();
     };
+
     onProfessionChange = (e) => {
         this.setState({
             selectedProfession: e.target.value
         });
     };
+
     getProfsDropdown = () => {
         const { professions } = this.props.professional.user;
 
@@ -46,18 +49,12 @@ class Professional extends Component {
 
         return <Menu>{profs}</Menu>;
     };
+
     getProfImage = () => {
         const { professional } = this.props;
         const { selectedProfession } = this.state;
-        if (professional &&
-            professional.user &&
-            professional.user.professions &&
-            professional.user.professions[selectedProfession] &&
-            professional.user.professions[selectedProfession].intro
-        ) {
-            return Object.keys(
-                professional.user.professions[selectedProfession].intro
-            ).reduce((acc, current) => {
+        if (this.exist(professional, `user.professions.${selectedProfession}.intro`)) {
+            return Object.keys(professional.user.professions[selectedProfession].intro).reduce((acc, current) => {
                 if (current.indexOf('photo') >= 0 && professional.user.professions[selectedProfession].intro[current]) {
                     if (current === 'photos') {
                         acc = professional.user.professions[selectedProfession].intro[current].map(photo => `https://chibaki.ir${photo.replace('public', '')}`);
@@ -145,7 +142,7 @@ class Professional extends Component {
         const { selectedProfession, showQuestions, professionId } = this.state;
         const { Flickity } = this;
         const images = this.getProfImage();
-        console.log(images, 'this is images');
+        console.log(professional);
 
         const rate = professional.user && professional.user.professions && professional.user.professions[selectedProfession].rateSum
             ? professional.user.professions[selectedProfession].rateSum : 0;
@@ -223,11 +220,8 @@ class Professional extends Component {
                                         <Col span={24}>
                                             <p className={styles.desc}>
                                                 {
-                                                    professional.user.professions[selectedProfession].intro &&
-                                                    professional.user.professions[selectedProfession].intro.description &&
-                                                    professional.user.professions[selectedProfession].intro.description.length > 0 ?
-                                                        professional.user.professions[selectedProfession].intro.description
-                                                        :
+                                                    this.exist(professional, `user.professions.${selectedProfession}.intro.description`) ?
+                                                        this.exist(professional, `user.professions.${selectedProfession}.intro.description`) :
                                                         <div className={styles.cardEmpty}>
                                                             متخصص هنوز متن معارفه‌ای ننوشته است
                                                         </div>
@@ -385,7 +379,8 @@ class Professional extends Component {
                                                     {professional.user.professions.map((prof, idx) => {
                                                         return (
                                                             <Radio.Button
-                                                                defaultChecked={idx === 0} value={idx}
+                                                                defaultChecked={idx === 0}
+                                                                value={idx}
                                                                 key={prof._id}
                                                             >
                                                                 {prof.profession.title}

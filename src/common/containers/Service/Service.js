@@ -100,8 +100,7 @@ class Services extends Component {
         const { title, selectedProfession } = this.props;
         this.props.loadMoreProfessiontsConnect(selectedProfession._id, title, selectedProfession, null, true);
     };
-
-
+    
     componentDidMount() {
         const { location } = this.props;
         const title = location.pathname.split('/').reverse()[0].split('_').join(' ');
