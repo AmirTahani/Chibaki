@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Button } from 'antd';
 import objectFitImages from 'object-fit-images';
 import { Link } from 'react-router';
 import './Slider.styl';
