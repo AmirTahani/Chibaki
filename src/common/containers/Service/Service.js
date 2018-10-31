@@ -185,7 +185,7 @@ class Services extends Component {
                                     </div>
                                     <div className={styles.cardWrapper}>
                                         {proficients.map((item) => {
-                                            return <ProfessionalCard item={item} />;
+                                            return <ProfessionalCard professional={item} />;
                                         })}
                                     </div>
                                     <div className="u-t--c">

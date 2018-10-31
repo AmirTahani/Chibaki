@@ -113,10 +113,34 @@ class Professional extends Component {
         index: 0
     };
     Flickity = null;
+    calculateNotRated = () => {
+        const { professional } = this.props;
+        if (professional.user && professional.user.trust && professional.user.trust.amount) {
+            if (professional.user.trust.amount >= 80) {
+                return 4.5;
+            }
+            if (professional.user.trust.amount >= 50 && professional.user.trust.amount < 80) {
+                return 4;
+            }
+            if (professional.user.trust.amount >= 30 && professional.user.trust.amount < 50) {
+                return 3.5;
+            }
+        }
+        return 3;
+    };
 
     componentDidMount() {
-        const { location } = this.props;
+        const { location, professional } = this.props;
         this.props.setProfIdConnect(location.query.id);
+        const professions = this.exist(professional, 'user.professions');
+        if (professions && professions.length) {
+            const index = professions.findIndex((profession) => {
+                return profession.profession._id === this.exist(location, 'query.profId');
+            });
+            this.setState({
+                selectedProfession: index
+            });
+        }
         this.event({
             category: 'user',
             action: 'PROFILE_VIEW'
@@ -136,31 +160,16 @@ class Professional extends Component {
         }
         objectFitImages();
     }
-    calculateNotRated = () => {
-        const { professional } = this.props;
-        if (professional.user && professional.user.trust && professional.user.trust.amount) {
-            if (professional.user.trust.amount >= 80) {
-                console.log(4.5);
-                return 4.5;
-            }
-            if (professional.user.trust.amount >= 50 && professional.user.trust.amount < 80) {
-                return 4;
-            }
-            if (professional.user.trust.amount >= 30 && professional.user.trust.amount < 50) {
-                return 3.5;
-            }
-        }
-        return 3;
-    };
 
     render() {
+        console.log(this.state, 'this is the state');
         const { professional, comments } = this.props;
         const { selectedProfession, showQuestions, professionId } = this.state;
         const { Flickity } = this;
         const images = this.getProfImage();
-
-        const rate = professional.user && professional.user.professions && professional.user.professions[selectedProfession].rate
-            ? professional.user.professions[selectedProfession].rate : this.calculateNotRated();
+        const rate = this.exist(professional, `user.professions.${selectedProfession}.rate`) ?
+            this.exist(professional, `user.professions.${selectedProfession}.rate`) :
+            this.calculateNotRated();
 
         return (
             <div className={styles.wrapper}>
@@ -388,7 +397,7 @@ class Professional extends Component {
                                         <Row>
                                             <Col span={24}>
                                                 <Radio.Group
-                                                    defaultValue={0}
+                                                    value={this.state.selectedProfession}
                                                     className="radio-btn-round-md"
                                                     buttonStyle="solid"
                                                     onChange={this.onProfessionChange}
@@ -396,7 +405,6 @@ class Professional extends Component {
                                                     {professional.user.professions.map((prof, idx) => {
                                                         return (
                                                             <Radio.Button
-                                                                defaultChecked={idx === 0}
                                                                 value={idx}
                                                                 key={prof._id}
                                                             >
