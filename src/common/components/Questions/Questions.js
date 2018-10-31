@@ -67,7 +67,8 @@ class Questions extends PureComponent {
         current: 0,
         questions: [],
         shouldRegister: false,
-        defaultQuestions: []
+        defaultQuestions: [],
+        begin: true
     };
 
     toggleModal = () => {
@@ -250,6 +251,12 @@ class Questions extends PureComponent {
         return !!((answer && answer.text_option) || (answer && answer.selected_options && answer.selected_options.length));
     };
 
+    begin = () => {
+        this.setState({
+            begin: false
+        });
+    };
+
     next = () => {
         const { current } = this.state;
         const { mobile, firstName, lastName, registerConnect, code, verifyConnect, submitAnswersConnect } = this.props;
@@ -363,7 +370,7 @@ class Questions extends PureComponent {
     }
 
     render() {
-        const { current, shouldRegister } = this.state;
+        const { current, shouldRegister, begin } = this.state;
         const { loading, loaded } = this.props;
         const contents = this.getContent();
         const contentsLength = shouldRegister ? contents.length + 1 : contents.length;
@@ -378,10 +385,10 @@ class Questions extends PureComponent {
                     >
                         <button className={styles.closeButton} onClick={() => this.toggleModal()}>X</button>
                         {
-                            loading && !loaded ? <div className={styles.spinnerWrapper}><Spin /></div> : null
+                            loading && !loaded && !begin ? <div className={styles.spinnerWrapper}><Spin /></div> : null
                         }
                         {
-                            !loading && loaded ? <Col>
+                            !loading && loaded && !begin ? <Col>
                                 <Row>
                                     <Progress
                                         percent={current === contents.length - 1 ? 100 : ((current / contentsLength) * 100)}
@@ -429,6 +436,24 @@ class Questions extends PureComponent {
                                     }
                                 </div>
                             </Col> : null
+                        }
+                        {
+                            begin ? <div className={styles.beginWrapper}>
+                                <img
+                                    src="/assets/images/logo/logo-text.svg"
+                                    alt="chibaki logo"
+                                    className={styles.logo}
+                                />
+                                <p className={styles.beginText}>برای آنکه بتوانیم بهترین افراد متخصص را به شما معرفی کنیم، ابتدا نیاز هست که به چند
+                                    سوال کوتاه پاسخ دهید</p>
+                                <Button
+                                    type="primary"
+                                    className={styles.beginButton}
+                                    onClick={this.begin}
+                                >
+                                    شروع
+                                </Button>
+                            </div> : null
                         }
                     </Modal>
                 </Col>

@@ -21,6 +21,32 @@
     border: none;
 }
 
+.beginButton {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+
+.beginWrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 300px;
+}
+
+.beginText {
+    padding: 0 20px 0 20px;
+    text-align: center;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    width: 100px;
+    height: 50px;
+}
+
 .button {
     background-color: #ffffff;
     margin-left: 8px;
