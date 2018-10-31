@@ -133,7 +133,7 @@ class Services extends Component {
                                     <div className={styles.cardRate}>
                                         <Rate
                                             disabled
-                                            defaultValue={item.profession.rate}
+                                            defaultValue={this.exist(item, 'profession.rate')}
                                         />
                                     </div>
                                 </Col>
