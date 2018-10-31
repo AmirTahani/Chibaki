@@ -143,17 +143,14 @@ class Professional extends Component {
                 console.log(4.5);
                 return 4.5;
             }
-            if (professional.user.trust.amount >= 60 && professional.user.trust.amount < 80) {
+            if (professional.user.trust.amount >= 50 && professional.user.trust.amount < 80) {
                 return 4;
             }
-            if (professional.user.trust.amount >= 40 && professional.user.trust.amount < 60) {
+            if (professional.user.trust.amount >= 30 && professional.user.trust.amount < 50) {
                 return 3.5;
             }
-            if (professional.user.trust.amount >= 20 && professional.user.trust.amount < 40) {
-                return 3;
-            }
         }
-        return 2.5;
+        return 3;
     };
 
     render() {
@@ -161,11 +158,10 @@ class Professional extends Component {
         const { selectedProfession, showQuestions, professionId } = this.state;
         const { Flickity } = this;
         const images = this.getProfImage();
-        console.log(professional);
 
+        const rate = professional.user && professional.user.professions && professional.user.professions[selectedProfession].rate
+            ? professional.user.professions[selectedProfession].rate : this.calculateNotRated();
 
-        const rate = professional.user && professional.user.professions && professional.user.professions[selectedProfession].rateSum
-            ? professional.user.professions[selectedProfession].rateSum : this.calculateNotRated();
         return (
             <div className={styles.wrapper}>
                 {
@@ -213,7 +209,7 @@ class Professional extends Component {
                                                         <Rate
                                                             disabled
                                                             allowHalf
-                                                            defaultValue={rate}
+                                                            defaultValue={(Math.round(rate * 2) / 2)}
                                                             style={{
                                                                 fontSize: '30px'
                                                             }}

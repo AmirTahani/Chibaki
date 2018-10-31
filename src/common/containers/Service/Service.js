@@ -11,6 +11,7 @@ import styles from './Service.module.styl';
 import { load } from '../../redux/modules/serviceContainer';
 import { load as loadProfessionts } from '../../redux/modules/proficients';
 import ProfessionalCard from '../../components/professionalCard/professionalCard';
+import { commaSeprator } from '../../utils/helpers';
 
 const SHOULD_INIT_SLIDER = typeof window !== 'undefined' && window.innerWidth > 350;
 const Flickity = SHOULD_INIT_SLIDER ? require('react-flickity-component') : 'div';
@@ -88,7 +89,7 @@ class Services extends Component {
             case 'Project':
                 unit = 'پروژه ای';
         }
-        return ` از ${unit} ${priceRange.min} تومان`;
+        return ` از ${unit} ${commaSeprator(priceRange.min)} تومان`;
     };
     handleClose = () => {
         this.setState({

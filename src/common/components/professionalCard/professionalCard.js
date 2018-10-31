@@ -22,21 +22,19 @@ class ProfessionalCard extends PureComponent {
             if (item.trust.amount >= 80) {
                 return 4.5;
             }
-            if (item.trust.amount >= 60 && item.trust.amount < 80) {
+            if (item.trust.amount >= 50 && item.trust.amount < 80) {
                 return 4;
             }
-            if (item.trust.amount >= 40 && item.trust.amount < 60) {
+            if (item.trust.amount >= 30 && item.trust.amount < 50) {
                 return 3.5;
             }
-            if (item.trust.amount >= 20 && item.trust.amount < 40) {
-                return 3;
-            }
         }
-        return 2.5;
+        return 3;
     };
 
     render() {
         const { item } = this.props;
+        console.log((Math.round(item.profession.rate * 2) / 2));
         return (
             <Link
                 to={`/professional/${item.firstname.replace(' ', '_')}_${item.lastname.replace(' ', '_')}?id=${item._id}`}
@@ -64,7 +62,8 @@ class ProfessionalCard extends PureComponent {
                                         {this.exist(item, 'profession.rate')
                                             ? <Rate
                                                 disabled
-                                                defaultValue={item.profession.rate}
+                                                allowHalf
+                                                defaultValue={(Math.round(item.profession.rate * 2) / 2)}
                                             />
                                             : <Rate
                                                 disabled
