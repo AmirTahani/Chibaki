@@ -113,11 +113,18 @@ body {
 .ant-checkbox-checked .ant-checkbox-inner:after
   transform rotate(45deg) scale(-1, 1)
   right: 3.5px
-.ant-rate-star:first-child
-  margin-right: 8px
-ul.ant-rate
-  direction: ltr
 
+
+.ant-rate
+	direction: ltr
+	display flex
+	flex-direction row
+
+	&-star
+		&:first-child
+			margin-right: 8px
+		&:last-child
+			margin-right 0
 
 /**
  * React image lightbox
