@@ -6,40 +6,37 @@ import styles from './professionalCard.style.module.styl';
 
 class ProfessionalCard extends PureComponent {
     static propTypes = {
-        item: PropTypes.objectOf(PropTypes.any).isRequired,
+        professional: PropTypes.objectOf(PropTypes.any).isRequired,
     };
 
-    getSrc = (item) => {
-        if (this.exist(item, 'trust.profilePicture.filePath')) {
-            return `https://chibaki.ir${item.trust.profilePicture.filePath.replace('public', '')}`;
+    getSrc = (professional) => {
+        if (this.exist(professional, 'trust.profilePicture.filePath')) {
+            return `https://chibaki.ir${professional.trust.profilePicture.filePath.replace('public', '')}`;
         }
         return 'https://chibaki.ir/profile/images/avatar.svg';
     };
 
     calculateNotRated = () => {
-        const { item } = this.props;
-        if (item.trust && item.trust.amount) {
-            if (item.trust.amount >= 80) {
+        const { professional } = this.props;
+        if (professional.trust && professional.trust.amount) {
+            if (professional.trust.amount >= 80) {
                 return 4.5;
             }
-            if (item.trust.amount >= 60 && item.trust.amount < 80) {
+            if (professional.trust.amount >= 50 && professional.trust.amount < 80) {
                 return 4;
             }
-            if (item.trust.amount >= 40 && item.trust.amount < 60) {
+            if (professional.trust.amount >= 30 && professional.trust.amount < 50) {
                 return 3.5;
             }
-            if (item.trust.amount >= 20 && item.trust.amount < 40) {
-                return 3;
-            }
         }
-        return 2.5;
+        return 3;
     };
 
     render() {
-        const { item } = this.props;
+        const { professional } = this.props;
         return (
             <Link
-                to={`/professional/${item.firstname.replace(' ', '_')}_${item.lastname.replace(' ', '_')}?id=${item._id}`}
+                to={`/professional/${professional.firstname.replace(' ', '_')}_${professional.lastname.replace(' ', '_')}?id=${professional._id}&profId=${professional.profession.profession}`}
                 className={styles.cardLink}
             >
                 <div className={styles.card}>
@@ -48,8 +45,8 @@ class ProfessionalCard extends PureComponent {
                             <Row type="flex">
                                 <Col span={24}>
                                     <img
-                                        src={this.getSrc(item)}
-                                        alt={`${item.firstname} ${item.lastname}`}
+                                        src={this.getSrc(professional)}
+                                        alt={`${professional.firstname} ${professional.lastname}`}
                                         className={styles.avatar}
                                     />
                                 </Col>
@@ -57,14 +54,15 @@ class ProfessionalCard extends PureComponent {
                             <Row>
                                 <Col span={24}>
                                     <div className={styles.cardName}>
-                                        {`${item.firstname} ${item.lastname}`}
+                                        {`${professional.firstname} ${professional.lastname}`}
                                     </div>
                                     <div className={styles.cardRate}>
 
-                                        {this.exist(item, 'profession.rate')
+                                        {this.exist(professional, 'profession.rate')
                                             ? <Rate
                                                 disabled
-                                                defaultValue={item.profession.rate}
+                                                allowHalf
+                                                defaultValue={(Math.round(professional.profession.rate * 2) / 2)}
                                             />
                                             : <Rate
                                                 disabled
@@ -78,7 +76,7 @@ class ProfessionalCard extends PureComponent {
                         </div>
                         <div className={styles.cardLeft}>
                             <div className={styles.cardDesc}>
-                                {item.profession && item.profession.intro && item.profession.intro.description}
+                                {professional.profession && professional.profession.intro && professional.profession.intro.description}
                             </div>
                             <Row>
                                 <Col>
@@ -87,9 +85,9 @@ class ProfessionalCard extends PureComponent {
                                             <div className={styles.badgeWrapper}>
                                                 <div
                                                     className={`${styles.badge}
-                                                                            ${item.trust &&
-                                                    item.trust.addressProof &&
-                                                    item.trust.addressProof.verified &&
+                                                                            ${professional.trust &&
+                                                    professional.trust.addressProof &&
+                                                    professional.trust.addressProof.verified &&
                                                     styles.badgeActive}`}
                                                 >
                                                     <Row>
@@ -113,9 +111,9 @@ class ProfessionalCard extends PureComponent {
                                                 </div>
                                                 <div
                                                     className={`${styles.badge}
-                                                                            ${item.trust &&
-                                                    item.trust.idCard &&
-                                                    item.trust.idCard.verified &&
+                                                                            ${professional.trust &&
+                                                    professional.trust.idCard &&
+                                                    professional.trust.idCard.verified &&
                                                     styles.badgeActive}`}
                                                 >
                                                     <Row>
@@ -138,8 +136,9 @@ class ProfessionalCard extends PureComponent {
                                                     </Row>
                                                 </div>
                                                 <div
-                                                    className={`${styles.badge}
-                                        ${item.trust && item.trust.certificate && item.trust.certificate.verified && styles.badgeActive}`}
+                                                    className={`
+                                                    ${styles.badge}
+                                                    ${this.exist(professional, 'trust.certificate.verified') ? styles.badgeActive : ''}`}
                                                 >
                                                     <Row>
                                                         <Col span="24">
@@ -164,10 +163,10 @@ class ProfessionalCard extends PureComponent {
                                                 </div>
                                                 <div
                                                     className={`${styles.badge}
-                                       ${item.trust &&
-                                                    item.trust.identity &&
-                                                    item.trust.identity.verified &&
-                                                    item.trust.identity.filePath &&
+                                       ${professional.trust &&
+                                                    professional.trust.identity &&
+                                                    professional.trust.identity.verified &&
+                                                    professional.trust.identity.filePath &&
                                                     styles.badgeActive}`}
                                                 >
                                                     <Row>
@@ -191,8 +190,9 @@ class ProfessionalCard extends PureComponent {
                                                 </div>
                                                 <div
                                                     span={24}
-                                                    className={`${styles.badge}
-                                        ${item.trust && item.trust.backgroundCheck && item.trust.backgroundCheck.verified && styles.badgeActive}`}
+                                                    className={`
+                                                    ${styles.badge}
+                                                    ${this.exist(professional, 'trust.certificate.verified') ? styles.badgeActive : ''}`}
                                                 >
                                                     <Row>
                                                         <Col span={24}>

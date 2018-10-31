@@ -6,7 +6,6 @@ import saga from './saga';
 
 
 export default function create(client, preloadState) {
-    console.log(preloadState, 'this is preload state');
     const sagaMiddleWare = createSagaMiddleware();
     if (typeof window === 'object') {
         const presistedAuth = JSON.parse(localStorage.getItem('reduxPersist:auth'));

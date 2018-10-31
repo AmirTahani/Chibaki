@@ -9,3 +9,6 @@ export function exist(obj, path) {
     return result;
 }
 
+export function commaSeprator(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
