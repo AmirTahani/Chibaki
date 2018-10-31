@@ -136,6 +136,25 @@ class Professional extends Component {
         }
         objectFitImages();
     }
+    calculateNotRated = () => {
+        const { professional } = this.props;
+        if (professional.user && professional.user.trust && professional.user.trust.amount) {
+            if (professional.user.trust.amount >= 80) {
+                console.log(4.5);
+                return 4.5;
+            }
+            if (professional.user.trust.amount >= 60 && professional.user.trust.amount < 80) {
+                return 4;
+            }
+            if (professional.user.trust.amount >= 40 && professional.user.trust.amount < 60) {
+                return 3.5;
+            }
+            if (professional.user.trust.amount >= 20 && professional.user.trust.amount < 40) {
+                return 3;
+            }
+        }
+        return 2.5;
+    };
 
     render() {
         const { professional, comments } = this.props;
@@ -144,8 +163,9 @@ class Professional extends Component {
         const images = this.getProfImage();
         console.log(professional);
 
+
         const rate = professional.user && professional.user.professions && professional.user.professions[selectedProfession].rateSum
-            ? professional.user.professions[selectedProfession].rateSum : 0;
+            ? professional.user.professions[selectedProfession].rateSum : this.calculateNotRated();
         return (
             <div className={styles.wrapper}>
                 {
@@ -192,6 +212,7 @@ class Professional extends Component {
                                                     <Col>
                                                         <Rate
                                                             disabled
+                                                            allowHalf
                                                             defaultValue={rate}
                                                             style={{
                                                                 fontSize: '30px'
