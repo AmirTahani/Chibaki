@@ -19,19 +19,18 @@ class Services extends Component {
     };
 
     componentDidMount() {
-        if (this.exist(this.props.location, 'query.cat')) {
-            document.getElementById(this.props.location.query.cat).scrollTop += 100;
-        }
-
+        const { location } = this.props;
         setTimeout(() => {
-            if (this.props.location && this.props.location.query && this.props.location.query.cat && this.refs[this.props.location.query.cat]) {
-                ReactDOM.findDOMNode(this.refs[this.props.location.query.cat]).scrollIntoView({
-                    block: 'start',
-                    inline: 'nearest',
-                    behavior: 'smooth'
-                });
+            if (this.exist(location, 'query.cat')) {
+                if (this.refs[location.query.cat]) {
+                    ReactDOM.findDOMNode(this.refs[this.props.location.query.cat]).scrollIntoView({
+                        block: 'start',
+                        inline: 'nearest',
+                        behavior: 'smooth'
+                    });
+                }
             }
-        }, 1000);
+        }, 500);
 
         if (window && window.__renderType__ === 'client') {
             this.props.loadConnect();
