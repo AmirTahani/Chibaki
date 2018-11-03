@@ -19,9 +19,16 @@ class Services extends Component {
     };
 
     componentDidMount() {
-        if (this.props.location && this.props.location.query && this.props.location.query.cat && this.refs[this.props.location.query.cat]) {
-            ReactDOM.findDOMNode(this.refs[this.props.location.query.cat]).scrollIntoView();
-        }
+        console.log(this.refs[this.props.location.query.cat]);
+        console.log(document.getElementById(this.props.location.query.cat).scrollTop);
+        document.getElementById(this.props.location.query.cat).scrollTop += 100;
+
+        setTimeout(() => {
+            if (this.props.location && this.props.location.query && this.props.location.query.cat && this.refs[this.props.location.query.cat]) {
+                ReactDOM.findDOMNode(this.refs[this.props.location.query.cat]).scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' });
+            }
+        }, 1000);
+
         if (window && window.__renderType__ === 'client') {
             this.props.loadConnect();
         }
@@ -34,7 +41,7 @@ class Services extends Component {
                 <div className="l-container l-container--fixed-header">
                     {cat.map((item) => {
                         return (
-                            <section ref={item.label}>
+                            <section ref={item.label.split(' ').join('_')} id={item.label.split(' ').join('_')} className="section" >
                                 <h2 className="services_heading">{item.label}</h2>
                                 <Row>
                                     {
