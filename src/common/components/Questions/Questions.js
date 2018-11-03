@@ -202,6 +202,8 @@ class Questions extends PureComponent {
                             answers={answers}
                             setUserCode={setUserCodeConnect}
                             submit={this.next}
+                            login={this.props.loginConnect}
+                            mobile={this.props.mobile}
                         />
                     };
                 } else if (question.type === 'getName') {

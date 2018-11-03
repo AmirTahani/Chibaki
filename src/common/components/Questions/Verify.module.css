@@ -3,7 +3,20 @@
     margin-top: 30px;
     margin-bottom: 30px;
     font-weight: bold;
+}
 
+.text {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.resendText {
+    text-align: center;
+}
+
+.resendButton {
+    display: block;
+    margin: 1rem auto;
 }
 
 .inputWrapper {
