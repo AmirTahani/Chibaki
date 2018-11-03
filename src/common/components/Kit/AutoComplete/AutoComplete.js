@@ -80,7 +80,7 @@ export default class AutoComplete extends Component {
 
         return (
             <div className={`${styles.wrapper} c-autocomplete`}>
-                <div className={styles.form}>
+                <form className={styles.form} onSubmit={e => e.preventDefault()}>
                     <AntAutoComplete
                         dataSource={options.map(
                             this.renderOption
@@ -103,7 +103,7 @@ export default class AutoComplete extends Component {
                             ادامه
                         </button>
                     }
-                </div>
+                </form>
             </div>
         );
     }
