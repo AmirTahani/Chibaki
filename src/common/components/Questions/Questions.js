@@ -382,7 +382,44 @@ class Questions extends PureComponent {
                     <Modal
                         visible={this.state.visible}
                         className={styles.modal}
-                        footer={null}
+                        footer={
+                            [
+                                begin ? <Button
+                                    type="primary"
+                                    className={styles.beginButton}
+                                    onClick={this.begin}
+                                >
+                                    شروع
+                                </Button> : null,
+                                (
+                                    !begin &&
+                                    current < contents.length - 1 ||
+                                    (
+                                        contents[current] &&
+                                        contents[current].question &&
+                                        contents[current].question._id === 'getPhone'
+                                    )
+                                )
+                                && <Button className={styles.button} onClick={() => this.next(contents)}>
+                                    <Icon iconName="next" />
+                                </Button>,
+                                !begin &&
+                                current === contents.length - 1 &&
+                                contents[current].question._id !== 'getPhone' &&
+                                contents[current].question._id !== 'success'
+                                && <Button onClick={() => this.next(contents)} type="primary">ثبت درخواست</Button>,
+                                !begin &&
+                                current > 0 && <Button className={styles.button} onClick={() => this.prev(contents)}>
+                                    <Icon iconName="back" />
+                                </Button>,
+                                !begin &&
+                                contents[current] &&
+                                contents[current].question &&
+                                contents[current].question._id === 'success' && <Button className={styles.button} onClick={this.toggleModal}>
+                                    باشه
+                                </Button>
+                            ]
+                        }
                         closable={false}
                     >
                         <button className={styles.closeButton} onClick={() => this.toggleModal()}>X</button>
@@ -395,47 +432,13 @@ class Questions extends PureComponent {
                                     <Progress
                                         percent={current === contents.length - 1 ? 100 : ((current / contentsLength) * 100)}
                                         showInfo={false}
+                                        strokeWidth={20}
                                     />
                                 </Row>
                                 <div
                                     className={styles.stepsContent}
                                 >
                                     {contents[current] && contents[current].content}
-                                </div>
-                                <div className={styles.footer}>
-                                    {
-                                        (
-                                            current < contents.length - 1 ||
-                                            (
-                                                contents[current] &&
-                                                contents[current].question &&
-                                                contents[current].question._id === 'getPhone'
-                                            )
-                                        )
-                                        && <Button className={styles.button} onClick={() => this.next(contents)}>
-                                            <Icon iconName="next" />
-                                        </Button>
-                                    }
-                                    {
-                                        current === contents.length - 1 &&
-                                        contents[current].question._id !== 'getPhone' &&
-                                        contents[current].question._id !== 'success' &&
-                                        <Button onClick={() => this.next(contents)} type="primary">ثبت درخواست</Button>
-                                    }
-                                    {
-                                        current > 0 &&
-                                        <Button className={styles.button} onClick={() => this.prev(contents)}>
-                                            <Icon iconName="back" />
-                                        </Button>
-                                    }
-                                    {
-                                        contents[current] &&
-                                        contents[current].question &&
-                                        contents[current].question._id === 'success' &&
-                                        <Button className={styles.button} onClick={this.toggleModal}>
-                                            باشه
-                                        </Button>
-                                    }
                                 </div>
                             </Col> : null
                         }
@@ -446,15 +449,9 @@ class Questions extends PureComponent {
                                     alt="chibaki logo"
                                     className={styles.logo}
                                 />
-                                <p className={styles.beginText}>برای آنکه بتوانیم بهترین افراد متخصص را به شما معرفی کنیم، ابتدا نیاز هست که به چند
+                                <p className={styles.beginText}>برای آنکه بتوانیم بهترین افراد متخصص را به شما معرفی
+                                    کنیم، ابتدا نیاز هست که به چند
                                     سوال کوتاه پاسخ دهید</p>
-                                <Button
-                                    type="primary"
-                                    className={styles.beginButton}
-                                    onClick={this.begin}
-                                >
-                                    شروع
-                                </Button>
                             </div> : null
                         }
                     </Modal>
