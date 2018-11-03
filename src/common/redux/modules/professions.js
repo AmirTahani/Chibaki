@@ -1,5 +1,4 @@
 import { put, take, all } from 'redux-saga/effects';
-import { END } from 'redux-saga';
 import { handleSagaError } from '../../utils/handleSagaError';
 
 
