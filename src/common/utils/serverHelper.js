@@ -2,6 +2,7 @@ import { END } from 'redux-saga';
 import { loader as loadProfession } from '../redux/modules/professions';
 import { load as loadServiceRedux } from '../redux/modules/serviceContainer';
 import { load as loadProfessional } from '../redux/modules/professional';
+import { exist } from '../utils/helpers';
 import { loadProvinces } from '../redux/modules/provinces';
 import { load as loadProjectsForProf } from '../redux/modules/projectsForProfession';
 
@@ -37,7 +38,7 @@ export async function handleRequestsByRoute(store, route) {
     }
 }
 
-export function getMetaTags(state, route) {
+export function getMetaTags(state, route, query) {
     const subRoute = route.split('/').reverse();
     const metaTags = {
         keywords: 'چی با کی, چی باکی, فریلنسر، استخدام، برون سپاری، کار در منزل، استخدام فریلنسر، کاریابی، کار پاره وقت، استخدام پاره وقت، کار پروژه ای، خدمات منزل، خدمات آموزشی، خدمات هنری، خدمات ورزشی، خدمات کامپیوتری، زبان های خارجه، chibaki, چی‌باکی, چیباکی',
@@ -54,6 +55,23 @@ export function getMetaTags(state, route) {
                 metaTags.title = profession.title;
             }
         });
+    }
+    if (decodeURI(subRoute[1]) === 'professional') {
+        if (
+            exist(state, 'professional.professional.user.firstname') ||
+            exist(state, 'professional.professional.user.lastname')
+        ) {
+            metaTags.title = `
+            ${metaTags.title} 
+            - 
+            ${exist(state, 'professional.professional.user.firstname')}
+            ${exist(state, 'professional.professional.user.lastname')}`;
+        }
+        const professions = exist(state, 'professional.professional.user.professions');
+        const userProfession = professions.find(profession => profession.profession._id === query.profId);
+        metaTags.description = exist(userProfession, 'intro.description') ?
+            exist(userProfession, 'intro.description') :
+            'salam';
     }
     return metaTags;
 }

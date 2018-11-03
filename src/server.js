@@ -38,7 +38,7 @@ server
                                 <App {...renderProps} />
                             </Provider>
                         );
-                        const metaTags = getMetaTags(store.getState(), req.path);
+                        const metaTags = getMetaTags(store.getState(), req.path, req.query);
                         const finalState = store.getState();
 
 
