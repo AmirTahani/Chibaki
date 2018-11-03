@@ -29,7 +29,7 @@ class Nav extends Component {
                 },
                 {
                     label: 'پروفایل',
-                    action: `/${this.handleGoToAngular}`
+                    action: this.handleGoToAngular
                 }
             ];
         }
