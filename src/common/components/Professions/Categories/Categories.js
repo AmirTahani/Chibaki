@@ -59,7 +59,7 @@ export default class Categories extends Component {
                         key={cat.label}
                         className="cat__item"
                     >
-                        <Link className="cat__link" to={`/${encodeURI('خدمات')}?cat=${cat.label.replace(' ', '_')}`}>
+                        <Link className="cat__link" to={`/${encodeURI('خدمات')}?cat=${cat.label.split(' ').join('_')}`}>
                             <div className="cat__icon">
                                 <i
                                     className={cat.icon}
