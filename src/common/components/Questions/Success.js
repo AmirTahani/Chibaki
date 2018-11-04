@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import GetApp from '../GetApp/GetApp';
-import styles from './Success.module.css';
+import styles from './Success.module.styl';
 
 export default class Success extends Component {
     render() {

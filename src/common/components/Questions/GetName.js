@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'antd';
-import styles from './GetName.module.css';
+import styles from './GetName.module.styl';
 
 export default class GetName extends PureComponent {
     static propTypes = {

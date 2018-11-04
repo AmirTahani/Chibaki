@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Row, Radio } from 'antd';
 import moment from 'moment-jalali';
 import DatePicker from '../Kit/Calendar/DatePicker';
-import styles from './SingleWithDatePicker.module.css';
+import styles from './SingleWithDatePicker.module.styl';
 
 export default class SingleWithDatePicker extends Component {
     static propTypes = {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'antd';
-import styles from './Description.module.css';
+import styles from './Description.module.styl';
 
 export default class Description extends Component {
     static propTypes = {

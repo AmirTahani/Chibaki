@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Checkbox, Row, Input } from 'antd';
-import styles from './Multi.module.css';
+import styles from './Multi.module.styl';
 
 export default class Multi extends Component {
     static propTypes = {

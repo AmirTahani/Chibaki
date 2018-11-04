@@ -22,7 +22,7 @@ import Description from './Description';
 import SingleWithDatePicker from './SingleWithDatePicker';
 import GetPhone from './GetPhone';
 import Verify from './Verify';
-import styles from './Questions.module.css';
+import styles from './Questions.module.styl';
 import GetName from './GetName';
 import Success from './Success';
 
@@ -382,11 +382,13 @@ class Questions extends PureComponent {
                     <Modal
                         visible={this.state.visible}
                         className={styles.modal}
+                        centered
+                        width={500}
                         footer={
                             [
                                 begin ? <Button
                                     type="primary"
-                                    className={styles.beginButton}
+                                    className={styles.buttonBegin}
                                     onClick={this.begin}
                                 >
                                     شروع
@@ -400,8 +402,9 @@ class Questions extends PureComponent {
                                         contents[current].question._id === 'getPhone'
                                     )
                                 )
-                                && <Button className={styles.button} onClick={() => this.next(contents)}>
-                                    <Icon iconName="next" />
+                                && <Button className={styles.buttonNext} onClick={() => this.next(contents)}>
+                                    <span className="icon-next" />
+                                    بعدی
                                 </Button>,
                                 !begin &&
                                 current === contents.length - 1 &&
@@ -409,8 +412,9 @@ class Questions extends PureComponent {
                                 contents[current].question._id !== 'success'
                                 && <Button onClick={() => this.next(contents)} type="primary">ثبت درخواست</Button>,
                                 !begin &&
-                                current > 0 && <Button className={styles.button} onClick={() => this.prev(contents)}>
-                                    <Icon iconName="back" />
+                                current > 0 && <Button className={styles.buttonBack} onClick={() => this.prev(contents)}>
+                                    قبلی
+                                    <span className="icon-back" />
                                 </Button>,
                                 !begin &&
                                 contents[current] &&
@@ -422,19 +426,22 @@ class Questions extends PureComponent {
                         }
                         closable={false}
                     >
-                        <button className={styles.closeButton} onClick={() => this.toggleModal()}>X</button>
+                        <button className={styles.closeButton} onClick={() => this.toggleModal()}>
+                            <span className="icon-close" />
+                        </button>
                         {
                             loading && !loaded && !begin ? <div className={styles.spinnerWrapper}><Spin /></div> : null
                         }
                         {
                             !loading && loaded && !begin ? <Col>
-                                <Row>
+                                <div>
                                     <Progress
                                         percent={current === contents.length - 1 ? 100 : ((current / contentsLength) * 100)}
                                         showInfo={false}
                                         strokeWidth={20}
+                                        className={styles.progressBar}
                                     />
-                                </Row>
+                                </div>
                                 <div
                                     className={styles.stepsContent}
                                 >

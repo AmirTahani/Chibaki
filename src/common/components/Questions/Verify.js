@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Button } from 'antd';
 
-import styles from './Verify.module.css';
+import styles from './Verify.module.styl';
 import { persianNumber } from '../../utils/persian';
 
 export default class GetPhone extends Component {

@@ -104,8 +104,19 @@ body {
 .ant-select-dropdown-menu-item
 	color: #334657;
 
-.ant-modal-content
-  min-height 270px
+.ant-modal
+    &-mask
+        //z-index: 999998
+    
+    &-wrap
+        //z-index: 999999
+
+    &-content
+        min-height 270px
+        
+    &-centered
+        .ant-modal
+            text-align: right
 
 .ant-progress-bg
   float left
@@ -114,6 +125,9 @@ body {
   transform rotate(45deg) scale(-1, 1)
   right: 3.5px
 
+.ant-checkbox-checked
+	.ant-checkbox-inner:after
+		transform rotate(45deg) scale(1) !important
 
 .ant-rate
 	direction: ltr

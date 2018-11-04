@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Select, Input } from 'antd';
-import styles from './SelectLocation.module.css';
+import styles from './SelectLocation.module.styl';
 
 export default class SelectQuestion extends Component {
     static propTypes = {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Radio, Row, Input } from 'antd';
-import styles from './Single.module.css';
+import styles from './Single.module.styl';
 
 export default class Multi extends Component {
     static propTypes = {
@@ -140,7 +140,7 @@ export default class Multi extends Component {
         return (
             <div>
                 <p className={styles.title}>{question.title}</p>
-                <Radio.Group onChange={this.onChange} value={this.state.value}>
+                <Radio.Group onChange={this.onChange} value={this.state.value} className={styles.radioGroup}>
                     {
                         options.map((option) => {
                             return (<Row key={option.value} className={styles.row}>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'antd';
-import styles from './GetPhone.module.css';
+import styles from './GetPhone.module.styl';
 
 export default class GetPhone extends Component {
     static propTypes = {
