@@ -1,15 +1,19 @@
-.header {
+@import '../../styles/variables'
+
+.header
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-  height: 65px;
+  height: $headerHeight
   background-color: #fff;
   z-index: 999;
-}
+  
+  @media (max-width $md)
+    height: $headerHeightMd
 
-.headerInner {
+.headerInner
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -17,17 +21,18 @@
 
   padding: 0 20px;
 
-  @media (max-width: 992px) {
+  @media (max-width: 992px)
     padding: 0 10px;
-  }
-}
 
-.logo {
-  height: 65px;
-  padding: 10px;
-}
+.logo
+  
+  :global a
+    display: block
+    padding: 10px
 
-.img {
+.img
   width: 116px;
-  height: 40px;
-}
+  
+  @media (max-width $md)
+    width: 90px
+
