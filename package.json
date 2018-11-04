@@ -27,6 +27,7 @@
     "qs": "6.5.2",
     "razzle": "0.8.12",
     "react": "16.3.0",
+    "react-burger-menu": "^2.5.4",
     "react-dom": "16.3.0",
     "react-emotion": "9.2.10",
     "react-flickity-component": "^3.1f.0",

@@ -1,3 +1,5 @@
+@import '../../styles/variables.styl'
+
 .list {
   margin: 0;
   padding: 0;
@@ -6,10 +8,20 @@
   flex-wrap: nowrap;
 
   list-style: none;
+  
+  @media (max-width $md) {
+    display: none
+  }
 }
 
-.listLink {
+.link
   display: block;
+  color: $color
+  cursor: pointer;
+  transition: 0s;
+
+.listLink
+  composes link
   padding: 0 15px;
 
   line-height: 65px;
@@ -17,11 +29,13 @@
   font-size: 1rem;
   font-weight: 600;
 
-  color: #1e87f0;
-  cursor: pointer;
-  transition: 0s;
 
-  &:hover {
+  &:hover
     color: #62abf5;
-  }
-}
+  
+  &Mobile
+    composes link
+    font-size: 1.3rem
+    font-weight: 600
+  
+    padding: 1.1rem 2rem
