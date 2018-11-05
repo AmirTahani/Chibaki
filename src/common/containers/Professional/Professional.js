@@ -273,17 +273,17 @@ class Professional extends Component {
                                 </Row>
                                 <Row className={styles.card__body}>
                                     {/*<Popover*/}
-                                        {/*content={this.sharePopover()}*/}
-                                        {/*// title={'اشتراک گذاری'}*/}
-                                        {/*style={{*/}
-                                            {/*display: 'none'*/}
-                                        {/*}}*/}
-                                        {/*trigger={'click'}*/}
+                                    {/*content={this.sharePopover()}*/}
+                                    {/*// title={'اشتراک گذاری'}*/}
+                                    {/*style={{*/}
+                                    {/*display: 'none'*/}
+                                    {/*}}*/}
+                                    {/*trigger={'click'}*/}
                                     {/*>*/}
-                                        {/*<Button className={styles.share}>*/}
-                                            {/*<span className="icon-share" />*/}
-                                            {/*معرفی این متخصص به دوستان*/}
-                                        {/*</Button>*/}
+                                    {/*<Button className={styles.share}>*/}
+                                    {/*<span className="icon-share" />*/}
+                                    {/*معرفی این متخصص به دوستان*/}
+                                    {/*</Button>*/}
                                     {/*</Popover>*/}
                                     <Col>
                                         <Row type="flex" justify="center">
