@@ -143,43 +143,43 @@ class Professional extends Component {
         }, 2000);
     };
 
-    sharePopover = () => {
-        const url = 'http://chibaki.pro/sepehr';
-        const size = 42;
-        return (
-            <div className={styles.shareBody}>
-                <div style={{ display: 'none' }}>
-                    <Tooltip title={'لینک کپی شد'} visible={this.state.tooltipVisible}>
-                        <CopyToClipboard text={url} onCopy={this.copyCallback}>
-                            <Input.Group compact className={styles.shareInputGroup}>
-                                <Input
-                                    value={url}
-                                    disabled
-                                    className={styles.shareInput}
-                                />
-                                <Button type={'primary'} icon={'copy'}>کپی</Button>
-                            </Input.Group>
-                        </CopyToClipboard>
-                    </Tooltip>
-                </div>
-                <div className={styles.shareBtnHeading}>اشتراک گذاری در:</div>
-                <div className={styles.shareBtnWrapper}>
-                    <TelegramShareButton className={styles.shareBtn} url={url}>
-                        <TelegramIcon size={size} round fill />
-                    </TelegramShareButton>
-                    <LinkedinShareButton className={styles.shareBtn} url={url}>
-                        <LinkedinIcon size={size} round fill />
-                    </LinkedinShareButton>
-                    <TwitterShareButton className={styles.shareBtn} url={url}>
-                        <TwitterIcon size={size} round fill />
-                    </TwitterShareButton>
-                    <WhatsappShareButton className={styles.shareBtn} url={url}>
-                        <WhatsappIcon size={size} round fill />
-                    </WhatsappShareButton>
-                </div>
-            </div>
-        );
-    };
+    // sharePopover = () => {
+    //     const url = 'http://chibaki.pro/sepehr';
+    //     const size = 42;
+    //     return (
+    //         <div className={styles.shareBody}>
+    //             <div style={{ display: 'none' }}>
+    //                 <Tooltip title={'لینک کپی شد'} visible={this.state.tooltipVisible}>
+    //                     <CopyToClipboard text={url} onCopy={this.copyCallback}>
+    //                         <Input.Group compact className={styles.shareInputGroup}>
+    //                             <Input
+    //                                 value={url}
+    //                                 disabled
+    //                                 className={styles.shareInput}
+    //                             />
+    //                             <Button type={'primary'} icon={'copy'}>کپی</Button>
+    //                         </Input.Group>
+    //                     </CopyToClipboard>
+    //                 </Tooltip>
+    //             </div>
+    //             <div className={styles.shareBtnHeading}>اشتراک گذاری در:</div>
+    //             <div className={styles.shareBtnWrapper}>
+    //                 <TelegramShareButton className={styles.shareBtn} url={url}>
+    //                     <TelegramIcon size={size} round fill />
+    //                 </TelegramShareButton>
+    //                 <LinkedinShareButton className={styles.shareBtn} url={url}>
+    //                     <LinkedinIcon size={size} round fill />
+    //                 </LinkedinShareButton>
+    //                 <TwitterShareButton className={styles.shareBtn} url={url}>
+    //                     <TwitterIcon size={size} round fill />
+    //                 </TwitterShareButton>
+    //                 <WhatsappShareButton className={styles.shareBtn} url={url}>
+    //                     <WhatsappIcon size={size} round fill />
+    //                 </WhatsappShareButton>
+    //             </div>
+    //         </div>
+    //     );
+    // };
 
     calculateNotRated = () => {
         const { professional } = this.props;
@@ -272,19 +272,19 @@ class Professional extends Component {
                                     />
                                 </Row>
                                 <Row className={styles.card__body}>
-                                    <Popover
-                                        content={this.sharePopover()}
-                                        // title={'اشتراک گذاری'}
-                                        style={{
-                                            display: 'none'
-                                        }}
-                                        trigger={'click'}
-                                    >
-                                        <Button className={styles.share}>
-                                            <span className="icon-share" />
-                                            معرفی این متخصص به دوستان
-                                        </Button>
-                                    </Popover>
+                                    {/*<Popover*/}
+                                        {/*content={this.sharePopover()}*/}
+                                        {/*// title={'اشتراک گذاری'}*/}
+                                        {/*style={{*/}
+                                            {/*display: 'none'*/}
+                                        {/*}}*/}
+                                        {/*trigger={'click'}*/}
+                                    {/*>*/}
+                                        {/*<Button className={styles.share}>*/}
+                                            {/*<span className="icon-share" />*/}
+                                            {/*معرفی این متخصص به دوستان*/}
+                                        {/*</Button>*/}
+                                    {/*</Popover>*/}
                                     <Col>
                                         <Row type="flex" justify="center">
                                             <Col style={{ marginTop: 80 }}>
