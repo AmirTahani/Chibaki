@@ -1,8 +1,19 @@
 import React, { Component } from 'react';
-import { Col, Divider, Dropdown, Menu, Radio, Rate, Row } from 'antd';
+import { Col, Divider, Dropdown, Menu, Radio, Rate, Button, Row, Tooltip, Input, Popover } from 'antd';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import objectFitImages from 'object-fit-images';
+import {
+    TelegramShareButton,
+    TelegramIcon,
+    TwitterShareButton,
+    TwitterIcon,
+    LinkedinShareButton,
+    LinkedinIcon,
+    WhatsappShareButton,
+    WhatsappIcon
+} from 'react-share';
+// import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Questions from '../../components/Questions/Questions';
 import { setProfId } from '../../redux/modules/questions';
 import { load } from '../../redux/modules/professional';
@@ -19,10 +30,12 @@ class Professional extends Component {
         comments: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.any)).isRequired,
         loadConnect: PropTypes.func.isRequired
     };
+
     state = {
         selectedProfession: 0,
         showQuestions: false,
-        professionId: ''
+        professionId: '',
+        tooltipVisible: false
     };
 
     onProfImageClick = (e) => {
@@ -70,12 +83,14 @@ class Professional extends Component {
         }
         return [];
     };
+
     handleClose = () => {
         this.setState({
             showQuestions: false,
             professionId: ''
         });
     };
+
     requestBtn = (text, icon, classnames = 'c-btn--border c-btn--md') => {
         return this.props.professional.user.professions.length > 1 ? (<Dropdown
             overlay={this.getProfsDropdown()}
@@ -96,12 +111,14 @@ class Professional extends Component {
             <span>{text}</span>
         </button>);
     };
+
     createProject = (professionId) => {
         this.setState({
             showQuestions: true,
             professionId
         });
     };
+
     sliderOptions = {
         fullscreen: true,
         lazyLoad: 1,
@@ -112,7 +129,58 @@ class Professional extends Component {
         prevNextButtons: false,
         index: 0
     };
+
     Flickity = null;
+
+    copyCallback = () => {
+        this.setState({
+            tooltipVisible: true
+        });
+        setTimeout(() => {
+            this.setState({
+                tooltipVisible: false
+            });
+        }, 2000);
+    };
+
+    sharePopover = () => {
+        const url = 'http://chibaki.pro/sepehr';
+        const size = 42;
+        return (
+            <div className={styles.shareBody}>
+                <div style={{ display: 'none' }}>
+                    <Tooltip title={'لینک کپی شد'} visible={this.state.tooltipVisible}>
+                        <CopyToClipboard text={url} onCopy={this.copyCallback}>
+                            <Input.Group compact className={styles.shareInputGroup}>
+                                <Input
+                                    value={url}
+                                    disabled
+                                    className={styles.shareInput}
+                                />
+                                <Button type={'primary'} icon={'copy'}>کپی</Button>
+                            </Input.Group>
+                        </CopyToClipboard>
+                    </Tooltip>
+                </div>
+                <div className={styles.shareBtnHeading}>اشتراک گذاری در:</div>
+                <div className={styles.shareBtnWrapper}>
+                    <TelegramShareButton className={styles.shareBtn} url={url}>
+                        <TelegramIcon size={size} round fill />
+                    </TelegramShareButton>
+                    <LinkedinShareButton className={styles.shareBtn} url={url}>
+                        <LinkedinIcon size={size} round fill />
+                    </LinkedinShareButton>
+                    <TwitterShareButton className={styles.shareBtn} url={url}>
+                        <TwitterIcon size={size} round fill />
+                    </TwitterShareButton>
+                    <WhatsappShareButton className={styles.shareBtn} url={url}>
+                        <WhatsappIcon size={size} round fill />
+                    </WhatsappShareButton>
+                </div>
+            </div>
+        );
+    };
+
     calculateNotRated = () => {
         const { professional } = this.props;
         if (professional.user && professional.user.trust && professional.user.trust.amount) {
@@ -162,7 +230,6 @@ class Professional extends Component {
     }
 
     render() {
-        console.log(this.state, 'this is the state');
         const { professional, comments } = this.props;
         const { selectedProfession, showQuestions, professionId } = this.state;
         const { Flickity } = this;
@@ -205,6 +272,19 @@ class Professional extends Component {
                                     />
                                 </Row>
                                 <Row className={styles.card__body}>
+                                    <Popover
+                                        content={this.sharePopover()}
+                                        // title={'اشتراک گذاری'}
+                                        style={{
+                                            display: 'none'
+                                        }}
+                                        trigger={'click'}
+                                    >
+                                        <Button className={styles.share}>
+                                            <span className="icon-share" />
+                                            معرفی این متخصص به دوستان
+                                        </Button>
+                                    </Popover>
                                     <Col>
                                         <Row type="flex" justify="center">
                                             <Col style={{ marginTop: 80 }}>
