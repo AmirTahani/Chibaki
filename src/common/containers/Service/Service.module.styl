@@ -19,12 +19,15 @@
 	min-height: 300px;
 	overflow: hidden;
 	
-	margin-top: 60px;
+	margin-top: $headerHeight;
 	padding: 60px 20px;
 	
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	
+	@media (max-width $md)
+		margin-top: $headerHeightMd;
 
 .heroBg
 	position: absolute;
