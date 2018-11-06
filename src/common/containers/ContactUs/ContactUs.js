@@ -24,7 +24,7 @@ export default class Contact extends Component {
 
                         <div className={styles.row}>
                             <div className={styles.label}>
-                                <i className="fa fa-phone fa-fw fa-lg" /> شماره تماس:
+                                شماره تماس:
                             </div>
                             <div className={styles.text} dir="ltr"><a href="tel:+982191072580">(۰۲۱) ۹۱۰۷ ۲۵۸۰</a>
                             </div>
@@ -32,7 +32,7 @@ export default class Contact extends Component {
 
                         <div className={styles.row}>
                             <div className={styles.label}>
-                                <i className="fa fa-map-marker fa-fw fa-lg" /> آدرس:
+                                آدرس:
                             </div>
                             <div className={styles.text}>مرزداران - خیابان ابراهیمی - برج الوند - ط ۱۱ جنوبی - و
                                 ۱۱۰۵
@@ -41,7 +41,7 @@ export default class Contact extends Component {
 
                         <div className={styles.row}>
                             <div className={styles.label}>
-                                <i className="fa fa-envelope-o fa-fw fa-lg" /> پست الکترونیکی:
+                                پست الکترونیکی:
                             </div>
                             <div className={styles.text}>info@chibaki.ir</div>
                         </div>
