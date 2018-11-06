@@ -193,7 +193,7 @@ class ProfessionalCard extends PureComponent {
                                                     span={24}
                                                     className={`
                                                     ${styles.badge}
-                                                    ${this.exist(professional, 'trust.certificate.verified') ? styles.badgeActive : ''}`}
+                                                    ${this.exist(professional, 'trust.backgroundCheck.verified') ? styles.badgeActive : ''}`}
                                                 >
                                                     <Row>
                                                         <Col span={24}>
