@@ -324,14 +324,14 @@ class Professional extends Component {
                                 <div>
                                     <Row className={styles.card__body}>
                                         <Col span={24}>
-                                            <p className={styles.desc}>
+                                            <div className={styles.desc}>
                                                 {
                                                     this.exist(professional, `user.professions.${selectedProfession}.intro.description`) ||
                                                     <div className={styles.cardEmpty}>
                                                         متخصص هنوز متن معارفه‌ای ننوشته است
                                                     </div>
                                                 }
-                                            </p>
+                                            </div>
                                             <div className="u-t--c">
                                                 {this.requestBtn('ثبت سفارش', null, 'c-btn--primary c-btn--md')}
                                             </div>
