@@ -40,6 +40,7 @@ export default class HeroBack extends Component {
             return (<img
                 className="c-hero__slide"
                 data-flickity-lazyload={item.path}
+                key={item.path}
                 alt={item.alt}
             />);
         });
@@ -58,7 +59,6 @@ export default class HeroBack extends Component {
 
     render() {
         const { Flickity } = this;
-        console.log(this.getImages());
         return (
             <div className="c-hero__back slider--hero">
                 {Flickity ? <Flickity

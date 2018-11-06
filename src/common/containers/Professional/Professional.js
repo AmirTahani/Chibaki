@@ -326,11 +326,10 @@ class Professional extends Component {
                                         <Col span={24}>
                                             <p className={styles.desc}>
                                                 {
-                                                    this.exist(professional, `user.professions.${selectedProfession}.intro.description`) ?
-                                                        this.exist(professional, `user.professions.${selectedProfession}.intro.description`) :
-                                                        <div className={styles.cardEmpty}>
-                                                            متخصص هنوز متن معارفه‌ای ننوشته است
-                                                        </div>
+                                                    this.exist(professional, `user.professions.${selectedProfession}.intro.description`) ||
+                                                    <div className={styles.cardEmpty}>
+                                                        متخصص هنوز متن معارفه‌ای ننوشته است
+                                                    </div>
                                                 }
                                             </p>
                                             <div className="u-t--c">
