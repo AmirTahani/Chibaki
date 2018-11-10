@@ -1,407 +1,420 @@
 @import '../../styles/variables.styl'
 
 .wrapper
-	background-color: #f6f7f9
-	padding-bottom 7rem
+    background-color: #f6f7f9
+    padding-bottom 7rem
 
 .container
-	composes l-container l-container--sm from '../../styles/container.styl'
-	padding: 0 20px
-	
-	@media (max-width $md)
-		padding: 0
+    composes l-container l-container--sm from '../../styles/container.styl'
+    padding: 0 20px
+    
+    @media (max-width $md)
+        padding: 0
 
 .section
-	padding: 40px 20px;
+    padding: 40px 20px;
 
 .hero
-	position: relative;
-	
-	min-height: 300px;
-	overflow: hidden;
-	
-	margin-top: $headerHeight;
-	padding: 60px 20px;
-	
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	
-	@media (max-width $md)
-		margin-top: $headerHeightMd;
+    position: relative;
+    
+    min-height: 300px;
+    overflow: hidden;
+    
+    margin-top: $headerHeight;
+    padding: 60px 20px;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    @media (max-width $md)
+        margin-top: $headerHeightMd;
 
 .heroBg
-	position: absolute;
-	
-	top: 0;
-	left: 0;
-	
-	width: 100%;
-	height: 100%;
-	
-	z-index: 1;
-	
-	&:after
-		content: '';
-		
-		position: absolute;
-		top: 0;
-		left: 0;
-		
-		width: 100%;
-		height: 100%;
-		
-		background-color: rgba(0, 0, 0, .3);
-		z-index: 2;
-	
-	img
-		width: 100%;
-		height: 100%;
-		
-		object-fit: cover;
-		font-family: 'object-fit: cover;';
+    position: absolute;
+    
+    top: 0;
+    left: 0;
+    
+    width: 100%;
+    height: 100%;
+    
+    z-index: 1;
+    
+    &:after
+        content: '';
+        
+        position: absolute;
+        top: 0;
+        left: 0;
+        
+        width: 100%;
+        height: 100%;
+        
+        background-color: rgba(0, 0, 0, .3);
+        z-index: 2;
+    
+    img
+        width: 100%;
+        height: 100%;
+        
+        object-fit: cover;
+        font-family: 'object-fit: cover;';
 
 .heroContent
-	position: relative;
-	
-	text-align: center;
-	
-	z-index: 10;
+    position: relative;
+    
+    text-align: center;
+    
+    z-index: 10;
 
 .heroTitle
-	font-size: 3rem;
-	font-weight: 900;
-	
-	margin-bottom: 1rem;
-	
-	color: #fff;
-	text-align: center;
-	
-	line-height: 2;
-	text-shadow: 0 0 3px rgba(0, 0, 0, .8);
+    font-size: 3rem;
+    font-weight: 900;
+    
+    margin-bottom: 1rem;
+    
+    color: #fff;
+    text-align: center;
+    
+    line-height: 2;
+    text-shadow: 0 0 3px rgba(0, 0, 0, .8);
 
 .price
-	font-size: 1.5rem;
-	font-weight: 900;
-	
-	text-align: center;
-	
-	color: #02BE64;
-	
-	margin-top: 3.8rem;
+    font-size: 1.5rem;
+    font-weight: 900;
+    
+    text-align: center;
+    
+    color: #02BE64;
+    
+    margin-top: 3.8rem;
 
 .desc
-	background-color: #fff;
-	
-	padding: 1.8rem 2.2rem;
-	border-radius: 5px;
-	margin-top: 2.8rem;
-	
-	color: #334657;
-	
-	font-size: 1.1rem;
-	line-height: 2.1;
+    background-color: #fff;
+    
+    padding: 1.8rem 2.2rem;
+    border-radius: 5px;
+    margin-top: 2.8rem;
+    
+    color: #334657;
+    
+    font-size: 1.1rem;
+    line-height: 2.1;
 
 .title
-	font-size: 1.5rem;
-	font-weight: 900;
-	line-height: 1.8;
-	
-	margin: 0 0 1rem 0;
-	color #212121
+    font-size: 1.5rem;
+    font-weight: 900;
+    line-height: 1.8;
+    
+    margin: 0 0 1rem 0;
+    color #212121
 
 .subtitle
-	font-size: 1.1rem;
-	font-weight: 500;
-	line-height: 1;
-	
+    font-size: 1.1rem;
+    font-weight: 500;
+    line-height: 1;
+    
 .title
 .subtitle
-	@media (max-width $md)
-		padding: 0 15px
+    @media (max-width $md)
+        padding: 0 15px
 
 .card
-	composes c-card from '../../styles/card.styl'
-	
-	margin: 0 0 65px 0
-	padding: 0
-	
-	border 1px solid alpha(#9BB2C6, 30%)
-	box-shadow: none
-	
-	color: #000
-	
-	&Wrapper
-		margin-top: 65px
-		@media (max-width $md)
-			margin-top: 30px
-	
-	&Link
-		&:last-child
-			.card
-				margin-bottom: 25px !important
-		
-		&:hover
-		&:focus
-			outline none
-			text-decoration: none
-			
-			.cardBtn
-				background-color: #0e6ccb;
-				
-	&Inner
-		display: flex
-		flex-flow row nowrap
-		
-		@media (max-width $md)
-			flex-flow column wrap
-		
-	&Right
-	&Left
-		padding: 1.2rem
-		
-	&Right
-		flex 1 0 20%
-	
-	&Left
-		flex 1 0 80%
-		
-		display: flex
-		flex-direction: column
-		justify-content: space-between;
-		
-		@media (max-width $md)
-			padding-top: 0
-			
-		&Bottom
-			display: flex
-			flex-direction: row
-			justify-content: space-between;
-			align-items: center
-			
-			@media (max-width $md)
-				flex-direction: column
-	
-	&Rate
-		text-align: center
-		margin-top: 10px
-		
-	&Btn
-		composes c-btn c-btn--primary c-btn--lg from '../../styles/btn.styl'
-		
-		min-width: none
-		line-height: 45px
-		padding: 0 1rem
-		font-size: 1.1rem
-		
-		@media (max-width $md)
-			margin-top: 15px
-		
-	@media (max-width $md)
-		padding: 20px 0
-		margin-bottom: 0
-		
-		border none
-		border-top: 1px solid alpha(#9bb2c6, 30%)
-		
-		border-radius: 0
-		
-		&Right
-		&Left
-			padding: 1rem
-		
+    composes c-card from '../../styles/card.styl'
+    
+    margin: 0 0 65px 0
+    padding: 0
+    
+    border 1px solid alpha(#9BB2C6, 30%)
+    box-shadow: none
+    
+    color: #000
+    
+    &Wrapper
+        margin-top: 65px
+        @media (max-width $md)
+            margin-top: 30px
+    
+    &Link
+        &:last-child
+            .card
+                margin-bottom: 25px !important
+        
+        &:hover
+        &:focus
+            outline none
+            text-decoration: none
+            
+            .cardBtn
+                background-color: #0e6ccb;
+                
+    &Inner
+        display: flex
+        flex-flow row nowrap
+        
+        @media (max-width $md)
+            flex-flow column wrap
+        
+    &Right
+    &Left
+        padding: 1.2rem
+        
+    &Right
+        flex 1 0 20%
+    
+    &Left
+        flex 1 0 80%
+        
+        display: flex
+        flex-direction: column
+        justify-content: space-between;
+        
+        @media (max-width $md)
+            padding-top: 0
+            
+        &Bottom
+            display: flex
+            flex-direction: row
+            justify-content: space-between;
+            align-items: center
+            
+            @media (max-width $md)
+                flex-direction: column
+    
+    &Rate
+        text-align: center
+        margin-top: 10px
+        
+    &Btn
+        composes c-btn c-btn--primary c-btn--lg from '../../styles/btn.styl'
+        
+        min-width: none
+        line-height: 45px
+        padding: 0 1rem
+        font-size: 1.1rem
+        
+        @media (max-width $md)
+            margin-top: 15px
+        
+    @media (max-width $md)
+        padding: 20px 0
+        margin-bottom: 0
+        
+        border none
+        border-top: 1px solid alpha(#9bb2c6, 30%)
+        
+        border-radius: 0
+        
+        &Right
+        &Left
+            padding: 1rem
+        
 .btn
-	composes c-btn c-btn--primary c-btn--lg from '../../styles/btn.styl'
-	
-	&More
-		appearance: none
-		
-		color: alpha(#758CA0, 75%)
-		font-size: 14px
-		
-		padding: 5px 22px
-		border-radius: 50px
-		
-		line-height: 27px
-		
-		box-shadow: 0 3px 6px alpha(#758CA0, 60%);
-		border 1px solid rgba(0, 0, 0, 0)
-		background: #fff
-		
-		cursor: pointer
-		transition .1s
-		
-		margin: 10px 10px 50px
-		text-align: center
-		
-		&:hover
-		&:focus
-			outline none
-			color $color
-			border-color $color
-		
-		&:active
-			color darken($color, 30%)
-			border-color darken($color, 30%)
-			
-		@media (max-width $md)
-			font-size: 12px
-			padding: 3px 18px
+    composes c-btn c-btn--primary c-btn--lg from '../../styles/btn.styl'
+    
+    &More
+        appearance: none
+        
+        color: alpha(#758CA0, 75%)
+        font-size: 14px
+        
+        padding: 5px 22px
+        border-radius: 50px
+        
+        line-height: 27px
+        
+        box-shadow: 0 3px 6px alpha(#758CA0, 60%);
+        border 1px solid rgba(0, 0, 0, 0)
+        background: #fff
+        
+        cursor: pointer
+        transition .1s
+        
+        margin: 10px 10px 50px
+        text-align: center
+
+        display inline-flex
+        align-items center
+        justify-content center
+
+        :global .ant-spin-spinning
+            display flex
+            padding 5px 0
+        
+        &:hover
+        &:focus
+            outline none
+            color $color
+            border-color $color
+        
+        &:active
+            color darken($color, 30%)
+            border-color darken($color, 30%)
+            
+        @media (max-width $md)
+            font-size: 12px
+            padding: 3px 18px
 
 .avatar
-	$size = 120px;
-	width: $size
-	height: $size
-	
-	display: block;
-	margin: -56px auto 10px;
-	
-	border-radius: 75px;
-	
-	box-shadow: 0 3px 6px rgba(117, 140, 160, 0.6);
-	background-color: #fff;
-	
-	object-fit: cover;
-	font-family: 'object-fit: cover;';
-	
-	@media (max-width $md)
-		margin-top: 10px
+    $size = 120px;
+    width: $size
+    height: $size
+    
+    display: block;
+    margin: -56px auto 10px;
+    
+    border-radius: 75px;
+    
+    box-shadow: 0 3px 6px rgba(117, 140, 160, 0.6);
+    background-color: #fff;
+    
+    object-fit: cover;
+    font-family: 'object-fit: cover;';
+    
+    @media (max-width $md)
+        margin-top: 10px
 
 .cardName
-	color: #334657;
-	font-size: 1.1rem;
-	font-weight: 900;
-	margin-top: 8px;
-	text-align: center;
+    color: #334657;
+    font-size: 1.1rem;
+    font-weight: 900;
+    margin-top: 8px;
+    text-align: center;
 
 .cardDesc
-	position: relative
-	
-	color: #758CA0;
-	font-size: 15px;
-	
-	line-height: 31px;
-	height: 66px
-	
-	margin-right: 10px
-	margin-left: 50px
-	margin-bottom: 15px
-	
-	overflow: hidden
-	
-	&:after
-		content ''
-		
-		position: absolute
-		bottom: 0
-		left: 0
-		width: 60%
-		height: 36px
-		
-		background linear-gradient(to right, #fff 90%, alpha(#fff, 0))
-		
-	@media (max-width $md)
-		margin: 0
-		text-align: center
-	
-	&:empty
-		&:after
-			content none
-		&:before
-			content: 'متخصص هنوز متن معارفه‌ای تعریف نکرده است!'
-			position: static
-			font-size: 15px
-			line-height: 66px
+    position: relative
+    
+    color: #758CA0;
+    font-size: 15px;
+    
+    line-height: 31px;
+    height: 66px
+    
+    margin-right: 10px
+    margin-left: 50px
+    margin-bottom: 15px
+    
+    overflow: hidden
+    
+    &:after
+        content ''
+        
+        position: absolute
+        bottom: 0
+        left: 0
+        width: 60%
+        height: 36px
+        
+        background linear-gradient(to right, #fff 90%, alpha(#fff, 0))
+        
+    @media (max-width $md)
+        margin: 0
+        text-align: center
+    
+    &:empty
+        &:after
+            content none
+        &:before
+            content: 'متخصص هنوز متن معارفه‌ای تعریف نکرده است!'
+            position: static
+            font-size: 15px
+            line-height: 66px
 
 .jobCard
-	width: 290px
-	flex 1 0 290px
-	
-	//height: 100%
-	
-	margin-left: 30px
-	padding: 1.6rem 2rem
-	
-	background-color: #fff;
-	border 1px solid alpha(#9BB2C6, 30%)
-	
-	border-radius: 5px
-	
-	&Wrapper
-		margin-top: 2rem
-		
-		&:not(:global(.flickity-enabled))
-			display: flex
-			flex-flow row nowrap
-			overflow: auto;
-			
-		@media (min-width $md + 1)
-			:global .flickity-prev-next-button.previous
-				right: -50px
-				
-			:global .flickity-prev-next-button.next
-				left: -50px
-	
-	&Date
-		color: alpha(#758CA0, 75%)
-		font-size: 12px
-		text-align: center
-		
-		margin-bottom: 41px
-	
-	&Row
-		margin-bottom: 30px
-	
-	&Title
-		font-size: 14px
-		font-weight: 900
-		color: #334657
-		margin-bottom: 5px
-	
-	&Sub
-		font-size: 12px
-		color: #758CA0
+    width: 290px
+    flex 1 0 290px
+
+    margin-left: 30px
+    padding: 1.6rem 2rem
+
+    background-color: #fff;
+
+    border 1px solid alpha(#9BB2C6, 30%)
+    border-radius: 5px
+
+    // height 100%
+    // display flex
+    // flex-direction column
+
+    &Full
+        height 100%
+
+    &Wrapper
+        margin-top: 2rem
+        // height 100%
+        &:not(:global(.flickity-enabled))
+            display: flex
+            flex-flow row nowrap
+            overflow: auto;
+        @media (min-width $md + 1)
+            :global .flickity-prev-next-button.previous
+                right: -50px
+            :global .flickity-prev-next-button.next
+                left: -50px
+    &Date
+        color: alpha(#758CA0, 75%)
+        font-size: 12px
+        text-align: center
+        
+        margin-bottom: 41px
+    
+    &Row
+        margin-bottom: 30px
+
+    &Grow
+        flex 1 1 100%
+    
+    &Title
+        font-size: 14px
+        font-weight: 900
+        color: #334657
+        margin-bottom: 5px
+    
+    &Sub
+        font-size: 12px
+        color: #758CA0
 
 .badge
-	flex 1 1 100%
-	margin: 5px
-	text-align: center
-	opacity: .2
-	
-	&Active
-		opacity: 1
-	
-	&Wrapper
-		display flex
-		flex-flow row nowrap
-		justify-content space-between;
-	
-	&Text
-		font-size 11px
-		margin-top 5px
-		@media (min-width $md)
-			display none
-	
-	&Img
-		max-width: 55px
-		width: 100%
-		height: 39px
-		object-fit cover
-		
-	@media (max-width $md)
-		margin: 0
-		
-		~/Img
-			max-width: 45px
+    flex 1 1 100%
+    margin: 5px
+    text-align: center
+    opacity: .2
+    
+    &Active
+        opacity: 1
+    
+    &Wrapper
+        display flex
+        flex-flow row nowrap
+        justify-content space-between;
+    
+    &Text
+        font-size 11px
+        margin-top 5px
+        @media (min-width $md)
+            display none
+    
+    &Img
+        max-width: 55px
+        width: 100%
+        height: 39px
+        object-fit cover
+        
+    @media (max-width $md)
+        margin: 0
+        
+        ~/Img
+            max-width: 45px
 
 @media (max-width: 768px)
-	.hero
-		min-height: 250px;
-		padding: 30px 10px;
-	
-	.heroTitle
-		font-size: 2.2rem;
-		
-		margin-bottom: .7rem;
-		
-		line-height: 1.5;
+    .hero
+        min-height: 250px;
+        padding: 30px 10px;
+    
+    .heroTitle
+        font-size: 2.2rem;
+        
+        margin-bottom: .7rem;
+        
+        line-height: 1.5;
