@@ -13,13 +13,15 @@ export default class AutoComplete extends Component {
         onSubmit: PropTypes.func.isRequired,
         showBtn: PropTypes.bool,
         placeholder: PropTypes.string,
-        children: PropTypes.node
+        children: PropTypes.node,
+        valueAs: PropTypes.string
     };
 
     static defaultProps = {
         showBtn: true,
         placeholder: 'به چه خدمتی نیاز دارید؟',
-        children: null
+        children: null,
+        valueAs: '_id'
     };
 
     state = {
@@ -49,9 +51,10 @@ export default class AutoComplete extends Component {
     };
 
     renderOption = (item) => {
+        const { valueAs } = this.props;
         return (
             <Option
-                key={item._id}
+                key={item[valueAs]}
                 text={item.title}
             >
                 {item.title}
