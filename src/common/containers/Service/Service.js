@@ -109,11 +109,13 @@ class Services extends Component {
             this.props.loadConnect(null, null, location.query, title);
         }
         objectFitImages();
-        this.jobCardFlickity.on('ready', () => {
-            this.setState({
-                jobCardClass: styles.jobCardFull
+        if (this.jobCardFlickity) {
+            this.jobCardFlickity.on('ready', () => {
+                this.setState({
+                    jobCardClass: styles.jobCardFull
+                });
             });
-        });
+        }
     }
 
     render() {
