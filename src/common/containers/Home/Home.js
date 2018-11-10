@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { flattenProfessionsByCategories } from '../../utils/serverHelper';
 import Categories from '../../components/Professions/Categories/Categories';
@@ -13,7 +14,8 @@ class Home extends Component {
     static propTypes = {
         professions: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         sliders: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
-        loadConnect: PropTypes.func.isRequired
+        loadConnect: PropTypes.func.isRequired,
+        router: PropTypes.objectOf(PropTypes.any).isRequired
     };
 
     state = {
@@ -28,10 +30,7 @@ class Home extends Component {
     }
 
     handleSelect = (professionId) => {
-        this.setState({
-            showQuestions: true,
-            professionId
-        });
+        this.props.router.push(`/${encodeURI('خدمات')}/${professionId}`);
     };
 
     handleClose = () => {
@@ -67,10 +66,10 @@ class Home extends Component {
     }
 }
 
-export default connect(state => ({
+export default withRouter(connect(state => ({
     professions: state.professions.categories,
     sliders: state.professions.professionsList
 }),
 {
     loadConnect: loader
-})(Home);
+})(Home));

@@ -31,6 +31,7 @@ export default class Hero extends Component {
                         <AutoComplete
                             options={this.props.professions}
                             onSubmit={this.onAutocompleteSubmit}
+                            valueAs={'title'}
                         />
                     </div>
                 </div>
