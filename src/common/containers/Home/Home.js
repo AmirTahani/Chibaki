@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
+import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import { flattenProfessionsByCategories } from '../../utils/serverHelper';
 import Categories from '../../components/Professions/Categories/Categories';
@@ -22,23 +23,21 @@ class Home extends Component {
         showQuestions: false,
         professionId: ''
     };
-
-    componentDidMount() {
-        if (window && window.__renderType__ === 'client') {
-            this.props.loadConnect();
-        }
-    }
-
     handleSelect = (professionId) => {
         this.props.router.push(`/${encodeURI('خدمات')}/${professionId}`);
     };
-
     handleClose = () => {
         this.setState({
             showQuestions: false,
             professionId: ''
         });
     };
+
+    componentDidMount() {
+        if (window && window.__renderType__ === 'client') {
+            this.props.loadConnect();
+        }
+    }
 
     render() {
         const { professions, sliders } = this.props;
@@ -47,6 +46,13 @@ class Home extends Component {
 
         return (
             <div className="Home">
+                <Helmet>
+                    <title>
+                        {
+                            'چی باکی - Chibaki'
+                        }
+                    </title>
+                </Helmet>
                 <Hero
                     professions={flattenProfessions}
                     onSelect={this.handleSelect}

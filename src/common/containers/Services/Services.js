@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import ReactDOM from 'react-dom';
+import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import { Row, Col, Tooltip } from 'antd';
 import { connect } from 'react-redux';
@@ -41,6 +42,13 @@ class Services extends Component {
         const { cat } = this.props;
         return (
             <div className="Home Container">
+                <Helmet>
+                    <title>
+                        {
+                            'چی باکی - خدمات - Chibaki'
+                        }
+                    </title>
+                </Helmet>
                 <div className="l-container l-container--fixed-header">
                     {cat.map((item) => {
                         return (

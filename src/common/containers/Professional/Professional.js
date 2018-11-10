@@ -1,25 +1,14 @@
 import React, { Component } from 'react';
 import { Col, Divider, Dropdown, Menu, Radio, Rate, Button, Row, Tooltip, Input, Popover } from 'antd';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import objectFitImages from 'object-fit-images';
-import {
-    TelegramShareButton,
-    TelegramIcon,
-    TwitterShareButton,
-    TwitterIcon,
-    LinkedinShareButton,
-    LinkedinIcon,
-    WhatsappShareButton,
-    WhatsappIcon
-} from 'react-share';
-// import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Questions from '../../components/Questions/Questions';
 import { setProfId } from '../../redux/modules/questions';
 import { load } from '../../redux/modules/professional';
 import styles from './Professional.style.module.styl';
 
-// import professions from "../../redux/modules/professions";
 
 class Professional extends Component {
     static propTypes = {
@@ -240,6 +229,16 @@ class Professional extends Component {
 
         return (
             <div className={styles.wrapper}>
+                <Helmet>
+                    <title>
+                        {
+                            `Chibaki - چی باکی
+                            -
+                            ${this.exist(professional, 'user.firstname')}
+                            ${this.exist(professional, 'user.lastname')}`
+                        }
+                    </title>
+                </Helmet>
                 {
                     showQuestions && professionId ?
                         <Questions

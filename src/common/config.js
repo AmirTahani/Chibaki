@@ -1,6 +1,6 @@
 // export const apiPath = 'https://api-staging.chibaki.ir';
 export const apiPath = 'https://api.chibaki.ir';
-export const sitePath = 'https://staging.chibaki.ir';
+export const sitePath = 'https://chibaki.ir';
 
 export const defualtQuestions = [
     {
