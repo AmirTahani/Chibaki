@@ -1,4 +1,4 @@
-import { put } from 'redux-saga/effects';
+import { put, select } from 'redux-saga/effects';
 import { END } from 'redux-saga';
 import { handleSagaError } from '../../utils/handleSagaError';
 import { exist } from '../../utils/helpers';
@@ -53,7 +53,7 @@ export default function reducer(state = initialState, action = {}) {
         case SET_META:
             return {
                 ...state,
-                metaDescription: action.meta
+                metaDescription: action.description
             };
         default:
             return state;
@@ -87,7 +87,6 @@ export function loadSuccess(response) {
 export function clear() {
     return {
         type: CLEAR
-
     };
 }
 
@@ -118,8 +117,6 @@ export function* watchLoadProfessional(client, { professionalId, profId, resolve
             yield put(setMeta(exist(userProfession, 'intro.description')));
         } else {
             const singleProf = yield client.get(`/v1/professions/${profId}?select=description`);
-            console.log(`/v1/professions/${profId}?select=description`);
-            console.log(singleProf.data, 'single Propf');
             yield put(setMeta(exist(singleProf, 'data.description')));
         }
         resolve && resolve('');

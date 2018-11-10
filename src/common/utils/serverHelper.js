@@ -66,13 +66,7 @@ export function getMetaTags(store, route, query) {
             ${exist(state, 'professional.professional.user.firstname')}
             ${exist(state, 'professional.professional.user.lastname')}`;
         }
-        const professions = exist(state, 'professional.professional.user.professions');
-        const userProfession = professions.find(profession => profession.profession._id === query.profId);
-        if (exist(userProfession, 'intro.description')) {
-            metaTags.description = exist(userProfession, 'intro.description');
-        } else {
-            metaTags.description = exist(state, 'professional.metaDescription');
-        }
+        metaTags.description = exist(state, 'professional.metaDescription');
     }
     return metaTags;
 }
