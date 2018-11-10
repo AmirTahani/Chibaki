@@ -41,12 +41,12 @@ class Services extends Component {
         contain: true,
         groupCells: '100%',
         pageDots: false,
-        prevNextButtons: true,
-        adaptiveHeight: true
+        prevNextButtons: true
     };
 
     state = {
-        showQuestions: false
+        showQuestions: false,
+        jobCardClass: ''
     };
 
     formatJobDate = (date) => {
@@ -109,6 +109,11 @@ class Services extends Component {
             this.props.loadConnect(null, null, location.query, title);
         }
         objectFitImages();
+        this.jobCardFlickity.on('ready', () => {
+            this.setState({
+                jobCardClass: styles.jobCardFull
+            });
+        });
     }
 
     render() {
@@ -127,7 +132,7 @@ class Services extends Component {
                         <Questions professionId={this.props.selectedProfession._id} onClose={this.handleClose} /> : null
                 }
                 {
-                    loadedComplete && proficients.length > 0
+                    loadedComplete
                         ? <div>
                             <div className={styles.hero}>
                                 <div className={styles.heroBg}>
@@ -177,42 +182,51 @@ class Services extends Component {
                                     </div>
                                 </div>
 
-                                <div>
+                                {proficients && proficients.length ?
                                     <div>
-                                        <h1 className={styles.title}>
-                                            متخصصین {title} در چی باکی ({count} متخصص)
-                                        </h1>
-                                        <div className={styles.subtitle}>نمایش تصادفی</div>
+                                        <div>
+                                            <h1 className={styles.title}>
+                                                متخصصین {title} در چی باکی ({count} متخصص)
+                                            </h1>
+                                            <div className={styles.subtitle}>نمایش تصادفی</div>
+                                        </div>
+                                        <div className={styles.cardWrapper}>
+                                            {proficients.map((item) => {
+                                                return <ProfessionalCard key={item._id} professional={item} />;
+                                            })}
+                                        </div>
+                                        <div className="u-t--c">
+                                            {!paginationEnded && proficients.length > 8
+                                                ? <button className={styles.btnMore} onClick={this.more}>
+                                                    { fetching
+                                                        ? <Spin />
+                                                        : <span>نمایش بیشتر</span>
+                                                    }
+                                                </button>
+                                                : null
+                                            }
+                                        </div>
                                     </div>
-                                    <div className={styles.cardWrapper}>
-                                        {proficients.map((item) => {
-                                            return <ProfessionalCard professional={item} />;
-                                        })}
+                                    : <div>
+                                        متخصصی در این خدمت وجود ندارد.
                                     </div>
-                                    <div className="u-t--c">
-                                        {!paginationEnded
-                                            ? <button className={styles.btnMore} onClick={this.more}>
-                                                {fetching
-                                                    ? <Spin />
-                                                    : <span>نمایش بیشتر</span>
-                                                }
-                                            </button>
-                                            : null
-                                        }
-                                    </div>
-                                </div>
+                                }
 
                                 {
-                                    professionsJobs && professionsJobs.length ?
+                                    professionsJobs && professionsJobs.length > 3 ?
                                         <div>
                                             <div>
                                                 <div className={styles.title}>درخواست‌های مشابه ثبت شده در چی‌با‌کی</div>
                                                 <div className={styles.subtitle}>{selectedProfession.title}</div>
                                             </div>
-                                            <Flickity options={this.sliderOptions} className={styles.jobCardWrapper}>
+                                            <Flickity
+                                                options={this.sliderOptions}
+                                                className={styles.jobCardWrapper}
+                                                flickityRef={(c) => { this.jobCardFlickity = c; }}
+                                            >
                                                 {professionsJobs.map((job) => {
                                                     return (
-                                                        <div key={job._id} className={styles.jobCard}>
+                                                        <div key={job._id} className={`${styles.jobCard} ${this.state.jobCardClass}`}>
                                                             <div className={styles.jobCardDate}>
                                                                 ثبت شده در تاریخ
                                                                 {this.formatJobDate(job.createdAt)}
