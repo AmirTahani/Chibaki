@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { Row, Col, Tooltip, Button, Rate, Spin } from 'antd';
+import { Helmet } from 'react-helmet';
 import objectFitImages from 'object-fit-images';
 import { connect } from 'react-redux';
 import moment from 'moment-jalali';
@@ -122,6 +123,13 @@ class Services extends Component {
 
         return (
             <div className={styles.wrapper}>
+                <Helmet>
+                    <title>
+                        {
+                            `چی باکی - ${title} - Chibaki`
+                        }
+                    </title>
+                </Helmet>
                 {
                     showQuestions ?
                         <Questions professionId={this.props.selectedProfession._id} onClose={this.handleClose} /> : null
