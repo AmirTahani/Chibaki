@@ -7,8 +7,7 @@ import './Slider.styl';
 
 export default class ProfessionSliders extends Component {
     static propTypes = {
-        sliders: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
-        onSelect: PropTypes.func.isRequired
+        sliders: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired
     };
 
     state = {
