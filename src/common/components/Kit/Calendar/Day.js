@@ -9,7 +9,7 @@ export default class Day extends Component {
         isCurrentMonth: PropTypes.bool.isRequired,
         disabled: PropTypes.bool.isRequired,
         selected: PropTypes.bool.isRequired,
-        onClick: PropTypes.func.isRequired,
+        onClickDay: PropTypes.func.isRequired,
         styles: PropTypes.objectOf(PropTypes.any)
     };
 
@@ -27,10 +27,10 @@ export default class Day extends Component {
         event.preventDefault();
         event.stopPropagation();
         event.nativeEvent.stopImmediatePropagation();
-        const { onClick, day } = this.props;
+        const { onClickDay, day } = this.props;
 
-        if (onClick) {
-            onClick(day);
+        if (onClickDay) {
+            onClickDay(day);
         }
     }
 
