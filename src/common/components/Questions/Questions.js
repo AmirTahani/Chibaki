@@ -412,14 +412,16 @@ class Questions extends PureComponent {
                                 contents[current].question._id !== 'success'
                                 && <Button onClick={() => this.next(contents)} type="primary">ثبت درخواست</Button>,
                                 !begin &&
-                                current > 0 && <Button className={styles.buttonBack} onClick={() => this.prev(contents)}>
+                                current > 0 &&
+                                <Button className={styles.buttonBack} onClick={() => this.prev(contents)}>
                                     قبلی
                                     <span className="icon-back" />
                                 </Button>,
                                 !begin &&
                                 contents[current] &&
                                 contents[current].question &&
-                                contents[current].question._id === 'success' && <Button className={styles.button} onClick={this.toggleModal}>
+                                contents[current].question._id === 'success' &&
+                                <Button className={styles.button} onClick={this.toggleModal}>
                                     باشه
                                 </Button>
                             ]
@@ -435,12 +437,15 @@ class Questions extends PureComponent {
                         {
                             !loading && loaded && !begin ? <Col>
                                 <div>
-                                    <Progress
-                                        percent={current === contents.length - 1 ? 100 : ((current / contentsLength) * 100)}
-                                        showInfo={false}
-                                        strokeWidth={20}
-                                        className={styles.progressBar}
-                                    />
+                                    {
+                                        contents[current] && contents[current].question && contents[current].question.type !== 'success' ?
+                                            <Progress
+                                                percent={current === contents.length - 1 ? 100 : ((current / contentsLength) * 100)}
+                                                showInfo={false}
+                                                strokeWidth={20}
+                                                className={styles.progressBar}
+                                            /> : null
+                                    }
                                 </div>
                                 <div
                                     className={styles.stepsContent}

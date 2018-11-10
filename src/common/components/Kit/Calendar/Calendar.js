@@ -45,6 +45,17 @@ export class Calendar extends Component {
         mode: 'days'
     };
 
+    handleClickOnDay = (selectedDay) => {
+        const { onSelect } = this.props;
+        console.log(moment(selectedDay).format('jYYYY/jMM/jDD'), 'handle click');
+        this.selectDay(moment(selectedDay));
+        if (onSelect) {
+            onSelect(moment(selectedDay));
+        }
+    };
+    days = null;
+    lastRenderedMonth = null;
+
     getChildContext() {
         return {
             nextMonth: this.nextMonth.bind(this),
@@ -56,7 +67,7 @@ export class Calendar extends Component {
 
     componentWillReceiveProps({ selectedDay, defaultMonth, min }) {
         if (this.props.selectedDay !== selectedDay) {
-            this.selectDay(selectedDay);
+            this.selectDay(moment(selectedDay));
         } else if (defaultMonth && this.props.defaultMonth !== defaultMonth && this.state.month === this.props.defaultMonth) {
             this.setMonth(defaultMonth);
         } else if (min && this.props.min !== min && this.state.month.isSame(this.props.min)) {
@@ -86,6 +97,7 @@ export class Calendar extends Component {
 
     selectDay(selectedDay) {
         const { month } = this.state;
+        console.log(selectedDay.format('jYYYYjMM'));
 
         // Because there's no `m1.isSame(m2, 'jMonth')`
         if (selectedDay.format('jYYYYjMM') !== month.format('jYYYYjMM')) {
@@ -95,22 +107,11 @@ export class Calendar extends Component {
         this.setState({ selectedDay });
     }
 
-    handleClickOnDay = (selectedDay) => {
-        const { onSelect } = this.props;
-        this.selectDay(selectedDay);
-        if (onSelect) {
-            onSelect(selectedDay);
-        }
-    };
-
     handleClickOutside(event) {
         if (this.props.onClickOutside) {
             this.props.onClickOutside(event);
         }
     }
-
-    days = null;
-    lastRenderedMonth = null;
 
     renderMonthSelector() {
         const { month } = this.state;
@@ -147,7 +148,7 @@ export class Calendar extends Component {
                             return (
                                 <Day
                                     key={day.format('YYYYMMDD')}
-                                    onClick={this.handleClickOnDay}
+                                    onClickDay={this.handleClickOnDay}
                                     day={day}
                                     disabled={disabled}
                                     selected={selected}
