@@ -66,6 +66,7 @@ export function loadFailure(error) {
 
 export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
     try {
+        const title = decodeURI(routeTitle).split('_').join(' ');
         let Provinces = yield select(state => state.provinces.provinces);
         let professions = yield select(state => state.professions.flattenProfessionsByCategories);
 
@@ -84,14 +85,14 @@ export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
 
         Provinces = yield select(state => state.provinces.provinces);
         let foundProvince = {};
-        if (query && query.city) {
-            foundProvince = Provinces.find(item => item.name === query.city.replace('_', ' '));
+        if (query && query.province) {
+            foundProvince = Provinces.find(item => item.name === query.province);
         }
         professions = yield select(state => state.professions.flattenProfessionsByCategories);
         let professionId = '';
         let selectedProfession = {};
         professions.forEach((profession) => {
-            if (decodeURI(routeTitle) === profession.title) {
+            if (title === profession.title) {
                 professionId = profession._id;
                 selectedProfession = profession;
             }

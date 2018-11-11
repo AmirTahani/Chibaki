@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
+import { withRouter } from 'react-router';
 import { Row, Col, Tooltip, Button, Rate, Spin } from 'antd';
 import { Helmet } from 'react-helmet';
 import objectFitImages from 'object-fit-images';
@@ -25,6 +25,7 @@ class Services extends Component {
         title: PropTypes.string.isRequired,
         count: PropTypes.number.isRequired,
         location: PropTypes.objectOf(PropTypes.any).isRequired,
+        router: PropTypes.objectOf(PropTypes.any).isRequired,
         provinces: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         professionsJobs: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         loadConnect: PropTypes.func.isRequired,
@@ -47,7 +48,8 @@ class Services extends Component {
 
     state = {
         showQuestions: false,
-        jobCardClass: ''
+        jobCardClass: '',
+        provinceValue: {}
     };
 
     formatJobDate = (date) => {
@@ -60,8 +62,24 @@ class Services extends Component {
         });
     };
 
-    onProvinceSelect = (value, option) => {
-        // console.log('onSubmit', value, option);
+    getProvinceObjByName = (props, value) => {
+        const { location, provinces } = props;
+        if (this.exist(location, 'query.province')) {
+            if (value) {
+                return provinces.find(province => province.name === value);
+            }
+            return provinces.find(province => province.name === location.query.province);
+        }
+        return {};
+    };
+
+    onProvinceSelect = (value) => {
+        const { router } = this.props;
+        this.setState({
+            provinceValue: this.getProvinceObjByName(this.props, value)
+        });
+        router.push(`${decodeURI(router.getCurrentLocation().pathname)}?province=${value}`);
+        this.props.loadConnect(null, null, { province: value }, router.params.title);
     };
 
     getProfessionPrice = () => {
@@ -103,6 +121,19 @@ class Services extends Component {
         this.props.loadMoreProfessiontsConnect(selectedProfession._id, title, selectedProfession, null, true);
     };
 
+    handleAutoCompleteChange = (value) => {
+        const { provinceValue } = this.state;
+        if (provinceValue && provinceValue.name) {
+            this.setState({
+                provinceValue: {}
+            });
+        }
+    };
+
+    componentWillMount() {
+        this.state.provinceValue = this.getProvinceObjByName(this.props);
+    }
+
     componentDidMount() {
         const { location } = this.props;
         const title = location.pathname.split('/').reverse()[0].split('_').join(' ');
@@ -121,7 +152,7 @@ class Services extends Component {
 
     render() {
         const { title, selectedProfession, count, provinces, professionsJobs, loadedComplete, fetching, paginationEnded } = this.props;
-        const { showQuestions } = this.state;
+        const { showQuestions, provinceValue } = this.state;
         const proficients = this.props.proficients.reduce((acc, cur) => {
             const profession = cur.professions.find(prof => prof.profession === selectedProfession._id);
             acc.push({ ...cur, profession });
@@ -170,18 +201,34 @@ class Services extends Component {
                                 </div>
 
                                 <div className={`${styles.section} u-t--c`}>
-                                    <div style={{ display: 'none' }}>
+                                    <div>
                                         <div>استان خود را انتخاب کنید</div>
                                         <div>
-                                            <Autocomplete
-                                                options={provinces.map((province) => {
-                                                    province.title = province.name;
-                                                    return province;
-                                                })}
-                                                onSubmit={this.onProvinceSelect}
-                                                showBtn={false}
-                                                placeholder="انتخاب استان"
-                                            />
+                                            {
+                                                provinceValue && provinceValue.name ?
+                                                    <Autocomplete
+                                                        valueAs="name"
+                                                        onChange={this.handleAutoCompleteChange}
+                                                        options={provinces.map((province) => {
+                                                            province.title = province.name;
+                                                            return province;
+                                                        })}
+                                                        defaultValue={provinceValue}
+                                                        onSubmit={this.onProvinceSelect}
+                                                        showBtn={false}
+                                                        placeholder="انتخاب استان"
+                                                    /> : <Autocomplete
+                                                        valueAs="name"
+                                                        options={provinces.map((province) => {
+                                                            province.title = province.name;
+                                                            return province;
+                                                        })}
+                                                        onSubmit={this.onProvinceSelect}
+                                                        showBtn={false}
+                                                        placeholder="انتخاب استان"
+                                                    />
+                                            }
+
                                         </div>
                                     </div>
                                     <div>
@@ -196,7 +243,7 @@ class Services extends Component {
                                     <div>
                                         <div>
                                             <h1 className={styles.title}>
-                                                متخصصین {title} در چی باکی ({count} متخصص)
+                                                متخصصین {title.split('_').join(' ')} در چی باکی ({count} متخصص)
                                             </h1>
                                             <div className={styles.subtitle}>نمایش تصادفی</div>
                                         </div>
@@ -208,7 +255,7 @@ class Services extends Component {
                                         <div className="u-t--c">
                                             {!paginationEnded && proficients.length > 8
                                                 ? <button className={styles.btnMore} onClick={this.more}>
-                                                    { fetching
+                                                    {fetching
                                                         ? <Spin />
                                                         : <span>نمایش بیشتر</span>
                                                     }
@@ -232,11 +279,16 @@ class Services extends Component {
                                             <Flickity
                                                 options={this.sliderOptions}
                                                 className={styles.jobCardWrapper}
-                                                flickityRef={(c) => { this.jobCardFlickity = c; }}
+                                                flickityRef={(c) => {
+                                                    this.jobCardFlickity = c;
+                                                }}
                                             >
                                                 {professionsJobs.map((job) => {
                                                     return (
-                                                        <div key={job._id} className={`${styles.jobCard} ${this.state.jobCardClass}`}>
+                                                        <div
+                                                            key={job._id}
+                                                            className={`${styles.jobCard} ${this.state.jobCardClass}`}
+                                                        >
                                                             <div className={styles.jobCardDate}>
                                                                 ثبت شده در تاریخ
                                                                 {this.formatJobDate(job.createdAt)}
@@ -278,7 +330,7 @@ class Services extends Component {
     }
 }
 
-export default connect(state => ({
+export const connectedServices = connect(state => ({
     proficients: state.proficients.proficients,
     title: state.proficients.title,
     selectedProfession: state.proficients.selectedProfession,
@@ -292,3 +344,5 @@ export default connect(state => ({
     loadConnect: load,
     loadMoreProfessiontsConnect: loadProfessionts
 })(Services);
+
+export default withRouter(connectedServices);

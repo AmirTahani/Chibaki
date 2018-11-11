@@ -14,14 +14,16 @@ export default class AutoComplete extends Component {
         showBtn: PropTypes.bool,
         placeholder: PropTypes.string,
         children: PropTypes.node,
-        valueAs: PropTypes.string
+        valueAs: PropTypes.string,
+        defaultValue: PropTypes.objectOf(PropTypes.any)
     };
 
     static defaultProps = {
         showBtn: true,
         placeholder: 'به چه خدمتی نیاز دارید؟',
         children: null,
-        valueAs: '_id'
+        valueAs: '_id',
+        defaultValue: {}
     };
 
     state = {
@@ -77,17 +79,20 @@ export default class AutoComplete extends Component {
         this.engine = this.engineConf.initialize();
     }
 
+
     render() {
-        const { onSubmit, showBtn, placeholder, children } = this.props;
+        const { onSubmit, showBtn, placeholder, children, defaultValue, valueAs, ...rest } = this.props;
         const { options } = this.state;
 
         return (
             <div className={`${styles.wrapper} c-autocomplete`}>
                 <form className={styles.form} onSubmit={e => e.preventDefault()}>
                     <AntAutoComplete
+                        defaultValue={defaultValue[valueAs]}
                         dataSource={options.map(
                             this.renderOption
                         )}
+                        {...rest}
                         style={{ width: '100%' }}
                         onSearch={
                             this.handleChange
@@ -99,6 +104,7 @@ export default class AutoComplete extends Component {
                         {children || <input
                             type="text"
                             className={styles.input}
+                            value={defaultValue[valueAs]}
                         />}
                     </AntAutoComplete>
                     {
