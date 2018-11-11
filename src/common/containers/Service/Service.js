@@ -11,7 +11,7 @@ import Autocomplete from '../../components/Kit/AutoComplete/AutoComplete';
 import styles from './Service.module.styl';
 import { load } from '../../redux/modules/serviceContainer';
 import { load as loadProfessionts } from '../../redux/modules/proficients';
-import { setAnswer } from '../../redux/modules/questions';
+import { setAnswer, clearAnswers } from '../../redux/modules/questions';
 import ProfessionalCard from '../../components/professionalCard/professionalCard';
 import { commaSeprator } from '../../utils/helpers';
 
@@ -32,6 +32,7 @@ class Services extends Component {
         professionsJobs: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         loadConnect: PropTypes.func.isRequired,
         setAnswerConnect: PropTypes.func.isRequired,
+        clearAnswersConnect: PropTypes.func.isRequired,
         loadedComplete: PropTypes.bool.isRequired,
         loadMoreProfessiontsConnect: PropTypes.func.isRequired,
         fetching: PropTypes.bool.isRequired,
@@ -155,6 +156,10 @@ class Services extends Component {
                 });
             });
         }
+    }
+
+    componentWillUnmount() {
+        this.props.clearAnswersConnect();
     }
 
     render() {
@@ -351,7 +356,8 @@ export const connectedServices = connect(state => ({
 }), {
     loadConnect: load,
     loadMoreProfessiontsConnect: loadProfessionts,
-    setAnswerConnect: setAnswer
+    setAnswerConnect: setAnswer,
+    clearAnswersConnect: clearAnswers
 })(Services);
 
 export default withRouter(connectedServices);
