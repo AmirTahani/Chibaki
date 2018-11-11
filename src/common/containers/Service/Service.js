@@ -11,6 +11,7 @@ import Autocomplete from '../../components/Kit/AutoComplete/AutoComplete';
 import styles from './Service.module.styl';
 import { load } from '../../redux/modules/serviceContainer';
 import { load as loadProfessionts } from '../../redux/modules/proficients';
+import { setAnswer } from '../../redux/modules/questions';
 import ProfessionalCard from '../../components/professionalCard/professionalCard';
 import { commaSeprator } from '../../utils/helpers';
 
@@ -25,10 +26,12 @@ class Services extends Component {
         title: PropTypes.string.isRequired,
         count: PropTypes.number.isRequired,
         location: PropTypes.objectOf(PropTypes.any).isRequired,
+        answers: PropTypes.objectOf(PropTypes.any).isRequired,
         router: PropTypes.objectOf(PropTypes.any).isRequired,
         provinces: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         professionsJobs: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         loadConnect: PropTypes.func.isRequired,
+        setAnswerConnect: PropTypes.func.isRequired,
         loadedComplete: PropTypes.bool.isRequired,
         loadMoreProfessiontsConnect: PropTypes.func.isRequired,
         fetching: PropTypes.bool.isRequired,
@@ -75,9 +78,11 @@ class Services extends Component {
 
     onProvinceSelect = (value) => {
         const { router } = this.props;
+        const provinceValue = this.getProvinceObjByName(this.props, value);
         this.setState({
-            provinceValue: this.getProvinceObjByName(this.props, value)
+            provinceValue
         });
+        this.props.setAnswerConnect('location', { province: provinceValue });
         router.push(`${decodeURI(router.getCurrentLocation().pathname)}?province=${value}`);
         this.props.loadConnect(null, null, { province: value }, router.params.title);
     };
@@ -131,7 +136,9 @@ class Services extends Component {
     };
 
     componentWillMount() {
-        this.state.provinceValue = this.getProvinceObjByName(this.props);
+        const provinceValue = this.getProvinceObjByName(this.props);
+        this.state.provinceValue = provinceValue;
+        this.props.setAnswerConnect('location', { province: provinceValue });
     }
 
     componentDidMount() {
@@ -334,6 +341,7 @@ export const connectedServices = connect(state => ({
     proficients: state.proficients.proficients,
     title: state.proficients.title,
     selectedProfession: state.proficients.selectedProfession,
+    answers: state.questions.answers,
     count: state.proficients.count,
     provinces: state.provinces.provinces,
     professionsJobs: state.ProjectsForProfession.ProjectsForProfession,
@@ -342,7 +350,8 @@ export const connectedServices = connect(state => ({
     paginationEnded: state.proficients.paginationEnded
 }), {
     loadConnect: load,
-    loadMoreProfessiontsConnect: loadProfessionts
+    loadMoreProfessiontsConnect: loadProfessionts,
+    setAnswerConnect: setAnswer
 })(Services);
 
 export default withRouter(connectedServices);

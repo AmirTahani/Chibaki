@@ -130,7 +130,6 @@ export function setProfId(profId) {
 
 export function* watchLoadQuestions(client, { professionId, isDirect }) {
     try {
-        yield put(clearAnswers());
         let response;
         if (isDirect) {
             response = yield client.get(`/professions/${professionId}/questions?direct=${isDirect}`);

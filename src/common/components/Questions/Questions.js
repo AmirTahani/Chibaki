@@ -3,8 +3,7 @@ import { Modal, Col, Row, Button, message, Progress, Spin } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { loadProvinces } from '../../redux/modules/provinces';
-import { Icon } from '../Kit';
-import { loadQuestions, setAnswer, submitAnswers } from '../../redux/modules/questions';
+import { loadQuestions, setAnswer, submitAnswers, clearAnswers } from '../../redux/modules/questions';
 import {
     login,
     setUserMobile,
@@ -42,6 +41,7 @@ class Questions extends PureComponent {
         loading: PropTypes.bool.isRequired,
         loaded: PropTypes.bool.isRequired,
         setAnswerConnect: PropTypes.func.isRequired,
+        clearAnswersConnect: PropTypes.func.isRequired,
         answers: PropTypes.objectOf(PropTypes.any).isRequired,
         loginConnect: PropTypes.func.isRequired,
         setUserMobileConnect: PropTypes.func.isRequired,
@@ -72,6 +72,7 @@ class Questions extends PureComponent {
     };
 
     toggleModal = () => {
+        this.props.clearAnswersConnect();
         this.props.onClose();
         this.setState({
             visible: !this.state.visible
@@ -501,5 +502,6 @@ export default connect(state => ({
     registerConnect: register,
     verifyConnect: verify,
     submitAnswersConnect: submitAnswers,
-    clearStateConnect: clearState
+    clearStateConnect: clearState,
+    clearAnswersConnect: clearAnswers
 })(Questions);
