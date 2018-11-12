@@ -13,7 +13,7 @@ class ProfessionalCard extends PureComponent {
         if (this.exist(professional, 'trust.profilePicture.filePath')) {
             return `https://chibaki.ir${professional.trust.profilePicture.filePath.replace('public', '')}`;
         }
-        return 'https://chibaki.ir/profile/images/avatar.svg';
+        return '/assets/images/avatar.svg';
     };
 
     calculateNotRated = () => {
@@ -36,7 +36,7 @@ class ProfessionalCard extends PureComponent {
         const { professional } = this.props;
         return professional ? (
             <Link
-                to={`/professional/${professional.firstname.replace(' ', '_')}_${professional.lastname.replace(' ', '_')}?id=${professional._id}&profId=${this.exist(professional, 'profession.profession')}`}
+                to={`/professional/${professional.firstname.replace(' ', '_')}_${professional.lastname.replace(' ', '_')}?id=${professional._id}${professional.profession ? `&profId=${professional.profession.profession}` : ''}`}
                 className={styles.cardLink}
             >
                 <div className={styles.card}>

@@ -32,8 +32,13 @@ class Header extends Component {
         mobile: PropTypes.string.isRequired,
         firstName: PropTypes.string.isRequired,
         lastName: PropTypes.string.isRequired,
-        code: PropTypes.string.isRequired
+        code: PropTypes.string.isRequired,
+        handleScroll: PropTypes.func.isRequired
     };
+
+    handleScroll = (type) => {
+        this.props.handleScroll(type);
+    }
 
     render() {
         const {
@@ -72,7 +77,11 @@ class Header extends Component {
                         register={registerConnect}
                         verify={verifyConnect}
                     />
-                    <Nav user={user} toggleAuthModal={toggleAuthModalConnect} />
+                    <Nav
+                        user={user}
+                        toggleAuthModal={toggleAuthModalConnect}
+                        handleScroll={this.handleScroll}
+                    />
                     <div className={styles.logo}>
                         <Link to="/">
                             <div className="sr-only">چی باکی</div>

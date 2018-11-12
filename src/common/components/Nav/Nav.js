@@ -8,7 +8,8 @@ import styles from './Nav.module.styl';
 class Nav extends Component {
     static propTypes = {
         user: PropTypes.objectOf(PropTypes.any).isRequired,
-        toggleAuthModal: PropTypes.func.isRequired
+        toggleAuthModal: PropTypes.func.isRequired,
+        handleScroll: PropTypes.func.isRequired
     };
 
     state = {
@@ -25,6 +26,10 @@ class Nav extends Component {
         });
     };
 
+    handleScroll = (type) => {
+        this.props.handleScroll(type);
+    }
+
     handleGoToAngular = () => {
         window.open(`${sitePath}/pages/dashboard`, '_self');
     };
@@ -37,27 +42,28 @@ class Nav extends Component {
 
     getNavItems = () => {
         const { user } = this.props;
-        if (user && user._id) {
-            return [
-                {
-                    label: 'خدمات',
-                    link: `/${encodeURI('خدمات')}`
-                },
+        return [
+            user &&
+            user._id ?
                 {
                     label: 'پروفایل',
                     action: this.handleGoToAngular
-                }
-            ];
-        }
-        return [
-            {
-                label: 'ثبت نام / ورود',
-                link: '/signup',
-                action: this.handleAuth
-            },
+                } : {
+                    label: 'ثبت نام / ورود',
+                    link: '/signup',
+                    action: this.handleAuth
+                },
             {
                 label: 'خدمات',
                 link: `/${encodeURI('خدمات')}`
+            },
+            {
+                label: 'چگونه کار میکند',
+                action: () => this.handleScroll('howitworks')
+            },
+            {
+                label: 'چرا چی باکی',
+                action: () => this.handleScroll('features')
             }
         ];
     };

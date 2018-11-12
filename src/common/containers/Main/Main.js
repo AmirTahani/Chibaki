@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
@@ -12,16 +13,26 @@ export default class Main extends Component {
         children: PropTypes.node.isRequired
     };
 
+    handleScroll = (type) => {
+        ReactDom.findDOMNode(this.refs[type]).scrollIntoView({
+            block: 'start',
+            inline: 'nearest',
+            behavior: 'smooth'
+        });
+    };
+
     render() {
         return (
             <div>
-                <Header />
+                <Header handleScroll={this.handleScroll} />
+
                 <div className={styles.container}>
                     {this.props.children}
                 </div>
-                <HowItWorks />
 
-                <Features />
+                <HowItWorks ref="howitworks" />
+
+                <Features ref="features" />
 
                 <GetApp />
 

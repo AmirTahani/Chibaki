@@ -23,21 +23,23 @@ class Home extends Component {
         showQuestions: false,
         professionId: ''
     };
-    handleSelect = (professionId) => {
-        this.props.router.push(`/${encodeURI('خدمات')}/${professionId}`);
-    };
-    handleClose = () => {
-        this.setState({
-            showQuestions: false,
-            professionId: ''
-        });
-    };
 
     componentDidMount() {
         if (window && window.__renderType__ === 'client') {
             this.props.loadConnect();
         }
     }
+
+    handleSelect = (professionId) => {
+        this.props.router.push(`/${encodeURI('خدمات')}/${professionId}`);
+    };
+
+    handleClose = () => {
+        this.setState({
+            showQuestions: false,
+            professionId: ''
+        });
+    };
 
     render() {
         const { professions, sliders } = this.props;
