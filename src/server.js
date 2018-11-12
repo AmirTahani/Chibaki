@@ -60,7 +60,7 @@ server
                     <meta property="og:image" content="https://chibaki.ir/assets/images/logo/logo-1-1.svg" />
                     <meta property="og:image:width" content=200" />
                     <meta property="og:image:height" content=200" />   
-                    <meta property="og:site_name" content="چی‌باکی" />
+                    <meta property="og:site_name" content="چی باکی" />
                     <meta property="og:url" content="https://chibaki.ir" />
                     <meta http-equiv="content-language" content="fa" />
                     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
