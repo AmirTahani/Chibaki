@@ -193,7 +193,12 @@ class Services extends Component {
                                 </div>
                                 <div className={styles.heroContent}>
                                     <div>
-                                        <h1 className={styles.heroTitle}>{title}</h1>
+                                        {
+                                            provinceValue && provinceValue.name ?
+                                                <h1 className={styles.heroTitle}>{title.split('_').join(' ')} در {provinceValue.name}</h1> :
+                                                <h1 className={styles.heroTitle}>{title.split('_').join(' ')}</h1>
+                                        }
+
                                         <Button type="primary" size="large" onClick={this.registerProject}>
                                             ثبت درخواست
                                         </Button>
@@ -254,9 +259,9 @@ class Services extends Component {
                                 {proficients && proficients.length ?
                                     <div>
                                         <div>
-                                            <h1 className={styles.title}>
-                                                متخصصین {title.split('_').join(' ')} در چی باکی ({count} متخصص)
-                                            </h1>
+                                            <h2 className={styles.title}>
+                                                متخصصین {title.split('_').join(' ')} در {provinceValue && provinceValue.name ? provinceValue.name : 'چی باکی'} ({count} متخصص)
+                                            </h2>
                                             <div className={styles.subtitle}>نمایش تصادفی</div>
                                         </div>
                                         <div className={styles.cardWrapper}>
@@ -293,6 +298,11 @@ class Services extends Component {
                                                 className={styles.jobCardWrapper}
                                                 flickityRef={(c) => {
                                                     this.jobCardFlickity = c;
+                                                    c.on('ready', () => {
+                                                        this.setState({
+                                                            jobCardClass: styles.jobCardFull
+                                                        });
+                                                    });
                                                 }}
                                             >
                                                 {professionsJobs.map((job) => {
