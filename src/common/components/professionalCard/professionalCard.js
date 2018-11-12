@@ -13,7 +13,7 @@ class ProfessionalCard extends PureComponent {
         if (this.exist(professional, 'trust.profilePicture.filePath')) {
             return `https://chibaki.ir${professional.trust.profilePicture.filePath.replace('public', '')}`;
         }
-        return 'https://chibaki.ir/profile/images/avatar.svg';
+        return '/assets/images/avatar.svg';
     };
 
     calculateNotRated = () => {
