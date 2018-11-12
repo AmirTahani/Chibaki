@@ -43,13 +43,19 @@ export default class AutoComplete extends Component {
     });
 
     handleChange = (value) => {
-        this.engineConf.search(value,
-            (options) => {
-                this.setState({
-                    options
-                });
-            }
-        );
+        if (value) {
+            this.engineConf.search(value,
+                (options) => {
+                    this.setState({
+                        options
+                    });
+                }
+            );
+        } else {
+            this.setState({
+                options: this.props.options
+            });
+        }
     };
 
     renderOption = (item) => {
@@ -108,7 +114,8 @@ export default class AutoComplete extends Component {
                         />}
                     </AntAutoComplete>
                     {
-                        showBtn && <button onClick={() => onSubmit(this.state.selectedValue)} className={styles.btn}>
+                        showBtn &&
+                        <button onClick={() => onSubmit(this.state.selectedValue)} className={styles.btn}>
                             ادامه
                         </button>
                     }
