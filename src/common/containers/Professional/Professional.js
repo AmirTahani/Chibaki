@@ -213,7 +213,7 @@ class Professional extends Component {
         }
 
         if (window && window.__renderType__ === 'client') {
-            this.props.loadConnect(location.query.id);
+            this.props.loadConnect(location.query.id, location.query.profId);
         }
         objectFitImages();
     }
