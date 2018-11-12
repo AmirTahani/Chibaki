@@ -34,10 +34,9 @@ class ProfessionalCard extends PureComponent {
 
     render() {
         const { professional } = this.props;
-        console.log(professional);
         return professional ? (
             <Link
-                to={`/professional/${professional.firstname.replace(' ', '_')}_${professional.lastname.replace(' ', '_')}?id=${professional._id}&profId=${professional.profession.profession}`}
+                to={`/professional/${professional.firstname.replace(' ', '_')}_${professional.lastname.replace(' ', '_')}?id=${professional._id}${professional.profession ? `&profId=${professional.profession.profession}` : ''}`}
                 className={styles.cardLink}
             >
                 <div className={styles.card}>

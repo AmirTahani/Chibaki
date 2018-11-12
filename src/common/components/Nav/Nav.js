@@ -66,29 +66,6 @@ class Nav extends Component {
                 action: () => this.handleScroll('features')
             }
         ];
-        // if (user && user._id) {
-        //     return [
-        //         {
-        //             label: 'خدمات',
-        //             link: `/${encodeURI('خدمات')}`
-        //         },
-        //         {
-        //             label: 'پروفایل',
-        //             action: this.handleGoToAngular
-        //         }
-        //     ];
-        // }
-        // return [
-        //     {
-        //         label: 'ثبت نام / ورود',
-        //         link: '/signup',
-        //         action: this.handleAuth
-        //     },
-        //     {
-        //         label: 'خدمات',
-        //         link: `/${encodeURI('خدمات')}`
-        //     }
-        // ];
     };
 
     getMenu = (mobile = false) => {

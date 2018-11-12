@@ -26,7 +26,7 @@ const Routes = (props) => {
     }
 
     return (
-        <Router history={browserHistory} {...props}>
+        <Router onUpdate={() => window.scrollTo(0, 0)} history={browserHistory} {...props}>
             <Route path="/" component={Main}>
                 <IndexRoute component={Home} />
                 <Route path="about" component={About} />

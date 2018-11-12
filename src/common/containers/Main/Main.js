@@ -19,7 +19,7 @@ export default class Main extends Component {
             inline: 'nearest',
             behavior: 'smooth'
         });
-    }
+    };
 
     render() {
         return (
