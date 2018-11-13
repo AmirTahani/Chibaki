@@ -69,10 +69,10 @@ class Services extends Component {
 
     getProvinceObjByName = (props, value) => {
         const { location, provinces } = props;
+        if (value) {
+            return provinces.find(province => province.name === value);
+        }
         if (this.exist(location, 'query.province')) {
-            if (value) {
-                return provinces.find(province => province.name === value);
-            }
             return provinces.find(province => province.name === location.query.province);
         }
         return {};
@@ -178,7 +178,7 @@ class Services extends Component {
                 <Helmet>
                     <title>
                         {
-                            `چی باکی - ${title} - Chibaki`
+                            `چی باکی - ${title.split('_').join(' ')} ${provinceValue && provinceValue.name ? `در ${provinceValue.name}` : ''} - Chibaki`
                         }
                     </title>
                 </Helmet>
@@ -187,20 +187,20 @@ class Services extends Component {
                         <Questions professionId={this.props.selectedProfession._id} onClose={this.handleClose} /> : null
                 }
                 <div className={styles.hero}>
-                    <div className={styles.heroBg}>
-                        <img src="https://chibaki.ir/assets/images/hero/architect.jpg" alt="Smiley face" />
-                    </div>
+                    <div className={styles.heroBg} />
                     <div className={styles.heroContent}>
                         <div>
-                            {
-                                provinceValue && provinceValue.name ?
-                                    <h1 className={styles.heroTitle}>{title.split('_').join(' ')} در {provinceValue.name}</h1> :
-                                    <h1 className={styles.heroTitle}>{title.split('_').join(' ')}</h1>
-                            }
-
-                            <button className="c-btn c-btn--primary c-btn--lg" onClick={this.registerProject}>
-                                ثبت درخواست
-                            </button>
+                            <h1 className={styles.heroTitle}>
+                                {title.split('_').join(' ')}
+                                {(provinceValue && provinceValue.name) && <div className={styles.heroTitleCity}>
+                                    {`در ${provinceValue.name}`}
+                                </div>}
+                            </h1>
+                            <div>
+                                <button className="c-btn c-btn--white c-btn--lg" onClick={this.registerProject}>
+                                    ثبت درخواست
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -223,19 +223,31 @@ class Services extends Component {
                                 <div className={styles.cityForm}>
                                     <div className={styles.cityFormText}>استان خود را انتخاب کنید</div>
                                     <div>
-                                        <Autocomplete
-                                            valueAs="name"
-                                            onChange={this.handleAutoCompleteChange}
-                                            options={provinces.map((province) => {
-                                                province.title = province.name;
-                                                return province;
-                                            })}
-                                            defaultValue={provinceValue && provinceValue.name ? provinceValue : {}}
-                                            onSubmit={this.onProvinceSelect}
-                                            showBtn={false}
-                                            placeholder="انتخاب استان"
-                                            showOptionsWhenEmpty
-                                        />
+                                        {provinceValue && provinceValue.name ?
+                                            <Autocomplete
+                                                valueAs="name"
+                                                options={provinces.map((province) => {
+                                                    province.title = province.name;
+                                                    return province;
+                                                })}
+                                                defaultValue={provinceValue}
+                                                onSubmit={this.onProvinceSelect}
+                                                showBtn={false}
+                                                placeholder="انتخاب استان"
+                                                showOptionsWhenEmpty
+                                            /> :
+                                            <Autocomplete
+                                                valueAs="name"
+                                                options={provinces.map((province) => {
+                                                    province.title = province.name;
+                                                    return province;
+                                                })}
+                                                onSubmit={this.onProvinceSelect}
+                                                showBtn={false}
+                                                placeholder="انتخاب استان"
+                                                showOptionsWhenEmpty
+                                            />
+                                        }
                                     </div>
                                 </div>
                             </div>

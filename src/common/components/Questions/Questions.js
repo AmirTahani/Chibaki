@@ -387,13 +387,12 @@ class Questions extends PureComponent {
                         width={500}
                         footer={
                             [
-                                begin ? <Button
-                                    type="primary"
-                                    className={styles.buttonBegin}
+                                begin ? <button
+                                    className={`${styles.beginBtn} c-btn c-btn--lg c-btn--primary`}
                                     onClick={this.begin}
                                 >
                                     شروع
-                                </Button> : null,
+                                </button> : null,
                                 (
                                     !begin &&
                                     current < contents.length - 1 ||
@@ -464,7 +463,8 @@ class Questions extends PureComponent {
                                 />
                                 <p className={styles.beginText}>برای آنکه بتوانیم بهترین افراد متخصص را به شما معرفی
                                     کنیم، ابتدا نیاز هست که به چند
-                                    سوال کوتاه پاسخ دهید</p>
+                                    سوال کوتاه پاسخ دهید.
+                                </p>
                             </div> : null
                         }
                     </Modal>

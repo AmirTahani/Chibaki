@@ -21,7 +21,7 @@
 	
 	&:hover
 	&:focus
-		&:not(.c-btn--primary)
+		&:not(.c-btn--primary):not(.c-btn--white)
 			background-color alpha($color, 5%)
 
 	&:focus
@@ -39,15 +39,27 @@
 	&--round
 		border-radius 50px
 		border 1px solid $color
+		
+	&--white
+		background-color: #fff;
+		
+		&:hover
+		&:focus
+			background-color: #eee;
+			
+		&:active
+			background-color: darken(#fff, 10%);
 
 	&--border
 		border 1px solid $color
 		
 	&--lg
-		min-width 180px
+		min-width 160px
 		line-height 50px
+        
 		&:only-child
 			font-size 1.2rem
+			font-weight: 900
 
 	&--md
 		min-width 130px
