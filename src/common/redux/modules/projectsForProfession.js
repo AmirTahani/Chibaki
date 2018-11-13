@@ -43,7 +43,6 @@ export default function reducer(state = initialState, action = {}) {
 
 
 export function load(professionId, provinceId, resolve, reject) {
-    console.log(professionId, 'this is it');
     return {
         type: LOAD,
         resolve,
@@ -75,7 +74,6 @@ export function* watchLoad(client, { resolve, reject, professionId, provinceId }
         } else {
             response = yield client.get(`/v1/jobs?profession=${professionId}`);
         }
-        console.log(response.data, 'this is reposnse data for each city');
         yield put(loadProvincesSuccess(response.data));
         resolve && resolve();
     } catch (error) {
