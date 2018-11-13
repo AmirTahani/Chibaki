@@ -5,22 +5,33 @@ export default class Icon extends Component {
     static propTypes = {
         iconName: PropTypes.string.isRequired,
         size: PropTypes.number,
-        color: PropTypes.string
+        color: PropTypes.string,
+        fontSize: PropTypes.number,
+        customStyle: PropTypes.objectOf(PropTypes.any)
     };
 
     static defaultProps = {
-        size: 15,
-        color: '#000000'
+        size: 70,
+        color: '#1e87f0',
+        fontSize: 55,
+        customStyle: {}
+    };
+
+    getStyles = () => {
+        const { size, color, fontSize, customStyle } = this.props;
+        return {
+            color,
+            width: size,
+            height: size,
+            'font-size': fontSize,
+            ...customStyle
+        };
     };
 
     render() {
-        const { iconName, size, color } = this.props;
+        const { iconName } = this.props;
         return (
-            <img
-                style={{ width: size, height: size, fill: color }}
-                src={require(`../../../../../public/assets/images/icon/${iconName}.svg`)}
-                alt={iconName}
-            />
+            <span className={`icon-${iconName}`} style={this.getStyles()} />
         );
     }
 }

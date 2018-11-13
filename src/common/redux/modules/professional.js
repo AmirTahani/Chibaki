@@ -1,5 +1,4 @@
-import { put, select } from 'redux-saga/effects';
-import { END } from 'redux-saga';
+import { put } from 'redux-saga/effects';
 import { handleSagaError } from '../../utils/handleSagaError';
 import { exist } from '../../utils/helpers';
 
@@ -13,7 +12,7 @@ export const SET_META = 'ssr/professional/SET_META';
 const initialState = {
     loading: false,
     loaded: false,
-    professional: [],
+    professional: {},
     error: null,
     comments: {},
     metaDescription: ''
@@ -108,7 +107,7 @@ export function* watchLoadProfessional(client, { professionalId, profId, resolve
     try {
         yield put(clear());
         const response = yield client.get(`/professionals/${professionalId}`);
-        const comments = yield client.get(`/v1/professionals/${professionalId}/comments?populate=customer,userProfession,userProfession.profession`);
+        const comments = yield client.get(`/v1/professionals/${professionalId}/comments?populate=customer,userProfession.profession`);
         yield put(loadComments(comments.data));
         yield put(loadSuccess(response.data));
         const professions = exist(response, 'data.user.professions');
