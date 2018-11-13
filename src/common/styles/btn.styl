@@ -21,7 +21,7 @@
 	
 	&:hover
 	&:focus
-		&:not(.c-btn--primary)
+		&:not(.c-btn--primary):not(.c-btn--white)
 			background-color alpha($color, 5%)
 
 	&:focus
@@ -42,6 +42,13 @@
 		
 	&--white
 		background-color: #fff;
+		
+		&:hover
+		&:focus
+			background-color: #eee;
+			
+		&:active
+			background-color: darken(#fff, 10%);
 
 	&--border
 		border 1px solid $color
