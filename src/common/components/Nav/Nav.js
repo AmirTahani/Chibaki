@@ -28,7 +28,7 @@ class Nav extends Component {
 
     handleScroll = (type) => {
         this.props.handleScroll(type);
-    }
+    };
 
     handleGoToAngular = () => {
         window.open(`${sitePath}/pages/dashboard`, '_self');
@@ -107,6 +107,16 @@ class Nav extends Component {
                     onStateChange={state => this.handleStateChange(state)}
                     className={styles.menuMobile}
                 >
+                    <Link
+                        to="/"
+                        className={styles.logoMobileLink}
+                        onClick={this.closeMenu}
+                    >
+                        <img
+                            src="/assets/images/logo/logo-text.svg" alt="چی باکی - Chibaki"
+                            className={styles.logoMobile}
+                        />
+                    </Link>
                     {this.getMenu(true)}
                 </Menu>
             </nav>
