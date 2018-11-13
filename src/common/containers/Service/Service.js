@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import { Row, Col, Tooltip, Button, Rate, Spin } from 'antd';
+import { Row, Col, Tooltip, Button, Rate, Spin, Icon } from 'antd';
 import { Helmet } from 'react-helmet';
 import objectFitImages from 'object-fit-images';
 import { connect } from 'react-redux';
@@ -14,6 +14,7 @@ import { load as loadProfessionts } from '../../redux/modules/proficients';
 import { setAnswer, clearAnswers } from '../../redux/modules/questions';
 import ProfessionalCard from '../../components/professionalCard/professionalCard';
 import { commaSeprator } from '../../utils/helpers';
+import Loader from '../../components/Kit/Loader/Loader';
 
 const SHOULD_INIT_SLIDER = typeof window !== 'undefined' && window.innerWidth > 350;
 const Flickity = SHOULD_INIT_SLIDER ? require('react-flickity-component') : 'div';
@@ -34,10 +35,10 @@ class Services extends Component {
         setAnswerConnect: PropTypes.func.isRequired,
         clearAnswersConnect: PropTypes.func.isRequired,
         loadedComplete: PropTypes.bool.isRequired,
+        loading: PropTypes.bool.isRequired,
         loadMoreProfessiontsConnect: PropTypes.func.isRequired,
         fetching: PropTypes.bool.isRequired,
-        paginationEnded: PropTypes.bool.isRequired,
-
+        paginationEnded: PropTypes.bool.isRequired
     };
 
     sliderOptions = {
@@ -116,6 +117,7 @@ class Services extends Component {
         }
         return ` از ${unit} ${commaSeprator(priceRange.min)} تومان`;
     };
+
     handleClose = () => {
         this.setState({
             showQuestions: false
@@ -163,7 +165,7 @@ class Services extends Component {
     }
 
     render() {
-        const { title, selectedProfession, count, provinces, professionsJobs, loadedComplete, fetching, paginationEnded } = this.props;
+        const { title, selectedProfession, count, provinces, professionsJobs, loadedComplete, loading, fetching, paginationEnded } = this.props;
         const { showQuestions, provinceValue } = this.state;
         const proficients = this.props.proficients.reduce((acc, cur) => {
             const profession = cur.professions.find(prof => prof.profession === selectedProfession._id);
@@ -184,169 +186,149 @@ class Services extends Component {
                     showQuestions ?
                         <Questions professionId={this.props.selectedProfession._id} onClose={this.handleClose} /> : null
                 }
-                {
-                    loadedComplete
-                        ? <div>
-                            <div className={styles.hero}>
-                                <div className={styles.heroBg}>
-                                    <img src="https://chibaki.ir/assets/images/hero/architect.jpg" alt="Smiley face" />
-                                </div>
-                                <div className={styles.heroContent}>
-                                    <div>
-                                        {
-                                            provinceValue && provinceValue.name ?
-                                                <h1 className={styles.heroTitle}>{title.split('_').join(' ')} در {provinceValue.name}</h1> :
-                                                <h1 className={styles.heroTitle}>{title.split('_').join(' ')}</h1>
-                                        }
+                <div className={styles.hero}>
+                    <div className={styles.heroBg}>
+                        <img src="https://chibaki.ir/assets/images/hero/architect.jpg" alt="Smiley face" />
+                    </div>
+                    <div className={styles.heroContent}>
+                        <div>
+                            {
+                                provinceValue && provinceValue.name ?
+                                    <h1 className={styles.heroTitle}>{title.split('_').join(' ')} در {provinceValue.name}</h1> :
+                                    <h1 className={styles.heroTitle}>{title.split('_').join(' ')}</h1>
+                            }
 
-                                        <Button type="primary" size="large" onClick={this.registerProject}>
-                                            ثبت درخواست
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className={styles.container}>
-
-                                <div className={styles.price}>
-                                    شروع قیمت در چی باکی:
-                                    {this.getProfessionPrice()}
-                                </div>
-
-                                <div className={styles.desc}>
-                                    {selectedProfession.description}
-                                </div>
-
-                                <div className={`${styles.section} u-t--c`}>
-                                    <div>
-                                        <div>استان خود را انتخاب کنید</div>
-                                        <div>
-                                            {
-                                                provinceValue && provinceValue.name ?
-                                                    <Autocomplete
-                                                        valueAs="name"
-                                                        onChange={this.handleAutoCompleteChange}
-                                                        options={provinces.map((province) => {
-                                                            province.title = province.name;
-                                                            return province;
-                                                        })}
-                                                        defaultValue={provinceValue}
-                                                        onSubmit={this.onProvinceSelect}
-                                                        showBtn={false}
-                                                        placeholder="انتخاب استان"
-                                                    /> : <Autocomplete
-                                                        valueAs="name"
-                                                        options={provinces.map((province) => {
-                                                            province.title = province.name;
-                                                            return province;
-                                                        })}
-                                                        onSubmit={this.onProvinceSelect}
-                                                        showBtn={false}
-                                                        placeholder="انتخاب استان"
-                                                    />
-                                            }
-
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <button className="c-btn c-btn--primary c-btn--lg" onClick={this.registerProject}>
-                                            ثبت درخواست
-                                        </button>
-
-                                    </div>
-                                </div>
-
-                                {proficients && proficients.length ?
-                                    <div>
-                                        <div>
-                                            <h2 className={styles.title}>
-                                                متخصصین {title.split('_').join(' ')} در {provinceValue && provinceValue.name ? provinceValue.name : 'چی باکی'} ({count} متخصص)
-                                            </h2>
-                                            <div className={styles.subtitle}>نمایش تصادفی</div>
-                                        </div>
-                                        <div className={styles.cardWrapper}>
-                                            {proficients.map((item) => {
-                                                return <ProfessionalCard key={item._id} professional={item} />;
-                                            })}
-                                        </div>
-                                        <div className="u-t--c">
-                                            {!paginationEnded && proficients.length > 8
-                                                ? <button className={styles.btnMore} onClick={this.more}>
-                                                    {fetching
-                                                        ? <Spin />
-                                                        : <span>نمایش بیشتر</span>
-                                                    }
-                                                </button>
-                                                : null
-                                            }
-                                        </div>
-                                    </div>
-                                    : <div>
-                                        متخصصی در این خدمت وجود ندارد.
-                                    </div>
-                                }
-
-                                {
-                                    professionsJobs && professionsJobs.length > 3 ?
-                                        <div>
-                                            <div>
-                                                <div className={styles.title}>درخواست‌های مشابه ثبت شده در چی‌با‌کی</div>
-                                                <div className={styles.subtitle}>{selectedProfession.title}</div>
-                                            </div>
-                                            <Flickity
-                                                options={this.sliderOptions}
-                                                className={styles.jobCardWrapper}
-                                                flickityRef={(c) => {
-                                                    this.jobCardFlickity = c;
-                                                    c.on('ready', () => {
-                                                        this.setState({
-                                                            jobCardClass: styles.jobCardFull
-                                                        });
-                                                    });
-                                                }}
-                                            >
-                                                {professionsJobs.map((job) => {
-                                                    return (
-                                                        <div
-                                                            key={job._id}
-                                                            className={`${styles.jobCard} ${this.state.jobCardClass}`}
-                                                        >
-                                                            <div className={styles.jobCardDate}>
-                                                                ثبت شده در تاریخ
-                                                                {this.formatJobDate(job.createdAt)}
-                                                            </div>
-                                                            <div className={styles.jobCardRow}>
-                                                                <div className={styles.jobCardTitle}>
-                                                                    {this.exist(job, 'location.province.name') ? `${job.location.province.name}, ` : '-'}
-                                                                    {this.exist(job, 'location.city.name') ? job.location.city.name : '-'}
-                                                                </div>
-                                                                <div className={styles.jobCardSub}>شهر</div>
-                                                            </div>
-
-                                                            {job.attributes.map((attr) => {
-                                                                return (
-                                                                    <div className={styles.jobCardRow}>
-                                                                        <div className={styles.jobCardTitle}>
-                                                                            {attr.text || attr.options.join(' ')}
-                                                                        </div>
-                                                                        <div
-                                                                            className={styles.jobCardSub}
-                                                                        >{attr.title}</div>
-                                                                    </div>
-                                                                );
-                                                            })}
-                                                        </div>
-                                                    );
-                                                })}
-                                            </Flickity>
-                                        </div> : null
-                                }
-
-                            </div>
-
+                            <button className="c-btn c-btn--primary c-btn--lg" onClick={this.registerProject}>
+                                ثبت درخواست
+                            </button>
                         </div>
-                        : null
-                }
+                    </div>
+                </div>
+
+                <div className={styles.container}>
+
+                    <div className={styles.price}>
+                        شروع قیمت در چی باکی:
+                        {this.getProfessionPrice()}
+                    </div>
+
+                    <div className={styles.desc}>
+                        {selectedProfession.description}
+                    </div>
+
+                    {loading && !loadedComplete
+                        ? <Loader />
+                        : <div>
+                            <div className={`${styles.section} u-t--c`}>
+                                <div className={styles.cityForm}>
+                                    <div className={styles.cityFormText}>استان خود را انتخاب کنید</div>
+                                    <div>
+                                        <Autocomplete
+                                            valueAs="name"
+                                            onChange={this.handleAutoCompleteChange}
+                                            options={provinces.map((province) => {
+                                                province.title = province.name;
+                                                return province;
+                                            })}
+                                            defaultValue={provinceValue && provinceValue.name ? provinceValue : {}}
+                                            onSubmit={this.onProvinceSelect}
+                                            showBtn={false}
+                                            placeholder="انتخاب استان"
+                                            showOptionsWhenEmpty
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {proficients && proficients.length ?
+                                <div>
+                                    <div>
+                                        <h2 className={styles.title}>
+                                            متخصصین {title.split('_').join(' ')} در {provinceValue && provinceValue.name ? provinceValue.name : 'چی باکی'} ({count} متخصص)
+                                        </h2>
+                                        <div className={styles.subtitle}>نمایش تصادفی</div>
+                                    </div>
+                                    <div className={styles.cardWrapper}>
+                                        {proficients.map((item) => {
+                                            return <ProfessionalCard key={item._id} professional={item} />;
+                                        })}
+                                    </div>
+                                    <div className="u-t--c">
+                                        {!paginationEnded && proficients.length > 8
+                                            ? <button className={styles.btnMore} onClick={this.more}>
+                                                {fetching
+                                                    ? <Spin />
+                                                    : <span>نمایش بیشتر</span>
+                                                }
+                                            </button>
+                                            : null
+                                        }
+                                    </div>
+                                </div>
+                                : <div>
+                                    متخصصی در این خدمت وجود ندارد.
+                                </div>
+                            }
+
+                            {
+                                professionsJobs && professionsJobs.length > 3 ?
+                                    <div>
+                                        <div>
+                                            <div className={styles.title}>درخواست‌های مشابه ثبت شده در چی‌با‌کی</div>
+                                            <div className={styles.subtitle}>{selectedProfession.title}</div>
+                                        </div>
+                                        <Flickity
+                                            options={this.sliderOptions}
+                                            className={styles.jobCardWrapper}
+                                            flickityRef={(c) => {
+                                                this.jobCardFlickity = c;
+                                                c.on('ready', () => {
+                                                    this.setState({
+                                                        jobCardClass: styles.jobCardFull
+                                                    });
+                                                });
+                                            }}
+                                        >
+                                            {professionsJobs.map((job) => {
+                                                return (
+                                                    <div
+                                                        key={job._id}
+                                                        className={`${styles.jobCard} ${this.state.jobCardClass}`}
+                                                    >
+                                                        <div className={styles.jobCardDate}>
+                                                            ثبت شده در تاریخ
+                                                            {this.formatJobDate(job.createdAt)}
+                                                        </div>
+                                                        <div className={styles.jobCardRow}>
+                                                            <div className={styles.jobCardTitle}>
+                                                                {this.exist(job, 'location.province.name') ? `${job.location.province.name}, ` : '-'}
+                                                                {this.exist(job, 'location.city.name') ? job.location.city.name : '-'}
+                                                            </div>
+                                                            <div className={styles.jobCardSub}>شهر</div>
+                                                        </div>
+
+                                                        {job.attributes.map((attr) => {
+                                                            return (
+                                                                <div className={styles.jobCardRow}>
+                                                                    <div className={styles.jobCardTitle}>
+                                                                        {attr.text || attr.options.join(' ')}
+                                                                    </div>
+                                                                    <div
+                                                                        className={styles.jobCardSub}
+                                                                    >{attr.title}</div>
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                );
+                                            })}
+                                        </Flickity>
+                                    </div> : null
+                            }
+                        </div>}
+
+                </div>
+
             </div>
         );
     }
@@ -361,6 +343,7 @@ export const connectedServices = connect(state => ({
     provinces: state.provinces.provinces,
     professionsJobs: state.ProjectsForProfession.ProjectsForProfession,
     loadedComplete: state.serviceContainer.loaded,
+    loading: state.serviceContainer.loading,
     fetching: state.proficients.fetching,
     paginationEnded: state.proficients.paginationEnded
 }), {

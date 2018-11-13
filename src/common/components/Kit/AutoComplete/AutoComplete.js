@@ -85,7 +85,7 @@ export default class AutoComplete extends Component {
 
     componentDidMount() {
         this.engine = this.engineConf.initialize();
-        if (this.props.showOptionsWhenEmpty) {
+        if (this.props.showOptionsWhenEmpty && !this.props.defaultValue[this.props.valueAs]) {
             this.setState({
                 options: this.props.options
             });
