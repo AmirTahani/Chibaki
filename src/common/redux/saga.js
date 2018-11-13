@@ -8,7 +8,9 @@ import {
     LOAD_CATEGORIES,
     watchLoadCategories,
     LOADER,
-    watchLoader
+    watchLoader,
+    LOAD_PROFESSIONS,
+    watchLoadProfessions
 } from './modules/professions';
 
 import {
@@ -60,6 +62,7 @@ export default function* root(client, store) {
     yield all([
         takeEvery(REHYDRATE, watchRehydrate, store),
         takeEvery(LOAD_PROFESSIONS_LIST, watchLoadProfessionsList, client),
+        takeEvery(LOAD_PROFESSIONS, watchLoadProfessions, client),
         takeEvery(LOAD_CATEGORIES, watchLoadCategories, client),
         takeEvery(LOADER, watchLoader, client),
         takeEvery(LOAD_PROFICIENTS, watchLoadProficients, client),

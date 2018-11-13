@@ -10,12 +10,17 @@ export const LOAD_CATEGORIES = 'ssr/professions/LOAD_CATEGORIES';
 export const LOAD_CATEGORIES_SUCCESS = 'ssr/professions/LOAD_CATEGORIES_SUCCESS';
 export const LOAD_CATEGORIES_FAILURE = 'ssr/professions/LOAD_CATEGORIES_FAILURE';
 
+export const LOAD_PROFESSIONS = 'ssr/professions/LOAD_PROFESSIONS';
+export const LOAD_PROFESSIONS_SUCCESS = 'ssr/professions/LOAD_PROFESSIONS_SUCCESS';
+export const LOAD_PROFESSIONS_FAILURE = 'ssr/professions/LOAD_PROFESSIONS_FAILURE';
+
 export const LOADER = 'ssr/professions/LOADER';
 
 const initialState = {
     loading: false,
     loaded: false,
     professionsList: [],
+    professions: [],
     error: null,
     categories: [],
     flattenProfessionsByCategories: [],
@@ -63,9 +68,47 @@ export default function reducer(state = initialState, action = {}) {
                 loadingCategories: false,
                 errorCategories: action.error
             };
+        case LOAD_PROFESSIONS:
+            return {
+                ...state,
+                loading: true
+            };
+        case LOAD_PROFESSIONS_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                loaded: true,
+                professions: action.professions
+            };
+        case LOAD_PROFESSIONS_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                error: action.error
+            };
         default:
             return state;
     }
+}
+
+export function loadProfessions() {
+    return {
+        type: LOAD_PROFESSIONS
+    };
+}
+
+export function loadProfessionsSuccess(professions) {
+    return {
+        type: LOAD_PROFESSIONS_SUCCESS,
+        professions
+    };
+}
+
+export function loadProfessionsError(error) {
+    return {
+        type: LOAD_PROFESSIONS_FAILURE,
+        error
+    };
 }
 
 export function loadProfessionsList() {
@@ -129,6 +172,17 @@ export function* watchLoadProfessionsList(client) {
     }
 }
 
+export function* watchLoadProfessions(client) {
+    try {
+        const response = yield client.get('/v1/professions?limit=0');
+        const result = response.data.professions;
+        yield put(loadProfessionsSuccess(result));
+    } catch (error) {
+        console.log('loadProfessionsError', error);
+        yield put(loadProfessionsError(error));
+    }
+}
+
 export function* watchLoadCategories(client, { resolve, reject }) {
     try {
         const response = yield client.get('/v1/categories?populate=professions');
@@ -149,10 +203,12 @@ export function* watchLoadCategories(client, { resolve, reject }) {
 export function* watchLoader(client, { resolve, reject }) {
     try {
         yield put(loadCategories());
+        yield put(loadProfessions());
         yield put(loadProfessionsList());
         yield all([
             take(LOAD_PROFESSIONS_LIST_SUCCESS),
-            take(LOAD_CATEGORIES_SUCCESS)
+            take(LOAD_CATEGORIES_SUCCESS),
+            take(LOAD_PROFESSIONS_SUCCESS)
         ]);
         resolve && resolve();
     } catch (error) {
