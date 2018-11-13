@@ -101,6 +101,7 @@ export default connect(state => ({
     firstName: state.auth.firstName,
     lastName: state.auth.lastName,
     code: state.auth.code,
+    professions: state.professions.professions
 }), {
     toggleAuthModalConnect: toggleAuthModal,
     verifyConnect: verify,

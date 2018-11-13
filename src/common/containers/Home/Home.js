@@ -44,7 +44,6 @@ class Home extends Component {
     render() {
         const { professions, sliders } = this.props;
         const { professionId, showQuestions } = this.state;
-        const flattenProfessions = flattenProfessionsByCategories(professions);
 
         return (
             <div className="Home">
@@ -56,7 +55,7 @@ class Home extends Component {
                     </title>
                 </Helmet>
                 <Hero
-                    professions={flattenProfessions}
+                    professions={professions}
                     onSelect={this.handleSelect}
                 />
 
@@ -75,7 +74,7 @@ class Home extends Component {
 }
 
 export default withRouter(connect(state => ({
-    professions: state.professions.categories,
+    professions: state.professions.professions,
     sliders: state.professions.professionsList
 }),
 {

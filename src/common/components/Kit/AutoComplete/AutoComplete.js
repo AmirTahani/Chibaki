@@ -15,7 +15,8 @@ export default class AutoComplete extends Component {
         placeholder: PropTypes.string,
         children: PropTypes.node,
         valueAs: PropTypes.string,
-        defaultValue: PropTypes.objectOf(PropTypes.any)
+        defaultValue: PropTypes.objectOf(PropTypes.any),
+        showOptionsWhenEmpty: PropTypes.bool
     };
 
     static defaultProps = {
@@ -23,7 +24,8 @@ export default class AutoComplete extends Component {
         placeholder: 'به چه خدمتی نیاز دارید؟',
         children: null,
         valueAs: '_id',
-        defaultValue: {}
+        defaultValue: {},
+        showOptionsWhenEmpty: false
     };
 
     state = {
@@ -51,7 +53,7 @@ export default class AutoComplete extends Component {
                     });
                 }
             );
-        } else {
+        } else if (this.props.showOptionsWhenEmpty) {
             this.setState({
                 options: this.props.options
             });
@@ -83,8 +85,12 @@ export default class AutoComplete extends Component {
 
     componentDidMount() {
         this.engine = this.engineConf.initialize();
+        if (this.props.showOptionsWhenEmpty && !this.props.defaultValue[this.props.valueAs]) {
+            this.setState({
+                options: this.props.options
+            });
+        }
     }
-
 
     render() {
         const { onSubmit, showBtn, placeholder, children, defaultValue, valueAs, ...rest } = this.props;
