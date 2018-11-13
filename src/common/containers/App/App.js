@@ -1,5 +1,6 @@
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import React, { Component } from 'react';
+import { hotjar } from 'react-hotjar';
 import ReactGA from 'react-ga';
 import 'antd/dist/antd.less';
 import { exist } from '../../utils/helpers';
@@ -15,12 +16,14 @@ Component.prototype.event = (props) => {
 };
 ReactGA.initialize('UA-99324713-1');
 
+
 const Routes = (props) => {
     if (browserHistory && browserHistory.listen) {
         browserHistory.listen((location) => {
             if (window) {
                 ReactGA.pageview(location.pathname + location.search);
                 window.__renderType__ = 'client';
+                hotjar.initialize(734640);
             }
         });
     }
