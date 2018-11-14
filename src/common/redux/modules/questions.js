@@ -1,7 +1,6 @@
 import { select, put } from 'redux-saga/effects';
 import ReactGA from 'react-ga';
 import { handleSagaError } from '../../utils/handleSagaError';
-import { defualtQuestions } from '../../config';
 
 export const LOAD_QUESTIONS = 'ssr/questions/LOAD_QUESTIONS';
 export const LOAD_QUESTIONS_SUCCESS = 'ssr/questions/LOAD_QUESTIONS_SUCCESS';
@@ -47,7 +46,7 @@ export default function reducer(state = initialState, action = {}) {
                 ...state,
                 loading: false,
                 loaded: true,
-                questions: [...action.response.questions, ...defualtQuestions],
+                questions: action.response.questions,
                 gender: action.response.gender,
                 title: action.response.title
             };
