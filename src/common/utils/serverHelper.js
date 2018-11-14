@@ -66,9 +66,9 @@ export function getMetaTags(store, route, query) {
             if (decodeURI(subRoute[0]) === professionUrlTitle) {
                 metaTags.description = profession.description;
                 metaTags.title = addSiteNameToTitle(profession.title);
-            }
-            if (query && query.province) {
-                metaTags.title = addSiteNameToTitle(`${profession.title} در ${query.province}`);
+                if (query && query.province) {
+                    metaTags.title = addSiteNameToTitle(`${professionUrlTitle} در ${query.province}`);
+                }
             }
         });
     }
