@@ -236,7 +236,7 @@ class Professional extends Component {
         const { selectedProfession } = this.state;
         if (comments && comments.comments && comments.comments.length) {
             return comments.comments.reduce((acc, current) => {
-                if (current.userProfession.profession._id === this.exist(selectedProfession, 'profession._id')) {
+                if (this.exist(current, 'userProfession.profession._id') === this.exist(selectedProfession, 'profession._id')) {
                     acc.push(current);
                     return acc;
                 }
