@@ -32,9 +32,9 @@ const Routes = (props) => {
         <Router onUpdate={() => window.scrollTo(0, 0)} history={browserHistory} {...props}>
             <Route path="/" component={Main}>
                 <IndexRoute component={Home} />
-                <Route path="about" component={About} />
+                <Route path={encodeURI('درباره_ما')} component={About} />
                 <Route path="tos" component={Tos} />
-                <Route path="contactus" component={ContactUs} />
+                <Route path={encodeURI('تماس_با_ما')} component={ContactUs} />
                 <Route exact path={encodeURI('خدمات')} component={Services} />
                 <Route path={`${encodeURI('خدمات')}/:title`} component={Service} />
                 <Route path={'professional/:id'} component={Professional} />

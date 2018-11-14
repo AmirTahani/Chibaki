@@ -12,7 +12,7 @@ export default class ProfessionSliders extends Component {
 
     state = {
         index: 0
-    }
+    };
 
     sliderOptions = {
         lazyLoad: 1,

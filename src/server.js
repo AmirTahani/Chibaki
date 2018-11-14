@@ -40,6 +40,7 @@ server
                         );
                         const finalState = store.getState();
                         const metaTags = getMetaTags(store, req.path, req.query);
+                        console.log(metaTags, 'this is meta tags');
 
 
                         res.status(200).send(

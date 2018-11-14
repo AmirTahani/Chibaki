@@ -145,10 +145,9 @@ class Services extends Component {
     }
 
     componentDidMount() {
-        const { location } = this.props;
-        const title = location.pathname.split('/').reverse()[0].split('_').join(' ');
+        const { location, router } = this.props;
         if (window && window.__renderType__ === 'client') {
-            this.props.loadConnect(null, null, location.query, title);
+            this.props.loadConnect(null, null, location.query, router.params.title);
         }
         objectFitImages();
         if (this.jobCardFlickity) {
