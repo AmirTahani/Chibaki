@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Input, Button } from 'antd';
+import { Input, Button, Progress } from 'antd';
 import { persianNumber } from '../../utils/persian';
 import styles from './Verify.module.styl';
 
@@ -36,13 +36,19 @@ export default class Verify extends Component {
         }, 1000);
     };
 
-    resend = () => {
+    resend = (e) => {
+        e.preventDefault();
         this.props.login(this.props.mobile);
         this.timer();
+        return false;
     };
 
     componentWillMount() {
         this.timer();
+    }
+
+    componentDidMount() {
+        this.inputRef.focus();
     }
 
     render() {
@@ -50,26 +56,37 @@ export default class Verify extends Component {
         return (
             <div>
                 <div className={styles.inputWrapper}>
+                    <label className={styles.fieldLabel} htmlFor="verifyField">لطفا کد را وارد کنید.</label>
                     <Input
-                        placeholder="لطفا کد را وارد کنید."
+                        placeholder="کد ۵ رقمی"
                         onChange={this.onChangeCode}
                         value={this.state.value}
+                        className={styles.input}
+                        name="verifyField"
+                        id="verifyField"
+                        autoFocus
+                        ref={(c) => { this.inputRef = c; }}
                     />
                     {
                         coolDown ?
                             <p className={styles.text}>
-                                {persianNumber(this.state.timer)}
-                                {' '}
+                                <Progress
+                                    className={styles.progress}
+                                    type={'circle'}
+                                    percent={this.state.timer * 1.666666666666}
+                                    width={50}
+                                    format={() => this.state.timer}
+                                />
                                 ثانیه مانده تا ارسال مجدد
                             </p>
-                            : <Button
+                            : <a
                                 className={styles.resendButton}
                                 type="primary"
                                 onClick={this.resend}
                                 disabled={coolDown}
                             >
-                                <p className={styles.resendText}>ارسال مجدد</p>
-                            </Button>
+                                ارسال مجدد کد
+                            </a>
                     }
                 </div>
             </div>

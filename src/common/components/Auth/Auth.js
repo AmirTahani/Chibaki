@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Modal, Button } from 'antd';
+import { Modal, Button, message, Icon } from 'antd';
 import PropTypes from 'prop-types';
 import styles from './Auth.module.styl';
 import Login from './Login';
 import Register from './Register';
 import Verify from './Verify';
-
+import Loader from '../../components/Kit/Loader/Loader';
 
 export default class Auth extends Component {
     static propTypes = {
@@ -21,14 +21,16 @@ export default class Auth extends Component {
         firstName: PropTypes.string.isRequired,
         code: PropTypes.string.isRequired,
         login: PropTypes.func.isRequired,
+        loggingIn: PropTypes.bool.isRequired,
         register: PropTypes.func.isRequired,
         professions: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired
     };
 
     state = {
         contents: [],
-        step: 0,
-        professionId: ''
+        step: 'login',
+        professionId: '',
+        focusInput: true
     };
 
     handleSelectProfession = (professionId) => {
@@ -39,48 +41,41 @@ export default class Auth extends Component {
 
     handleLogin = () => {
         const { mobile, setUserLastName, setUserName, professions, setUserCode } = this.props;
-        if (mobile) {
-            new Promise((resolve, reject) => {
-                this.props.login(mobile, resolve, reject);
-            }).then(() => {
-                this.setState({
-                    contents: [...this.state.contents, {
-                        title: 'کد تایید',
-                        content: <Verify
-                            setUserCode={setUserCode}
-                            mobile={mobile}
-                            login={this.props.login}
-                        />,
-                        _id: 'verify'
-                    }],
-                    step: this.state.step + 1
-                });
-            }).catch((error) => {
-                if (error.status === 422) {
+        const focusOutInput = (refocus = false) => {
+            this.setState({
+                focusInput: false
+            }, () => {
+                if (refocus) {
                     this.setState({
-                        contents: [...this.state.contents, {
-                            title: 'ثبت نام',
-                            content: <Register
-                                setUserLastName={setUserLastName}
-                                setUserName={setUserName}
-                                professions={professions}
-                                selectProfession={this.handleSelectProfession}
-                            />,
-                            _id: 'register'
-                        }, {
-                            title: 'کد تایید',
-                            content: <Verify
-                                setUserCode={setUserCode}
-                                mobile={mobile}
-                                login={this.props.login}
-                            />,
-                            _id: 'verify'
-                        }],
-                        step: this.state.step + 1
-                    })
-                    ;
+                        focusInput: true
+                    });
                 }
             });
+        };
+        if (mobile && mobile.length === 11) {
+            focusOutInput();
+            const hideLoading = message.loading('در حال ارسال کد...');
+            new Promise((resolve, reject) => {
+                this.props.login(mobile, resolve, reject);
+            })
+                .then(() => {
+                    message.success('کد با موفقیت ارسال شد!');
+                    this.setState({
+                        step: 'verify',
+                    });
+                })
+                .catch((error) => {
+                    if (error.status === 422) {
+                        this.setState({
+                            step: 'register'
+                        });
+                    }
+                }).finally(() => {
+                    hideLoading();
+                });
+        } else {
+            message.error('لطفا شماره موبایل خود را به درستی وارد کنید.', 4);
+            focusOutInput(true);
         }
     };
 
@@ -91,77 +86,118 @@ export default class Auth extends Component {
             this.props.register({ firstName, lastName, mobile, professionId }, resolve, reject);
         }).then(() => {
             this.setState({
-                step: this.state.step + 1
+                step: 'verify'
             });
         });
     };
 
     handleVerify = () => {
         const { code } = this.props;
+        if (!code || code.length < 5) return message.error('لطفا کد را وارد کنید');
+        const hideLoading = message.loading('ارسال...');
         new Promise((resolve, reject) => {
             this.props.verify(code, resolve, reject);
         }).then(() => {
             this.props.toggleAuthModal();
+            window.location.href = `${window.location.host}/pages`;
+        }).catch(() => {
+            message.error('لطفا کد را به درستی وارد کنید');
+        }).finally(() => {
+            hideLoading();
         });
     };
 
-    handleClick = () => {
-        const { contents, step } = this.state;
-        if (contents && contents.length && contents[step]._id === 'login') {
-            this.handleLogin();
-        } else if (contents && contents.length && contents[step]._id === 'register') {
-            this.handleRegister();
-        } else if (contents && contents.length && contents[step]._id === 'verify') {
-            this.handleVerify();
+    handleClick = (e) => {
+        e.preventDefault();
+        const { step } = this.state;
+        switch (step) {
+            case 'login':
+                this.handleLogin();
+                break;
+            case 'register':
+                this.handleRegister();
+                break;
+            case 'verify':
+                this.handleVerify();
         }
     };
 
     getButtonTitle = () => {
-        const { step, contents } = this.state;
-        if (contents && contents.length && contents[step].content) {
-            if (contents[step]._id === 'login') {
-                return 'ورود/ثبت نام';
-            } else if (contents[step]._id === 'register') {
+        const { step } = this.state;
+        switch (step) {
+            case 'login':
+            default:
+                return 'ادامه';
+            case 'register':
                 return 'ثبت نام';
-            } else if (contents[step]._id === 'verify') {
+            case 'verify':
                 return 'تایید';
-            }
+        }
+    };
+
+    getContentComponent = (focusInput) => {
+        const { setUserMobile, setUserCode, setUserLastName, setUserName, professions, mobile, login } = this.props;
+        const { step } = this.state;
+        switch (step) {
+            case 'login':
+                return <Login focusInput={focusInput} setUserMobile={setUserMobile} mobile={mobile} />;
+            case 'verify':
+                return <Verify focusInput={focusInput} setUserCode={setUserCode} mobile={mobile} login={login} />;
+            case 'register':
+                return (<Register
+                    focusInput={focusInput}
+                    setUserLastName={setUserLastName}
+                    setUserName={setUserName}
+                    professions={professions}
+                    selectProfession={this.handleSelectProfession}
+                />);
+            default:
+                return <div />;
         }
     };
 
     componentDidMount() {
-        const { setUserMobile, } = this.props;
-        const contents = [];
-        contents.push({
-            title: 'ورود',
-            content: <Login setUserMobile={setUserMobile} />,
-            _id: 'login'
-        });
-        this.setState({
-            contents
+        message.config({
+            maxCount: 1,
+            top: 34
         });
     }
 
     render() {
-        const { toggleAuthModal } = this.props;
-        const { step, contents } = this.state;
+        const { toggleAuthModal, showModal, loggingIn } = this.props;
+        const { focusInput } = this.state;
         return (
             <Modal
-                visible={this.props.showModal}
+                visible={showModal}
                 className={styles.modal}
-                footer={null}
-                closable={false}
+                centered
+                footer={
+                    <div className={styles.buttonWrapper}>
+                        <button
+                            className={`${styles.submitBtn} c-btn c-btn--lg c-btn--primary`}
+                            onClick={this.handleClick}
+                            type="submit"
+                            disabled={loggingIn}
+                        >
+                            <div className={`${styles.btnWrapper} ${loggingIn ? styles.btnWrapperLoading : ''}`}>
+                                {loggingIn ? <Loader
+                                    customWrapperClass={styles.btnLoader}
+                                    customDotClass={styles.btnLoaderDot}
+                                /> : this.getButtonTitle()}
+                            </div>
+                        </button>
+                    </div>
+                }
+                maskClosable
+                onCancel={toggleAuthModal}
+                title={<img src="/assets/images/logo/logo-text.svg" alt="چی باکی - Chibaki" className={styles.logo} />}
             >
                 <div className={styles.modalWrapper}>
-                    {
-                        contents && contents.length && contents[step].content
-                    }
-                    <button className={styles.closeButton} onClick={toggleAuthModal}>X</button>
-                    <div className={styles.footer}>
-                        <div className={styles.buttonWrapper}>
-                            <Button onClick={this.handleClick} type="primary">{this.getButtonTitle()}</Button>
-                        </div>
-                    </div>
+                    <form onSubmit={this.handleClick}>
+                        {
+                            this.getContentComponent(focusInput)
+                        }
+                    </form>
                 </div>
             </Modal>
         );

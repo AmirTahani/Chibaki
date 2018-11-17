@@ -28,6 +28,7 @@ class Header extends Component {
         setUserLastNameConnect: PropTypes.func.isRequired,
         setUserCodeConnect: PropTypes.func.isRequired,
         loginConnect: PropTypes.func.isRequired,
+        loggingIn: PropTypes.bool.isRequired,
         registerConnect: PropTypes.func.isRequired,
         mobile: PropTypes.string.isRequired,
         firstName: PropTypes.string.isRequired,
@@ -51,6 +52,7 @@ class Header extends Component {
             setUserMobileConnect,
             mobile,
             loginConnect,
+            loggingIn,
             firstName,
             lastName,
             code,
@@ -70,6 +72,7 @@ class Header extends Component {
                         setUserMobile={setUserMobileConnect}
                         mobile={mobile}
                         login={loginConnect}
+                        loggingIn={loggingIn}
                         firstName={firstName}
                         lastName={lastName}
                         code={code}
@@ -98,6 +101,7 @@ export default connect(state => ({
     user: state.auth.user,
     showAuthModal: state.auth.showAuthModal,
     mobile: state.auth.mobile,
+    loggingIn: state.auth.loggingIn,
     firstName: state.auth.firstName,
     lastName: state.auth.lastName,
     code: state.auth.code,
