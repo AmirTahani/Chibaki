@@ -24,6 +24,8 @@ import Verify from './Verify';
 import styles from './Questions.module.styl';
 import GetName from './GetName';
 import Success from './Success';
+import { defualtQuestions } from '../../config';
+
 
 class Questions extends PureComponent {
     static propTypes = {
@@ -79,22 +81,23 @@ class Questions extends PureComponent {
         });
     };
 
-    getQuestions = (questions) => {
-        const { gender, user } = this.props;
+    getQuestions = (questions, gender) => {
+        const { user } = this.props;
         let newQuestions = [...questions];
         if (gender === 'ask') {
             newQuestions = [...newQuestions, {
                 _id: 'gender',
                 title: 'جنسیت متخصص مربوطه را مشخص کنید.',
                 options: [
-                    { title: 'خانم' },
-                    { title: 'آقا' },
-                    { title: 'فرقی نمیکند' }
+                    'خانم',
+                    'آقا',
+                    'فرقی نمیکند'
                 ],
                 type: 'single',
                 skipable: false
             }];
         }
+        newQuestions = [...newQuestions, ...defualtQuestions];
         if (!user._id) {
             newQuestions = [...newQuestions, {
                 _id: 'getPhone',
@@ -103,6 +106,7 @@ class Questions extends PureComponent {
                 type: 'getPhone'
             }];
         }
+        console.log(newQuestions, 'this is newQuestiuons', 'here it is ');
         this.setState({
             questions: newQuestions,
             defaultQuestions: newQuestions
@@ -368,7 +372,7 @@ class Questions extends PureComponent {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.questions && nextProps.questions !== this.props.questions && !nextProps.loading && nextProps.loaded) {
-            this.getQuestions(nextProps.questions);
+            this.getQuestions(nextProps.questions, nextProps.gender);
         }
     }
 
@@ -376,6 +380,7 @@ class Questions extends PureComponent {
         const { current, shouldRegister, begin } = this.state;
         const { loading, loaded } = this.props;
         const contents = this.getContent();
+        console.log(contents[current], 'this is current');
         const contentsLength = shouldRegister ? contents.length + 1 : contents.length;
         return (
             <Row>

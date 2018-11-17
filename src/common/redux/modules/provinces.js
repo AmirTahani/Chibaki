@@ -61,10 +61,15 @@ export function loadProvincesFailure(error) {
 
 export function* watchLoadProvinces(client, { resolve, reject }) {
     try {
-        console.log('load province');
-        const response = yield client.get('/provinces');
-        yield put(loadProvincesSuccess(response.data));
-        resolve && resolve(response.data);
+        const provinces = yield select(state => state.provinces.provinces);
+        if (provinces && provinces.length) {
+            yield put(loadProvincesSuccess(provinces));
+            resolve && resolve(provinces);
+        } else {
+            const response = yield client.get('/provinces');
+            yield put(loadProvincesSuccess(response.data));
+            resolve && resolve(response.data);
+        }
     } catch (error) {
         yield put(loadProvincesFailure(error));
         reject && reject();

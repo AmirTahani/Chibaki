@@ -36,10 +36,10 @@ export default class Footer extends Component {
                                 className={css`${RemoveMargin}`}
                             >
                                 <Col>
-                                    <Link className={styles.footerLink} to="/contactus">
+                                    <Link className={styles.footerLink} to={encodeURI('/تماس_با_ما')}>
                                         تماس با ما
                                     </Link>
-                                    <Link className={styles.footerLink} to="/about">
+                                    <Link className={styles.footerLink} to={encodeURI('/درباره_ما')}>
                                         درباره ما
                                     </Link>
                                 </Col>

@@ -114,7 +114,8 @@ export function* watchLoadProfessional(client, { professionalId, profId, resolve
         const userProfession = professions.find(profession => profession.profession._id === profId);
         if (exist(userProfession, 'intro.description')) {
             yield put(setMeta(exist(userProfession, 'intro.description')));
-        } else {
+        }
+        if (profId) {
             const singleProf = yield client.get(`/v1/professions/${profId}?select=description`);
             yield put(setMeta(exist(singleProf, 'data.description')));
         }

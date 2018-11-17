@@ -224,8 +224,8 @@ class Professional extends Component {
         const { professional } = this.props;
         const { selectedProfession } = this.state;
         const professions = this.exist(professional, 'user.professions');
-        if (professions && professions.length) {
-            const foundProfessions = professions.find(profession => profession.profession._id === selectedProfession._id);
+        if (professions && professions.length && selectedProfession) {
+            const foundProfessions = professions.find(profession => profession.profession._id === selectedProfession.profession._id);
             return foundProfessions && foundProfessions.rate ? foundProfessions.rate : this.calculateNotRated();
         }
         return this.calculateNotRated();
@@ -236,8 +236,7 @@ class Professional extends Component {
         const { selectedProfession } = this.state;
         if (comments && comments.comments && comments.comments.length) {
             return comments.comments.reduce((acc, current) => {
-                console.log(current.userProfession.profession._id === this.exist(selectedProfession, 'profession._id'));
-                if (current.userProfession.profession._id === this.exist(selectedProfession, 'profession._id')) {
+                if (this.exist(current, 'userProfession.profession._id') === this.exist(selectedProfession, 'profession._id')) {
                     acc.push(current);
                     return acc;
                 }
@@ -260,15 +259,23 @@ class Professional extends Component {
     }
 
     componentDidMount() {
-        const { location, professional } = this.props;
+        const { location, professional, router } = this.props;
         const professions = this.exist(professional, 'user.professions');
         if (professions && professions.length) {
             const activeProfession = professions.find((profession) => {
                 return profession.profession._id === this.exist(location, 'query.profId');
             });
-            this.setState({
-                selectedProfession: activeProfession
-            });
+            if (activeProfession && activeProfession._id) {
+                this.setState({
+                    selectedProfession: activeProfession
+                });
+            } else {
+                this.setState({
+                    selectedProfession: professions[0]
+                });
+                const currentLocation = router.getCurrentLocation();
+                router.replace(`${decodeURI(currentLocation.pathname)}?id=${currentLocation.query.id}&profId=${professions[0].profession._id}`);
+            }
         }
         this.props.setProfIdConnect(location.query.id);
         this.event({

@@ -1,5 +1,9 @@
 import { END } from 'redux-saga';
-import { loader as loadProfession, loadSingleProfessionDescription } from '../redux/modules/professions';
+import {
+    loader as loadProfession,
+    loadProfessions,
+    loadSingleProfessionDescription
+} from '../redux/modules/professions';
 import { load as loadServiceRedux } from '../redux/modules/serviceContainer';
 import { load as loadProfessional } from '../redux/modules/professional';
 import { exist } from '../utils/helpers';
@@ -44,6 +48,16 @@ export function getMetaTags(store, route, query) {
         description: 'از مدرس زبان و برنامه نویس تا مربی بدن سازی و نقاش ساختمان, ما مناسبترین فرد را کاملاً رایگان برای ارائه‌ی خدمت به شما معرفی می کنیم',
         title: 'Chibaki - چی باکی'
     };
+    if (decodeURI(subRoute[0]) === 'تماس_با_ما') {
+        metaTags.title = addSiteNameToTitle('تماس با ما');
+    }
+
+    if (decodeURI(subRoute[0]) === 'درباره_ما') {
+        metaTags.title = addSiteNameToTitle('درباره ما');
+    }
+    if (decodeURI(subRoute[0]) === 'خدمات') {
+        metaTags.title = addSiteNameToTitle('خدمات');
+    }
     if (decodeURI(subRoute[1]) === 'خدمات') {
         const categories = state.professions.categories;
         const professions = flattenProfessionsByCategories(categories);
@@ -51,20 +65,26 @@ export function getMetaTags(store, route, query) {
             const professionUrlTitle = profession.title.split(' ').join('_');
             if (decodeURI(subRoute[0]) === professionUrlTitle) {
                 metaTags.description = profession.description;
-                metaTags.title = profession.title;
+                metaTags.title = addSiteNameToTitle(profession.title);
+                if (query && query.province) {
+                    metaTags.title = addSiteNameToTitle(`${professionUrlTitle} در ${query.province}`);
+                }
             }
         });
     }
     if (decodeURI(subRoute[1]) === 'professional') {
-        if (
-            exist(state, 'professional.professional.user.firstname') ||
-            exist(state, 'professional.professional.user.lastname')
-        ) {
-            metaTags.title = `
-            ${metaTags.title} 
-            - 
-            ${exist(state, 'professional.professional.user.firstname')}
-            ${exist(state, 'professional.professional.user.lastname')}`;
+        if (exist(state, 'professional.professional.user')) {
+            let userProfession;
+            if (query && query.profId) {
+                userProfession = state.professional.professional.user.professions.find((profession) => {
+                    return profession.profession._id === query.profId;
+                });
+            } else {
+                userProfession = state.professional.professional.user.professions[0];
+            }
+            const firstname = exist(state, 'professional.professional.user.firstname');
+            const lastname = exist(state, 'professional.professional.user.lastname');
+            metaTags.title = addSiteNameToTitle(`${firstname} ${lastname} متخصص ${userProfession.profession.title}`);
         }
         metaTags.description = exist(state, 'professional.metaDescription');
     }
@@ -76,4 +96,8 @@ export function flattenProfessionsByCategories(categories) {
         acc.push(...current.professions);
         return acc;
     }, []);
+}
+
+export function addSiteNameToTitle(pageTitle) {
+    return `chibaki - چی باکی - ${pageTitle}`;
 }
