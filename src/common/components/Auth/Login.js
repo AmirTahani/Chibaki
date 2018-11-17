@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'antd';
+import persian from 'persianjs';
 import styles from './Login.module.styl';
 
 export default class Login extends Component {
@@ -14,10 +15,11 @@ export default class Login extends Component {
     };
 
     onChangeMobile = (e) => {
+        const value = e.target.value ? persian(e.target.value).toEnglishNumber().toString() : '';
         this.setState({
-            value: e.target.value
+            value
         });
-        this.props.setUserMobile(e.target.value);
+        this.props.setUserMobile(value);
     };
 
     componentDidMount() {

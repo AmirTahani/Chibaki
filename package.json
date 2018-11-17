@@ -23,6 +23,7 @@
     "less-loader": "4.1.0",
     "moment-jalali": "0.3.9",
     "object-fit-images": "3.2.4",
+    "persianjs": "^0.4.0",
     "prop-types": "15.6.1",
     "qs": "6.5.2",
     "razzle": "0.8.12",
