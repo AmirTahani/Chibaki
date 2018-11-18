@@ -22,7 +22,7 @@ export default class GetApp extends Component {
                                 href="https://new.sibapp.com/applications/Chibaki"
                             >
                                 <img
-                                    src="https://new.sibapp.com/files/Sibapp-Download-Icons/dl-eng.png"
+                                    src="/assets/images/app/sibapp.png"
                                     alt="دانلود اپلیکیشن آی‌او‌اس از سیب اپ"
                                 />
                             </a>
