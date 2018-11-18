@@ -267,7 +267,7 @@ export default class Auth extends Component {
 
                                     z-index: 0;
 
-                                    background: #fff url('/assets/images/pattern/pattern-dark-blue.png') center center / 240px repeat;
+                                    background: #fff url('/assets/images/pattern/pattern-dark-blue.svg') center center / 240px repeat;
                                     opacity: .1;
                                 }
                             `}</style>
