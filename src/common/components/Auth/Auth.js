@@ -39,21 +39,22 @@ export default class Auth extends Component {
         });
     };
 
+    focusOutInput = (refocus = false) => {
+        this.setState({
+            focusInput: false
+        }, () => {
+            if (refocus) {
+                this.setState({
+                    focusInput: true
+                });
+            }
+        });
+    };
+
     handleLogin = () => {
-        const { mobile, setUserLastName, setUserName, professions, setUserCode } = this.props;
-        const focusOutInput = (refocus = false) => {
-            this.setState({
-                focusInput: false
-            }, () => {
-                if (refocus) {
-                    this.setState({
-                        focusInput: true
-                    });
-                }
-            });
-        };
-        if (mobile && mobile.length === 11) {
-            focusOutInput();
+        const { mobile } = this.props;
+        if (mobile && /^[0-9]{11}$/.test(mobile)) {
+            this.focusOutInput();
             const hideLoading = message.loading('در حال ارسال کد...');
             new Promise((resolve, reject) => {
                 this.props.login(mobile, resolve, reject);
@@ -70,12 +71,13 @@ export default class Auth extends Component {
                             step: 'register'
                         });
                     }
-                }).finally(() => {
+                })
+                .finally(() => {
                     hideLoading();
                 });
         } else {
             message.error('لطفا شماره موبایل خود را به درستی وارد کنید.', 4);
-            focusOutInput(true);
+            this.focusOutInput(true);
         }
     };
 
@@ -93,7 +95,12 @@ export default class Auth extends Component {
 
     handleVerify = () => {
         const { code } = this.props;
-        if (!code || code.length < 5) return message.error('لطفا کد را وارد کنید');
+
+        if (!code || !(/^[0-9]{5}$/.test(code))) {
+            this.focusOutInput(true);
+            return message.error('لطفا کد را به درستی وارد کنید');
+        }
+
         const hideLoading = message.loading('ارسال...');
         new Promise((resolve, reject) => {
             this.props.verify(code, resolve, reject);
@@ -101,6 +108,7 @@ export default class Auth extends Component {
             this.props.toggleAuthModal();
             window.location.href = `${window.location.host}/pages`;
         }).catch(() => {
+            this.focusOutInput(true);
             message.error('لطفا کد را به درستی وارد کنید');
         }).finally(() => {
             hideLoading();
@@ -156,6 +164,13 @@ export default class Auth extends Component {
         }
     };
 
+    onModalCancel = () => {
+        this.props.toggleAuthModal();
+        this.setState({
+            step: 'login'
+        });
+    };
+
     componentDidMount() {
         message.config({
             maxCount: 1,
@@ -189,7 +204,7 @@ export default class Auth extends Component {
                     </div>
                 }
                 maskClosable
-                onCancel={toggleAuthModal}
+                onCancel={this.onModalCancel}
                 title={<img src="/assets/images/logo/logo-text.svg" alt="چی باکی - Chibaki" className={styles.logo} />}
             >
                 <div className={styles.modalWrapper}>
