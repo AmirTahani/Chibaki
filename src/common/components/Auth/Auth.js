@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Button, message, Icon } from 'antd';
 import PropTypes from 'prop-types';
+import { Helmet } from 'react-helmet';
 import styles from './Auth.module.styl';
 import Login from './Login';
 import Register from './Register';
@@ -235,19 +236,46 @@ export default class Auth extends Component {
 
     render() {
         const { toggleAuthModal, showModal, loggingIn } = this.props;
-        const { focusInput } = this.state;
+        const { step, focusInput } = this.state;
         return (
             <Modal
                 visible={showModal}
-                className={styles.modal}
+                className={`${styles.modal} ${step === 'register' ? styles.modalRegister : ''}`}
                 centered
                 footer={this.getButton()}
-                maskClosable
+                maskClosable={false}
                 onCancel={this.onModalCancel}
                 title={<img src="/assets/images/logo/logo-text.svg" alt="چی باکی - Chibaki" className={styles.logo} />}
             >
+                {
+                    showModal
+                        ? <Helmet>
+                            <style type="text/css">{`
+                                .ant-modal-mask {
+                                    background-color: #fff !important;
+                                }
+                                .ant-modal-mask:after {
+                                    content: '';
+
+                                    position: absolute;
+
+                                    left: 0;
+                                    top: 0;
+
+                                    width: 100%;
+                                    height: 100%;
+
+                                    z-index: 0;
+
+                                    background: #fff url('/assets/images/pattern/pattern-dark-blue.png') center center / 240px repeat;
+                                    opacity: .1;
+                                }
+                            `}</style>
+                        </Helmet>
+                        : null
+                }
                 <div className={styles.modalWrapper}>
-                    <form onSubmit={this.handleClick}>
+                    <form className={styles.form} onSubmit={this.handleClick}>
                         {
                             this.getContentComponent(focusInput)
                         }

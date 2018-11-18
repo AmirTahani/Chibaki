@@ -37,7 +37,7 @@ export default class Register extends Component {
                     />
                 </div>
                 {
-                    showAutoComplete ? <div className={styles.inputWrapper}>
+                    showAutoComplete ? <div className={`${styles.inputWrapper} ${styles.autocomplete}`}>
                         <AutoComplete
                             options={professions}
                             showBtn={false}
