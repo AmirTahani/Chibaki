@@ -29,6 +29,7 @@ export default class Auth extends Component {
     state = {
         contents: [],
         step: 'login',
+        prevStep: 'login',
         professionId: '',
         focusInput: true
     };
@@ -63,6 +64,7 @@ export default class Auth extends Component {
                     message.success('کد با موفقیت ارسال شد!');
                     this.setState({
                         step: 'verify',
+                        prevStep: 'login'
                     });
                 })
                 .catch((error) => {
@@ -88,7 +90,8 @@ export default class Auth extends Component {
             this.props.register({ firstName, lastName, mobile, professionId }, resolve, reject);
         }).then(() => {
             this.setState({
-                step: 'verify'
+                step: 'verify',
+                prevStep: 'register'
             });
         });
     };
@@ -130,6 +133,22 @@ export default class Auth extends Component {
         }
     };
 
+    goBack = (e) => {
+        const { step, prevStep } = this.state;
+        switch (step) {
+            case 'verify':
+                this.setState({
+                    step: prevStep
+                });
+                break;
+            case 'signup':
+            default:
+                this.setState({
+                    step: 'login'
+                });
+        }
+    };
+
     getButtonTitle = () => {
         const { step } = this.state;
         switch (step) {
@@ -141,6 +160,42 @@ export default class Auth extends Component {
             case 'verify':
                 return 'تایید';
         }
+    };
+
+    getButton = () => {
+        const { step } = this.state;
+        const { loggingIn } = this.props;
+        return (
+            <div className={styles.btnContainer}>
+                <button
+                    className={`${styles.btnSubmit} c-btn c-btn--lg c-btn--primary`}
+                    onClick={this.handleClick}
+                    type="submit"
+                    disabled={loggingIn}
+                >
+                    <div className={`${styles.btnWrapper} ${loggingIn ? styles.btnWrapperLoading : ''}`}>
+                        {loggingIn ? <Loader
+                            customWrapperClass={styles.btnLoader}
+                            customDotClass={styles.btnLoaderDot}
+                        /> : this.getButtonTitle()}
+                    </div>
+                </button>
+                {
+                    step !== 'login'
+                        ? <button
+                            className={`${styles.btnBack} c-btn`}
+                            onClick={this.goBack}
+                            type={'button'}
+                        >
+                            <div className={`${styles.btnWrapper} ${loggingIn ? styles.btnWrapperLoading : ''}`}>
+                                <span>بازگشت</span>
+                                <span className={`icon-back ${styles.btnBackIcon}`} />
+                            </div>
+                        </button>
+                        : null
+                }
+            </div>
+        );
     };
 
     getContentComponent = (focusInput) => {
@@ -186,23 +241,7 @@ export default class Auth extends Component {
                 visible={showModal}
                 className={styles.modal}
                 centered
-                footer={
-                    <div className={styles.buttonWrapper}>
-                        <button
-                            className={`${styles.submitBtn} c-btn c-btn--lg c-btn--primary`}
-                            onClick={this.handleClick}
-                            type="submit"
-                            disabled={loggingIn}
-                        >
-                            <div className={`${styles.btnWrapper} ${loggingIn ? styles.btnWrapperLoading : ''}`}>
-                                {loggingIn ? <Loader
-                                    customWrapperClass={styles.btnLoader}
-                                    customDotClass={styles.btnLoaderDot}
-                                /> : this.getButtonTitle()}
-                            </div>
-                        </button>
-                    </div>
-                }
+                footer={this.getButton()}
                 maskClosable
                 onCancel={this.onModalCancel}
                 title={<img src="/assets/images/logo/logo-text.svg" alt="چی باکی - Chibaki" className={styles.logo} />}
