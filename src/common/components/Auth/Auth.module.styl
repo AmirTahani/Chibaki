@@ -1,31 +1,140 @@
-.closeButton {
-  background-color: #ffffff;
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  border: none;
-}
+@import '../../styles/variables'
 
-.modal {
-  margin-top: 10px;
-}
+.logo
+    width: 110px
+    height: 40px
+    
+    margin 0 auto
 
-.modalWrapper {
-  min-height: 250px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between
+.closeButton
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    padding: 15px 18px
+    cursor: pointer
+    
+    appearance none
+    border: none;
+    background-color: transparent
+    
+    border-radius: 5px 0 0 0
+    transition .15s
+    
+    &:hover
+    &:focus
+        outline none
+        background-color: #eee
+
+.modal
+    @media (max-width $md)
+        height: 100%
+        max-width: none
+        
+        top: 0
+        
+        margin: 0
+        padding: 0
+        
+        
+        :global(.ant-modal-content)
+            border-radius: 0
+            height: 100%
+        
+    &Wrapper
+        height: 100%
+    
+    :global(.ant-modal-close)
+        left 0
+        right auto
+    
+        &
+        :global(.ant-modal-header)
+            height: 73px
+    
+    :global(.ant-modal-content)
+        display: flex
+        flex-direction: column
+        &:after
+            content ''
+            
+            position absolute
+            
+            left 0
+            top 0
+            
+            width 100%
+            height 100%
+            
+            z-index 0
+            
+            background #fff url('/assets/images/pattern/pattern-blue.png') center center / 200px repeat
+            opacity .1
+    
+    :global(.ant-modal-body)
+        overflow-y: auto;
+        height: 100%
+        
+        flex 1 1 100%
+    
+    :global(.ant-modal-body)
+    :global(.ant-modal-header)
+    :global(.ant-modal-footer)
+        position relative
+        z-index 5
+    
+    :global(.ant-modal-footer)
+        border-top: 0
+    
+    &Header
+        position relative
+
+.modalWrapper form {
+    min-height: 250px;
+    height: 100%
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around
+    
+    @media (max-width $md) and (orientation: landscape) {
+        min-height auto
+    }
 }
 
 .footer {
-  align-self: center;
+    align-self: center;
 }
 
 .button {
-  background-color: #ffffff;
-  border: none;
+    background-color: #ffffff;
+    border: none;
 }
 
+.btn
+    &Wrapper
+        display: flex
+        align-items: center
+        justify-content: center
+        
+        &Loading
+            padding: 5px 0 10px
+    
+    &Loader
+        padding: 0
+        margin: 0
+        
+        zoom .6
+        //display: flex
+        align-items: center
+        justify-content: center
+        
+        &Dot
+            background-color: #fff;
+
 .buttonWrapper {
-  margin: auto;
+    margin: auto;
 }
+
+.submitBtn
+    line-height 40px

@@ -1,17 +1,39 @@
-.inputWrapper {
-  margin: 10px
-}
+.fieldLabel
+  font-size 1rem
+  font-weight 600
+  
+  color #334657
+  display block
+  
+  margin-bottom .4rem
 
+.input
+  line-height 40px
+  height 40px
+  
+  color #334657
+  border-color #cbd8e3
+  
+  &::-webkit-input-placeholder
+    color rgba(117, 140, 160, 0.61)
+  
+  &:hover
+  &:focus
+    border-color $color
+  
 .text {
   text-align: center;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
-.resendText {
-  text-align center
-}
+.progress
+  margin-left: 1rem
 
 .resendButton {
-  display: block;
-  margin: 1rem auto;
+    display: inline-block
+    padding: 1rem
+    margin-bottom: -5px
 }
+
+.reloadIcon
+  padding-left: 10px

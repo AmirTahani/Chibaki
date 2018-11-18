@@ -58,7 +58,7 @@ class Nav extends Component {
                 link: `/${encodeURI('خدمات')}`
             },
             {
-                label: 'چگونه کار میکند',
+                label: 'چگونه کار می‌کند',
                 action: () => this.handleScroll('howitworks')
             },
             {
