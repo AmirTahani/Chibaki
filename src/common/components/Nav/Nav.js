@@ -31,7 +31,7 @@ class Nav extends Component {
     };
 
     handleGoToAngular = () => {
-        window.open(`${sitePath}/pages/dashboard`, '_self');
+        window.open(`${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/pages`, '_self');
     };
 
     handleStateChange = (state) => {

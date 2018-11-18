@@ -110,7 +110,7 @@ export default class Auth extends Component {
             this.props.verify(code, resolve, reject);
         }).then(() => {
             this.props.toggleAuthModal();
-            window.location.href = `${window.location.host}/pages`;
+            window.location.href = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/pages`;
         }).catch(() => {
             this.focusOutInput(true);
             message.error('لطفا کد را به درستی وارد کنید');
