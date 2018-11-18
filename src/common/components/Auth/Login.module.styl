@@ -1,27 +1,10 @@
 @import '../../styles/variables'
 
 .fieldLabel
-    font-size 1rem
-    font-weight 600
-
-    color #334657
-    display block
-
-    margin-bottom .4rem
+    composes label from '../../styles/form.styl'
 
 .inputWrapperr
     //
 
 .input
-    line-height 40px
-    height 40px
-
-    color #334657
-    border-color #cbd8e3
-
-    &::-webkit-input-placeholder
-        color rgba(117, 140, 160, 0.61)
-
-    &:hover
-    &:focus
-        border-color $color
+    composes input from '../../styles/form.styl'

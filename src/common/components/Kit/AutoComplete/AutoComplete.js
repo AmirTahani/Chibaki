@@ -16,7 +16,9 @@ export default class AutoComplete extends Component {
         children: PropTypes.node,
         valueAs: PropTypes.string,
         defaultValue: PropTypes.objectOf(PropTypes.any),
-        showOptionsWhenEmpty: PropTypes.bool
+        showOptionsWhenEmpty: PropTypes.bool,
+        fieldName: PropTypes.string,
+        fieldClassName: PropTypes.string
     };
 
     static defaultProps = {
@@ -25,7 +27,9 @@ export default class AutoComplete extends Component {
         children: null,
         valueAs: '_id',
         defaultValue: {},
-        showOptionsWhenEmpty: false
+        showOptionsWhenEmpty: false,
+        fieldName: '',
+        fieldClassName: ''
     };
 
     state = {
@@ -93,7 +97,7 @@ export default class AutoComplete extends Component {
     }
 
     render() {
-        const { onSubmit, showBtn, placeholder, children, defaultValue, valueAs, ...rest } = this.props;
+        const { onSubmit, showBtn, placeholder, children, defaultValue, valueAs, fieldName, fieldClassName, ...rest } = this.props;
         const { options } = this.state;
 
         return (
@@ -115,7 +119,9 @@ export default class AutoComplete extends Component {
                     >
                         {children || <input
                             type="text"
-                            className={styles.input}
+                            name={fieldName}
+                            id={fieldName}
+                            className={`${styles.input} ${fieldClassName}`}
                             value={defaultValue[valueAs]}
                         />}
                     </AntAutoComplete>

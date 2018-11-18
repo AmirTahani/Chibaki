@@ -25,26 +25,37 @@ export default class Register extends Component {
         return (
             <div>
                 <div className={styles.inputWrapper}>
+                    <label className={styles.fieldLabel} htmlFor="registerFirstName">نام (فارسی)</label>
                     <Input
-                        placeholder="نام خود را وارد کنید.(فارسی)"
+                        className={styles.input}
+                        placeholder="مثال: علی"
+                        name="registerFirstName"
                         onChange={this.onChangeName}
                     />
                 </div>
                 <div className={styles.inputWrapper}>
+                    <label className={styles.fieldLabel} htmlFor="registerLastName">نام خانوادگی (فارسی)</label>
                     <Input
-                        placeholder="نام خانوادگی خود را وارد کنید.(فارسی)"
+                        className={styles.input}
+                        placeholder="مثال: محمدی"
+                        name="registerLastName"
                         onChange={this.onChangeLastName}
                     />
                 </div>
                 {
                     showAutoComplete ? <div className={`${styles.inputWrapper} ${styles.autocomplete}`}>
+                        <label className={styles.fieldLabel} htmlFor="registerAutocomplete">تخصص خود را انتخاب کنید:</label>
                         <AutoComplete
                             options={professions}
                             showBtn={false}
-                            placeholder="تخصص خود را انتخاب کنید."
+                            placeholder="مثال: طراحی گرافیک"
                             onSubmit={this.handleSelect}
                         >
-                            <Input type="text" />
+                            <Input
+                                name="registerAutocomplete"
+                                className={styles.input}
+                                type="text"
+                            />
                         </AutoComplete>
                     </div> : null
                 }
