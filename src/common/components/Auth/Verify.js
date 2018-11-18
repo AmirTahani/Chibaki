@@ -8,13 +8,19 @@ export default class Verify extends Component {
     static propTypes = {
         setUserCode: PropTypes.func.isRequired,
         login: PropTypes.func.isRequired,
-        mobile: PropTypes.string.isRequired
+        mobile: PropTypes.string.isRequired,
+        focusInput: PropTypes.bool
+    };
+
+    static defaultProps = {
+        focusInput: false
     };
 
     state = {
         value: '',
         coolDown: false,
-        timer: 60
+        timer: 60,
+        focusInput: true
     };
 
     onChangeCode = (e) => {
@@ -40,15 +46,40 @@ export default class Verify extends Component {
         e.preventDefault();
         this.props.login(this.props.mobile);
         this.timer();
+        this.inputRef.focus();
         return false;
     };
+
+    onFieldFocus = () => {
+        this.setState({
+            focusInput: true
+        });
+    }
+
+    onFieldBlur = () => {
+        this.setState({
+            focusInput: false
+        });
+    }
 
     componentWillMount() {
         this.timer();
     }
 
     componentDidMount() {
+        this.props.setUserCode('');
         this.inputRef.focus();
+    }
+
+    componentDidUpdate(prevProps) {
+        const { focusInput } = this.props;
+        if (prevProps.focusInput !== focusInput && this.state.focusInput !== focusInput) {
+            if (focusInput) {
+                this.inputRef.focus();
+            } else {
+                this.inputRef.blur();
+            }
+        }
     }
 
     render() {
@@ -60,6 +91,8 @@ export default class Verify extends Component {
                     <Input
                         placeholder="کد ۵ رقمی"
                         onChange={this.onChangeCode}
+                        onBlur={this.onFieldBlur}
+                        onFocus={this.onFieldFocus}
                         value={this.state.value}
                         className={styles.input}
                         name="verifyField"
@@ -69,7 +102,7 @@ export default class Verify extends Component {
                     />
                     {
                         coolDown ?
-                            <p className={styles.text}>
+                            <div className={styles.text}>
                                 <Progress
                                     className={styles.progress}
                                     type={'circle'}
@@ -78,13 +111,14 @@ export default class Verify extends Component {
                                     format={() => this.state.timer}
                                 />
                                 ثانیه مانده تا ارسال مجدد
-                            </p>
+                            </div>
                             : <a
                                 className={styles.resendButton}
                                 type="primary"
                                 onClick={this.resend}
                                 disabled={coolDown}
                             >
+                                <span className={`icon-reload ${styles.reloadIcon}`} />
                                 ارسال مجدد کد
                             </a>
                     }
