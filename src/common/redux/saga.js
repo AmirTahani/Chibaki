@@ -14,7 +14,7 @@ import {
 } from './modules/professions';
 
 import {
-    LOAD as loadService,
+    LOAD as LOAD_SERVICE,
     watchLoad as watchLoadService
 } from './modules/serviceContainer';
 
@@ -74,7 +74,7 @@ export default function* root(client, store) {
         takeEvery(REGISTER, watchRegister, client),
         takeEvery(VERIFY, watchVerifyMobile, client),
         takeEvery(LOAD_PROJECTS_PROF, watchLoadProjectsForProfession, client),
-        takeEvery(loadService, watchLoadService, client),
+        takeEvery(LOAD_SERVICE, watchLoadService, client),
         takeEvery(SET_JWT, watchSetJwt, client),
         takeEvery(UN_SET_JWT, watchUnsetJwt, client)
     ]);

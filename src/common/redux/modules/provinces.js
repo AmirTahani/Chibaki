@@ -1,4 +1,5 @@
-import { put } from 'redux-saga/effects';
+import { put, select } from 'redux-saga/effects';
+import { handleSagaError } from '../../utils/handleSagaError';
 
 export const LOAD_PROVINCES = 'ssr/provinces/LOAD_PROVINCES';
 export const LOAD_PROVINCES_SUCCESS = 'ssr/provinces/LOAD_PROVINCES_SUCCESS';
@@ -71,6 +72,8 @@ export function* watchLoadProvinces(client, { resolve, reject }) {
             resolve && resolve(response.data);
         }
     } catch (error) {
+        console.log('error', error);
+        handleSagaError(error);
         yield put(loadProvincesFailure(error));
         reject && reject();
     }
