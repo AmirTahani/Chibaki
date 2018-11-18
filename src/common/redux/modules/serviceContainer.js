@@ -82,7 +82,6 @@ export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
         if (professions.length === 0) {
             yield take(LOAD_CATEGORIES_SUCCESS);
         }
-
         Provinces = yield select(state => state.provinces.provinces);
         let foundProvince = {};
         if (query && query.province) {
@@ -104,7 +103,6 @@ export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
         yield put(loadSuccess());
         resolve && resolve('done');
     } catch (error) {
-        console.log(error);
         yield put(loadFailure(error));
         reject && reject();
     }
