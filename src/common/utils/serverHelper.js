@@ -99,5 +99,5 @@ export function flattenProfessionsByCategories(categories) {
 }
 
 export function addSiteNameToTitle(pageTitle) {
-    return `chibaki - چی باکی - ${pageTitle}`;
+    return ` چی باکی - ${pageTitle}`;
 }
