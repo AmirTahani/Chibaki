@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDom from 'react-dom';
 import { Modal, Button, message, Icon } from 'antd';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
@@ -32,7 +33,8 @@ export default class Auth extends Component {
         step: 'login',
         prevStep: 'login',
         professionId: '',
-        focusInput: true
+        focusInput: true,
+        registerRole: 'proficient'
     };
 
     handleSelectProfession = (professionId) => {
@@ -40,6 +42,12 @@ export default class Auth extends Component {
             professionId
         });
     };
+
+    toggleRegisterRole = (role) => {
+        this.setState({
+            registerRole: role
+        });
+    }
 
     focusOutInput = (refocus = false) => {
         this.setState({
@@ -55,7 +63,7 @@ export default class Auth extends Component {
 
     handleLogin = () => {
         const { mobile } = this.props;
-        if (mobile && /^[0-9]{11}$/.test(mobile)) {
+        if (mobile) {
             this.focusOutInput();
             const hideLoading = message.loading('در حال ارسال کد...');
             new Promise((resolve, reject) => {
@@ -86,7 +94,12 @@ export default class Auth extends Component {
 
     handleRegister = () => {
         const { firstName, lastName, mobile } = this.props;
-        const { professionId } = this.state;
+        const { registerRole, professionId } = this.state;
+
+        if (registerRole === 'proficient' && !professionId) {
+            return message.error('لطفا تخصص خود را انتخاب کنید!');
+        }
+
         new Promise((resolve, reject) => {
             this.props.register({ firstName, lastName, mobile, professionId }, resolve, reject);
         }).then(() => {
@@ -120,17 +133,18 @@ export default class Auth extends Component {
     };
 
     handleClick = (e) => {
-        e.preventDefault();
+        e && e.preventDefault();
+
+        if (!ReactDom.findDOMNode(this.formRef).reportValidity()) return false;
+
         const { step } = this.state;
         switch (step) {
             case 'login':
-                this.handleLogin();
-                break;
+                return this.handleLogin();
             case 'register':
-                this.handleRegister();
-                break;
+                return this.handleRegister();
             case 'verify':
-                this.handleVerify();
+                return this.handleVerify();
         }
     };
 
@@ -173,6 +187,7 @@ export default class Auth extends Component {
                     onClick={this.handleClick}
                     type="submit"
                     disabled={loggingIn}
+                    form={'modalForm'}
                 >
                     <div className={`${styles.btnWrapper} ${loggingIn ? styles.btnWrapperLoading : ''}`}>
                         {loggingIn ? <Loader
@@ -213,6 +228,9 @@ export default class Auth extends Component {
                     setUserLastName={setUserLastName}
                     setUserName={setUserName}
                     professions={professions}
+                    toggleRegisterRole={this.toggleRegisterRole}
+                    registerRole={this.state.registerRole}
+                    submit={this.handleClick}
                     selectProfession={this.handleSelectProfession}
                 />);
             default:
@@ -275,7 +293,11 @@ export default class Auth extends Component {
                         : null
                 }
                 <div className={styles.modalWrapper}>
-                    <form className={styles.form} onSubmit={this.handleClick}>
+                    <form
+                        id={'modalForm'} className={styles.form} ref={(c) => {
+                            this.formRef = c;
+                        }} onSubmit={this.handleClick}
+                    >
                         {
                             this.getContentComponent(focusInput)
                         }

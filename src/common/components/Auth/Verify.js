@@ -98,6 +98,7 @@ export default class Verify extends Component {
                         name="verifyField"
                         id="verifyField"
                         autoFocus
+                        required
                         ref={(c) => { this.inputRef = c; }}
                     />
                     {

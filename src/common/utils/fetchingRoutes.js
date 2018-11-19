@@ -1,4 +1,4 @@
-import { message } from "antd/lib/index";
+import { message } from 'antd';
 
 export function* handleSagaError(error) {
     yield message.config({

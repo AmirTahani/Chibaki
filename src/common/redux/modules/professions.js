@@ -172,14 +172,16 @@ export function* watchLoadProfessionsList(client) {
     }
 }
 
-export function* watchLoadProfessions(client) {
+export function* watchLoadProfessions(client, { resolve, reject }) {
     try {
         const response = yield client.get('/v1/professions?limit=0');
         const result = response.data.professions;
         yield put(loadProfessionsSuccess(result));
+        resolve && resolve(result);
     } catch (error) {
-        console.log('loadProfessionsError', error);
+        // console.log('loadProfessionsError', error);
         yield put(loadProfessionsError(error));
+        reject && reject(error);
     }
 }
 

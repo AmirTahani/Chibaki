@@ -53,7 +53,15 @@ export default function reducer(state = initialState, action = {}) {
         case TOGGLE_AUTH_MODAL:
             return {
                 ...state,
-                showAuthModal: !state.showAuthModal
+                showAuthModal: !state.showAuthModal,
+
+                registering: false,
+                loggingIn: false,
+
+                firstName: '',
+                lastName: '',
+                userId: '',
+                code: ''
             };
         case SET_JWT:
             return {
@@ -293,7 +301,7 @@ export function* watchLogin(client, { mobile, resolve, reject }) {
         resolve && resolve();
     } catch (error) {
         reject(error);
-        yield handleSagaError(error);
+        // yield handleSagaError(error);
         yield put(loginFailure(error));
     }
 }

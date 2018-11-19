@@ -1,5 +1,6 @@
 import { AutoComplete as AntAutoComplete } from 'antd';
 import PropTypes from 'prop-types';
+import ReactDom from 'react-dom';
 import React, { Component } from 'react';
 import Bloodhound from 'bloodhound-js';
 
@@ -18,7 +19,9 @@ export default class AutoComplete extends Component {
         defaultValue: PropTypes.objectOf(PropTypes.any),
         showOptionsWhenEmpty: PropTypes.bool,
         fieldName: PropTypes.string,
-        fieldClassName: PropTypes.string
+        fieldClassName: PropTypes.string,
+        wrapInForm: PropTypes.bool,
+        className: PropTypes.string
     };
 
     static defaultProps = {
@@ -29,7 +32,9 @@ export default class AutoComplete extends Component {
         defaultValue: {},
         showOptionsWhenEmpty: false,
         fieldName: '',
-        fieldClassName: ''
+        fieldClassName: '',
+        wrapInForm: true,
+        className: ''
     };
 
     state = {
@@ -50,6 +55,9 @@ export default class AutoComplete extends Component {
 
     handleChange = (value) => {
         if (value) {
+            this.setState({
+                selectedValue: ''
+            });
             this.engineConf.search(value,
                 (options) => {
                     this.setState({
@@ -78,13 +86,28 @@ export default class AutoComplete extends Component {
 
     handleSelect = (selectedValue) => {
         const { showBtn, onSubmit } = this.props;
+        this.setState({
+            selectedValue
+        });
         if (!showBtn) {
             onSubmit(selectedValue);
-        } else {
-            this.setState({
-                selectedValue
-            });
         }
+    };
+
+    validateInput = (value) => {
+        if (!value) {
+            ReactDom.findDOMNode(this.inputRef).setCustomValidity('تخصص خود را انتخاب کنید!');
+        } else if (value) {
+            ReactDom.findDOMNode(this.inputRef).setCustomValidity('');
+        } else {
+            ReactDom.findDOMNode(this.inputRef).setCustomValidity('تخصص خود را به درستی انتخاب کنید!');
+        }
+    };
+
+    handleFormSubmit = (e) => {
+        e.preventDefault();
+
+        return false;
     };
 
     componentDidMount() {
@@ -97,42 +120,42 @@ export default class AutoComplete extends Component {
     }
 
     render() {
-        const { onSubmit, showBtn, placeholder, children, defaultValue, valueAs, fieldName, fieldClassName, ...rest } = this.props;
+        const { onSubmit, showBtn, placeholder, children, defaultValue, valueAs, fieldName, fieldClassName, wrapInForm, className, ...rest } = this.props;
         const { options } = this.state;
+        const Wrapper = wrapInForm ? 'form' : 'div';
 
         return (
-            <div className={`${styles.wrapper} c-autocomplete`}>
-                <form className={styles.form} onSubmit={e => e.preventDefault()}>
-                    <AntAutoComplete
-                        defaultValue={defaultValue[valueAs]}
-                        dataSource={options.map(
-                            this.renderOption
-                        )}
-                        {...rest}
-                        style={{ width: '100%' }}
-                        onSearch={
-                            this.handleChange
-                        }
-                        onSelect={this.handleSelect}
-                        placeholder={placeholder}
-                        className={styles.field}
-                    >
-                        {children || <input
-                            type="text"
-                            name={fieldName}
-                            id={fieldName}
-                            className={`${styles.input} ${fieldClassName}`}
-                            value={defaultValue[valueAs]}
-                        />}
-                    </AntAutoComplete>
-                    {
-                        showBtn &&
-                        <button onClick={() => onSubmit(this.state.selectedValue)} className={styles.btn}>
-                            ادامه
-                        </button>
+            <Wrapper className={`${styles.wrapper} c-autocomplete ${className}`} onSubmit={this.handleFormSubmit}>
+                <AntAutoComplete
+                    defaultValue={defaultValue[valueAs]}
+                    dataSource={options.map(
+                        this.renderOption
+                    )}
+                    {...rest}
+                    style={{ width: '100%' }}
+                    onSearch={
+                        this.handleChange
                     }
-                </form>
-            </div>
+                    onSelect={this.handleSelect}
+                    placeholder={placeholder}
+                    className={styles.field}
+                >
+                    {children || <input
+                        type="text"
+                        name={fieldName}
+                        id={fieldName}
+                        className={`${styles.input} ${fieldClassName}`}
+                        value={defaultValue[valueAs]}
+                        required
+                    />}
+                </AntAutoComplete>
+                {
+                    showBtn &&
+                    <button onClick={() => onSubmit(this.state.selectedValue)} className={styles.btn}>
+                        ادامه
+                    </button>
+                }
+            </Wrapper>
         );
     }
 }
