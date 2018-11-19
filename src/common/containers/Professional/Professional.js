@@ -181,7 +181,7 @@ class Professional extends Component {
 
     calculateNotRated = () => {
         const { professional } = this.props;
-        if (professional.user && professional.user.trust && professional.user.trust.amount) {
+        if (this.exist(professional, 'user.trust.amount')) {
             if (professional.user.trust.amount >= 80) {
                 return 4.5;
             }
@@ -414,7 +414,7 @@ class Professional extends Component {
                                             <Col>اطلاعات</Col>
                                         </Row>
                                         <div
-                                            className={`${styles.badgesWrapper} ${professional.user.trust.amount < 15 && styles.badgesEmpty}`}
+                                            className={`${styles.badgesWrapper} ${this.exist(professional, 'user.trust.amount') < 15 && styles.badgesEmpty}`}
                                         >
                                             <div
                                                 className={this.getBadgeStyles('addressProof')}
