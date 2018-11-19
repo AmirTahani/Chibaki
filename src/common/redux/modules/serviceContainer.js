@@ -1,5 +1,5 @@
 import { put, take, select } from 'redux-saga/effects';
-import { loadProfessions, LOAD_PROFESSIONS_SUCCESS } from './professions';
+import { loadCategories, LOAD_CATEGORIES_SUCCESS } from './professions';
 import { loadProvinces, LOAD_PROVINCES_SUCCESS } from './provinces';
 import { load as loadProficients, LOAD_PROFICIENTS_SUCCESS } from './proficients';
 import { load as loadProjectsForProf, LOAD_SUCCESS as projectsLoadedSuccess } from './projectsForProfession';
@@ -74,13 +74,13 @@ export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
             yield put(loadProvinces());
         }
         if (professions.length === 0) {
-            yield put(loadProfessions());
+            yield put(loadCategories());
         }
         if (Provinces.length === 0) {
             yield take(LOAD_PROVINCES_SUCCESS);
         }
         if (professions.length === 0) {
-            yield take(LOAD_PROFESSIONS_SUCCESS);
+            yield take(LOAD_CATEGORIES_SUCCESS);
         }
         Provinces = yield select(state => state.provinces.provinces);
         let foundProvince = {};
