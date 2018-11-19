@@ -1,3 +1,4 @@
+import ReactDom from 'react-dom';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Input } from 'antd';
@@ -22,23 +23,40 @@ export default class Login extends Component {
 
     onChangeMobile = (e) => {
         const value = e.target.value ? persian(e.target.value).toEnglishNumber().toString() : '';
+
         this.setState({
             value
         });
-        this.props.setUserMobile(value);
+
+        if (this.validateInput()) {
+            this.props.setUserMobile(value);
+        }
     };
 
     onFieldFocus = () => {
         this.setState({
             focusInput: true
         });
-    }
+    };
 
     onFieldBlur = () => {
         this.setState({
             focusInput: false
         });
-    }
+    };
+
+    validateInput = () => {
+        console.log(ReactDom.findDOMNode(this.inputRef).value);
+        if (!ReactDom.findDOMNode(this.inputRef).value) {
+            ReactDom.findDOMNode(this.inputRef).setCustomValidity('لطفا شماره موبایل را وارد کنید!');
+            return false;
+        } else if (ReactDom.findDOMNode(this.inputRef).validity.patternMismatch) {
+            ReactDom.findDOMNode(this.inputRef).setCustomValidity('لطفا شماره موبایل را به درستی وارد کنید!');
+            return false;
+        }
+        ReactDom.findDOMNode(this.inputRef).setCustomValidity('');
+        return true;
+    };
 
     componentDidMount() {
         if (this.props.mobile) {
@@ -46,6 +64,9 @@ export default class Login extends Component {
                 value: this.props.mobile
             });
         }
+
+        this.validateInput();
+
         this.inputRef.focus();
     }
 
@@ -68,8 +89,12 @@ export default class Login extends Component {
                 </label>
                 <Input
                     name="field"
+                    type="text"
+                    inputmode="numeric"
                     id="field"
                     placeholder="مثال: 09123456789"
+                    required
+                    pattern="^(09)\d{9}+$"
                     autoFocus
                     className={styles.input}
                     onChange={this.onChangeMobile}
