@@ -1,8 +1,6 @@
 import { END } from 'redux-saga';
 import {
     loader as loadProfession,
-    loadProfessions,
-    loadSingleProfessionDescription
 } from '../redux/modules/professions';
 import { load as loadServiceRedux } from '../redux/modules/serviceContainer';
 import { load as loadProfessional } from '../redux/modules/professional';
