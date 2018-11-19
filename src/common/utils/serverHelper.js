@@ -46,17 +46,17 @@ export function getMetaTags(store, route, query) {
     const metaTags = {
         keywords: 'چی با کی, چی باکی, فریلنسر، استخدام، برون سپاری، کار در منزل، استخدام فریلنسر، کاریابی، کار پاره وقت، استخدام پاره وقت، کار پروژه ای، خدمات منزل، خدمات آموزشی، خدمات هنری، خدمات ورزشی، خدمات کامپیوتری، زبان های خارجه، chibaki, چی‌باکی, چیباکی',
         description: 'از مدرس زبان و برنامه نویس تا مربی بدن سازی و نقاش ساختمان, ما مناسبترین فرد را کاملاً رایگان برای ارائه‌ی خدمت به شما معرفی می کنیم',
-        title: 'Chibaki - چی باکی'
+        title: ' chibaki | چی باکی | درخواست آنلاین تمامی خدمات'
     };
     if (decodeURI(subRoute[0]) === 'تماس_با_ما') {
-        metaTags.title = addSiteNameToTitle('تماس با ما');
+        metaTags.title = ' chibaki | تماس با ما | چی باکی، درخواست آنلاین تمامی خدمات';
     }
 
     if (decodeURI(subRoute[0]) === 'درباره_ما') {
-        metaTags.title = addSiteNameToTitle('درباره ما');
+        metaTags.title = ' chibaki | درباره ما | چی باکی، درخواست آنلاین تمامی خدمات';
     }
     if (decodeURI(subRoute[0]) === 'خدمات') {
-        metaTags.title = addSiteNameToTitle('خدمات');
+        metaTags.title = ' chibaki | خدمات | چی باکی، درخواست آنلاین تمامی خدمات';
     }
     if (decodeURI(subRoute[1]) === 'خدمات') {
         const categories = state.professions.categories;
@@ -65,9 +65,9 @@ export function getMetaTags(store, route, query) {
             const professionUrlTitle = profession.title.split(' ').join('_');
             if (decodeURI(subRoute[0]) === professionUrlTitle) {
                 metaTags.description = profession.description;
-                metaTags.title = addSiteNameToTitle(profession.title);
+                metaTags.title = addSiteNameToTitle(`${profession.title}، درخواست رایگان و مقایسه قیمت`);
                 if (query && query.province) {
-                    metaTags.title = addSiteNameToTitle(`${professionUrlTitle} در ${query.province}`);
+                    metaTags.title = addSiteNameToTitle(`${profession.title}، درخواست رایگان در ${query.province}`);
                 }
             }
         });
@@ -99,5 +99,5 @@ export function flattenProfessionsByCategories(categories) {
 }
 
 export function addSiteNameToTitle(pageTitle) {
-    return ` چی باکی - ${pageTitle}`;
+    return `${pageTitle} | چی باکی`;
 }
