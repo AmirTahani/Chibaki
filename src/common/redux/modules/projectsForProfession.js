@@ -70,9 +70,9 @@ export function* watchLoad(client, { resolve, reject, professionId, provinceId }
     try {
         let response;
         if (provinceId) {
-            response = yield client.get(`/v1/jobs?profession=${professionId}&province=${provinceId}`);
+            response = yield client.get(`/v1/jobs?profession=${professionId}&province=${provinceId}&sort=-createdAt`);
         } else {
-            response = yield client.get(`/v1/jobs?profession=${professionId}`);
+            response = yield client.get(`/v1/jobs?profession=${professionId}&sort=-createdAt`);
         }
         yield put(loadProvincesSuccess(response.data));
         resolve && resolve();
