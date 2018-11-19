@@ -53,6 +53,7 @@ server
                     <meta property="twitter:creator" content="@chibaki_ir" />
                     <meta property="twitter:title" content="Chibaki - چی باکی" />
                     <meta property="twitter:description" content="${metaTags.description}"/>
+                    <meta name="Description" content="${metaTags.description}">
                     <meta property="og:description" content="${metaTags.description}"/>
                     <meta property="twitter:image" content="https://chibaki.ir/assets/images/logo/logo-1-1.svg" />
                     <meta property="twitter:image:width" content="200" />
