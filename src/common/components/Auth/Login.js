@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Input } from 'antd';
 import persian from 'persianjs';
 import styles from './Login.module.styl';
+import { phoneNumberRegex } from '../../utils/persian';
 
 export default class Login extends Component {
     static propTypes = {
@@ -28,7 +29,7 @@ export default class Login extends Component {
             value
         });
 
-        if (this.validateInput()) {
+        if (this.validateInput(value)) {
             this.props.setUserMobile(value);
         }
     };
@@ -45,9 +46,8 @@ export default class Login extends Component {
         });
     };
 
-    validateInput = () => {
-        console.log(ReactDom.findDOMNode(this.inputRef).value);
-        if (!ReactDom.findDOMNode(this.inputRef).value) {
+    validateInput = (value = this.state.value) => {
+        if (!value) {
             ReactDom.findDOMNode(this.inputRef).setCustomValidity('لطفا شماره موبایل را وارد کنید!');
             return false;
         } else if (ReactDom.findDOMNode(this.inputRef).validity.patternMismatch) {
@@ -65,7 +65,7 @@ export default class Login extends Component {
             });
         }
 
-        this.validateInput();
+        this.validateInput(this.props.mobile);
 
         this.inputRef.focus();
     }
@@ -90,11 +90,11 @@ export default class Login extends Component {
                 <Input
                     name="field"
                     type="text"
-                    inputmode="numeric"
+                    inputMode="numeric"
                     id="field"
                     placeholder="مثال: 09123456789"
                     required
-                    pattern="^(09)\d{9}+$"
+                    pattern={phoneNumberRegex.toString().slice(1, -1)}
                     autoFocus
                     className={styles.input}
                     onChange={this.onChangeMobile}
