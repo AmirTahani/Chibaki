@@ -60,7 +60,8 @@ export default function reducer(state = initialState, action = {}) {
                 loadingCategories: false,
                 loadedCategories: true,
                 categories: action.categories,
-                flattenProfessionsByCategories: action.flattenProfessionsByCategories
+                flattenProfessionsByCategories: action.flattenProfessionsByCategories,
+                professions: action.uniqueProfessions
             };
         case LOAD_CATEGORIES_FAILURE:
             return {
@@ -74,6 +75,7 @@ export default function reducer(state = initialState, action = {}) {
                 loading: true
             };
         case LOAD_PROFESSIONS_SUCCESS:
+            console.log('action is here');
             return {
                 ...state,
                 loading: false,
@@ -139,11 +141,12 @@ export function loadCategories(resolve, reject) {
     };
 }
 
-export function loadCategoriesSuccess(categories, flattenProfessionsByCategories) {
+export function loadCategoriesSuccess(categories, flattenProfessionsByCategories, uniqueProfessions) {
     return {
         type: LOAD_CATEGORIES_SUCCESS,
         categories,
-        flattenProfessionsByCategories
+        flattenProfessionsByCategories,
+        uniqueProfessions
     };
 }
 
@@ -174,6 +177,7 @@ export function* watchLoadProfessionsList(client) {
 
 export function* watchLoadProfessions(client, { resolve, reject }) {
     try {
+        console.log('watcher loading');
         const response = yield client.get('/v1/professions?limit=0');
         const result = response.data.professions;
         yield put(loadProfessionsSuccess(result));
@@ -193,7 +197,14 @@ export function* watchLoadCategories(client, { resolve, reject }) {
             acc.push(...current.professions);
             return acc;
         }, []);
-        yield put(loadCategoriesSuccess(result, flattenProfessionsByCategories));
+        const uniqueProfessions = flattenProfessionsByCategories.reduce((acc, current) => {
+            if (acc.find(item => item._id === current._id)) {
+                return acc;
+            }
+            acc.push(current);
+            return acc;
+        }, []);
+        yield put(loadCategoriesSuccess(result, flattenProfessionsByCategories, uniqueProfessions));
         resolve && resolve(response.data.categories);
     } catch (error) {
         console.log('this is error,', error);

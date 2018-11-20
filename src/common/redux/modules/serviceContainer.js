@@ -1,5 +1,5 @@
 import { put, take, select } from 'redux-saga/effects';
-import { loadCategories, LOAD_CATEGORIES_SUCCESS } from './professions';
+import { loadCategories, LOAD_CATEGORIES_SUCCESS, loadProfessions, LOAD_PROFESSIONS_SUCCESS } from './professions';
 import { loadProvinces, LOAD_PROVINCES_SUCCESS } from './provinces';
 import { load as loadProficients, LOAD_PROFICIENTS_SUCCESS } from './proficients';
 import { load as loadProjectsForProf, LOAD_SUCCESS as projectsLoadedSuccess } from './projectsForProfession';
@@ -68,29 +68,30 @@ export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
     try {
         const title = decodeURI(routeTitle).split('_').join(' ');
         let Provinces = yield select(state => state.provinces.provinces);
-        let professions = yield select(state => state.professions.professions);
+        const categories = yield select(state => state.professions.categories);
 
-        if (Provinces.length === 0) {
+        if (!Provinces.length) {
             yield put(loadProvinces());
         }
-        if (professions.length === 0) {
+        if (!categories.length) {
             yield put(loadCategories());
         }
-        if (Provinces.length === 0) {
+        if (!Provinces.length) {
             yield take(LOAD_PROVINCES_SUCCESS);
         }
-        if (professions.length === 0) {
+        if (!categories.length) {
             yield take(LOAD_CATEGORIES_SUCCESS);
         }
+
         Provinces = yield select(state => state.provinces.provinces);
         let foundProvince = {};
         if (query && query.province) {
             foundProvince = Provinces.find(item => item.name === query.province);
         }
-        professions = yield select(state => state.professions.flattenProfessionsByCategories);
+        const flatProfessions = yield select(state => state.professions.flattenProfessionsByCategories);
         let professionId = '';
         let selectedProfession = {};
-        professions.forEach((profession) => {
+        flatProfessions.forEach((profession) => {
             if (title === profession.title) {
                 professionId = profession._id;
                 selectedProfession = profession;
