@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Row, Col } from 'antd';
 import styles from './Features.module.styl';
 
 export default class Features extends Component {
+    static propTypes = {
+        shouldShowChibakiSection: PropTypes.bool.isRequired
+    };
+
     render() {
+        const { shouldShowChibakiSection } = this.props;
         return (
-            <div>
+            <div style={!shouldShowChibakiSection ? { display: 'none' } : {}}>
                 <div className="c-section__heading">
                     چرا چی باکی؟
                 </div>
