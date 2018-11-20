@@ -144,7 +144,7 @@ export default class Multi extends Component {
                     {
                         options.map((option) => {
                             return (<Row key={option.value} className={styles.row}>
-                                <Radio value={option.value}>{option.label}</Radio>
+                                <Radio value={option.value} autoFocus>{option.label}</Radio>
                             </Row>);
                         })
                     }

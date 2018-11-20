@@ -393,7 +393,8 @@ class Questions extends PureComponent {
                         footer={
                             [
                                 begin ? <button
-                                    className={`${styles.beginBtn} c-btn c-btn--lg c-btn--primary`}
+                                    className={`${styles.beginBtn} c-btn c-btn--md c-btn--primary`}
+                                    autoFocus
                                     onClick={this.begin}
                                 >
                                     شروع
