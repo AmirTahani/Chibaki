@@ -7,6 +7,12 @@ export function* handleSagaError(error) {
         maxCount: 1,
     });
     if (error && error.data && error.data.message) {
+        if (/login$/i.test(error.config.url) && error.status === 422) {
+            /**
+             * Don't show error here because user is going to signup now
+             */
+            return;
+        }
         message.error(error.data.message, 3);
     }
 }
