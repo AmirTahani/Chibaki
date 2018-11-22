@@ -18,6 +18,7 @@ export const SET_USER_MOBILE = 'ssr/auth/SET_USER_MOBILE';
 export const SET_USER_CODE = 'ssr/auth/SET_USER_CODE';
 export const SET_USER_NAME = 'ssr/auth/SET_USER_NAME';
 export const SET_USER_LAST_NAME = 'ssr/auth/SET_USER_LAST_NAME';
+export const SET_USER_GENDER = 'ssr/auth/SET_USER_GENDER';
 
 export const CLEAR_STATE = 'ssr/auth/CLEAR_STATE';
 
@@ -45,6 +46,7 @@ const initialState = {
     firstName: '',
     lastName: '',
     showAuthModal: false,
+    gender: '',
     userId: ''
 };
 
@@ -149,9 +151,16 @@ export default function reducer(state = initialState, action = {}) {
                 firstName: action.name
             };
         case SET_USER_LAST_NAME:
+            console.log(action);
             return {
                 ...state,
                 lastName: action.name
+            };
+        case SET_USER_GENDER:
+            console.log(action.gender, 'gender');
+            return {
+                ...state,
+                gender: action.gender
             };
         default:
             return state;
@@ -237,13 +246,14 @@ export function verifyFailure(error) {
     };
 }
 
-export function register({ firstName, lastName, mobile, professionId }, resolve, reject) {
+export function register({ firstName, lastName, mobile, professionId, gender }, resolve, reject) {
     return {
         type: REGISTER,
         firstName,
         lastName,
         mobile,
         professionId,
+        gender,
         resolve,
         reject
     };
@@ -290,6 +300,14 @@ export function setUserLastName(name) {
         name
     };
 }
+export function setUserGender(gender) {
+    console.log(gender, 'here');
+    return {
+        type: SET_USER_GENDER,
+        gender
+    };
+}
+
 
 export function* watchLogin(client, { mobile, resolve, reject }) {
     try {
@@ -306,17 +324,19 @@ export function* watchLogin(client, { mobile, resolve, reject }) {
     }
 }
 
-export function* watchRegister(client, { firstName, lastName, mobile, professionId, resolve, reject }) {
+export function* watchRegister(client, { firstName, lastName, mobile, professionId, gender, resolve, reject }) {
     try {
         const data = {
             firstname: firstName,
             lastname: lastName,
             username: mobile,
+            gender,
             mobile
         };
         if (professionId) {
             data.professionid = professionId;
         }
+        console.log(data);
         const response = yield client.post('/signup', { data });
         ReactGA.event({
             category: 'user',

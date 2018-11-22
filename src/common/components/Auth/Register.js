@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
-import { Tabs, Input } from 'antd';
+import { Tabs, Input, Radio } from 'antd';
 import PropTypes from 'prop-types';
 import persianJs from 'persianjs';
 import { AutoComplete } from '../Kit';
@@ -12,6 +12,7 @@ export default class Register extends Component {
         professions: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         setUserLastName: PropTypes.func.isRequired,
         setUserName: PropTypes.func.isRequired,
+        setUserGender: PropTypes.func.isRequired,
         selectProfession: PropTypes.func.isRequired,
         focusInput: PropTypes.bool,
         registerRole: PropTypes.string.isRequired,
@@ -26,11 +27,18 @@ export default class Register extends Component {
     state = {
         focusInput: true,
         firstName: '',
-        lastName: ''
+        lastName: '',
+        gender: ''
     };
 
     focusInput = () => {
         this.firstNameRef.focus();
+    };
+
+    onChangeGender = (e) => {
+        console.log('radio2 checked', e.target.value);
+        this.setState({ gender: e.target.value });
+        this.props.setUserGender(e.target.value);
     };
 
     blurInput = () => {
@@ -76,6 +84,11 @@ export default class Register extends Component {
 
     renderRegisterForm = (showAutoComplete, role) => {
         const { professions } = this.props;
+        const RadioGroup = Radio.Group;
+        const plainOptions = [
+            { label: 'مرد', value: 'male' },
+            { label: 'زن', value: 'female' },
+        ];
         return (
             <div>
                 <div className={styles.inputWrapper}>
@@ -107,6 +120,11 @@ export default class Register extends Component {
                             this.lastNameRef = c;
                         }}
                     />
+                </div>
+                <div className={styles.inputWrapper}>
+                    <label className={styles.fieldLabel} htmlFor="registerLastName">جنسیت</label>
+                    <RadioGroup options={plainOptions} onChange={this.onChangeGender} value={this.state.gender} />
+
                 </div>
                 {
                     showAutoComplete ? <div className={`${styles.inputWrapper} ${styles.autocomplete}`}>
