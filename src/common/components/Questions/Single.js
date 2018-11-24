@@ -37,6 +37,19 @@ export default class Multi extends Component {
         }
     };
 
+    setValueOptionForGender = (option) => {
+        switch (option) {
+            case 'خانم':
+                return 'female';
+            case 'آقا':
+                return 'male';
+            case 'فرقی نمیکند':
+                return 'na';
+            default:
+                return option;
+        }
+    }
+
     setOptions = (question) => {
         const { answers } = this.props;
 
@@ -48,13 +61,13 @@ export default class Multi extends Component {
                 });
                 return {
                     label: option,
-                    value: option,
+                    value: this.setValueOptionForGender(option),
                     checked: answers[question._id].selected_options.includes(option)
                 };
             }
             return {
                 label: option,
-                value: option,
+                value: this.setValueOptionForGender(option),
                 checked: false
             };
         });
