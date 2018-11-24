@@ -75,6 +75,7 @@ export default class GetPhone extends Component {
                         placeholder="لطفا کد را وارد کنید."
                         onChange={this.onChangeMobile}
                         value={this.state.value}
+                        autoFocus
                     />
                     {
                         coolDown ?

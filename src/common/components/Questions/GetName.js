@@ -12,7 +12,12 @@ export default class GetName extends PureComponent {
         setUserGender: PropTypes.func.isRequired,
         gender: PropTypes.string.isRequired,
         firstName: PropTypes.string.isRequired,
-        lastName: PropTypes.string.isRequired
+        lastName: PropTypes.string.isRequired,
+        showOnlyGender: PropTypes.bool
+    };
+
+    static defaultProps = {
+        showOnlyGender: false
     };
 
     onKeyDown = (e) => {
@@ -42,7 +47,7 @@ export default class GetName extends PureComponent {
     };
 
     render() {
-        const { question } = this.props;
+        const { question, showOnlyGender } = this.props;
         const RadioGroup = Radio.Group;
         const plainOptions = [
             { label: 'مرد', value: 'male' },
@@ -52,20 +57,26 @@ export default class GetName extends PureComponent {
             <div onKeyDown={this.onKeyDown}>
                 <p className={styles.title}>{question.title}</p>
                 <div className={styles.inputsWrapper}>
-                    <div className={styles.inputWrapper}>
-                        <Input
-                            placeholder="نام خود را وارد کنید.(فارسی)"
-                            onChange={this.onChangeName}
-                            value={this.props.firstName}
-                        />
-                    </div>
-                    <div className={styles.inputWrapper}>
-                        <Input
-                            placeholder="نام خانوادگی خود را وارد کنید.(فارسی)"
-                            onChange={this.onChangeLastName}
-                            value={this.props.lastName}
-                        />
-                    </div>
+                    {!showOnlyGender ?
+                        <div>
+                            <div className={styles.inputWrapper}>
+                                <Input
+                                    placeholder="نام خود را وارد کنید.(فارسی)"
+                                    onChange={this.onChangeName}
+                                    value={this.props.firstName}
+                                    autoFocus
+                                />
+                            </div>
+                            <div className={styles.inputWrapper}>
+                                <Input
+                                    placeholder="نام خانوادگی خود را وارد کنید.(فارسی)"
+                                    onChange={this.onChangeLastName}
+                                    value={this.props.lastName}
+                                />
+                            </div>
+                        </div>
+                        : null
+                    }
                     <div className={styles.inputWrapper}>
                         <RadioGroup options={plainOptions} onChange={this.onChangeGender} value={this.props.gender} />
                     </div>

@@ -28,9 +28,20 @@ export const SET_JWT = 'ssr/auth/SET_JWT';
 export const SET_JWT_SUCCESS = 'ssr/auth/SET_JWT_SUCCESS';
 export const UN_SET_JWT = 'ssr/auth/UN_SET_JWT';
 
+export const GET_USER = 'ssr/auth/GET_USER';
+export const GET_USER_SUCCESS = 'ssr/auth/GET_USER_SUCCESS';
+export const GET_USER_FAILURE = 'ssr/auth/GET_USER_FAILURE';
+
+export const UPDATE_USER = 'ssr/auth/UPDATE_USER';
+export const UPDATE_USER_SUCCESS = 'ssr/auth/UPDATE_USER_SUCCESS';
+export const UPDATE_USER_FAILURE = 'ssr/auth/UPDATE_USER_FAILURE';
 
 const initialState = {
     user: {},
+    updateUserLoading: false,
+    updateUserLoaded: false,
+    getUserLoading: false,
+    getUserLoaded: false,
     loggingIn: false,
     loggedIn: false,
     loginError: null,
@@ -161,6 +172,43 @@ export default function reducer(state = initialState, action = {}) {
             return {
                 ...state,
                 gender: action.gender
+            };
+        case GET_USER:
+            return {
+                ...state,
+                getUserLoading: true
+            };
+        case GET_USER_SUCCESS:
+            return {
+                ...state,
+                getUserLoading: false,
+                getUserLoaded: true,
+                user: action.user
+            };
+        case GET_USER_FAILURE:
+            return {
+                ...state,
+                getUserLoading: false,
+                getUserLoaded: true
+            };
+        case UPDATE_USER:
+            return {
+                ...state,
+                getUserLoading: true,
+                getUserLoaded: false
+            };
+        case UPDATE_USER_SUCCESS:
+            return {
+                ...state,
+                getUserLoading: false,
+                getUserLoaded: true,
+                user: action.user
+            };
+        case UPDATE_USER_FAILURE:
+            return {
+                ...state,
+                getUserLoading: false,
+                getUserLoaded: true
             };
         default:
             return state;
@@ -368,7 +416,7 @@ export function* watchVerifyMobile(client, { code, resolve, reject }) {
         yield put(verifySuccess(response.data));
         yield put(setJwt(response.data.token));
         yield take(SET_JWT_SUCCESS);
-        resolve && resolve();
+        resolve && resolve(response.data);
     } catch (error) {
         yield handleSagaError(error);
         reject && reject(error);
@@ -383,4 +431,71 @@ export function* watchSetJwt(client, { token }) {
 
 export function watchUnsetJwt(client) {
     client.jwt = null;
+}
+
+export function getUser(resolve, reject) {
+    return {
+        type: GET_USER,
+        resolve,
+        reject
+    };
+}
+
+export function getUserSuccess(user) {
+    return {
+        type: GET_USER_SUCCESS,
+        user
+    };
+}
+
+export function getUserFailure(error) {
+    return {
+        type: GET_USER_FAILURE,
+        error
+    };
+}
+
+export function* watchGetUser(client, { resolve, reject }) {
+    try {
+        const response = yield client.get('/dashboard');
+        yield put(getUserSuccess(response.data));
+        resolve && resolve(response.data);
+    } catch (error) {
+        yield put(getUserFailure(error));
+        reject && reject();
+    }
+}
+
+export function updateUser(data, resolve, reject) {
+    return {
+        type: UPDATE_USER,
+        data,
+        resolve,
+        reject
+    };
+}
+
+export function updateUserSuccess(user) {
+    return {
+        type: UPDATE_USER_SUCCESS,
+        user
+    };
+}
+
+export function updateUserFailure(error) {
+    return {
+        type: UPDATE_USER_FAILURE,
+        error
+    };
+}
+
+export function* watchUpdateUser(client, { data, resolve, reject }) {
+    try {
+        const response = yield client.post('/dashboard/profile', { data });
+        yield put(updateUserSuccess(response.data));
+        resolve && resolve(response.data);
+    } catch (error) {
+        yield put(updateUserFailure(error));
+        reject && reject();
+    }
 }

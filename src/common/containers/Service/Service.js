@@ -196,7 +196,7 @@ class Services extends Component {
                                 </div>}
                             </h1>
                             <div>
-                                <button className="c-btn c-btn--white c-btn--lg" onClick={this.registerProject}>
+                                <button className="c-btn c-btn--white c-btn--lg" onClick={this.registerProject} autoFocus>
                                     ثبت درخواست
                                 </button>
                             </div>

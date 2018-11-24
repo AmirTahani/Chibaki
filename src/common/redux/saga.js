@@ -55,7 +55,11 @@ import {
     SET_JWT,
     watchSetJwt,
     UN_SET_JWT,
-    watchUnsetJwt
+    watchUnsetJwt,
+    GET_USER,
+    watchGetUser,
+    UPDATE_USER,
+    watchUpdateUser
 } from './modules/auth';
 
 export default function* root(client, store) {
@@ -76,6 +80,8 @@ export default function* root(client, store) {
         takeEvery(LOAD_PROJECTS_PROF, watchLoadProjectsForProfession, client),
         takeEvery(LOAD_SERVICE, watchLoadService, client),
         takeEvery(SET_JWT, watchSetJwt, client),
-        takeEvery(UN_SET_JWT, watchUnsetJwt, client)
+        takeEvery(UN_SET_JWT, watchUnsetJwt, client),
+        takeEvery(GET_USER, watchGetUser, client),
+        takeEvery(UPDATE_USER, watchUpdateUser, client)
     ]);
 }

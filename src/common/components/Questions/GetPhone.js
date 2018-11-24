@@ -46,6 +46,7 @@ export default class GetPhone extends Component {
                         placeholder="لطفا شماره خود را وارد کنید."
                         onChange={this.onChangeMobile}
                         value={this.state.value}
+                        autoFocus
                     />
                 </div>
             </div>

@@ -14,6 +14,8 @@ import {
     register,
     verify,
     clearState,
+    getUser,
+    updateUser
 } from '../../redux/modules/auth';
 import Single from './Single';
 import SelectLocation from './SelectLocation';
@@ -57,10 +59,12 @@ class Questions extends PureComponent {
         registerConnect: PropTypes.func.isRequired,
         verifyConnect: PropTypes.func.isRequired,
         submitAnswersConnect: PropTypes.func.isRequired,
+        getUserConnect: PropTypes.func.isRequired,
         mobile: PropTypes.string.isRequired,
         lastName: PropTypes.string.isRequired,
         firstName: PropTypes.string.isRequired,
         code: PropTypes.string.isRequired,
+        updateUserConnect: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -240,6 +244,22 @@ class Questions extends PureComponent {
                             onEnter={this.next}
                         />
                     };
+                } else if (question.type === 'askGender') {
+                    return {
+                        title: '',
+                        question,
+                        content: <GetName
+                            question={question}
+                            gender={gender}
+                            firstName={firstName}
+                            lastName={lastName}
+                            setUserName={setUserNameConnect}
+                            setUserGender={setUserGenderConnect}
+                            setUserLastName={setUserLastNameConnect}
+                            showOnlyGender
+                            onEnter={this.next}
+                        />
+                    };
                 } else if (question.type === 'success') {
                     return {
                         title: '',
@@ -253,7 +273,7 @@ class Questions extends PureComponent {
     };
 
     checkHasAnswer = (question) => {
-        const { answers, firstName, lastName } = this.props;
+        const { answers, firstName, lastName, gender } = this.props;
         const answer = answers[question._id];
         if (question._id === 'location') {
             if (
@@ -270,7 +290,7 @@ class Questions extends PureComponent {
         }
 
         if (question._id === 'getName') {
-            if (firstName && lastName) {
+            if (firstName && lastName && gender) {
                 return true;
             }
         }
@@ -285,7 +305,19 @@ class Questions extends PureComponent {
 
     next = () => {
         const { current } = this.state;
-        const { mobile, firstName, lastName, registerConnect, gender, code, verifyConnect, submitAnswersConnect } = this.props;
+        const {
+            mobile,
+            firstName,
+            lastName,
+            registerConnect,
+            gender,
+            code,
+            verifyConnect,
+            submitAnswersConnect,
+            user,
+            getUserConnect,
+            updateUserConnect
+        } = this.props;
         const contents = this.getContent();
         const hasAnswer = this.checkHasAnswer(contents[current].question);
         if (mobile && contents[current].question.type === 'getPhone') {
@@ -339,22 +371,47 @@ class Questions extends PureComponent {
                 verifyConnect(code, resolve, reject);
             }).then(() => {
                 new Promise((resolve, reject) => {
-                    submitAnswersConnect(resolve, reject);
-                }).then(() => {
-                    this.setState({
-                        questions: [...this.state.questions, {
-                            _id: 'success',
-                            type: 'success',
-                            title: 'درخواست شما با موفقیت ثبت شد.'
-                        }],
-                        current: current + 1
-                    });
-                });
+                    getUserConnect(resolve, reject);
+                }).then((fetchUser) => {
+                    if (!fetchUser.gender || fetchUser.gender === 'na') {
+                        this.setState({
+                            questions: [...this.state.questions, {
+                                _id: 'askGender',
+                                type: 'askGender',
+                                title: 'لطفا جنسیت خود را انتخاب کنید'
+                            }],
+                            current: current + 1
+                        });
+                    } else {
+                        this.submitAnswers().then(() => {
+                            this.setState({
+                                questions: [...this.state.questions, {
+                                    _id: 'success',
+                                    type: 'success',
+                                    title: 'درخواست شما با موفقیت ثبت شد.'
+                                }],
+                                current: current + 1
+                            });
+                        });
+                    }
+                }).catch(err => console.log(err));
             });
-        } else if (contents[current].question._id === 'location' && current === contents.length - 1 && hasAnswer) {
+        } else if (contents[current].question.type === 'askGender') {
             new Promise((resolve, reject) => {
-                submitAnswersConnect(resolve, reject);
-            }).then(() => {
+                updateUserConnect({ gender }, resolve, reject);
+            }).then(async () => {
+                await this.submitAnswers();
+                this.setState({
+                    questions: [...this.state.questions, {
+                        _id: 'success',
+                        type: 'success',
+                        title: 'درخواست شما با موفقیت ثبت شد.'
+                    }],
+                    current: current + 1
+                });
+            }).catch(err => console.log(err));
+        } else if (contents[current].question._id === 'location' && current === contents.length - 1 && hasAnswer) {
+            this.submitAnswers().then(() => {
                 this.setState({
                     questions: [...this.state.questions, {
                         _id: 'success',
@@ -371,6 +428,35 @@ class Questions extends PureComponent {
         } else {
             message.error('لطفا ابتدا پاسخ مناسب را انتخاب کنید.', 3);
         }
+    };
+
+    submitAnswers = async () => {
+        try {
+            const {
+                getUserConnect,
+                submitAnswersConnect
+            } = this.props;
+
+            const fetchUser = await new Promise((resolveFetch, rejectFetch) => getUserConnect(resolveFetch, rejectFetch));
+            if (!fetchUser.gender || fetchUser.gender === 'na') {
+                this.askGender();
+            } else {
+                submitAnswersConnect();
+            }
+        } catch (err) {
+            console.log(err, 'submitAnswers');
+        }
+    };
+
+    askGender = () => {
+        this.setState({
+            questions: [...this.state.questions, {
+                _id: 'askGender',
+                type: 'askGender',
+                title: 'لطفا جنسیت خود را انتخاب کنید'
+            }],
+            current: this.state.current + 1
+        });
     };
 
     prev = () => {
@@ -399,7 +485,7 @@ class Questions extends PureComponent {
         const { current, shouldRegister, begin } = this.state;
         const { loading, loaded } = this.props;
         const contents = this.getContent();
-        console.log(contents[current], 'this is current');
+        console.log(contents.length, current, 'this is current');
         const contentsLength = shouldRegister ? contents.length + 1 : contents.length;
         return (
             <Row>
@@ -420,11 +506,10 @@ class Questions extends PureComponent {
                                 </button> : null,
                                 (
                                     !begin &&
-                                    current < contents.length - 1 ||
+                                    !(this.exist(contents[current], 'question._id') === 'success') &&
                                     (
-                                        contents[current] &&
-                                        contents[current].question &&
-                                        contents[current].question._id === 'getPhone'
+                                        current < contents.length - 1 ||
+                                        this.exist(contents[current], 'question._id') === 'getPhone'
                                     )
                                 )
                                 && <Button className={styles.buttonNext} onClick={() => this.next(contents)}>
@@ -435,7 +520,8 @@ class Questions extends PureComponent {
                                 current === contents.length - 1 &&
                                 contents[current].question._id !== 'getPhone' &&
                                 contents[current].question._id !== 'success'
-                                && <Button onClick={() => this.next(contents)} className={styles.button} type="primary">ثبت درخواست</Button>,
+                                && <Button onClick={() => this.next(contents)} className={styles.button} type="primary">ثبت
+                                    درخواست</Button>,
                                 !begin &&
                                 current > 0 &&
                                 <Button className={styles.buttonBack} onClick={() => this.prev(contents)}>
@@ -528,5 +614,7 @@ export default connect(state => ({
     verifyConnect: verify,
     submitAnswersConnect: submitAnswers,
     clearStateConnect: clearState,
-    clearAnswersConnect: clearAnswers
+    clearAnswersConnect: clearAnswers,
+    getUserConnect: getUser,
+    updateUserConnect: updateUser
 })(Questions);
