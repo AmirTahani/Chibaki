@@ -7,9 +7,8 @@ export default class Multi extends Component {
     static propTypes = {
         question: PropTypes.objectOf(PropTypes.any).isRequired,
         answers: PropTypes.objectOf(PropTypes.any).isRequired,
-        setAnswer: PropTypes.func.isRequired
-
-
+        setAnswer: PropTypes.func.isRequired,
+        onEnter: PropTypes.func.isRequired
     };
 
     state = {
@@ -29,6 +28,12 @@ export default class Multi extends Component {
     componentDidMount() {
         this.setOptions(this.props.question);
     }
+
+    onKeyDown = (e) => {
+        if (e.keyCode === 13) {
+            this.props.onEnter();
+        }
+    };
 
     setOptions = (question) => {
         const { answers } = this.props;
@@ -121,16 +126,17 @@ export default class Multi extends Component {
         const { options } = this.state;
         const shouldShowInput = this.getInputVisibility();
         return (
-            <div>
+            <div onKeyDown={this.onKeyDown}>
                 <p className={styles.title}>{question.title}</p>
                 {
-                    options.map((option) => {
+                    options.map((option, index) => {
                         return (
                             <Row key={option.label} className={styles.row}>
                                 <Checkbox
                                     checked={option.checked}
                                     disabled={option.disabled}
                                     onChange={() => this.onChange(option)}
+                                    autoFocus={index === 0}
                                 >
                                     {option.label}
                                 </Checkbox>

@@ -9,13 +9,20 @@ export default class SingleWithDatePicker extends Component {
     static propTypes = {
         question: PropTypes.objectOf(PropTypes.any).isRequired,
         answers: PropTypes.objectOf(PropTypes.any).isRequired,
-        setAnswer: PropTypes.func.isRequired
+        setAnswer: PropTypes.func.isRequired,
+        onEnter: PropTypes.func.isRequired
     };
 
     state = {
         options: [],
         value: -1,
         date: ''
+    };
+
+    onKeyDown = (e) => {
+        if (e.keyCode === 13) {
+            this.props.onEnter();
+        }
     };
 
     componentDidMount() {
@@ -136,14 +143,14 @@ export default class SingleWithDatePicker extends Component {
         const { options, value } = this.state;
         const shouldShowDatePicker = this.getShouldShowDatePicker();
         return (
-            <div>
+            <div onKeyDown={this.onKeyDown} tabIndex={0}>
                 <p className={styles.title}>{question.title}</p>
                 <Radio.Group onChange={this.onChange} value={value}>
                     {
-                        options.map((option) => {
+                        options.map((option, index) => {
                             return (
                                 <Row key={option.value} className={styles.row}>
-                                    <Radio value={option.value}>{option.title}</Radio>
+                                    <Radio value={option.value} autoFocus={index === 0}>{option.title}</Radio>
                                 </Row>
                             );
                         })

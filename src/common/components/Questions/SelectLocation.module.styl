@@ -1,11 +1,14 @@
-.title {
+.title
     composes: title from './Questions.module.styl';
-}
 
-.selectWrapper {
-    margin-bottom: 20px;
-}
+.row
+    margin: 1rem 0
+    
+.select
+    composes input from '../../styles/form.styl';
+    
+    width: 100%
+    display: block
 
-.inputWrapper {
-    margin: 10px 0px 10px 10px;
-}
+.label
+    composes label from '../../styles/form.styl';

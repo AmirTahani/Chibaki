@@ -141,6 +141,7 @@ class Questions extends PureComponent {
                             question={question}
                             setAnswer={setAnswerConnect}
                             answers={answers}
+                            onEnter={this.next}
                         />
                     };
                 } else if (question.type === 'single' || question.type === 'stext') {
@@ -151,6 +152,7 @@ class Questions extends PureComponent {
                             question={question}
                             setAnswer={setAnswerConnect}
                             answers={answers}
+                            onEnter={this.next}
                         />
                     };
                 } else if (question.type === 'location') {
@@ -164,6 +166,7 @@ class Questions extends PureComponent {
                             setAnswer={setAnswerConnect}
                             answers={answers}
                             loaded={loadedProvinces}
+                            onEnter={this.next}
                         />
                     };
                 } else if (question.type === 'singleWithDatePicker') {
@@ -174,6 +177,7 @@ class Questions extends PureComponent {
                             question={question}
                             answers={answers}
                             setAnswer={setAnswerConnect}
+                            onEnter={this.next}
                         />
                     };
                 } else if (question.type === 'text') {
@@ -184,6 +188,7 @@ class Questions extends PureComponent {
                             question={question}
                             setAnswer={setAnswerConnect}
                             answers={answers}
+                            onEnter={this.next}
                         />
                     };
                 } else if (question.type === 'getPhone') {
@@ -196,6 +201,7 @@ class Questions extends PureComponent {
                             login={loginConnect}
                             setUserMobile={setUserMobileConnect}
                             clearState={clearStateConnect}
+                            onEnter={this.next}
                         />
                     };
                 } else if (question.type === 'verify') {
@@ -209,6 +215,7 @@ class Questions extends PureComponent {
                             submit={this.next}
                             login={this.props.loginConnect}
                             mobile={this.props.mobile}
+                            onEnter={this.next}
                         />
                     };
                 } else if (question.type === 'getName') {
@@ -219,13 +226,14 @@ class Questions extends PureComponent {
                             question={question}
                             setUserName={setUserNameConnect}
                             setUserLastName={setUserLastNameConnect}
+                            onEnter={this.next}
                         />
                     };
                 } else if (question.type === 'success') {
                     return {
                         title: '',
                         question,
-                        content: <Success />
+                        content: <Success onEnter={this.toggleModal} />
                     };
                 }
             });
@@ -332,7 +340,7 @@ class Questions extends PureComponent {
                     });
                 });
             });
-        } else if (contents[current].question._id === 'location' && current === contents.length - 1) {
+        } else if (contents[current].question._id === 'location' && current === contents.length - 1 && hasAnswer) {
             new Promise((resolve, reject) => {
                 submitAnswersConnect(resolve, reject);
             }).then(() => {
@@ -416,7 +424,7 @@ class Questions extends PureComponent {
                                 current === contents.length - 1 &&
                                 contents[current].question._id !== 'getPhone' &&
                                 contents[current].question._id !== 'success'
-                                && <Button onClick={() => this.next(contents)} type="primary">ثبت درخواست</Button>,
+                                && <Button onClick={() => this.next(contents)} className={styles.button} type="primary">ثبت درخواست</Button>,
                                 !begin &&
                                 current > 0 &&
                                 <Button className={styles.buttonBack} onClick={() => this.prev(contents)}>
@@ -432,33 +440,31 @@ class Questions extends PureComponent {
                                 </Button>
                             ]
                         }
-                        closable={false}
+                        closable
+                        maskClosable={false}
+                        onCancel={this.toggleModal}
+                        title={!loading && loaded && !begin ? <div>
+                            {
+                                contents[current] && contents[current].question && contents[current].question.type !== 'success' ?
+                                    <Progress
+                                        percent={current === contents.length - 1 ? 100 : ((current / contentsLength) * 100)}
+                                        showInfo={false}
+                                        strokeWidth={20}
+                                        className={styles.progressBar}
+                                    /> : null
+                            }
+                        </div> : null}
                     >
-                        <button className={styles.closeButton} onClick={() => this.toggleModal()}>
-                            <span className="icon-close" />
-                        </button>
                         {
                             loading && !loaded && !begin ? <div className={styles.spinnerWrapper}><Spin /></div> : null
                         }
                         {
-                            !loading && loaded && !begin ? <Col>
-                                <div>
-                                    {
-                                        contents[current] && contents[current].question && contents[current].question.type !== 'success' ?
-                                            <Progress
-                                                percent={current === contents.length - 1 ? 100 : ((current / contentsLength) * 100)}
-                                                showInfo={false}
-                                                strokeWidth={20}
-                                                className={styles.progressBar}
-                                            /> : null
-                                    }
-                                </div>
-                                <div
+                            !loading && loaded && !begin
+                                ? <div
                                     className={styles.stepsContent}
                                 >
                                     {contents[current] && contents[current].content}
-                                </div>
-                            </Col> : null
+                                </div> : null
                         }
                         {
                             begin ? <div className={styles.beginWrapper}>

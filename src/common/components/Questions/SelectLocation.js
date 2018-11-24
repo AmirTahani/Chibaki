@@ -10,13 +10,20 @@ export default class SelectQuestion extends Component {
         setAnswer: PropTypes.func.isRequired,
         provinces: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         loaded: PropTypes.bool.isRequired,
-        loading: PropTypes.bool.isRequired
+        loading: PropTypes.bool.isRequired,
+        onEnter: PropTypes.func.isRequired
     };
 
     state = {
         province: {},
         city: {},
         address: ''
+    };
+
+    onKeyDown = (e) => {
+        if (e.keyCode === 13) {
+            this.props.onEnter();
+        }
     };
 
     componentDidMount() {
@@ -41,18 +48,18 @@ export default class SelectQuestion extends Component {
         }
     }
 
-
     handleChangeProvince = (province) => {
         const { provinces } = this.props;
         const selectedProvince = provinces.find(item => item.name === province);
         this.setState({
             province: selectedProvince,
-            city: {}
+            city: selectedProvince.cities[0]
         });
         this.generateAnswer(selectedProvince, this.state.city);
     };
 
     handleChangeCity = (city) => {
+        console.log(city, 'city');
         const selectedCity = this.state.province.cities.find(item => item.name === city);
         this.setState({
             city: selectedCity
@@ -86,20 +93,27 @@ export default class SelectQuestion extends Component {
         const { question, provinces, loading, loaded } = this.props;
         const { city, province } = this.state;
         return (
-            <div>
+            <div onKeyDown={this.onKeyDown}>
                 {
                     loading && !loaded ? <p>loading..</p> : null
                 }
                 {
                     !loading && loaded ? <div>
                         <p className={styles.title}>{question.title}</p>
-                        <div className={styles.selectWrapper}>
+                        <div className={styles.row}>
+                            <label htmlFor="questionsSelectProvince" className={styles.label}>
+                                استان خود را انتخاب کنید
+                            </label>
                             <Select
-                                placeholder="استان خود را انتخاب کنید."
-                                style={{ width: 200 }}
+                                showSearch
+                                placeholder="مثال: تهران"
+                                onInputKeyDown={this.onInputKeyDown}
+                                className={styles.select}
                                 defaultValue={province.name}
                                 key={province.name}
+                                autoFocus
                                 onChange={this.handleChangeProvince}
+                                notFoundContent={'موردی پیدا نشد'}
                             >
                                 {
                                     provinces.map((item) => {
@@ -117,12 +131,21 @@ export default class SelectQuestion extends Component {
                 }
                 {
                     province && province.cities && province.cities.length ?
-                        <div className={styles.selectWrapper}>
+                        <div className={styles.row}>
+                            <label htmlFor="questionsSelectCity" className={styles.label}>
+                                شهر خود را انتخاب کنید
+                            </label>
                             <Select
-                                placeholder="شهر خود را انتخاب کنید." style={{ width: 200 }}
+                                showSearch
+                                placeholder="مثال: تهران"
+                                onInputKeyDown={this.onInputKeyDown}
                                 onChange={this.handleChangeCity}
-                                defaultValue={city.name}
+                                value={city.name}
                                 key={city.name}
+                                className={styles.select}
+                                id="questionsSelectCity"
+                                name="questionsSelectCity"
+                                notFoundContent={'موردی پیدا نشد'}
                             >
                                 {
                                     province.cities.map((item) => {
@@ -138,9 +161,12 @@ export default class SelectQuestion extends Component {
                         </div> : null
                 }
                 {
-                    city && city.name ? <div className={styles.inputWrapper}>
+                    city && city.name ? <div className={styles.row}>
+                        <label htmlFor="questionsAddress" className={styles.label}>
+                            محدوده خود را وارد کنید
+                        </label>
                         <Input
-                            placeholder="محدوده خود را وارد کنید."
+                            id="questionsAddress"
                             onChange={this.onChangeTextOption}
                             value={this.state.address}
                         />

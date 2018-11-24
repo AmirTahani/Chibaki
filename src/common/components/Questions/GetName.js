@@ -7,7 +7,14 @@ export default class GetName extends PureComponent {
     static propTypes = {
         question: PropTypes.objectOf(PropTypes.any).isRequired,
         setUserName: PropTypes.func.isRequired,
-        setUserLastName: PropTypes.func.isRequired
+        setUserLastName: PropTypes.func.isRequired,
+        onEnter: PropTypes.func.isRequired
+    };
+
+    onKeyDown = (e) => {
+        if (e.keyCode === 13) {
+            this.props.onEnter();
+        }
     };
 
     componentWillMount() {
@@ -29,7 +36,7 @@ export default class GetName extends PureComponent {
     render() {
         const { question } = this.props;
         return (
-            <div>
+            <div onKeyDown={this.onKeyDown}>
                 <p className={styles.title}>{question.title}</p>
                 <div className={styles.inputsWrapper}>
                     <div className={styles.inputWrapper}>

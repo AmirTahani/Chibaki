@@ -7,7 +7,8 @@ export default class Multi extends Component {
     static propTypes = {
         question: PropTypes.objectOf(PropTypes.any).isRequired,
         answers: PropTypes.objectOf(PropTypes.any).isRequired,
-        setAnswer: PropTypes.func.isRequired
+        setAnswer: PropTypes.func.isRequired,
+        onEnter: PropTypes.func.isRequired
     };
 
     state = {
@@ -29,6 +30,12 @@ export default class Multi extends Component {
     componentDidMount() {
         this.setOptions(this.props.question);
     }
+
+    onKeyDown = (e) => {
+        if (e.keyCode === 13) {
+            this.props.onEnter();
+        }
+    };
 
     setOptions = (question) => {
         const { answers } = this.props;
@@ -138,13 +145,19 @@ export default class Multi extends Component {
         const shouldShowInput = this.getInputVisibility();
 
         return (
-            <div>
+            <div onKeyDown={this.onKeyDown}>
                 <p className={styles.title}>{question.title}</p>
                 <Radio.Group onChange={this.onChange} value={this.state.value} className={styles.radioGroup}>
                     {
-                        options.map((option) => {
+                        options.map((option, index) => {
                             return (<Row key={option.value} className={styles.row}>
-                                <Radio value={option.value} autoFocus>{option.label}</Radio>
+                                <Radio
+                                    className={styles.radio}
+                                    value={option.value}
+                                    autoFocus={index === 0}
+                                >
+                                    {option.label}
+                                </Radio>
                             </Row>);
                         })
                     }
