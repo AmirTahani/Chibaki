@@ -1,8 +1,20 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styles from './GetApp.module.styl';
 
 export default class GetApp extends Component {
+    static propTypes = {
+        showDirect: PropTypes.bool,
+        layout: PropTypes.string
+    };
+
+    static defaultProps = {
+        showDirect: false,
+        layout: 'row'
+    };
+
     render() {
+        const { showDirect } = this.props;
         return (
             <div>
                 <div className={styles.wrapper} id="get-app">
@@ -37,14 +49,17 @@ export default class GetApp extends Component {
                                 />
                             </a>
                         </h3>
-                        <h3 className={styles.badge}>
-                            <a href="https://bit.ly/2IR8id2">
-                                <img
-                                    src="/assets/images/app/direct.svg"
-                                    alt="دانلود اپلیکیشن اندروید با لینک مستقیم"
-                                />
-                            </a>
-                        </h3>
+                        {showDirect ?
+                            <h3 className={styles.badge}>
+                                <a href="https://bit.ly/2IR8id2">
+                                    <img
+                                        src="/assets/images/app/direct.svg"
+                                        alt="دانلود اپلیکیشن اندروید با لینک مستقیم"
+                                    />
+                                </a>
+                            </h3>
+                            : null
+                        }
                     </div>
                 </div>
             </div>

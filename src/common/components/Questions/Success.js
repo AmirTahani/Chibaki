@@ -19,7 +19,7 @@ export default class Success extends Component {
             <div onKeyDown={this.onKeyDown}>
                 <p className={styles.description}>
                     درخواست شما با موفقیت ثبت شد. تا ساعتی دیگر از طرف متخصصین پیشنهاد قیمت دریافت میکنید.
-                    <GetApp />
+                    <GetApp showDirect={false} layout={'row'} />
                 </p>
             </div>
         );
