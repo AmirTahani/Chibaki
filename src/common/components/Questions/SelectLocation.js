@@ -55,11 +55,10 @@ export default class SelectQuestion extends Component {
             province: selectedProvince,
             city: selectedProvince.cities[0]
         });
-        this.generateAnswer(selectedProvince, this.state.city);
+        this.generateAnswer(selectedProvince, selectedProvince.cities[0]);
     };
 
     handleChangeCity = (city) => {
-        console.log(city, 'city');
         const selectedCity = this.state.province.cities.find(item => item.name === city);
         this.setState({
             city: selectedCity
