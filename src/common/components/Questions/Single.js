@@ -116,7 +116,7 @@ export default class Multi extends Component {
         const { setAnswer, question } = this.props;
         const result = options.reduce((acc, current) => {
             if (current.checked && current.label !== question.textOption) {
-                acc.push(current.label);
+                acc.push(current.value);
                 return acc;
             }
             return acc;
