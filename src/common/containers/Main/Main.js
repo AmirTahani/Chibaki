@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
@@ -8,9 +9,14 @@ import Features from '../../components/Features/Features';
 import GetApp from '../../components/GetApp/GetApp';
 import styles from './Main.module.styl';
 
-export default class Main extends Component {
+class Main extends Component {
     static propTypes = {
-        children: PropTypes.node.isRequired
+        children: PropTypes.node.isRequired,
+        router: PropTypes.objectOf(PropTypes.any).isRequired
+    };
+
+    state = {
+        shouldShowChibakiSection: true
     };
 
     handleScroll = (type) => {
@@ -21,7 +27,33 @@ export default class Main extends Component {
         });
     };
 
+    componentWillReceiveProps(nextProps) {
+        const { router } = nextProps;
+        const currentLocation = decodeURI(router.getCurrentLocation().pathname);
+        if (currentLocation === '/درباره_ما' || currentLocation === '/تماس_با_ما') {
+            this.setState({
+                shouldShowChibakiSection: false
+            });
+        } else {
+            this.setState({
+                shouldShowChibakiSection: true
+            });
+        }
+    }
+
+    componentDidMount() {
+        console.log('its here');
+        const { router } = this.props;
+        const currentLocation = decodeURI(router.getCurrentLocation().pathname);
+        if (currentLocation === '/درباره_ما' || currentLocation === '/تماس_با_ما') {
+            this.setState({
+                shouldShowChibakiSection: false
+            });
+        }
+    }
+
     render() {
+        const { shouldShowChibakiSection } = this.state;
         return (
             <div>
                 <Header handleScroll={this.handleScroll} />
@@ -30,9 +62,9 @@ export default class Main extends Component {
                     {this.props.children}
                 </div>
 
-                <HowItWorks ref="howitworks" />
+                <HowItWorks ref="howitworks" shouldShowChibakiSection={shouldShowChibakiSection} />
 
-                <Features ref="features" />
+                <Features ref="features" shouldShowChibakiSection={shouldShowChibakiSection} />
 
                 <GetApp />
 
@@ -41,3 +73,5 @@ export default class Main extends Component {
         );
     }
 }
+
+export default withRouter(Main);

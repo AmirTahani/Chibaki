@@ -17,11 +17,13 @@ export default class Auth extends Component {
         setUserCode: PropTypes.func.isRequired,
         setUserLastName: PropTypes.func.isRequired,
         setUserName: PropTypes.func.isRequired,
+        setUserGender: PropTypes.func.isRequired,
         setUserMobile: PropTypes.func.isRequired,
         mobile: PropTypes.string.isRequired,
         lastName: PropTypes.string.isRequired,
         firstName: PropTypes.string.isRequired,
         code: PropTypes.string.isRequired,
+        gender: PropTypes.string.isRequired,
         login: PropTypes.func.isRequired,
         loggingIn: PropTypes.bool.isRequired,
         register: PropTypes.func.isRequired,
@@ -93,15 +95,19 @@ export default class Auth extends Component {
     };
 
     handleRegister = () => {
-        const { firstName, lastName, mobile } = this.props;
+        const { firstName, lastName, mobile, gender } = this.props;
         const { registerRole, professionId } = this.state;
-
+        console.log(gender);
+        if (!gender) {
+            console.log('set gender');
+            return message.error('لطفا جنسیت خود را انتخاب کنید!');
+        }
         if (registerRole === 'proficient' && !professionId) {
             return message.error('لطفا تخصص خود را انتخاب کنید!');
         }
 
         new Promise((resolve, reject) => {
-            this.props.register({ firstName, lastName, mobile, professionId }, resolve, reject);
+            this.props.register({ firstName, lastName, mobile, professionId, gender }, resolve, reject);
         }).then(() => {
             this.setState({
                 step: 'verify',
@@ -134,7 +140,7 @@ export default class Auth extends Component {
 
     handleClick = (e) => {
         e && e.preventDefault();
-
+        console.log(ReactDom.findDOMNode(this.formRef));
         if (!ReactDom.findDOMNode(this.formRef).reportValidity()) return false;
 
         const { step } = this.state;
@@ -215,7 +221,7 @@ export default class Auth extends Component {
     };
 
     getContentComponent = (focusInput) => {
-        const { setUserMobile, setUserCode, setUserLastName, setUserName, professions, mobile, login } = this.props;
+        const { setUserMobile, setUserCode, setUserLastName, setUserName, professions, mobile, login, setUserGender } = this.props;
         const { step } = this.state;
         switch (step) {
             case 'login':
@@ -226,6 +232,7 @@ export default class Auth extends Component {
                 return (<Register
                     focusInput={focusInput}
                     setUserLastName={setUserLastName}
+                    setUserGender={setUserGender}
                     setUserName={setUserName}
                     professions={professions}
                     toggleRegisterRole={this.toggleRegisterRole}

@@ -211,9 +211,12 @@ class Services extends Component {
                         {this.getProfessionPrice()}
                     </div>
 
-                    <div className={styles.desc}>
-                        {selectedProfession.description}
-                    </div>
+                    {
+                        selectedProfession && selectedProfession.description &&
+                        <div className={styles.desc}>
+                            {selectedProfession.description}
+                        </div>
+                    }
 
                     {loading && !loadedComplete
                         ? <Loader />
@@ -285,7 +288,7 @@ class Services extends Component {
                                 professionsJobs && professionsJobs.length > 3 ?
                                     <div>
                                         <div>
-                                            <div className={styles.title}>درخواست‌های مشابه ثبت شده در چی‌با‌کی</div>
+                                            <div className={styles.title}>آخرین درخواست‌های مشابه در چی‌با‌کی</div>
                                             <div className={styles.subtitle}>{selectedProfession.title}</div>
                                         </div>
                                         <Flickity

@@ -10,9 +10,10 @@ import {
     setUserCode,
     setUserLastName,
     setUserName,
+    setUserGender,
     register,
     verify,
-    clearState
+    clearState,
 } from '../../redux/modules/auth';
 import Single from './Single';
 import SelectLocation from './SelectLocation';
@@ -36,6 +37,7 @@ class Questions extends PureComponent {
         professionId: PropTypes.string.isRequired,
         questions: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         gender: PropTypes.string.isRequired,
+        questionGender: PropTypes.string.isRequired,
         user: PropTypes.objectOf(PropTypes.any).isRequired,
         provinces: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         loadedProvinces: PropTypes.bool.isRequired,
@@ -50,6 +52,7 @@ class Questions extends PureComponent {
         setUserCodeConnect: PropTypes.func.isRequired,
         setUserLastNameConnect: PropTypes.func.isRequired,
         setUserNameConnect: PropTypes.func.isRequired,
+        setUserGenderConnect: PropTypes.func.isRequired,
         clearStateConnect: PropTypes.func.isRequired,
         registerConnect: PropTypes.func.isRequired,
         verifyConnect: PropTypes.func.isRequired,
@@ -122,11 +125,15 @@ class Questions extends PureComponent {
             loaded,
             setAnswerConnect,
             answers,
+            gender,
+            firstName,
+            lastName,
             loginConnect,
             setUserMobileConnect,
             setUserCodeConnect,
             setUserLastNameConnect,
             setUserNameConnect,
+            setUserGenderConnect,
             clearStateConnect,
             mobile
         } = this.props;
@@ -224,7 +231,11 @@ class Questions extends PureComponent {
                         question,
                         content: <GetName
                             question={question}
+                            gender={gender}
+                            firstName={firstName}
+                            lastName={lastName}
                             setUserName={setUserNameConnect}
+                            setUserGender={setUserGenderConnect}
                             setUserLastName={setUserLastNameConnect}
                             onEnter={this.next}
                         />
@@ -274,7 +285,7 @@ class Questions extends PureComponent {
 
     next = () => {
         const { current } = this.state;
-        const { mobile, firstName, lastName, registerConnect, code, verifyConnect, submitAnswersConnect } = this.props;
+        const { mobile, firstName, lastName, registerConnect, gender, code, verifyConnect, submitAnswersConnect } = this.props;
         const contents = this.getContent();
         const hasAnswer = this.checkHasAnswer(contents[current].question);
         if (mobile && contents[current].question.type === 'getPhone') {
@@ -317,7 +328,7 @@ class Questions extends PureComponent {
             });
         } else if (firstName && lastName && contents[current].question.type === 'getName') {
             new Promise((resolve, reject) => {
-                registerConnect({ firstName, lastName, mobile }, resolve, reject);
+                registerConnect({ firstName, lastName, mobile, gender }, resolve, reject);
             }).then(() => {
                 this.setState({
                     current: current + 1
@@ -380,7 +391,7 @@ class Questions extends PureComponent {
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.questions && nextProps.questions !== this.props.questions && !nextProps.loading && nextProps.loaded) {
-            this.getQuestions(nextProps.questions, nextProps.gender);
+            this.getQuestions(nextProps.questions, nextProps.questionGender);
         }
     }
 
@@ -488,7 +499,7 @@ class Questions extends PureComponent {
 
 export default connect(state => ({
     questions: state.questions.questions,
-    gender: state.questions.gender,
+    questionGender: state.questions.gender,
     user: state.auth.user,
     title: state.questions.title,
     answers: state.questions.answers,
@@ -499,6 +510,7 @@ export default connect(state => ({
     loadingProvinces: state.provinces.loading,
     loadedProvinces: state.provinces.loaded,
     mobile: state.auth.mobile,
+    gender: state.auth.gender,
     firstName: state.auth.firstName,
     lastName: state.auth.lastName,
     code: state.auth.code
@@ -510,6 +522,7 @@ export default connect(state => ({
     setUserMobileConnect: setUserMobile,
     setUserCodeConnect: setUserCode,
     setUserNameConnect: setUserName,
+    setUserGenderConnect: setUserGender,
     setUserLastNameConnect: setUserLastName,
     registerConnect: register,
     verifyConnect: verify,

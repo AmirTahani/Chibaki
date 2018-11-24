@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import { slide as Menu } from 'react-burger-menu';
 import { sitePath } from '../../config';
@@ -9,7 +9,8 @@ class Nav extends Component {
     static propTypes = {
         user: PropTypes.objectOf(PropTypes.any).isRequired,
         toggleAuthModal: PropTypes.func.isRequired,
-        handleScroll: PropTypes.func.isRequired
+        handleScroll: PropTypes.func.isRequired,
+        router: PropTypes.objectOf(PropTypes.any).isRequired
     };
 
     state = {
@@ -59,13 +60,24 @@ class Nav extends Component {
             },
             {
                 label: 'چگونه کار می‌کند',
-                action: () => this.handleScroll('howitworks')
+                action: () => this.goToHomeAndScroll('howitworks')
             },
             {
                 label: 'چرا چی باکی',
-                action: () => this.handleScroll('features')
+                action: () => this.goToHomeAndScroll('features')
             }
         ];
+    };
+
+    goToHomeAndScroll = (type) => {
+        const { router } = this.props;
+        const currentLocation = decodeURI(router.getCurrentLocation().pathname);
+        if (currentLocation === '/درباره_ما' || currentLocation === '/تماس_با_ما') {
+            router.push('/');
+            window.setTimeout(() => this.handleScroll(type), 300);
+        } else {
+            this.handleScroll(type);
+        }
     };
 
     getMenu = (mobile = false) => {
@@ -124,4 +136,4 @@ class Nav extends Component {
     }
 }
 
-export default Nav;
+export default withRouter(Nav);
