@@ -6,7 +6,7 @@ import styles from './Success.module.styl';
 export default class Success extends Component {
     static propTypes = {
         onEnter: PropTypes.func.isRequired
-    }
+    };
 
     onKeyDown = (e) => {
         if (e.keyCode === 13) {
@@ -16,10 +16,22 @@ export default class Success extends Component {
 
     render() {
         return (
-            <div onKeyDown={this.onKeyDown}>
-                <p className={styles.description}>
-                    درخواست شما با موفقیت ثبت شد. تا ساعتی دیگر از طرف متخصصین پیشنهاد قیمت دریافت میکنید.
-                    <GetApp />
+            <div className={styles.component} autoFocus onKeyDown={this.onKeyDown} tabIndex={0}>
+                <div>
+                    <img
+                        src="/assets/images/logo/logo-text.svg"
+                        alt="Chibaki - چی باکی"
+                        className={styles.logo}
+                    />
+                </div>
+                <p className={styles.wrapper}>
+                    <div className={styles.whiteBox}>
+                        درخواست شما با موفقیت ثبت شد.
+                    </div>
+                    <div className={styles.desc}>
+                        برای اطلاع از وضعیت درخواست خود و ارتباط با متخصصین، لطفا اپلیکیشن چی باکی را دانلود کنید.
+                    </div>
+                    <GetApp showDirect={false} layout={'row'} noText badgeClass={styles.badge} badgeWrapperClass={styles.badgeWrapper} />
                 </p>
             </div>
         );

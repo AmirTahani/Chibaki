@@ -466,6 +466,15 @@ class Questions extends PureComponent {
     };
 
     componentDidMount() {
+        this.setState({
+            questions: [...this.state.questions, {
+                _id: 'success',
+                type: 'success',
+                title: 'درخواست شما با موفقیت ثبت شد.'
+            }],
+            current: this.state.current + 1,
+            begin: false
+        });
         message.config({
             top: 70,
             duration: 2,
@@ -492,7 +501,7 @@ class Questions extends PureComponent {
                 <Col>
                     <Modal
                         visible={this.state.visible}
-                        className={styles.modal}
+                        className={`${styles.modal} ${this.exist(contents[current], 'question.type') === 'success' ? styles.modalSuccess : ''}`}
                         centered
                         width={500}
                         footer={
@@ -519,6 +528,7 @@ class Questions extends PureComponent {
                                 !begin &&
                                 current === contents.length - 1 &&
                                 contents[current].question._id !== 'getPhone' &&
+                                contents[current].question._id !== 'app' &&
                                 contents[current].question._id !== 'success'
                                 && <Button onClick={() => this.next(contents)} className={styles.button} type="primary">ثبت
                                     درخواست</Button>,
@@ -550,7 +560,8 @@ class Questions extends PureComponent {
                                         className={styles.progressBar}
                                     /> : null
                             }
-                        </div> : null}
+                        </div> : null
+                        }
                     >
                         {
                             loading && !loaded && !begin ? <div className={styles.spinnerWrapper}><Spin /></div> : null
@@ -571,8 +582,8 @@ class Questions extends PureComponent {
                                     className={styles.logo}
                                 />
                                 <p className={styles.beginText}>برای آنکه بتوانیم بهترین افراد متخصص را به شما معرفی
-                                    کنیم، ابتدا نیاز هست که به چند
-                                    سوال کوتاه پاسخ دهید.
+                        کنیم، ابتدا نیاز هست که به چند
+                        سوال کوتاه پاسخ دهید.
                                 </p>
                             </div> : null
                         }
