@@ -1,4 +1,47 @@
-.description {
+@import '../../styles/variables'
+
+.component
+    &:focus
+        outline none
+
+.wrapper
     text-align: center;
-    font-size: 18px;
-}
+    
+.logo
+    composes logo from './Questions.module.styl'
+    
+    margin: 0 auto 1rem
+    
+.whiteBox
+    background-color: #fff;
+    border-radius: 2px
+    
+    margin: 0 1rem
+    padding: 1rem
+    
+    font-size: 1.2rem
+    font-weight: 900
+
+    color #12c854
+    display: inline-block
+    
+.desc
+    color: $color;
+    font-size: 1.2rem
+    
+    text-align: center
+    margin: 2.5rem auto 2rem
+    
+    max-width: 300px
+    line-height: 1.8
+    
+.badge
+    margin: 0
+    flex 1 1 170px
+    
+    &Wrapper
+        display: flex
+        align-items: center
+        flex-flow row nowrap
+    
+        margin-bottom: 1.5rem
