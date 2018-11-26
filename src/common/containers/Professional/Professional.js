@@ -8,6 +8,7 @@ import objectFitImages from 'object-fit-images';
 import { Icon } from '../../components/Kit';
 import Questions from '../../components/Questions/Questions';
 import Comments from '../../components/Professional/Comments';
+import { sitePath } from '../../config';
 import { setProfId } from '../../redux/modules/questions';
 import { load } from '../../redux/modules/professional';
 import styles from './Professional.style.module.styl';
@@ -70,9 +71,9 @@ class Professional extends Component {
             return Object.keys(selectedProfession.intro).reduce((acc, current) => {
                 if (current.indexOf('photo') >= 0 && selectedProfession.intro[current]) {
                     if (current === 'photos') {
-                        acc = selectedProfession.intro[current].map(photo => `https://chibaki.ir${photo.replace('public', '')}`);
+                        acc = selectedProfession.intro[current].map(photo => `${sitePath}${photo.replace('public', '')}`);
                     } else {
-                        acc.push(`https://chibaki.ir${selectedProfession.intro[current].replace('public', '')}`);
+                        acc.push(`${sitePath}${selectedProfession.intro[current].replace('public', '')}`);
                     }
                     return acc;
                 }
