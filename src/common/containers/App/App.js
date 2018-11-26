@@ -1,7 +1,6 @@
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
 import React, { Component } from 'react';
 import { hotjar } from 'react-hotjar';
-import ReactGA from 'react-ga';
 import 'antd/dist/antd.less';
 import { exist } from '../../utils/helpers';
 import '../../styles/App.styl';
@@ -11,17 +10,18 @@ import { Home, About, Services, Tos, Service, Professional, ContactUs, Main } fr
 Component.prototype.exist = exist;
 Component.prototype.event = (props) => {
     if (window && window.__renderType__ === 'client' && window && !window.__DEV__) {
-        ReactGA.event(...props);
+        window.ga('send', 'event', props.category, props.action, props.label, props.value);
     }
 };
-ReactGA.initialize('UA-99324713-1');
+// ReactGA.initialize('UA-99324713-1');
 
 
 const Routes = (props) => {
     if (browserHistory && browserHistory.listen) {
         browserHistory.listen((location) => {
             if (window) {
-                ReactGA.pageview(location.pathname + location.search);
+                console.log(`/${location.pathname}${location.search}`, 'this isit');
+                ga('send', 'pageview', `/${location.pathname}${location.search}`);
                 window.__renderType__ = 'client';
                 hotjar.initialize(734640);
             }

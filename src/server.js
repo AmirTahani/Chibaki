@@ -76,6 +76,16 @@ server
                     <meta charset="utf-8" />
                     <title>${metaTags.title}</title>
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
+                    <script async src="/ga.js"></script>
+                    <script type="text/javascript" >
+                        (function (i, s, o, r) {
+                            i['GoogleAnalyticsObject'] = r;
+                            i[r] = i[r] || function () {
+                             (i[r].q = i[r].q || []).push(arguments)
+                            }, i[r].l = 1 * new Date()
+                           })(window, document, 'script', 'ga');
+                        window.ga("create", 'UA-99324713-1', "auto");
+                    </script>
 ${
     assets.client.css
         ? `<link async media="all" rel="stylesheet" href="${assets.client.css}">`
