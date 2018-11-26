@@ -1,5 +1,4 @@
 import { select, put } from 'redux-saga/effects';
-import ReactGA from 'react-ga';
 import { handleSagaError } from '../../utils/handleSagaError';
 
 export const LOAD_QUESTIONS = 'ssr/questions/LOAD_QUESTIONS';
@@ -132,18 +131,14 @@ export function* watchLoadQuestions(client, { professionId, isDirect }) {
         let response;
         if (isDirect) {
             response = yield client.get(`/professions/${professionId}/questions?direct=${isDirect}`);
-            ReactGA.event({
-                category: 'user',
-                action: 'DIRECT_QUESTION_STARTED',
-                label: 'user started questions'
-            });
+            if (window && window.ga) {
+                window.ga('send', 'event', 'user', 'DIRECT_QUESTION_STARTED', 'user started questions');
+            }
         } else {
             response = yield client.get(`/professions/${professionId}/questions`);
-            ReactGA.event({
-                category: 'user',
-                action: 'QUESTION_STARTED',
-                label: 'user started questions'
-            });
+            if (window && window.ga) {
+                window.ga('send', 'event', 'user', 'QUESTION_STARTED', 'user started questions');
+            }
         }
         yield put(loadQuestionsSuccess(response.data));
     } catch (error) {
@@ -163,20 +158,18 @@ export function* watchSubmitAnswers(client, { resolve, reject }) {
                 profession_id: questionsState.professionId
             };
             yield client.post(`/professionals/${questionsState.profId}/jobs`, { data: { job } });
-            ReactGA.event({
-                category: 'user',
-                action: 'SUBMIT_CREATE_REQUEST_DIRECT',
-            });
+            if (window && window.ga) {
+                window.ga('send', 'event', 'user', 'SUBMIT_CREATE_REQUEST_DIRECT');
+            }
         } else {
             const data = {
                 answers: { ...questionsState.answers },
                 profession_id: questionsState.professionId
             };
             yield client.post('/customers/jobs', { data });
-            ReactGA.event({
-                category: 'user',
-                action: 'SUBMIT_CREATE_REQUEST',
-            });
+            if (window && window.ga) {
+                window.ga('send', 'event', 'user', 'SUBMIT_CREATE_REQUEST');
+            }
         }
         yield put(clearAnswers());
         resolve && resolve();

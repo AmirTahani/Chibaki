@@ -13,7 +13,6 @@ Component.prototype.event = (props) => {
         window.ga('send', 'event', props.category, props.action, props.label, props.value);
     }
 };
-// ReactGA.initialize('UA-99324713-1');
 
 
 const Routes = (props) => {
