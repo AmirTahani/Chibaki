@@ -466,15 +466,6 @@ class Questions extends PureComponent {
     };
 
     componentDidMount() {
-        this.setState({
-            questions: [...this.state.questions, {
-                _id: 'success',
-                type: 'success',
-                title: 'درخواست شما با موفقیت ثبت شد.'
-            }],
-            current: this.state.current + 1,
-            begin: false
-        });
         message.config({
             top: 70,
             duration: 2,
