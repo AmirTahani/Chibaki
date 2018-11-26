@@ -7,7 +7,8 @@ export default class Multi extends Component {
     static propTypes = {
         question: PropTypes.objectOf(PropTypes.any).isRequired,
         answers: PropTypes.objectOf(PropTypes.any).isRequired,
-        setAnswer: PropTypes.func.isRequired
+        setAnswer: PropTypes.func.isRequired,
+        onEnter: PropTypes.func.isRequired
     };
 
     state = {
@@ -30,6 +31,25 @@ export default class Multi extends Component {
         this.setOptions(this.props.question);
     }
 
+    onKeyDown = (e) => {
+        if (e.keyCode === 13) {
+            this.props.onEnter();
+        }
+    };
+
+    setValueOptionForGender = (option) => {
+        switch (option) {
+            case 'خانم':
+                return 'female';
+            case 'آقا':
+                return 'male';
+            case 'فرقی نمیکند':
+                return 'na';
+            default:
+                return option;
+        }
+    }
+
     setOptions = (question) => {
         const { answers } = this.props;
 
@@ -41,13 +61,13 @@ export default class Multi extends Component {
                 });
                 return {
                     label: option,
-                    value: option,
+                    value: this.setValueOptionForGender(option),
                     checked: answers[question._id].selected_options.includes(option)
                 };
             }
             return {
                 label: option,
-                value: option,
+                value: this.setValueOptionForGender(option),
                 checked: false
             };
         });
@@ -96,7 +116,7 @@ export default class Multi extends Component {
         const { setAnswer, question } = this.props;
         const result = options.reduce((acc, current) => {
             if (current.checked && current.label !== question.textOption) {
-                acc.push(current.label);
+                acc.push(current.value);
                 return acc;
             }
             return acc;
@@ -138,13 +158,19 @@ export default class Multi extends Component {
         const shouldShowInput = this.getInputVisibility();
 
         return (
-            <div>
+            <div onKeyDown={this.onKeyDown}>
                 <p className={styles.title}>{question.title}</p>
                 <Radio.Group onChange={this.onChange} value={this.state.value} className={styles.radioGroup}>
                     {
-                        options.map((option) => {
+                        options.map((option, index) => {
                             return (<Row key={option.value} className={styles.row}>
-                                <Radio value={option.value}>{option.label}</Radio>
+                                <Radio
+                                    className={styles.radio}
+                                    value={option.value}
+                                    autoFocus={index === 0}
+                                >
+                                    {option.label}
+                                </Radio>
                             </Row>);
                         })
                     }

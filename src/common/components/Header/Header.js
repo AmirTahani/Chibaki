@@ -7,6 +7,7 @@ import {
     setUserMobile,
     setUserName,
     setUserLastName,
+    setUserGender,
     setUserCode,
     login,
     register,
@@ -26,11 +27,13 @@ class Header extends Component {
         verifyConnect: PropTypes.func.isRequired,
         setUserNameConnect: PropTypes.func.isRequired,
         setUserLastNameConnect: PropTypes.func.isRequired,
+        setUserGenderConnect: PropTypes.func.isRequired,
         setUserCodeConnect: PropTypes.func.isRequired,
         loginConnect: PropTypes.func.isRequired,
         loggingIn: PropTypes.bool.isRequired,
         registerConnect: PropTypes.func.isRequired,
         mobile: PropTypes.string.isRequired,
+        gender: PropTypes.string.isRequired,
         firstName: PropTypes.string.isRequired,
         lastName: PropTypes.string.isRequired,
         code: PropTypes.string.isRequired,
@@ -48,6 +51,7 @@ class Header extends Component {
             toggleAuthModalConnect,
             setUserCodeConnect,
             setUserLastNameConnect,
+            setUserGenderConnect,
             setUserNameConnect,
             setUserMobileConnect,
             mobile,
@@ -56,6 +60,7 @@ class Header extends Component {
             firstName,
             lastName,
             code,
+            gender,
             professions,
             registerConnect,
             verifyConnect
@@ -71,11 +76,13 @@ class Header extends Component {
                         setUserName={setUserNameConnect}
                         setUserMobile={setUserMobileConnect}
                         mobile={mobile}
+                        setUserGender={setUserGenderConnect}
                         login={loginConnect}
                         loggingIn={loggingIn}
                         firstName={firstName}
                         lastName={lastName}
                         code={code}
+                        gender={gender}
                         professions={professions}
                         register={registerConnect}
                         verify={verifyConnect}
@@ -104,6 +111,7 @@ export default connect(state => ({
     loggingIn: state.auth.loggingIn,
     firstName: state.auth.firstName,
     lastName: state.auth.lastName,
+    gender: state.auth.gender,
     code: state.auth.code,
     professions: state.professions.professions
 }), {
@@ -111,6 +119,7 @@ export default connect(state => ({
     verifyConnect: verify,
     setUserCodeConnect: setUserCode,
     setUserLastNameConnect: setUserLastName,
+    setUserGenderConnect: setUserGender,
     setUserMobileConnect: setUserMobile,
     setUserNameConnect: setUserName,
     loginConnect: login,

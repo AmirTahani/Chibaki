@@ -7,11 +7,18 @@ export default class GetPhone extends Component {
     static propTypes = {
         question: PropTypes.objectOf(PropTypes.any).isRequired,
         setUserMobile: PropTypes.func.isRequired,
-        mobile: PropTypes.string.isRequired
+        mobile: PropTypes.string.isRequired,
+        onEnter: PropTypes.func.isRequired
     };
 
     state = {
         value: ''
+    };
+
+    onKeyDown = (e) => {
+        if (e.keyCode === 13) {
+            this.props.onEnter();
+        }
     };
 
     componentDidMount() {
@@ -32,13 +39,14 @@ export default class GetPhone extends Component {
     render() {
         const { question } = this.props;
         return (
-            <div>
+            <div onKeyDown={this.onKeyDown}>
                 <p className={styles.title}>{question.title}</p>
                 <div className={styles.inputWrapper}>
                     <Input
                         placeholder="لطفا شماره خود را وارد کنید."
                         onChange={this.onChangeMobile}
                         value={this.state.value}
+                        autoFocus
                     />
                 </div>
             </div>

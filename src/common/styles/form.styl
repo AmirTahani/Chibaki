@@ -10,15 +10,18 @@
     margin-bottom .4rem
     
 .input
-    line-height 40px !important
-    height 40px !important
-    
-    color #334657
-    border-color #cbd8e3
-    
-    &::-webkit-input-placeholder
-        color rgba(117, 140, 160, 0.61)
-    
-    &:hover
-    &:focus
-        border-color $color
+    &
+    :global(.ant-select-selection)
+    :global(.ant-select-selection__rendered)
+        line-height 40px !important
+        height 40px !important
+        
+        color #334657
+        border-color #cbd8e3
+        
+        &::-webkit-input-placeholder
+            color rgba(117, 140, 160, 0.61)
+        
+        &:hover
+        &:focus
+            border-color $color

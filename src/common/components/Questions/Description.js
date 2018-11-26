@@ -7,12 +7,20 @@ export default class Description extends Component {
     static propTypes = {
         question: PropTypes.objectOf(PropTypes.any).isRequired,
         answers: PropTypes.objectOf(PropTypes.any).isRequired,
-        setAnswer: PropTypes.func.isRequired
+        setAnswer: PropTypes.func.isRequired,
+        onEnter: PropTypes.func.isRequired
     };
 
     state = {
         value: ''
     };
+
+    onKeyDown = (e) => {
+        if (e.keyCode === 13) {
+            this.props.onEnter();
+        }
+    };
+
     onChangeTextOption = (e) => {
         const { question } = this.props;
         this.setState({
@@ -37,13 +45,14 @@ export default class Description extends Component {
     render() {
         const { question } = this.props;
         return (
-            <div>
+            <div onKeyDown={this.onKeyDown}>
                 <p className={styles.title}>{question.title}</p>
                 <div className={styles.inputWrapper}>
                     <Input
                         placeholder="توضیحات"
                         onChange={this.onChangeTextOption}
                         value={this.state.value}
+                        autoFocus
                     />
                     <p className={styles.optionalText}>*این قسمت اختیاری است.</p>
                 </div>
