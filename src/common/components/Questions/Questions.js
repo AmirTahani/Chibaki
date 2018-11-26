@@ -113,7 +113,7 @@ class Questions extends PureComponent {
                 type: 'getPhone'
             }];
         }
-        console.log(newQuestions, 'this is newQuestiuons', 'here it is ');
+        console.log(newQuestions, user, 'this is newQuestiuons', 'here it is ');
         this.setState({
             questions: newQuestions,
             defaultQuestions: newQuestions
@@ -303,130 +303,126 @@ class Questions extends PureComponent {
         });
     };
 
-    next = () => {
-        const { current } = this.state;
-        const {
-            mobile,
-            firstName,
-            lastName,
-            registerConnect,
-            gender,
-            code,
-            verifyConnect,
-            submitAnswersConnect,
-            user,
-            getUserConnect,
-            updateUserConnect
-        } = this.props;
-        const contents = this.getContent();
-        const hasAnswer = this.checkHasAnswer(contents[current].question);
-        if (mobile && contents[current].question.type === 'getPhone') {
-            new Promise((resolve, reject) => {
-                this.props.loginConnect(mobile, resolve, reject);
-            }).then(() => {
-                this.setState({
-                    questions: [...this.state.defaultQuestions, {
-                        _id: 'verify',
-                        title: 'لطفا کد ارسال شده را وارد کنید.',
-                        skipable: false,
-                        type: 'verify'
-                    }],
-                    current: current + 1
-                });
-            }).catch((error) => {
-                if (error.status === 422) {
-                    if (!this.state.questions.find(item => item._id === 'getName')) {
-                        this.setState({
-                            questions: [...this.state.defaultQuestions, {
-                                _id: 'getName',
-                                title: 'لطفا نام و نام خانوادگی خود را وارد کنید.',
-                                skipable: false,
-                                type: 'getName'
-                            }, {
-                                _id: 'verify',
-                                title: 'لطفا کد ارسال شده را وارد کنید.',
-                                skipable: false,
-                                type: 'verify'
-                            }],
-                            current: current + 1,
-                            shouldRegister: true
-                        });
-                    } else {
-                        this.setState({
-                            current: current + 1
-                        });
-                    }
-                }
-            });
-        } else if (firstName && lastName && contents[current].question.type === 'getName') {
-            new Promise((resolve, reject) => {
-                registerConnect({ firstName, lastName, mobile, gender }, resolve, reject);
-            }).then(() => {
-                this.setState({
-                    current: current + 1
-                });
-            });
-        } else if (code && contents[current].question.type === 'verify') {
-            new Promise((resolve, reject) => {
-                verifyConnect(code, resolve, reject);
-            }).then(() => {
+    next = async () => {
+        try {
+            const { current } = this.state;
+            const {
+                mobile,
+                firstName,
+                lastName,
+                registerConnect,
+                gender,
+                code,
+                verifyConnect,
+                submitAnswersConnect,
+                user,
+                getUserConnect,
+                updateUserConnect
+            } = this.props;
+            const contents = this.getContent();
+            const hasAnswer = this.checkHasAnswer(contents[current].question);
+            if (mobile && contents[current].question.type === 'getPhone') {
                 new Promise((resolve, reject) => {
-                    getUserConnect(resolve, reject);
-                }).then((fetchUser) => {
-                    if (!fetchUser.gender || fetchUser.gender === 'na') {
-                        this.setState({
-                            questions: [...this.state.questions, {
-                                _id: 'askGender',
-                                type: 'askGender',
-                                title: 'لطفا جنسیت خود را انتخاب کنید'
-                            }],
-                            current: current + 1
-                        });
-                    } else {
-                        this.submitAnswers().then(() => {
+                    this.props.loginConnect(mobile, resolve, reject);
+                }).then(() => {
+                    this.setState({
+                        questions: [...this.state.defaultQuestions, {
+                            _id: 'verify',
+                            title: 'لطفا کد ارسال شده را وارد کنید.',
+                            skipable: false,
+                            type: 'verify'
+                        }],
+                        current: current + 1
+                    });
+                }).catch((error) => {
+                    if (error.status === 422) {
+                        if (!this.state.questions.find(item => item._id === 'getName')) {
                             this.setState({
-                                questions: [...this.state.questions, {
-                                    _id: 'success',
-                                    type: 'success',
-                                    title: 'درخواست شما با موفقیت ثبت شد.'
+                                questions: [...this.state.defaultQuestions, {
+                                    _id: 'getName',
+                                    title: 'لطفا نام و نام خانوادگی خود را وارد کنید.',
+                                    skipable: false,
+                                    type: 'getName'
+                                }, {
+                                    _id: 'verify',
+                                    title: 'لطفا کد ارسال شده را وارد کنید.',
+                                    skipable: false,
+                                    type: 'verify'
                                 }],
+                                current: current + 1,
+                                shouldRegister: true
+                            });
+                        } else {
+                            this.setState({
                                 current: current + 1
                             });
+                        }
+                    }
+                });
+            } else if (firstName && lastName && contents[current].question.type === 'getName') {
+                new Promise((resolve, reject) => {
+                    registerConnect({ firstName, lastName, mobile, gender }, resolve, reject);
+                }).then(() => {
+                    this.setState({
+                        current: current + 1
+                    });
+                });
+            } else if (code && contents[current].question.type === 'verify') {
+                try {
+                    await new Promise((resolve, reject) => verifyConnect(code, resolve, reject));
+                    await this.submitAnswers();
+                    this.setState({
+                        questions: [...this.state.questions, {
+                            _id: 'success',
+                            type: 'success',
+                            title: 'درخواست شما با موفقیت ثبت شد.'
+                        }],
+                        current: current + 1
+                    });
+                } catch (err) {
+                    console.log('Questions on next on verify', err);
+                }
+            } else if (contents[current].question.type === 'askGender') {
+                new Promise((resolve, reject) => {
+                    updateUserConnect({ gender }, resolve, reject);
+                }).then(async () => {
+                    try {
+                        await this.submitAnswers();
+                        this.setState({
+                            questions: [...this.state.questions, {
+                                _id: 'success',
+                                type: 'success',
+                                title: 'درخواست شما با موفقیت ثبت شد.'
+                            }],
+                            current: current + 1
                         });
+                    } catch (err) {
+                        console.log(err);
                     }
                 }).catch(err => console.log(err));
-            });
-        } else if (contents[current].question.type === 'askGender') {
-            new Promise((resolve, reject) => {
-                updateUserConnect({ gender }, resolve, reject);
-            }).then(async () => {
-                await this.submitAnswers();
+            } else if (contents[current].question._id === 'location' && current === contents.length - 1 && hasAnswer) {
+                try {
+                    await this.submitAnswers();
+                    this.setState({
+                        questions: [...this.state.questions, {
+                            _id: 'success',
+                            type: 'success',
+                            title: 'درخواست شما با موفقیت ثبت شد.'
+                        }],
+                        current: current + 1
+                    });
+                } catch (err) {
+                    console.log('Questions on next on location', err);
+                }
+            } else if (contents[current].question.skipable || hasAnswer) {
                 this.setState({
-                    questions: [...this.state.questions, {
-                        _id: 'success',
-                        type: 'success',
-                        title: 'درخواست شما با موفقیت ثبت شد.'
-                    }],
                     current: current + 1
                 });
-            }).catch(err => console.log(err));
-        } else if (contents[current].question._id === 'location' && current === contents.length - 1 && hasAnswer) {
-            this.submitAnswers().then(() => {
-                this.setState({
-                    questions: [...this.state.questions, {
-                        _id: 'success',
-                        type: 'success',
-                        title: 'درخواست شما با موفقیت ثبت شد.'
-                    }],
-                    current: current + 1
-                });
-            });
-        } else if (contents[current].question.skipable || hasAnswer) {
-            this.setState({
-                current: current + 1
-            });
-        } else {
-            message.error('لطفا ابتدا پاسخ مناسب را انتخاب کنید.', 3);
+            } else {
+                message.error('لطفا ابتدا پاسخ مناسب را انتخاب کنید.', 3);
+            }
+        } catch (err) {
+            console.log('Questions on next', err);
         }
     };
 
@@ -441,10 +437,12 @@ class Questions extends PureComponent {
             if (!fetchUser.gender || fetchUser.gender === 'na') {
                 this.askGender();
             } else {
-                submitAnswersConnect();
+                await new Promise((resolve, reject) => submitAnswersConnect(resolve, reject));
             }
+            return Promise.resolve(fetchUser);
         } catch (err) {
             console.log(err, 'submitAnswers');
+            return Promise.reject(err);
         }
     };
 
@@ -573,8 +571,8 @@ class Questions extends PureComponent {
                                     className={styles.logo}
                                 />
                                 <p className={styles.beginText}>برای آنکه بتوانیم بهترین افراد متخصص را به شما معرفی
-                        کنیم، ابتدا نیاز هست که به چند
-                        سوال کوتاه پاسخ دهید.
+                                    کنیم، ابتدا نیاز هست که به چند
+                                    سوال کوتاه پاسخ دهید.
                                 </p>
                             </div> : null
                         }
