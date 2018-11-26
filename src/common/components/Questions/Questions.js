@@ -113,7 +113,7 @@ class Questions extends PureComponent {
                 type: 'getPhone'
             }];
         }
-        console.log(newQuestions, 'this is newQuestiuons', 'here it is ');
+        console.log(newQuestions, user, 'this is newQuestiuons', 'here it is ');
         this.setState({
             questions: newQuestions,
             defaultQuestions: newQuestions
@@ -303,7 +303,7 @@ class Questions extends PureComponent {
         });
     };
 
-    next = () => {
+    next = async () => {
         const { current } = this.state;
         const {
             mobile,
@@ -367,39 +367,8 @@ class Questions extends PureComponent {
                 });
             });
         } else if (code && contents[current].question.type === 'verify') {
-            new Promise((resolve, reject) => {
-                verifyConnect(code, resolve, reject);
-            }).then(() => {
-                new Promise((resolve, reject) => {
-                    getUserConnect(resolve, reject);
-                }).then((fetchUser) => {
-                    if (!fetchUser.gender || fetchUser.gender === 'na') {
-                        this.setState({
-                            questions: [...this.state.questions, {
-                                _id: 'askGender',
-                                type: 'askGender',
-                                title: 'لطفا جنسیت خود را انتخاب کنید'
-                            }],
-                            current: current + 1
-                        });
-                    } else {
-                        this.submitAnswers().then(() => {
-                            this.setState({
-                                questions: [...this.state.questions, {
-                                    _id: 'success',
-                                    type: 'success',
-                                    title: 'درخواست شما با موفقیت ثبت شد.'
-                                }],
-                                current: current + 1
-                            });
-                        });
-                    }
-                }).catch(err => console.log(err));
-            });
-        } else if (contents[current].question.type === 'askGender') {
-            new Promise((resolve, reject) => {
-                updateUserConnect({ gender }, resolve, reject);
-            }).then(async () => {
+            try {
+                await new Promise((resolve, reject) => verifyConnect(code, resolve, reject));
                 await this.submitAnswers();
                 this.setState({
                     questions: [...this.state.questions, {
@@ -409,9 +378,30 @@ class Questions extends PureComponent {
                     }],
                     current: current + 1
                 });
+            } catch (err) {
+                console.log('Questions on next on verify', err);
+            }
+        } else if (contents[current].question.type === 'askGender') {
+            new Promise((resolve, reject) => {
+                updateUserConnect({ gender }, resolve, reject);
+            }).then(async () => {
+                try {
+                    await this.submitAnswers();
+                    this.setState({
+                        questions: [...this.state.questions, {
+                            _id: 'success',
+                            type: 'success',
+                            title: 'درخواست شما با موفقیت ثبت شد.'
+                        }],
+                        current: current + 1
+                    });
+                } catch (err) {
+                    console.log(err);
+                }
             }).catch(err => console.log(err));
         } else if (contents[current].question._id === 'location' && current === contents.length - 1 && hasAnswer) {
-            this.submitAnswers().then(() => {
+            try {
+                await this.submitAnswers();
                 this.setState({
                     questions: [...this.state.questions, {
                         _id: 'success',
@@ -420,7 +410,9 @@ class Questions extends PureComponent {
                     }],
                     current: current + 1
                 });
-            });
+            } catch (err) {
+                console.log('Questions on next on location', err);
+            }
         } else if (contents[current].question.skipable || hasAnswer) {
             this.setState({
                 current: current + 1
@@ -441,10 +433,12 @@ class Questions extends PureComponent {
             if (!fetchUser.gender || fetchUser.gender === 'na') {
                 this.askGender();
             } else {
-                submitAnswersConnect();
+                await new Promise((resolve, reject) => submitAnswersConnect(resolve, reject));
             }
+            return Promise.resolve(fetchUser);
         } catch (err) {
             console.log(err, 'submitAnswers');
+            return Promise.reject(err);
         }
     };
 
@@ -573,8 +567,8 @@ class Questions extends PureComponent {
                                     className={styles.logo}
                                 />
                                 <p className={styles.beginText}>برای آنکه بتوانیم بهترین افراد متخصص را به شما معرفی
-                        کنیم، ابتدا نیاز هست که به چند
-                        سوال کوتاه پاسخ دهید.
+                                    کنیم، ابتدا نیاز هست که به چند
+                                    سوال کوتاه پاسخ دهید.
                                 </p>
                             </div> : null
                         }
