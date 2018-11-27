@@ -289,7 +289,7 @@ class Services extends Component {
                                     <div>
                                         <div>
                                             <div className={styles.title}>آخرین درخواست‌های مشابه در چی‌با‌کی</div>
-                                            <div className={styles.subtitle}>{selectedProfession.title}</div>
+                                            <div className={styles.subtitle}>{title}</div>
                                         </div>
                                         <Flickity
                                             options={this.sliderOptions}
