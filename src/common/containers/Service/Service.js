@@ -252,6 +252,10 @@ class Services extends Component {
                                         }
                                     </div>
                                 </div>
+
+                                <button className="c-btn c-btn--primary c-btn--lg" onClick={this.registerProject}>
+                                    ثبت درخواست
+                                </button>
                             </div>
 
                             {proficients && proficients.length ?
@@ -337,6 +341,11 @@ class Services extends Component {
                                                 );
                                             })}
                                         </Flickity>
+                                        <div className={styles.sectionCTA}>
+                                            <button className="c-btn c-btn--primary c-btn--lg" onClick={this.registerProject}>
+                                                ثبت درخواست
+                                            </button>
+                                        </div>
                                     </div> : null
                             }
                         </div>}
