@@ -34,7 +34,7 @@ class ProfessionalCard extends PureComponent {
 
     render() {
         const { professional } = this.props;
-        return professional ? (
+        return (
             <Link
                 to={`/professional/${professional.firstname.replace(' ', '_')}_${professional.lastname.replace(' ', '_')}?id=${professional._id}${professional.profession ? `&profId=${professional.profession.profession}` : ''}`}
                 className={styles.cardLink}
@@ -58,17 +58,18 @@ class ProfessionalCard extends PureComponent {
                                     </div>
                                     <div className={styles.cardRate}>
 
-                                        {this.exist(professional, 'profession.rate')
-                                            ? <Rate
-                                                disabled
-                                                allowHalf
-                                                defaultValue={(Math.round(professional.profession.rate * 2) / 2)}
-                                            />
-                                            : <Rate
-                                                disabled
-                                                allowHalf
-                                                defaultValue={this.calculateNotRated()}
-                                            />
+                                        {
+                                            this.exist(professional, 'profession.rate') > 0 ?
+                                                <Rate
+                                                    disabled
+                                                    allowHalf
+                                                    defaultValue={(Math.round(professional.profession.rate * 2) / 2)}
+                                                />
+                                                : <Rate
+                                                    disabled
+                                                    allowHalf
+                                                    defaultValue={this.calculateNotRated()}
+                                                />
                                         }
                                     </div>
                                 </Col>
@@ -228,8 +229,8 @@ class ProfessionalCard extends PureComponent {
                         </div>
                     </div>
                 </div>
-            </Link>)
-            : null;
+            </Link>
+        );
     }
 }
 

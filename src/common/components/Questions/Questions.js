@@ -113,7 +113,6 @@ class Questions extends PureComponent {
                 type: 'getPhone'
             }];
         }
-        console.log(newQuestions, user, 'this is newQuestiuons', 'here it is ');
         this.setState({
             questions: newQuestions,
             defaultQuestions: newQuestions
@@ -483,7 +482,6 @@ class Questions extends PureComponent {
         const { current, shouldRegister, begin } = this.state;
         const { loading, loaded } = this.props;
         const contents = this.getContent();
-        console.log(contents.length, current, 'this is current');
         const contentsLength = shouldRegister ? contents.length + 1 : contents.length;
         return (
             <Row>

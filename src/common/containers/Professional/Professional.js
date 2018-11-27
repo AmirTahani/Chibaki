@@ -227,7 +227,7 @@ class Professional extends Component {
         const professions = this.exist(professional, 'user.professions');
         if (professions && professions.length && selectedProfession) {
             const foundProfessions = professions.find(profession => profession.profession._id === selectedProfession.profession._id);
-            return foundProfessions && foundProfessions.rate ? foundProfessions.rate : this.calculateNotRated();
+            return foundProfessions && foundProfessions.rate && foundProfessions.rate > 0 ? foundProfessions.rate : this.calculateNotRated();
         }
         return this.calculateNotRated();
     };

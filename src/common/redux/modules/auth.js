@@ -161,13 +161,11 @@ export default function reducer(state = initialState, action = {}) {
                 firstName: action.name
             };
         case SET_USER_LAST_NAME:
-            console.log(action);
             return {
                 ...state,
                 lastName: action.name
             };
         case SET_USER_GENDER:
-            console.log(action.gender, 'gender');
             return {
                 ...state,
                 gender: action.gender
@@ -349,7 +347,6 @@ export function setUserLastName(name) {
 }
 
 export function setUserGender(gender) {
-    console.log(gender, 'here');
     return {
         type: SET_USER_GENDER,
         gender
@@ -384,7 +381,6 @@ export function* watchRegister(client, { firstName, lastName, mobile, profession
         if (professionId) {
             data.professionid = professionId;
         }
-        console.log(data);
         const response = yield client.post('/signup', { data });
         if (window && window.ga) {
             window.ga('send', 'event', 'user', 'REGISTER_SUBMITTED', 'user completed registration');

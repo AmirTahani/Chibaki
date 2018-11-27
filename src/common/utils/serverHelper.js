@@ -12,8 +12,6 @@ export async function handleRequestsByRoute(store, route) {
     const query = route.query;
 
     const subRoute = path.split('/').reverse().filter(item => item !== '');
-    console.log(decodeURI(subRoute[0]), 'this is subroute[0]');
-    console.log(decodeURI(subRoute[1]), 'this is subroute[1]');
     if (path === '/') {
         await new Promise((resolve, reject) => {
             store.dispatch(loadProfession(resolve, reject));
