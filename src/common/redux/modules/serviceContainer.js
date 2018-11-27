@@ -88,15 +88,28 @@ export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
         if (query && query.province) {
             foundProvince = Provinces.find(item => item.name === query.province);
         }
+
         const flatProfessions = yield select(state => state.professions.flattenProfessionsByCategories);
+
         let professionId = '';
         let selectedProfession = {};
-        flatProfessions.forEach((profession) => {
-            if (title === profession.title) {
-                professionId = profession._id;
-                selectedProfession = profession;
+
+        const selectProfession = (value, valueAs = 'title') => {
+            for (const profession of flatProfessions) {
+                if (value === profession[valueAs]) {
+                    if (profession.profession_id) {
+                        selectProfession(profession.profession_id, '_id');
+                    } else {
+                        professionId = profession._id;
+                        selectedProfession = profession;
+                    }
+                    return;
+                }
             }
-        });
+        };
+
+        selectProfession(title);
+
         yield put(loadProjectsForProf(professionId, foundProvince && foundProvince._id));
         yield put(loadProficients(professionId, decodeURI(routeTitle), selectedProfession, foundProvince && foundProvince._id));
         yield take(projectsLoadedSuccess);
