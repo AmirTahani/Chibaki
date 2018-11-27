@@ -1,3 +1,5 @@
+import persianJs from 'persianjs';
+
 const latinToPersianMap = ['۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹', '۰'];
 const latinNumbers = [/1/g, /2/g, /3/g, /4/g, /5/g, /6/g, /7/g, /8/g, /9/g, /0/g];
 const persianToLatinMap = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
@@ -38,6 +40,14 @@ function persianToLatin(string) {
 
 export function commaSeprator(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+export function toPersianChar(text) {
+    return text ? persianJs(text).arabicChar().toString() : '';
+}
+
+export function toPersianNumber(number) {
+    return number ? persianJs(text).toEnglishNumber().toString() : '';
 }
 
 

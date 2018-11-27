@@ -12,7 +12,7 @@ export default class GetApp extends Component {
     };
 
     static defaultProps = {
-        showDirect: false,
+        showDirect: true,
         layout: 'row',
         noText: false,
         badgeClass: '',

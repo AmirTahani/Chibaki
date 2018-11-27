@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import persianJs from 'persianjs';
 import { AutoComplete } from '../Kit';
 import styles from './Register.module.styl';
-import { persianRegex } from '../../utils/persian';
+import { persianRegex, toPersianChar } from '../../utils/persian';
 
 export default class Register extends Component {
     static propTypes = {
@@ -52,7 +52,7 @@ export default class Register extends Component {
 
     onChangeName = (e) => {
         this.setState({
-            firstName: e.target.value ? persianJs(e.target.value).arabicChar().toString() : ''
+            firstName: toPersianChar(e.target.value)
         });
         if (e.target.validity.patternMismatch) {
             e.target.setCustomValidity('لطفا نام را پارسی وارد کنید!');
@@ -66,7 +66,7 @@ export default class Register extends Component {
 
     onChangeLastName = (e) => {
         this.setState({
-            lastName: e.target.value ? persianJs(e.target.value).arabicChar().toString() : ''
+            lastName: toPersianChar(e.target.value)
         });
         if (e.target.validity.patternMismatch) {
             e.target.setCustomValidity('لطفا نام خانوادگی را پارسی وارد کنید!');
