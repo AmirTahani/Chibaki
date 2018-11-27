@@ -97,9 +97,7 @@ export default class Auth extends Component {
     handleRegister = () => {
         const { firstName, lastName, mobile, gender } = this.props;
         const { registerRole, professionId } = this.state;
-        console.log(gender);
         if (!gender) {
-            console.log('set gender');
             return message.error('لطفا جنسیت خود را انتخاب کنید!');
         }
         if (registerRole === 'proficient' && !professionId) {
@@ -140,7 +138,6 @@ export default class Auth extends Component {
 
     handleClick = (e) => {
         e && e.preventDefault();
-        console.log(ReactDom.findDOMNode(this.formRef));
         if (!ReactDom.findDOMNode(this.formRef).reportValidity()) return false;
 
         const { step } = this.state;

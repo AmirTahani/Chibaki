@@ -19,7 +19,6 @@ const Routes = (props) => {
     if (browserHistory && browserHistory.listen) {
         browserHistory.listen((location) => {
             if (window) {
-                console.log(`/${location.pathname}${location.search}`, 'this isit');
                 ga('send', 'pageview', `/${location.pathname}${location.search}`);
                 window.__renderType__ = 'client';
                 hotjar.initialize(734640);

@@ -141,9 +141,7 @@ export function* watchLoadProficients(client, { resolve, reject, professionId, m
                 yield put(loadSuccess(items, response.data));
             } else if (more) {
                 const oldArray = yield select(state => state.proficients.proficients);
-                console.log(oldArray);
                 const newArray = oldArray.concat(items);
-                console.log(newArray);
                 yield put(loadSuccess(newArray, response.data));
             }
         } else {

@@ -36,7 +36,6 @@ export default class Register extends Component {
     };
 
     onChangeGender = (e) => {
-        console.log('radio2 checked', e.target.value);
         this.setState({ gender: e.target.value });
         this.props.setUserGender(e.target.value);
     };

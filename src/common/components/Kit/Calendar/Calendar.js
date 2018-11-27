@@ -47,7 +47,6 @@ export class Calendar extends Component {
 
     handleClickOnDay = (selectedDay) => {
         const { onSelect } = this.props;
-        console.log(moment(selectedDay).format('jYYYY/jMM/jDD'), 'handle click');
         this.selectDay(moment(selectedDay));
         if (onSelect) {
             onSelect(moment(selectedDay));
@@ -97,7 +96,6 @@ export class Calendar extends Component {
 
     selectDay(selectedDay) {
         const { month } = this.state;
-        console.log(selectedDay.format('jYYYYjMM'));
 
         // Because there's no `m1.isSame(m2, 'jMonth')`
         if (selectedDay.format('jYYYYjMM') !== month.format('jYYYYjMM')) {

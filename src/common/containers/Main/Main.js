@@ -42,7 +42,6 @@ class Main extends Component {
     }
 
     componentDidMount() {
-        console.log('its here');
         const { router } = this.props;
         const currentLocation = decodeURI(router.getCurrentLocation().pathname);
         if (currentLocation === '/درباره_ما' || currentLocation === '/تماس_با_ما') {
