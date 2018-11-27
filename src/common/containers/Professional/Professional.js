@@ -202,10 +202,10 @@ class Professional extends Component {
         if (this.exist(professional, 'user.trust.profilePicture.filePath')) {
             result.src = `https://chibaki.ir${professional.user.trust.profilePicture.filePath.replace('public', '')}`;
         } else {
-            result.src = 'https://chibaki.ir/profile/images/avatar.svg';
+            result.src = '/assets/images/avatar.svg';
         }
         if (this.exist(professional, 'user.firstname') || this.exist(professional, 'user.lastname')) {
-            result.alt = `${this.exist(professional, 'user.firstname')} - ${this.exist(professional, 'user.firstname')}`;
+            result.alt = `${this.exist(professional, 'user.firstname')} - ${this.exist(professional, 'user.lastname')}`;
         } else {
             result.alt = 'user profile picture';
         }
