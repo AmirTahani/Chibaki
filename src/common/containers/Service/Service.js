@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
+import { withRouter, Link } from 'react-router';
 import { Row, Col, Tooltip, Button, Rate, Spin, Icon } from 'antd';
 import { Helmet } from 'react-helmet';
 import objectFitImages from 'object-fit-images';
@@ -23,6 +23,7 @@ require('flickity/dist/flickity.min.css');
 class Services extends Component {
     static propTypes = {
         selectedProfession: PropTypes.objectOf(PropTypes.any).isRequired,
+        relatedProfessions: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         proficients: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         title: PropTypes.string.isRequired,
         count: PropTypes.number.isRequired,
@@ -159,12 +160,32 @@ class Services extends Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        const { location, router } = this.props;
+        if (prevProps.location.query !== location.query) {
+            if (window && window.__renderType__ === 'client') {
+                this.props.loadConnect(null, null, location.query, router.params.title);
+            }
+        }
+    }
+
     componentWillUnmount() {
         this.props.clearAnswersConnect();
     }
 
     render() {
-        const { title, selectedProfession, count, provinces, professionsJobs, loadedComplete, loading, fetching, paginationEnded } = this.props;
+        const {
+            title,
+            selectedProfession,
+            relatedProfessions,
+            count,
+            provinces,
+            professionsJobs,
+            loadedComplete,
+            loading,
+            fetching,
+            paginationEnded
+        } = this.props;
         const { showQuestions, provinceValue } = this.state;
         const proficients = this.props.proficients.reduce((acc, cur) => {
             const profession = cur.professions.find(prof => prof.profession === selectedProfession._id);
@@ -293,7 +314,7 @@ class Services extends Component {
                                     <div>
                                         <div>
                                             <div className={styles.title}>آخرین درخواست‌های مشابه در چی‌با‌کی</div>
-                                            <div className={styles.subtitle}>{title}</div>
+                                            <div className={styles.subtitle}>{title.split('_').join(' ')}</div>
                                         </div>
                                         <Flickity
                                             options={this.sliderOptions}
@@ -341,13 +362,35 @@ class Services extends Component {
                                                 );
                                             })}
                                         </Flickity>
-                                        <div className={styles.sectionCTA}>
-                                            <button className="c-btn c-btn--primary c-btn--lg" onClick={this.registerProject}>
-                                                ثبت درخواست
-                                            </button>
-                                        </div>
                                     </div> : null
                             }
+                            <div className={styles.sectionCTA}>
+                                <button className="c-btn c-btn--primary c-btn--lg" onClick={this.registerProject}>
+                                                ثبت درخواست
+                                </button>
+                            </div>
+
+                            <div className={styles.sectionRelated}>
+                                <div>
+                                    <div className={styles.title}>خدمات مرتبط در چی‌با‌کی</div>
+                                    <div className={styles.subtitle}>{title.split('_').join(' ')}</div>
+                                </div>
+                                <div className={styles.relatedLinkWrapper}>
+                                    {relatedProfessions.map((profession) => {
+                                        return (
+                                            <div>
+                                                <Link
+                                                    to={`/${encodeURI('خدمات')}/${profession.title.split(' ').join('_')}`}
+                                                    className={styles.relatedLink}
+                                                >
+                                                    {profession.title}
+                                                </Link>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
                         </div>}
 
                 </div>
@@ -361,6 +404,7 @@ export const connectedServices = connect(state => ({
     proficients: state.proficients.proficients,
     title: state.proficients.title,
     selectedProfession: state.proficients.selectedProfession,
+    relatedProfessions: state.serviceContainer.relatedProfessions,
     answers: state.questions.answers,
     count: state.proficients.count,
     provinces: state.provinces.provinces,

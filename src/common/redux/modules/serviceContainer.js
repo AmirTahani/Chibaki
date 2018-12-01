@@ -4,6 +4,8 @@ import { loadProvinces, LOAD_PROVINCES_SUCCESS } from './provinces';
 import { load as loadProficients, LOAD_PROFICIENTS_SUCCESS } from './proficients';
 import { load as loadProjectsForProf, LOAD_SUCCESS as projectsLoadedSuccess } from './projectsForProfession';
 
+import Professions from '../../utils/professions';
+
 export const LOAD = 'ssr/serviceContainer/LOAD';
 export const LOAD_SUCCESS = 'ssr/serviceContainer/LOAD_SUCCESS';
 export const LOAD_FAILURE = 'ssr/serviceContainer/LOAD_FAILURE';
@@ -11,7 +13,8 @@ export const LOAD_FAILURE = 'ssr/serviceContainer/LOAD_FAILURE';
 const initialState = {
     loading: false,
     loaded: false,
-    error: null
+    error: null,
+    relatedProfessions: []
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -23,10 +26,12 @@ export default function reducer(state = initialState, action = {}) {
                 loaded: false
             };
         case LOAD_SUCCESS:
+            console.log('LOADSUCCESS action', action);
             return {
                 ...state,
                 loading: false,
                 loaded: true,
+                relatedProfessions: action.relatedProfessions
             };
         case LOAD_FAILURE:
             return {
@@ -50,10 +55,10 @@ export function load(resolve, reject, query, routeTitle) {
     };
 }
 
-export function loadSuccess() {
+export function loadSuccess(relatedProfessions) {
     return {
         type: LOAD_SUCCESS,
-
+        relatedProfessions
     };
 }
 
@@ -89,32 +94,17 @@ export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
             foundProvince = Provinces.find(item => item.name === query.province);
         }
 
-        const flatProfessions = yield select(state => state.professions.flattenProfessionsByCategories);
+        const Profession = new Professions(categories);
+        Profession.select(title);
 
-        let professionId = '';
-        let selectedProfession = {};
+        const selectedProfession = Profession.selected.parent;
+        const relatedProfessions = Profession.selected.related;
 
-        const selectProfession = (value, valueAs = 'title') => {
-            for (const profession of flatProfessions) {
-                if (value === profession[valueAs]) {
-                    if (profession.profession_id) {
-                        selectProfession(profession.profession_id, '_id');
-                    } else {
-                        professionId = profession._id;
-                        selectedProfession = profession;
-                    }
-                    return;
-                }
-            }
-        };
-
-        selectProfession(title);
-
-        yield put(loadProjectsForProf(professionId, foundProvince && foundProvince._id));
-        yield put(loadProficients(professionId, decodeURI(routeTitle), selectedProfession, foundProvince && foundProvince._id));
+        yield put(loadProjectsForProf(selectedProfession._id, foundProvince && foundProvince._id));
+        yield put(loadProficients(selectedProfession._id, decodeURI(routeTitle), selectedProfession, foundProvince && foundProvince._id));
         yield take(projectsLoadedSuccess);
         yield take(LOAD_PROFICIENTS_SUCCESS);
-        yield put(loadSuccess());
+        yield put(loadSuccess(relatedProfessions));
         resolve && resolve('done');
     } catch (error) {
         yield put(loadFailure(error));
