@@ -34,9 +34,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    margin-bottom 1.5rem
     
     @media (max-width $md)
         margin-top: $headerHeightMd;
+
+    &Btn
+        composes c-btn c-btn--white c-btn--md from '../../styles/btn.styl'
+        font-weight 900
 
 .heroBg
     position: absolute;
@@ -95,25 +101,27 @@
         color: #E5C100;
 
 .price
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 900;
     
     text-align: center;
+    line-height 1.8
     
     color: #02BE64;
     
-    margin-top: 3.8rem;
+    padding 0 20px
 
 .desc
     background-color: #fff;
     
     padding: 1.8rem 2.2rem;
     border-radius: 5px;
-    margin-top: 2.8rem;
+    margin-top 1.5rem
     
     color: #334657;
+    text-align justify
     
-    font-size: 1.1rem;
+    font-size: 1rem;
     line-height: 2.1;
 
 .title
@@ -442,7 +450,7 @@
     padding 9px 0
     color #758ca0
     
-    font-size 1rem
+    font-size .75rem
 
     transition .1s ease-in-out
 
@@ -451,14 +459,14 @@
 
     &Wrapper
         column-count 4
-        column-gap 20
+        column-gap 20px
 
-        padding 30px 0 0
+        margin-top 30px
         
 @media (max-width: 768px)
     .hero
-        min-height: 250px;
-        padding: 30px 10px;
+        min-height: 0;
+        padding: 40px 10px;
     
     .heroTitle
         font-size: 2.2rem;
@@ -466,3 +474,12 @@
         margin-bottom: .7rem;
         
         line-height: 1.5;
+
+    .relatedLink
+        
+        &Wrapper
+            padding 0 20px
+            margin-top 30px
+
+            column-count 2
+            column-gap 15px

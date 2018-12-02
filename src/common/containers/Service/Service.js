@@ -167,6 +167,7 @@ class Services extends Component {
                 this.props.loadConnect(null, null, location.query, router.params.title);
             }
         }
+        return this.props;
     }
 
     componentWillUnmount() {
@@ -217,8 +218,12 @@ class Services extends Component {
                                 </div>}
                             </h1>
                             <div>
-                                <button className="c-btn c-btn--white c-btn--lg" onClick={this.registerProject} autoFocus>
-                                    ثبت درخواست
+                                <button
+                                    className={styles.heroBtn}
+                                    onClick={this.registerProject}
+                                    autoFocus
+                                >
+                                    ثبت رایگان درخواست
                                 </button>
                             </div>
                         </div>
@@ -273,10 +278,6 @@ class Services extends Component {
                                         }
                                     </div>
                                 </div>
-
-                                <button className="c-btn c-btn--primary c-btn--lg" onClick={this.registerProject}>
-                                    ثبت درخواست
-                                </button>
                             </div>
 
                             {proficients && proficients.length ?
@@ -339,22 +340,22 @@ class Services extends Component {
                                                             {this.formatJobDate(job.createdAt)}
                                                         </div>
                                                         <div className={styles.jobCardRow}>
+                                                            <div className={styles.jobCardSub}>شهر</div>
                                                             <div className={styles.jobCardTitle}>
                                                                 {this.exist(job, 'location.province.name') ? `${job.location.province.name}, ` : '-'}
                                                                 {this.exist(job, 'location.city.name') ? job.location.city.name : '-'}
                                                             </div>
-                                                            <div className={styles.jobCardSub}>شهر</div>
                                                         </div>
 
                                                         {job.attributes.map((attr) => {
                                                             return (
                                                                 <div className={styles.jobCardRow}>
-                                                                    <div className={styles.jobCardTitle}>
-                                                                        {attr.text || attr.options.join(' ')}
-                                                                    </div>
                                                                     <div
                                                                         className={styles.jobCardSub}
                                                                     >{attr.title}</div>
+                                                                    <div className={styles.jobCardTitle}>
+                                                                        {attr.text || attr.options.join(' ')}
+                                                                    </div>
                                                                 </div>
                                                             );
                                                         })}
@@ -365,8 +366,8 @@ class Services extends Component {
                                     </div> : null
                             }
                             <div className={styles.sectionCTA}>
-                                <button className="c-btn c-btn--primary c-btn--lg" onClick={this.registerProject}>
-                                                ثبت درخواست
+                                <button className="c-btn c-btn--primary c-btn--md" onClick={this.registerProject}>
+                                    ثبت رایگان درخواست
                                 </button>
                             </div>
 
