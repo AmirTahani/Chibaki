@@ -45,7 +45,7 @@ export default class Description extends Component {
     render() {
         const { question } = this.props;
         return (
-            <div onKeyDown={this.onKeyDown}>
+            <div>
                 <p className={styles.title}>{question.title}</p>
                 <div className={styles.inputWrapper}>
                     <Input

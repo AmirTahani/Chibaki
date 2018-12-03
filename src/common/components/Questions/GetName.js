@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import ReactDOM from 'react-dom';
+import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
 import { Input, Radio } from 'antd';
 import styles from './GetName.module.styl';
@@ -22,14 +22,6 @@ export default class GetName extends PureComponent {
         showOnlyGender: false
     };
 
-    onSubmit = (e) => {
-        e.preventDefault();
-        if (ReactDOM.findDOMNode(e.target).reportValidity()) {
-            this.props.onEnter();
-        }
-        return false;
-    };
-
     componentWillMount() {
         this.event({
             category: 'user',
@@ -40,45 +32,25 @@ export default class GetName extends PureComponent {
 
     onChangeName = (e) => {
         const value = toPersianChar(e.target.value);
-        const regex = new RegExp(persianRegex);
-
-        if (!value) {
-            ReactDOM.findDOMNode(e.target).setCustomValidity('لطفا نام خود را وارد کنید');
-            this.props.setUserName(value);
-            return;
-        }
-
-        if (!regex.test(value)) {
-            ReactDOM.findDOMNode(e.target).setCustomValidity('لطفا نام خود را فارسی وارد کنید');
-            ReactDOM.findDOMNode(e.target).reportValidity();
-            return;
-        }
-
-        ReactDOM.findDOMNode(e.target).setCustomValidity('');
-
         this.props.setUserName(value);
+        this.validateInput(value, e.target, 'نام');
     };
 
     onChangeLastName = (e) => {
         const value = toPersianChar(e.target.value);
-        const regex = new RegExp(persianRegex);
-
-        if (!value) {
-            ReactDOM.findDOMNode(e.target).setCustomValidity('لطفا نام خانوادگی خود را وارد کنید');
-            this.props.setUserLastName(value);
-            return;
-        }
-
-        if (!regex.test(value)) {
-            ReactDOM.findDOMNode(e.target).setCustomValidity('لطفا نام خانوادگی خود را فارسی وارد کنید');
-            ReactDOM.findDOMNode(e.target).reportValidity();
-            return;
-        }
-
-        ReactDOM.findDOMNode(e.target).setCustomValidity('');
-
         this.props.setUserLastName(value);
+        this.validateInput(value, e.target, 'نام خانوادگی');
     };
+
+    validateInput = (value, el, fieldName) => {
+        if (!value) {
+            ReactDom.findDOMNode(el).setCustomValidity(`لطفا ${fieldName} خود را وارد کنید`);
+        } else if (ReactDom.findDOMNode(el).validity.patternMismatch) {
+            ReactDom.findDOMNode(el).setCustomValidity(`لطفا ${fieldName} خود را فارسی وارد کنید`);
+        } else {
+            ReactDom.findDOMNode(el).setCustomValidity('');
+        }
+    }
 
     onChangeGender = (e) => {
         this.props.setUserGender(e.target.value);
@@ -92,14 +64,18 @@ export default class GetName extends PureComponent {
             { label: 'زن', value: 'female' },
         ];
         return (
-            <form onSubmit={this.onSubmit}>
+            <div>
                 <p className={styles.title}>{question.title}</p>
                 <div className={styles.inputsWrapper}>
                     {!showOnlyGender ?
                         <div>
                             <div className={styles.inputWrapper}>
+                                <label htmlFor="questionsFirstName" className={styles.label}>
+                                    نام (فارسی)
+                                </label>
                                 <Input
-                                    placeholder="نام خود را وارد کنید.(فارسی)"
+                                    placeholder="مثال: علی"
+                                    id="questionsFirstName"
                                     onChange={this.onChangeName}
                                     value={this.props.firstName}
                                     pattern={persianRegex}
@@ -108,8 +84,12 @@ export default class GetName extends PureComponent {
                                 />
                             </div>
                             <div className={styles.inputWrapper}>
+                                <label htmlFor="questionsLastName" className={styles.label}>
+                                    نام خانوادگی (فارسی)
+                                </label>
                                 <Input
-                                    placeholder="نام خانوادگی خود را وارد کنید.(فارسی)"
+                                    placeholder="مثال: محمدی"
+                                    id="questionsLastName"
                                     onChange={this.onChangeLastName}
                                     value={this.props.lastName}
                                     pattern={persianRegex}
@@ -120,6 +100,9 @@ export default class GetName extends PureComponent {
                         : null
                     }
                     <div className={styles.inputWrapper}>
+                        <div className={styles.label}>
+                            جنسیت خود را انتخاب کنید
+                        </div>
                         <RadioGroup
                             options={plainOptions}
                             onChange={this.onChangeGender}
@@ -128,12 +111,7 @@ export default class GetName extends PureComponent {
                         />
                     </div>
                 </div>
-                {/* Have a hidden submit button for enter keydown event to work */}
-                <input
-                    type="submit"
-                    className={styles.submit}
-                />
-            </form>
+            </div>
         );
     }
 }

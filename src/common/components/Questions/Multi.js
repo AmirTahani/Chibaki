@@ -126,7 +126,7 @@ export default class Multi extends Component {
         const { options } = this.state;
         const shouldShowInput = this.getInputVisibility();
         return (
-            <div onKeyDown={this.onKeyDown}>
+            <div>
                 <p className={styles.title}>{question.title}</p>
                 {
                     options.map((option, index) => {

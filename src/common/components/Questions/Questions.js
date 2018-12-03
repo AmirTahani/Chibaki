@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import ReactDom from 'react-dom';
 import { Modal, Col, Row, Button, message, Progress, Spin } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -28,6 +29,7 @@ import styles from './Questions.module.styl';
 import GetName from './GetName';
 import Success from './Success';
 import { defualtQuestions } from '../../config';
+import { phoneNumberRegex } from '../../utils/persian';
 
 
 class Questions extends PureComponent {
@@ -425,6 +427,14 @@ class Questions extends PureComponent {
         }
     };
 
+    onFormSubmit = (e, contents) => {
+        e.preventDefault();
+
+        this.next();
+
+        return false;
+    }
+
     submitAnswers = async () => {
         try {
             const {
@@ -497,6 +507,8 @@ class Questions extends PureComponent {
                                     className={`${styles.beginBtn} c-btn c-btn--md c-btn--primary`}
                                     autoFocus
                                     onClick={this.begin}
+                                    type="submit"
+                                    form="questionsForm"
                                 >
                                     شروع
                                 </button> : null,
@@ -508,7 +520,11 @@ class Questions extends PureComponent {
                                         this.exist(contents[current], 'question._id') === 'getPhone'
                                     )
                                 )
-                                && <Button className={styles.buttonNext} onClick={() => this.next(contents)}>
+                                && <Button
+                                    className={styles.buttonNext}
+                                    htmlType="submit"
+                                    form="questionsForm"
+                                >
                                     <span className="icon-next" />
                                     بعدی
                                 </Button>,
@@ -517,11 +533,21 @@ class Questions extends PureComponent {
                                 contents[current].question._id !== 'getPhone' &&
                                 contents[current].question._id !== 'app' &&
                                 contents[current].question._id !== 'success'
-                                && <Button onClick={() => this.next(contents)} className={styles.button} type="primary">ثبت
-                                    درخواست</Button>,
+                                && <Button
+                                    onClick={() => this.next(contents)}
+                                    className={styles.button}
+                                    type="primary"
+                                    htmlType="submit"
+                                    form="questionsForm"
+                                >
+                                    ثبت درخواست
+                                </Button>,
                                 !begin &&
                                 current > 0 &&
-                                <Button className={styles.buttonBack} onClick={() => this.prev(contents)}>
+                                <Button
+                                    className={styles.buttonBack}
+                                    onClick={() => this.prev(contents)}
+                                >
                                     قبلی
                                     <span className="icon-back" />
                                 </Button>,
@@ -529,7 +555,12 @@ class Questions extends PureComponent {
                                 contents[current] &&
                                 contents[current].question &&
                                 contents[current].question._id === 'success' &&
-                                <Button className={styles.button} onClick={this.toggleModal}>
+                                <Button
+                                    className={styles.button}
+                                    onClick={this.toggleModal}
+                                    htmlType="submit"
+                                    form="questionsForm"
+                                >
                                     باشه
                                 </Button>
                             ]
@@ -550,30 +581,41 @@ class Questions extends PureComponent {
                         </div> : null
                         }
                     >
-                        {
-                            loading && !loaded && !begin ? <div className={styles.spinnerWrapper}><Spin /></div> : null
-                        }
-                        {
-                            !loading && loaded && !begin
-                                ? <div
-                                    className={styles.stepsContent}
-                                >
-                                    {contents[current] && contents[current].content}
+                        <form
+                            name="questionsForm"
+                            id="questionsForm"
+                            onSubmit={(e) => {
+                                this.onFormSubmit(e);
+                            }}
+                            ref={(c) => {
+                                this.formRef = c;
+                            }}
+                        >
+                            {
+                                loading && !loaded && !begin ? <div className={styles.spinnerWrapper}><Spin /></div> : null
+                            }
+                            {
+                                !loading && loaded && !begin
+                                    ? <div
+                                        className={styles.stepsContent}
+                                    >
+                                        {contents[current] && contents[current].content}
+                                    </div> : null
+                            }
+                            {
+                                begin ? <div className={styles.beginWrapper}>
+                                    <img
+                                        src="/assets/images/logo/logo-text.svg"
+                                        alt="chibaki logo"
+                                        className={styles.logo}
+                                    />
+                                    <p className={styles.beginText}>برای آنکه بتوانیم بهترین افراد متخصص را به شما معرفی
+                                        کنیم، ابتدا نیاز هست که به چند
+                                        سوال کوتاه پاسخ دهید.
+                                    </p>
                                 </div> : null
-                        }
-                        {
-                            begin ? <div className={styles.beginWrapper}>
-                                <img
-                                    src="/assets/images/logo/logo-text.svg"
-                                    alt="chibaki logo"
-                                    className={styles.logo}
-                                />
-                                <p className={styles.beginText}>برای آنکه بتوانیم بهترین افراد متخصص را به شما معرفی
-                                    کنیم، ابتدا نیاز هست که به چند
-                                    سوال کوتاه پاسخ دهید.
-                                </p>
-                            </div> : null
-                        }
+                            }
+                        </form>
                     </Modal>
                 </Col>
             </Row>

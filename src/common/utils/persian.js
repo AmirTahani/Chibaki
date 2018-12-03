@@ -46,8 +46,8 @@ export function toPersianChar(text) {
     return text ? persianJs(text).arabicChar().toString() : '';
 }
 
-export function toPersianNumber(number) {
-    return number ? persianJs(text).toEnglishNumber().toString() : '';
+export function toEnglishNumber(number) {
+    return number ? persianJs(number).toEnglishNumber().toString() : '';
 }
 
 

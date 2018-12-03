@@ -68,7 +68,7 @@ export default class GetPhone extends Component {
         const { coolDown } = this.state;
 
         return (
-            <div onKeyDown={this.onKeyDown}>
+            <div>
                 <p className={styles.title}>{question.title}</p>
                 <div className={styles.inputWrapper}>
                     <Input

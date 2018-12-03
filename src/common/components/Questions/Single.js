@@ -158,7 +158,7 @@ export default class Multi extends Component {
         const shouldShowInput = this.getInputVisibility();
 
         return (
-            <div onKeyDown={this.onKeyDown}>
+            <div>
                 <p className={styles.title}>{question.title}</p>
                 <Radio.Group onChange={this.onChange} value={this.state.value} className={styles.radioGroup}>
                     {

@@ -143,7 +143,7 @@ export default class SingleWithDatePicker extends Component {
         const { options, value } = this.state;
         const shouldShowDatePicker = this.getShouldShowDatePicker();
         return (
-            <div onKeyDown={this.onKeyDown} tabIndex={0}>
+            <div>
                 <p className={styles.title}>{question.title}</p>
                 <Radio.Group onChange={this.onChange} value={value}>
                     {

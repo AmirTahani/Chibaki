@@ -92,7 +92,7 @@ export default class SelectQuestion extends Component {
         const { question, provinces, loading, loaded } = this.props;
         const { city, province } = this.state;
         return (
-            <div onKeyDown={this.onKeyDown}>
+            <div>
                 {
                     loading && !loaded ? <p>loading..</p> : null
                 }
@@ -108,6 +108,7 @@ export default class SelectQuestion extends Component {
                                 placeholder="مثال: تهران"
                                 onInputKeyDown={this.onInputKeyDown}
                                 className={styles.select}
+                                required
                                 defaultValue={province.name}
                                 key={province.name}
                                 autoFocus
@@ -139,6 +140,7 @@ export default class SelectQuestion extends Component {
                                 placeholder="مثال: تهران"
                                 onInputKeyDown={this.onInputKeyDown}
                                 onChange={this.handleChangeCity}
+                                required
                                 value={city.name}
                                 key={city.name}
                                 className={styles.select}
@@ -168,6 +170,7 @@ export default class SelectQuestion extends Component {
                             id="questionsAddress"
                             onChange={this.onChangeTextOption}
                             value={this.state.address}
+                            required
                         />
                     </div> : null
                 }
