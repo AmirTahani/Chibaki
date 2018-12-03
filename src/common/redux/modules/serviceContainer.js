@@ -1,4 +1,4 @@
-import { put, take, select } from 'redux-saga/effects';
+import { put, take, select, all } from 'redux-saga/effects';
 import { loadCategories, LOAD_CATEGORIES_SUCCESS, loadProfessions, LOAD_PROFESSIONS_SUCCESS } from './professions';
 import { loadProvinces, LOAD_PROVINCES_SUCCESS } from './provinces';
 import { load as loadProficients, LOAD_PROFICIENTS_SUCCESS } from './proficients';
@@ -73,7 +73,7 @@ export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
     try {
         const title = decodeURI(routeTitle).split('_').join(' ');
         let Provinces = yield select(state => state.provinces.provinces);
-        const categories = yield select(state => state.professions.categories);
+        let categories = yield select(state => state.professions.categories);
 
         if (!Provinces.length) {
             yield put(loadProvinces());
@@ -87,7 +87,7 @@ export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
         if (!categories.length) {
             yield take(LOAD_CATEGORIES_SUCCESS);
         }
-
+        categories = yield select(state => state.professions.categories);
         Provinces = yield select(state => state.provinces.provinces);
         let foundProvince = {};
         if (query && query.province) {
@@ -96,14 +96,14 @@ export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
 
         const Profession = new Professions(categories);
         Profession.select(title);
-
         const selectedProfession = Profession.selected.parent;
         const relatedProfessions = Profession.selected.related;
-
         yield put(loadProjectsForProf(selectedProfession._id, foundProvince && foundProvince._id));
         yield put(loadProficients(selectedProfession._id, decodeURI(routeTitle), selectedProfession, foundProvince && foundProvince._id));
-        yield take(projectsLoadedSuccess);
-        yield take(LOAD_PROFICIENTS_SUCCESS);
+        yield all([
+            take(projectsLoadedSuccess),
+            take(LOAD_PROFICIENTS_SUCCESS),
+        ]);
         yield put(loadSuccess(relatedProfessions));
         resolve && resolve('done');
     } catch (error) {

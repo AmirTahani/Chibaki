@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
@@ -7,6 +7,7 @@ import { Row, Col, Tooltip } from 'antd';
 import { connect } from 'react-redux';
 import '../Services/Services.css';
 import { loader } from '../../redux/modules/professions';
+import queryString from "query-string";
 
 // import professions from "../../redux/modules/professions";
 
@@ -21,10 +22,11 @@ class Services extends Component {
 
     componentDidMount() {
         const { location } = this.props;
+        const params = queryString.parse(location.search);
         setTimeout(() => {
-            if (this.exist(location, 'query.cat')) {
-                if (this.refs[location.query.cat]) {
-                    ReactDOM.findDOMNode(this.refs[this.props.location.query.cat]).scrollIntoView({
+            if (params && params.cat) {
+                if (this.refs[params.cat]) {
+                    ReactDOM.findDOMNode(this.refs[params.cat]).scrollIntoView({
                         block: 'start',
                         inline: 'nearest',
                         behavior: 'smooth'

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter, Link } from 'react-router';
+import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import { Row, Col, Tooltip, Button, Rate, Spin, Icon } from 'antd';
 import { Helmet } from 'react-helmet';
 import objectFitImages from 'object-fit-images';
@@ -15,6 +16,7 @@ import { setAnswer, clearAnswers } from '../../redux/modules/questions';
 import ProfessionalCard from '../../components/professionalCard/professionalCard';
 import { commaSeprator } from '../../utils/helpers';
 import Loader from '../../components/Kit/Loader/Loader';
+import queryString from "query-string";
 
 const SHOULD_INIT_SLIDER = typeof window !== 'undefined' && window.innerWidth > 350;
 const Flickity = SHOULD_INIT_SLIDER ? require('react-flickity-component') : 'div';
@@ -29,7 +31,6 @@ class Services extends Component {
         count: PropTypes.number.isRequired,
         location: PropTypes.objectOf(PropTypes.any).isRequired,
         answers: PropTypes.objectOf(PropTypes.any).isRequired,
-        router: PropTypes.objectOf(PropTypes.any).isRequired,
         provinces: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         professionsJobs: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         loadConnect: PropTypes.func.isRequired,
@@ -70,24 +71,26 @@ class Services extends Component {
 
     getProvinceObjByName = (props, value) => {
         const { location, provinces } = props;
+        const params = queryString.parse(location.search);
+
         if (value) {
             return provinces.find(province => province.name === value);
         }
-        if (this.exist(location, 'query.province')) {
-            return provinces.find(province => province.name === location.query.province);
+        if (params && params.province) {
+            return provinces.find(province => province.name === params.province);
         }
         return {};
     };
 
     onProvinceSelect = (value) => {
-        const { router } = this.props;
+        const { history, location, match } = this.props;
         const provinceValue = this.getProvinceObjByName(this.props, value);
         this.setState({
             provinceValue
         });
         this.props.setAnswerConnect('location', { province: provinceValue });
-        router.push(`${decodeURI(router.getCurrentLocation().pathname)}?province=${value}`);
-        this.props.loadConnect(null, null, { province: value }, router.params.title);
+        history.push(`${decodeURI(location.pathname)}?province=${value}`);
+        this.props.loadConnect(null, null, { province: value }, match.params.title);
     };
 
     getProfessionPrice = () => {
@@ -146,9 +149,11 @@ class Services extends Component {
     }
 
     componentDidMount() {
-        const { location, router } = this.props;
+        const { location, match } = this.props;
+        const params = queryString.parse(location.search);
+
         if (window && window.__renderType__ === 'client') {
-            this.props.loadConnect(null, null, location.query, router.params.title);
+            this.props.loadConnect(null, null, params, match.params.title);
         }
         objectFitImages();
         if (this.jobCardFlickity) {
@@ -161,10 +166,12 @@ class Services extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        const { location, router } = this.props;
+        const { location, match } = this.props;
+        const params = queryString.parse(location.search);
+
         if (prevProps.location.query !== location.query) {
             if (window && window.__renderType__ === 'client') {
-                this.props.loadConnect(null, null, location.query, router.params.title);
+                this.props.loadConnect(null, null, params, match.params.title);
             }
         }
         return this.props;

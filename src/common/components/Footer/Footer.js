@@ -1,5 +1,5 @@
 import { Col, Row } from 'antd';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { css } from 'emotion';
 import React, { Component } from 'react';
 

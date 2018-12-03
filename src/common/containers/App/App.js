@@ -1,11 +1,13 @@
-import { Router, Route, browserHistory, IndexRoute } from 'react-router';
+import { BrowserRouter, Switch, Route,Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { browserHistory, withRouter } from 'react-router';
+
 import React, { Component } from 'react';
-import { hotjar } from 'react-hotjar';
 import 'antd/dist/antd.less';
 import { exist } from '../../utils/helpers';
 import '../../styles/App.styl';
-
-import { Home, About, Services, Tos, Service, Professional, ContactUs, Main } from '../';
+import { About, ContactUs, Home, Professional, Service, Services, Tos, Main } from '../';
+import { hotjar } from "react-hotjar";
 
 Component.prototype.exist = exist;
 Component.prototype.event = (props) => {
@@ -15,30 +17,23 @@ Component.prototype.event = (props) => {
 };
 
 
-const Routes = (props) => {
-    if (browserHistory && browserHistory.listen) {
-        browserHistory.listen((location) => {
-            if (window) {
-                ga('send', 'pageview', `/${location.pathname}${location.search}`);
-                window.__renderType__ = 'client';
-                hotjar.initialize(734640);
-            }
-        });
+class Routes extends Component {
+//     if (browserHistory && browserHistory.listen) {
+// });
+    render() {
+        return (
+            <section>
+                <Switch onUpdate={() => window.scrollTo(0, 0)} >
+                    <Route  path="/" component={Main} />
+                </Switch>
+            </section>
+        );
+    };
+}
+function mapStateToProps(state) {
+    return {
+
     }
+}
+export default withRouter(connect(mapStateToProps)(Routes));
 
-    return (
-        <Router onUpdate={() => window.scrollTo(0, 0)} history={browserHistory} {...props}>
-            <Route path="/" component={Main}>
-                <IndexRoute component={Home} />
-                <Route path={encodeURI('درباره_ما')} component={About} />
-                <Route path="tos" component={Tos} />
-                <Route path={encodeURI('تماس_با_ما')} component={ContactUs} />
-                <Route exact path={encodeURI('خدمات')} component={Services} />
-                <Route path={`${encodeURI('خدمات')}/:title`} component={Service} />
-                <Route path={'professional/:id'} component={Professional} />
-            </Route>
-        </Router>
-    );
-};
-
-export default Routes;

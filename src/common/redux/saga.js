@@ -1,5 +1,5 @@
 import { all, takeEvery } from 'redux-saga/effects';
-import { REHYDRATE } from 'redux-persist/constants';
+import { REHYDRATE } from 'redux-persist';
 
 import { watchRehydrate } from './modules/rehydrate';
 import {

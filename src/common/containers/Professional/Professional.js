@@ -12,6 +12,7 @@ import { sitePath } from '../../config';
 import { setProfId } from '../../redux/modules/questions';
 import { load } from '../../redux/modules/professional';
 import styles from './Professional.style.module.styl';
+import queryString from 'query-string';
 
 
 class Professional extends Component {
@@ -20,7 +21,6 @@ class Professional extends Component {
         routeParams: PropTypes.objectOf(PropTypes.any).isRequired,
         professional: PropTypes.objectOf(PropTypes.any).isRequired,
         location: PropTypes.objectOf(PropTypes.any).isRequired,
-        router: PropTypes.objectOf(PropTypes.any).isRequired,
         comments: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.any)).isRequired,
         loadConnect: PropTypes.func.isRequired
     };
@@ -39,13 +39,14 @@ class Professional extends Component {
 
     onProfessionChange = (e) => {
         e.preventDefault();
-        const { professional, router } = this.props;
+        const { professional, location, match, history } = this.props;
+        const params = queryString.parse(location.search);
+
         const professions = this.exist(professional, 'user.professions');
         const activeProfession = professions.find((profession) => {
             return profession.profession._id === e.target.value;
         });
-        const currentLocation = router.getCurrentLocation();
-        router.replace(`${decodeURI(currentLocation.pathname)}?id=${currentLocation.query.id}&profId=${e.target.value}`);
+        history.replace(`${decodeURI(location.pathname)}?id=${params.id}&profId=${e.target.value}`);
         this.setState({
             selectedProfession: activeProfession
         });
@@ -67,6 +68,7 @@ class Professional extends Component {
 
     getProfImage = () => {
         const { selectedProfession } = this.state;
+
         if (this.exist(selectedProfession, 'intro')) {
             return Object.keys(selectedProfession.intro).reduce((acc, current) => {
                 if (current.indexOf('photo') >= 0 && selectedProfession.intro[current]) {
@@ -248,10 +250,12 @@ class Professional extends Component {
 
     componentWillReceiveProps(nextProps) {
         const { location, professional } = nextProps;
+        const params = queryString.parse(location.search);
+
         if (professional && professional.user) {
             const professions = this.exist(professional, 'user.professions');
             const activeProfession = professions.find((profession) => {
-                return profession.profession._id === this.exist(location, 'query.profId');
+                return profession.profession._id === params && params.profId;
             });
             this.setState({
                 selectedProfession: activeProfession
@@ -260,11 +264,14 @@ class Professional extends Component {
     }
 
     componentDidMount() {
-        const { location, professional, router } = this.props;
+        console.log(this.props);
+        const { location, professional, history } = this.props;
+        const params = queryString.parse(location.search);
+
         const professions = this.exist(professional, 'user.professions');
         if (professions && professions.length) {
             const activeProfession = professions.find((profession) => {
-                return profession.profession._id === this.exist(location, 'query.profId');
+                return profession.profession._id === params && params.profId ;
             });
             if (activeProfession && activeProfession._id) {
                 this.setState({
@@ -274,11 +281,10 @@ class Professional extends Component {
                 this.setState({
                     selectedProfession: professions[0]
                 });
-                const currentLocation = router.getCurrentLocation();
-                router.replace(`${decodeURI(currentLocation.pathname)}?id=${currentLocation.query.id}&profId=${professions[0].profession._id}`);
+                history.replace(`${decodeURI(location.pathname)}?id=${params.id}&profId=${professions[0].profession._id}`);
             }
         }
-        this.props.setProfIdConnect(location.query.id);
+        this.props.setProfIdConnect(params.id);
         this.event({
             category: 'user',
             action: 'PROFILE_VIEW'
@@ -294,7 +300,7 @@ class Professional extends Component {
         }
 
         if (window && window.__renderType__ === 'client') {
-            this.props.loadConnect(location.query.id, location.query.profId);
+            this.props.loadConnect(params.id, params.profId);
         }
         objectFitImages();
     }

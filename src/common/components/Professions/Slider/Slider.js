@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import objectFitImages from 'object-fit-images';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import './Slider.styl';
 
 

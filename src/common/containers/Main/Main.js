@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import ReactDom from 'react-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router';
+import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
@@ -8,11 +9,11 @@ import HowItWorks from '../../components/Kit/HowItWorks/HowItWorks';
 import Features from '../../components/Features/Features';
 import GetApp from '../../components/GetApp/GetApp';
 import styles from './Main.module.styl';
+import { About, ContactUs, Professional, Service, Services, Tos, Home } from "../index";
+import { hotjar } from "react-hotjar";
 
 class Main extends Component {
     static propTypes = {
-        children: PropTypes.node.isRequired,
-        router: PropTypes.objectOf(PropTypes.any).isRequired
     };
 
     state = {
@@ -28,8 +29,8 @@ class Main extends Component {
     };
 
     componentWillReceiveProps(nextProps) {
-        const { router } = nextProps;
-        const currentLocation = decodeURI(router.getCurrentLocation().pathname);
+        const { location } = nextProps;
+        const currentLocation = decodeURI(location.pathname);
         if (currentLocation === '/درباره_ما' || currentLocation === '/تماس_با_ما') {
             this.setState({
                 shouldShowChibakiSection: false
@@ -42,8 +43,17 @@ class Main extends Component {
     }
 
     componentDidMount() {
-        const { router } = this.props;
-        const currentLocation = decodeURI(router.getCurrentLocation().pathname);
+        const { location, history } = this.props;
+        history.listen((location) => {
+            console.log(location);
+            if (window) {
+                window.ga('send', 'pageview', `/${location.pathname}${location.search}`);
+                window.__renderType__ = 'client';
+                hotjar.initialize(734640);
+            }
+        });
+
+        const currentLocation = decodeURI(location.pathname);
         if (currentLocation === '/درباره_ما' || currentLocation === '/تماس_با_ما') {
             this.setState({
                 shouldShowChibakiSection: false
@@ -58,7 +68,15 @@ class Main extends Component {
                 <Header handleScroll={this.handleScroll} />
 
                 <div className={styles.container}>
-                    {this.props.children}
+                   <Switch>
+                       <Route exact path='/' component={Home} />
+                       <Route path='/درباره_ما/' component={About} />
+                       <Route path="/tos/" component={Tos} />
+                       <Route path='/تماس_با_ما/' component={ContactUs} />
+                       <Route exact path='/خدمات' component={Services} />
+                       <Route path='/خدمات/:title' component={Service} />
+                       <Route path='/professional/:id/' component={Professional} />
+                   </Switch>
                 </div>
 
                 <HowItWorks ref="howitworks" shouldShowChibakiSection={shouldShowChibakiSection} />
