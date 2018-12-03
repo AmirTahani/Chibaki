@@ -111,13 +111,17 @@ export function* watchLoadProfessional(client, { professionalId, profId, resolve
         yield put(loadComments(comments.data));
         yield put(loadSuccess(response.data));
         const professions = exist(response, 'data.user.professions');
-        const userProfession = professions.find(profession => profession.profession._id === profId);
-        if (exist(userProfession, 'intro.description')) {
-            yield put(setMeta(exist(userProfession, 'intro.description')));
-        }
-        if (profId) {
-            const singleProf = yield client.get(`/v1/professions/${profId}?select=description`);
-            yield put(setMeta(exist(singleProf, 'data.description')));
+        if (professions && professions.length) {
+            const userProfession = professions.find(profession => profession.profession._id === profId);
+            if (userProfession && exist(userProfession, 'intro.description')) {
+                yield put(setMeta(exist(userProfession, 'intro.description')));
+            } else if (profId && userProfession) {
+                const singleProf = yield client.get(`/v1/professions/${profId}?select=description`);
+                yield put(setMeta(exist(singleProf, 'data.description')));
+            } else {
+                const singleProf = yield client.get(`/v1/professions/${exist(professions[0], 'profession._id')}?select=description`);
+                yield put(setMeta(exist(singleProf, 'data.description')));
+            }
         }
         resolve && resolve('');
     } catch (error) {

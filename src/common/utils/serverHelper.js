@@ -77,7 +77,8 @@ export function getMetaTags(store, route, query) {
                 userProfession = state.professional.professional.user.professions.find((profession) => {
                     return profession.profession._id === query.profId;
                 });
-            } else {
+            }
+            if (!userProfession) {
                 userProfession = state.professional.professional.user.professions[0];
             }
             const firstname = exist(state, 'professional.professional.user.firstname');
