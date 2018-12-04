@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import objectFitImages from 'object-fit-images';
+import queryString from 'query-string';
 import { Icon } from '../../components/Kit';
 import Questions from '../../components/Questions/Questions';
 import Comments from '../../components/Professional/Comments';
@@ -12,8 +13,6 @@ import { sitePath } from '../../config';
 import { setProfId } from '../../redux/modules/questions';
 import { load } from '../../redux/modules/professional';
 import styles from './Professional.style.module.styl';
-import queryString from 'query-string';
-
 
 class Professional extends Component {
     static propTypes = {
@@ -22,7 +21,9 @@ class Professional extends Component {
         professional: PropTypes.objectOf(PropTypes.any).isRequired,
         location: PropTypes.objectOf(PropTypes.any).isRequired,
         comments: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.any)).isRequired,
-        loadConnect: PropTypes.func.isRequired
+        loadConnect: PropTypes.func.isRequired,
+        match: PropTypes.objectOf(PropTypes.any).isRequired,
+        history: PropTypes.objectOf(PropTypes.any).isRequired
     };
 
     state = {
@@ -271,7 +272,7 @@ class Professional extends Component {
         const professions = this.exist(professional, 'user.professions');
         if (professions && professions.length) {
             const activeProfession = professions.find((profession) => {
-                return profession.profession._id === params && params.profId ;
+                return profession.profession._id === params && params.profId;
             });
             if (activeProfession && activeProfession._id) {
                 this.setState({

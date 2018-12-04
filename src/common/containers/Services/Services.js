@@ -5,19 +5,15 @@ import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import { Row, Col, Tooltip } from 'antd';
 import { connect } from 'react-redux';
+import queryString from 'query-string';
 import '../Services/Services.css';
 import { loader } from '../../redux/modules/professions';
-import queryString from "query-string";
-
-// import professions from "../../redux/modules/professions";
-
 
 class Services extends Component {
     static propTypes = {
         location: PropTypes.objectOf(PropTypes.any).isRequired,
         cat: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         loadConnect: PropTypes.func.isRequired
-
     };
 
     componentDidMount() {

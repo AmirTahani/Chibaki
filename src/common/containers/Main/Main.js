@@ -3,17 +3,19 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
+import { hotjar } from 'react-hotjar';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import HowItWorks from '../../components/Kit/HowItWorks/HowItWorks';
 import Features from '../../components/Features/Features';
 import GetApp from '../../components/GetApp/GetApp';
 import styles from './Main.module.styl';
-import { About, ContactUs, Professional, Service, Services, Tos, Home } from "../index";
-import { hotjar } from "react-hotjar";
+import { About, ContactUs, Professional, Service, Services, Tos, Home } from '../index';
 
 class Main extends Component {
     static propTypes = {
+        location: PropTypes.objectOf(PropTypes.any).isRequired,
+        history: PropTypes.objectOf(PropTypes.any).isRequired
     };
 
     state = {
@@ -43,7 +45,7 @@ class Main extends Component {
     }
 
     componentDidMount() {
-        const { location, history } = this.props;
+        const { history } = this.props;
         history.listen((location) => {
             console.log(location);
             if (window) {
@@ -68,15 +70,15 @@ class Main extends Component {
                 <Header handleScroll={this.handleScroll} />
 
                 <div className={styles.container}>
-                   <Switch>
-                       <Route exact path='/' component={Home} />
-                       <Route path='/درباره_ما/' component={About} />
-                       <Route path="/tos/" component={Tos} />
-                       <Route path='/تماس_با_ما/' component={ContactUs} />
-                       <Route exact path='/خدمات' component={Services} />
-                       <Route path='/خدمات/:title' component={Service} />
-                       <Route path='/professional/:id/' component={Professional} />
-                   </Switch>
+                    <Switch>
+                        <Route exact path="/" component={Home} />
+                        <Route path="/درباره_ما/" component={About} />
+                        <Route path="/tos/" component={Tos} />
+                        <Route path="/تماس_با_ما/" component={ContactUs} />
+                        <Route exact path="/خدمات" component={Services} />
+                        <Route path="/خدمات/:title" component={Service} />
+                        <Route path="/professional/:id/" component={Professional} />
+                    </Switch>
                 </div>
 
                 <HowItWorks ref="howitworks" shouldShowChibakiSection={shouldShowChibakiSection} />

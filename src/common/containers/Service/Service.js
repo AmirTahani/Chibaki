@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet';
 import objectFitImages from 'object-fit-images';
 import { connect } from 'react-redux';
 import moment from 'moment-jalali';
+import queryString from 'query-string';
 import Questions from '../../components/Questions/Questions';
 import Autocomplete from '../../components/Kit/AutoComplete/AutoComplete';
 import styles from './Service.module.styl';
@@ -16,7 +17,6 @@ import { setAnswer, clearAnswers } from '../../redux/modules/questions';
 import ProfessionalCard from '../../components/professionalCard/professionalCard';
 import { commaSeprator } from '../../utils/helpers';
 import Loader from '../../components/Kit/Loader/Loader';
-import queryString from "query-string";
 
 const SHOULD_INIT_SLIDER = typeof window !== 'undefined' && window.innerWidth > 350;
 const Flickity = SHOULD_INIT_SLIDER ? require('react-flickity-component') : 'div';
@@ -40,7 +40,9 @@ class Services extends Component {
         loading: PropTypes.bool.isRequired,
         loadMoreProfessiontsConnect: PropTypes.func.isRequired,
         fetching: PropTypes.bool.isRequired,
-        paginationEnded: PropTypes.bool.isRequired
+        paginationEnded: PropTypes.bool.isRequired,
+        history: PropTypes.objectOf(PropTypes.any).isRequired,
+        match: PropTypes.objectOf(PropTypes.any).isRequired
     };
 
     sliderOptions = {
