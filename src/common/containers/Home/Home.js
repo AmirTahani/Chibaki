@@ -16,7 +16,7 @@ class Home extends Component {
         professions: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         sliders: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         loadConnect: PropTypes.func.isRequired,
-        router: PropTypes.objectOf(PropTypes.any).isRequired
+        history: PropTypes.objectOf(PropTypes.any).isRequired
     };
 
     state = {
@@ -31,7 +31,7 @@ class Home extends Component {
     }
 
     handleSelect = (professionId) => {
-        this.props.router.push(`/${encodeURI('خدمات')}/${professionId}`);
+        this.props.history.push(`/${encodeURI('خدمات')}/${professionId}`);
     };
 
     handleClose = () => {

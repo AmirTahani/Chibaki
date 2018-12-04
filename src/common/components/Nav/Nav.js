@@ -11,7 +11,8 @@ class Nav extends Component {
         user: PropTypes.objectOf(PropTypes.any).isRequired,
         toggleAuthModal: PropTypes.func.isRequired,
         handleScroll: PropTypes.func.isRequired,
-        router: PropTypes.objectOf(PropTypes.any).isRequired
+        location: PropTypes.objectOf(PropTypes.any).isRequired,
+        history: PropTypes.objectOf(PropTypes.any).isRequired
     };
 
     state = {
@@ -71,10 +72,10 @@ class Nav extends Component {
     };
 
     goToHomeAndScroll = (type) => {
-        const { router } = this.props;
-        const currentLocation = decodeURI(router.getCurrentLocation().pathname);
+        const { location, history } = this.props;
+        const currentLocation = decodeURI(location.pathname);
         if (currentLocation === '/درباره_ما' || currentLocation === '/تماس_با_ما') {
-            router.push('/');
+            history.push('/');
             window.setTimeout(() => this.handleScroll(type), 300);
         } else {
             this.handleScroll(type);
