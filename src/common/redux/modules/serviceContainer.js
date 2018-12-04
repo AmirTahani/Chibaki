@@ -10,11 +10,14 @@ export const LOAD = 'ssr/serviceContainer/LOAD';
 export const LOAD_SUCCESS = 'ssr/serviceContainer/LOAD_SUCCESS';
 export const LOAD_FAILURE = 'ssr/serviceContainer/LOAD_FAILURE';
 
+export const SAVE_TITLE = 'ssr/serviceContainer/SAVE_TITLE';
+
 const initialState = {
     loading: false,
     loaded: false,
     error: null,
-    relatedProfessions: []
+    relatedProfessions: [],
+    title: ''
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -39,11 +42,22 @@ export default function reducer(state = initialState, action = {}) {
                 loading: false,
                 error: action.error
             };
+        case SAVE_TITLE:
+            return {
+                ...state,
+                title: action.title ? action.title.split('_').join(' ') : state.title
+            };
         default:
             return state;
     }
 }
 
+export function saveTitle(title) {
+    return {
+        type: SAVE_TITLE,
+        title
+    };
+}
 
 export function load(resolve, reject, query, routeTitle) {
     return {
@@ -71,6 +85,8 @@ export function loadFailure(error) {
 
 export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
     try {
+        yield put(saveTitle(decodeURI(routeTitle)));
+
         const title = decodeURI(routeTitle).split('_').join(' ');
         let Provinces = yield select(state => state.provinces.provinces);
         let categories = yield select(state => state.professions.categories);

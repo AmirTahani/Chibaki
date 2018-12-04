@@ -171,7 +171,7 @@ class Services extends Component {
         const { location, match } = this.props;
         const params = queryString.parse(location.search);
 
-        if (prevProps.location.query !== location.query) {
+        if (prevProps.match.params.title !== match.params.title) {
             if (window && window.__renderType__ === 'client') {
                 this.props.loadConnect(null, null, params, match.params.title);
             }
@@ -208,7 +208,7 @@ class Services extends Component {
                 <Helmet>
                     <title>
                         {
-                            `چی باکی - ${title.split('_').join(' ')} ${provinceValue && provinceValue.name ? `در ${provinceValue.name}` : ''} - Chibaki`
+                            `چی باکی - ${title} ${provinceValue && provinceValue.name ? `در ${provinceValue.name}` : ''} - Chibaki`
                         }
                     </title>
                 </Helmet>
@@ -221,7 +221,7 @@ class Services extends Component {
                     <div className={styles.heroContent}>
                         <div>
                             <h1 className={styles.heroTitle}>
-                                {title.split('_').join(' ')}
+                                {title}
                                 {(provinceValue && provinceValue.name) && <div className={styles.heroTitleCity}>
                                     {`در ${provinceValue.name}`}
                                 </div>}
@@ -293,7 +293,7 @@ class Services extends Component {
                                 <div>
                                     <div>
                                         <h2 className={styles.title}>
-                                            متخصصین {title.split('_').join(' ')} در {provinceValue && provinceValue.name ? provinceValue.name : 'چی باکی'} ({count} متخصص)
+                                            متخصصین {title} در {provinceValue && provinceValue.name ? provinceValue.name : 'چی باکی'} ({count} متخصص)
                                         </h2>
                                         <div className={styles.subtitle}>نمایش تصادفی</div>
                                     </div>
@@ -324,7 +324,7 @@ class Services extends Component {
                                     <div>
                                         <div>
                                             <div className={styles.title}>آخرین درخواست‌های مشابه در چی‌با‌کی</div>
-                                            <div className={styles.subtitle}>{title.split('_').join(' ')}</div>
+                                            <div className={styles.subtitle}>{title}</div>
                                         </div>
                                         <Flickity
                                             options={this.sliderOptions}
@@ -383,7 +383,7 @@ class Services extends Component {
                             <div className={styles.sectionRelated}>
                                 <div>
                                     <div className={styles.title}>خدمات مرتبط در چی‌با‌کی</div>
-                                    <div className={styles.subtitle}>{title.split('_').join(' ')}</div>
+                                    <div className={styles.subtitle}>{title}</div>
                                 </div>
                                 <div className={styles.relatedLinkWrapper}>
                                     {relatedProfessions.map((profession) => {
@@ -412,7 +412,7 @@ class Services extends Component {
 
 export const connectedServices = connect(state => ({
     proficients: state.proficients.proficients,
-    title: state.proficients.title,
+    title: state.serviceContainer.title,
     selectedProfession: state.proficients.selectedProfession,
     relatedProfessions: state.serviceContainer.relatedProfessions,
     answers: state.questions.answers,
