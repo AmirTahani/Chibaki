@@ -18,8 +18,16 @@ Component.prototype.event = (props) => {
 
 
 class Routes extends Component {
-//     if (browserHistory && browserHistory.listen) {
-// });
+    componentDidMount() {
+        window.$crisp = [];
+        window.CRISP_WEBSITE_ID = '91b68043-6b64-41c6-9b7c-a055b3dec356';
+        const d = document;
+        const s = d.createElement('script');
+        s.src = 'https://client.crisp.chat/l.js';
+        s.async = 1;
+        d.getElementsByTagName('head')[0].appendChild(s);
+    }
+
     render() {
         return (
             <section>
