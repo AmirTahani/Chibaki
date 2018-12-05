@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, withRouter } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
@@ -73,9 +73,11 @@ class Services extends Component {
                     {cat.map((item) => {
                         return (
                             <NavLink
+                                exact
                                 to={`/${encodeURI('خدمات')}?cat=${item.label.split(' ').join('_')}`}
                                 className={styles.servicesNavItem}
-                                exact
+                                activeClassName="active"
+                                key={item.label.split(' ').join('_')}
                             >
                                 {item.label}
                             </NavLink>
@@ -87,6 +89,7 @@ class Services extends Component {
                         return (
                             <section
                                 ref={item.label.split(' ').join('_')}
+                                key={item.label.split(' ').join('_')}
                                 id={item.label.split(' ').join('_')}
                                 className={styles.servicesRow}
                             >
@@ -110,6 +113,9 @@ class Services extends Component {
                                                             to={`/${encodeURI('خدمات')}/${profession.title.split(' ').join('_')}`}
                                                             className={`${styles.servicesItem} ${profession.profession_id ? styles.serviceItemChild : ''}`}
                                                         >
+                                                            {!profession.profession_id &&
+                                                                <span className={`${styles.servicesItemIcon} icon-chevron-down`} />
+                                                            }
                                                             {profession.title}
                                                         </Link>
                                                     </h3>
@@ -127,8 +133,8 @@ class Services extends Component {
     }
 }
 
-export default connect(state => ({
+export default withRouter(connect(state => ({
     cat: state.professions.categories
 }), {
     loadConnect: loader
-})(Services);
+})(Services));
