@@ -14,8 +14,6 @@ export const history = createBrowserHistory();
 
 const { store, persistor } = createStore(new apiClient(), window.__PRELOADED_STATE__);
 
-console.log(window.__PRELOADED_STATE__);
-
 hydrate(<Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
         <Router history={history} forceRefresh={!supportsHistory}>
