@@ -3,18 +3,25 @@ import { NavLink, Link, withRouter } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
-import { Row, Col, Tooltip } from 'antd';
+import { Row, Col, Tooltip, Input, Button } from 'antd';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 import styles from '../Services/Services.module.styl';
 import { loader } from '../../redux/modules/professions';
+import AutoComplete from '../../components/Kit/AutoComplete/AutoComplete';
 
 class Services extends Component {
     static propTypes = {
         location: PropTypes.objectOf(PropTypes.any).isRequired,
+        professions: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         cat: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
-        loadConnect: PropTypes.func.isRequired
+        loadConnect: PropTypes.func.isRequired,
+        history: PropTypes.objectOf(PropTypes.any).isRequired
     };
+
+    onAutoCompleteSubmit = (professionTitle) => {
+        this.props.history.push(`/${encodeURI('خدمات')}/${professionTitle}`);
+    }
 
     scrollToCat = (cat) => {
         setTimeout(() => {
@@ -57,7 +64,7 @@ class Services extends Component {
     }
 
     render() {
-        const { cat } = this.props;
+        const { cat, professions } = this.props;
         return (
             <div
                 className={styles.container}
@@ -85,6 +92,21 @@ class Services extends Component {
                     })}
                 </div>
                 <div className={styles.servicesContainer}>
+                    <div className={styles.searchWrapper}>
+                        <AutoComplete
+                            options={professions}
+                            valueAs={'title'}
+                            onSubmit={this.onAutoCompleteSubmit}
+                            className={styles.searchComponent}
+                            fieldName={'servicesSearch'}
+                            fieldClassName={styles.searchInput}
+                            dropdownClassName={styles.searchDropdown}
+                            placeholder="جستجو در خدمات"
+                            btnClassName={styles.searchBtn}
+                            btnContent={(<span className="icon-search" />)}
+                        />
+                    </div>
+
                     {cat.map((item) => {
                         return (
                             <section
@@ -134,7 +156,8 @@ class Services extends Component {
 }
 
 export default withRouter(connect(state => ({
-    cat: state.professions.categories
+    cat: state.professions.categories,
+    professions: state.professions.professions
 }), {
     loadConnect: loader
 })(Services));

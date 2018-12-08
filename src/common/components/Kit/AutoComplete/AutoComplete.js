@@ -20,6 +20,7 @@ export default class AutoComplete extends Component {
         showOptionsWhenEmpty: PropTypes.bool,
         fieldName: PropTypes.string,
         fieldClassName: PropTypes.string,
+        btnClassName: PropTypes.string,
         wrapInForm: PropTypes.bool,
         className: PropTypes.string
     };
@@ -33,6 +34,7 @@ export default class AutoComplete extends Component {
         showOptionsWhenEmpty: false,
         fieldName: '',
         fieldClassName: '',
+        btnClassName: '',
         wrapInForm: true,
         className: ''
     };
@@ -54,7 +56,7 @@ export default class AutoComplete extends Component {
     });
 
     handleChange = (value) => {
-        if (value) {
+        if (typeof value !== 'undefined') {
             this.setState({
                 selectedValue: ''
             });
@@ -120,7 +122,22 @@ export default class AutoComplete extends Component {
     }
 
     render() {
-        const { onSubmit, showBtn, placeholder, children, defaultValue, valueAs, fieldName, fieldClassName, wrapInForm, className, ...rest } = this.props;
+        const {
+            onSubmit,
+            showBtn,
+            placeholder,
+            children,
+            defaultValue,
+            valueAs,
+            fieldName,
+            fieldClassName,
+            wrapInForm,
+            className,
+            btnClassName,
+            dropdownClassName,
+            btnContent,
+            ...rest
+        } = this.props;
         const { options } = this.state;
         const Wrapper = wrapInForm ? 'form' : 'div';
 
@@ -149,12 +166,13 @@ export default class AutoComplete extends Component {
                         required
                     />}
                 </AntAutoComplete>
-                {
-                    showBtn &&
-                    <button onClick={() => onSubmit(this.state.selectedValue)} className={styles.btn}>
-                        ادامه
-                    </button>
-                }
+                <button
+                    type="submit"
+                    onClick={() => onSubmit(this.state.selectedValue)}
+                    className={`${styles.btn} ${!showBtn ? styles.hide : ''} ${btnClassName}`}
+                >
+                    {btnContent || 'ادامه'}
+                </button>
             </Wrapper>
         );
     }
