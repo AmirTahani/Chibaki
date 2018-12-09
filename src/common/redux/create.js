@@ -22,7 +22,9 @@ export default function create(client, preloadState, type) {
     }
     const store = createStore(finalReducers, preloadState, applyMiddleware(sagaMiddleWare));
     store.rootTask = sagaMiddleWare.run(saga, client, store);
-
-    const persistor = persistStore(store);
-    return { store, persistor };
+    if (type === 'server') {
+        const persistor = persistStore(store);
+        return { store, persistor };
+    }
+    return { store, persistor: null };
 }

@@ -71,7 +71,6 @@ module.exports = {
                     sourceMap: !IS_DEV,
                 }),
             ],
-            runtimeChunk: !IS_DEV,
         };
         appConfig.optimization.splitChunks = IS_DEV ? {} : {
             chunks: 'all',
