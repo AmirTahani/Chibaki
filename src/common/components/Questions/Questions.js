@@ -388,6 +388,7 @@ class Questions extends PureComponent {
                     updateUserConnect({ gender }, resolve, reject);
                 }).then(async () => {
                     try {
+                        //hereeeeee
                         await this.submitAnswers();
                         this.setState({
                             questions: [...this.state.questions, {
@@ -433,7 +434,7 @@ class Questions extends PureComponent {
         this.next();
 
         return false;
-    }
+    };
 
     submitAnswers = async () => {
         try {

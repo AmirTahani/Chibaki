@@ -23,7 +23,7 @@ export default class Icon extends Component {
             color,
             width: size,
             height: size,
-            'font-size': fontSize,
+            fontSize,
             ...customStyle
         };
     };

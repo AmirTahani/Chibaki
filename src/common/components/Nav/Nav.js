@@ -58,7 +58,7 @@ class Nav extends Component {
                 },
             {
                 label: 'خدمات',
-                link: `/${encodeURI('خدمات')}`
+                link: '/خدمات'
             },
             {
                 label: 'چگونه کار می‌کند',
