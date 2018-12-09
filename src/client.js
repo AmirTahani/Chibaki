@@ -12,7 +12,7 @@ import createStore from './common/redux/create';
 const supportsHistory = 'pushState' in window.history;
 export const history = createBrowserHistory();
 
-const { store, persistor } = createStore(new apiClient(), window.__PRELOADED_STATE__);
+const { store, persistor } = createStore(new apiClient(), window.__PRELOADED_STATE__, 'client');
 
 hydrate(<Provider store={store}>
     {
@@ -26,8 +26,6 @@ hydrate(<Provider store={store}>
                 <Routes />
             </Router>
     }
-
-
 </Provider>, document.getElementById('root'));
 
 if (module.hot) {
