@@ -72,10 +72,10 @@ module.exports = {
                 }),
             ],
         };
-        appConfig.optimization.splitChunks = IS_DEV ? {} : {
-            chunks: 'all',
-            name: true
-        };
+        // appConfig.optimization.splitChunks = IS_DEV ? {} : {
+        //     chunks: 'all',
+        //     name: true
+        // };
 
         // Stylus
         const stylusLoaders = [
