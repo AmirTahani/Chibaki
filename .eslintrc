@@ -19,6 +19,8 @@
       0
     ],
     "jsx-a11y/href-no-hash": "off",
+    "jsx-a11y/heading-has-content": "off",
+    "jsx-a11y/anchor-has-content": "off",
     "no-console": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "import/prefer-default-export": "off",
@@ -42,6 +44,7 @@
     ],
     "no-underscore-dangle": 0,
     "react/jsx-no-bind": "off",
+    "react/no-danger": "off",
     "react/no-did-mount-set-state": "off",
     "global-require": "off",
     "default-case": "off",

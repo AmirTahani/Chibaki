@@ -18,33 +18,32 @@ server
     .disable('x-powered-by')
     .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
     .get('/*', (req, res) => {
-        async function run () {
-
+        async function run() {
             // Create a new class name generator.
             // if (error) {
             //     res.status(500).send(error.message);
             // } else if (redirectLocation) {
             //     res.redirect(302, redirectLocation.pathname + redirectLocation.search);
             // } else if (renderProps) {
-                const context = {};
-                const client = new apiClient();
-                const {store, persistor} = createStore(client);
-                await handleRequestsByRoute(store, req);
-                store.rootTask.done.then(() => {
-                    const markup = renderToString(
-                        <Provider store={store}>
-                            <PersistGate loading={null} persistor={persistor}>
-                                <StaticRouter location={req.url} context={context}>
-                                    <App />
-                                </StaticRouter>
-                            </PersistGate>
-                        </Provider>
-                    );
-                    const metaTags = getMetaTags(store, req.path, req.query);
-                    const finalState = store.getState();
+            const context = {};
+            const client = new apiClient();
+            const { store, persistor } = createStore(client);
+            await handleRequestsByRoute(store, req);
+            store.rootTask.done.then(() => {
+                const markup = renderToString(
+                    <Provider store={store}>
+                        <PersistGate loading={null} persistor={persistor}>
+                            <StaticRouter location={req.url} context={context}>
+                                <App />
+                            </StaticRouter>
+                        </PersistGate>
+                    </Provider>
+                );
+                const metaTags = getMetaTags(store, req.path, req.query);
+                const finalState = store.getState();
 
-                    res.status(200).send(
-                        `<!doctype html>
+                res.status(200).send(
+                    `<!doctype html>
                 <html lang="fa" dir="rtl">
                 <head>
                     <link rel="manifest" href="/manifest.json">
@@ -88,17 +87,17 @@ server
                         window.ga("create", 'UA-99324713-1', "auto");
                     </script>
 ${
-                            assets.client.css
-                                ? `<link async media="all" rel="stylesheet" href="${assets.client.css}">`
-                                : ''
-                            }
+    assets.client.css
+        ? `<link async media="all" rel="stylesheet" href="${assets.client.css}">`
+        : ''
+}
 ${
-                            process.env.NODE_ENV === 'production'
-                                ? `<script src="${assets.client.js}" defer></script>`
-                                : `<script src="${
-                                    assets.client.js
-                                    }" defer crossorigin></script>`
-                            }
+    process.env.NODE_ENV === 'production'
+        ? `<script src="${assets.client.js}" defer></script>`
+        : `<script src="${
+            assets.client.js
+        }" defer crossorigin></script>`
+}
                 </head>
                 <body>
                     <div id="root">${markup}</div>
@@ -108,17 +107,18 @@ ${
                     </script>                 
                 </body>
             </html>`,
-                    );
-                });
+                );
+            });
 
-                if (context.url) {
-                    res.redirect(context.url);
-                }
+            if (context.url) {
+                res.redirect(context.url);
+            }
             // } else {
             //     res.status(404).send('Not found');
             // }
         }
-        run()
+
+        run();
     });
 
 export default server;

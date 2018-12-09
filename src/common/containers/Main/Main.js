@@ -47,7 +47,7 @@ class Main extends Component {
     componentDidMount() {
         const { history } = this.props;
         history.listen((location) => {
-            console.log(location);
+            console.log(location, 'this is location');
             if (window) {
                 window.ga('send', 'pageview', `/${location.pathname}${location.search}`);
                 window.__renderType__ = 'client';

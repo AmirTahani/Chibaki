@@ -54,13 +54,13 @@ export default class Verify extends Component {
         this.setState({
             focusInput: true
         });
-    }
+    };
 
     onFieldBlur = () => {
         this.setState({
             focusInput: false
         });
-    }
+    };
 
     componentWillMount() {
         this.timer();

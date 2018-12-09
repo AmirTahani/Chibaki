@@ -42,7 +42,7 @@ class Header extends Component {
 
     handleScroll = (type) => {
         this.props.handleScroll(type);
-    }
+    };
 
     render() {
         const {

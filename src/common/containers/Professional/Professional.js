@@ -265,7 +265,6 @@ class Professional extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props);
         const { location, professional, history } = this.props;
         const params = queryString.parse(location.search);
 
