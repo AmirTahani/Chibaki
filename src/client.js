@@ -15,17 +15,11 @@ export const history = createBrowserHistory();
 const { store, persistor } = createStore(new apiClient(), window.__PRELOADED_STATE__, 'client');
 
 hydrate(<Provider store={store}>
-    {
-        persistor ?
-            <PersistGate loading={null} persistor={persistor}>
-                <Router history={history} forceRefresh={!supportsHistory}>
-                    <Routes />
-                </Router>
-            </PersistGate> :
-            <Router history={history} forceRefresh={!supportsHistory}>
-                <Routes />
-            </Router>
-    }
+    <PersistGate loading={null} persistor={persistor}>
+        <Router history={history} forceRefresh={!supportsHistory}>
+            <Routes />
+        </Router>
+    </PersistGate>
 </Provider>, document.getElementById('root'));
 
 if (module.hot) {

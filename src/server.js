@@ -32,11 +32,9 @@ server
             store.rootTask.done.then(() => {
                 const markup = renderToString(
                     <Provider store={store}>
-                        <PersistGate loading={null} persistor={persistor}>
-                            <StaticRouter location={req.url} context={context}>
-                                <App />
-                            </StaticRouter>
-                        </PersistGate>
+                        <StaticRouter location={req.url} context={context}>
+                            <App />
+                        </StaticRouter>
                     </Provider>
                 );
                 const metaTags = getMetaTags(store, req.path, req.query);

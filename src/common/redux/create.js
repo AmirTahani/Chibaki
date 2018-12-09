@@ -11,9 +11,10 @@ export default function create(client, preloadState, type) {
     if (type === 'server') {
         finalReducers = reducers;
     } else {
+        const storage = require('redux-persist/lib/storage').default;
         const config = {
             key: 'primary',
-            storage: lazy(() => import('redux-persist/lib/storage')),
+            storage,
             whitelist: [
                 'auth', 'provinces', 'professions'
             ],
