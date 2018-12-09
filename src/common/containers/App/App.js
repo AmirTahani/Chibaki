@@ -1,9 +1,9 @@
 import { Switch, Route, } from 'react-router-dom';
 import { browserHistory, withRouter } from 'react-router';
-import { hotjar } from 'react-hotjar';
-
 import React, { Component } from 'react';
 import 'antd/dist/antd.less';
+import { hotjar } from 'react-hotjar';
+import { Main } from '../index';
 import { exist } from '../../utils/helpers';
 import '../../styles/App.styl';
 

@@ -27,7 +27,7 @@ server
             // } else if (renderProps) {
             const context = {};
             const client = new apiClient();
-            const { store, persistor } = createStore(client);
+            const { store, persistor } = createStore(client, {}, 'server');
             await handleRequestsByRoute(store, req);
             store.rootTask.done.then(() => {
                 const markup = renderToString(

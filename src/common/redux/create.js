@@ -12,11 +12,15 @@ const config = {
         'auth', 'provinces', 'professions'
     ],
 };
-export default function create(client, preloadState) {
+export default function create(client, preloadState, type) {
     const sagaMiddleWare = createSagaMiddleware();
-    const persistedReducer = persistReducer(config, reducers);
-
-    const store = createStore(persistedReducer, preloadState, applyMiddleware(sagaMiddleWare));
+    let finalReducers;
+    if (type === 'server') {
+        finalReducers = reducers;
+    } else {
+        finalReducers = persistReducer(config, reducers);
+    }
+    const store = createStore(finalReducers, preloadState, applyMiddleware(sagaMiddleWare));
     store.rootTask = sagaMiddleWare.run(saga, client, store);
 
     const persistor = persistStore(store);
