@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Input, Button, Progress } from 'antd';
-import { persianNumber } from '../../utils/persian';
+import { persianNumber, toEnglishNumber } from '../../utils/persian';
 import styles from './Verify.module.styl';
 
 export default class Verify extends Component {
@@ -24,10 +24,13 @@ export default class Verify extends Component {
     };
 
     onChangeCode = (e) => {
+        const value = toEnglishNumber(e.target.value);
+
         this.setState({
-            value: e.target.value
+            value
         });
-        this.props.setUserCode(e.target.value);
+
+        this.props.setUserCode(value);
     };
 
     timer = () => {
