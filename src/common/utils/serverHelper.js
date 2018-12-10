@@ -65,7 +65,7 @@ export function getMetaTags(store, route, query) {
                 metaTags.description = profession.description;
                 metaTags.title = addSiteNameToTitle(`${profession.title}، درخواست رایگان و مقایسه قیمت`);
                 if (query && query.province) {
-                    metaTags.title = addSiteNameToTitle(`${profession.title} در ${query.province}، درخواست رایگان`);
+                    metaTags.title = addSiteNameToTitle(`${profession.title} ${query.province}، درخواست رایگان`);
                 }
             }
         });
@@ -83,9 +83,9 @@ export function getMetaTags(store, route, query) {
             }
             const firstname = exist(state, 'professional.professional.user.firstname');
             const lastname = exist(state, 'professional.professional.user.lastname');
-            metaTags.title = addSiteNameToTitle(`${firstname} ${lastname} متخصص ${userProfession.profession.title}`);
+            metaTags.title = addSiteNameToTitle(`من ${firstname} ${lastname} هستم و با تخصص 
+            ${userProfession.profession.title} در چی باکی مشغول به فعالیت هستم.`);
         }
-        metaTags.description = exist(state, 'professional.metaDescription');
     }
     return metaTags;
 }

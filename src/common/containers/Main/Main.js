@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import Loadable from 'react-loadable';
 import { withRouter } from 'react-router';
 import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
@@ -65,6 +66,10 @@ class Main extends Component {
 
     render() {
         const { shouldShowChibakiSection } = this.state;
+        // const LoadableComponent = Loadable({
+        //     loader: () => import('./my-component'),
+        //     loading: Loading,
+        // });
         return (
             <div>
                 <Header handleScroll={this.handleScroll} />

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
-import { Row, Col, Tooltip, Button, Rate, Spin, Icon } from 'antd';
+import { Spin } from 'antd';
 import { Helmet } from 'react-helmet';
 import objectFitImages from 'object-fit-images';
 import { connect } from 'react-redux';
