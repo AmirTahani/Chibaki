@@ -10,6 +10,7 @@ import { persianRegex, toPersianChar } from '../../utils/persian';
 export default class Register extends Component {
     static propTypes = {
         professions: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+        gender: PropTypes.string.isRequired,
         setUserLastName: PropTypes.func.isRequired,
         setUserName: PropTypes.func.isRequired,
         setUserGender: PropTypes.func.isRequired,
@@ -24,11 +25,16 @@ export default class Register extends Component {
         focusInput: false
     };
 
+    genderOptions = [
+        { label: 'مرد', value: 'male', required: true },
+        { label: 'زن', value: 'female', required: true }
+    ];
+
     state = {
         focusInput: true,
         firstName: '',
         lastName: '',
-        gender: ''
+        gender: this.props.gender
     };
 
     focusInput = () => {
@@ -84,10 +90,7 @@ export default class Register extends Component {
     renderRegisterForm = (showAutoComplete, role) => {
         const { professions } = this.props;
         const RadioGroup = Radio.Group;
-        const plainOptions = [
-            { label: 'مرد', value: 'male' },
-            { label: 'زن', value: 'female' },
-        ];
+
         return (
             <div>
                 <div className={styles.inputWrapper}>
@@ -122,8 +125,12 @@ export default class Register extends Component {
                 </div>
                 <div className={styles.inputWrapper}>
                     <label className={styles.fieldLabel} htmlFor="registerLastName">جنسیت</label>
-                    <RadioGroup options={plainOptions} onChange={this.onChangeGender} value={this.state.gender} />
-
+                    <RadioGroup
+                        options={this.genderOptions}
+                        onChange={this.onChangeGender}
+                        value={this.state.gender}
+                        required
+                    />
                 </div>
                 {
                     showAutoComplete ? <div className={`${styles.inputWrapper} ${styles.autocomplete}`}>

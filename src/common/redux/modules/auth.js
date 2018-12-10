@@ -73,7 +73,8 @@ export default function reducer(state = initialState, action = {}) {
                 firstName: '',
                 lastName: '',
                 userId: '',
-                code: ''
+                code: '',
+                gender: ''
             };
         case SET_JWT:
             return {

@@ -218,7 +218,7 @@ export default class Auth extends Component {
     };
 
     getContentComponent = (focusInput) => {
-        const { setUserMobile, setUserCode, setUserLastName, setUserName, professions, mobile, login, setUserGender } = this.props;
+        const { setUserMobile, setUserCode, setUserLastName, setUserName, professions, gender, mobile, login, setUserGender } = this.props;
         const { step } = this.state;
         switch (step) {
             case 'login':
@@ -232,6 +232,7 @@ export default class Auth extends Component {
                     setUserGender={setUserGender}
                     setUserName={setUserName}
                     professions={professions}
+                    gender={gender}
                     toggleRegisterRole={this.toggleRegisterRole}
                     registerRole={this.state.registerRole}
                     submit={this.handleClick}
@@ -298,9 +299,12 @@ export default class Auth extends Component {
                 }
                 <div className={styles.modalWrapper}>
                     <form
-                        id={'modalForm'} className={styles.form} ref={(c) => {
+                        id={'modalForm'}
+                        className={styles.form}
+                        ref={(c) => {
                             this.formRef = c;
-                        }} onSubmit={this.handleClick}
+                        }}
+                        onSubmit={this.handleClick}
                     >
                         {
                             this.getContentComponent(focusInput)
