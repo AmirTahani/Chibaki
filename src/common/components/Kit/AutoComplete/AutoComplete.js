@@ -21,6 +21,7 @@ export default class AutoComplete extends Component {
         fieldName: PropTypes.string,
         fieldClassName: PropTypes.string,
         btnClassName: PropTypes.string,
+        btnContent: PropTypes.node,
         wrapInForm: PropTypes.bool,
         className: PropTypes.string
     };
@@ -35,6 +36,7 @@ export default class AutoComplete extends Component {
         fieldName: '',
         fieldClassName: '',
         btnClassName: '',
+        btnContent: null,
         wrapInForm: true,
         className: ''
     };
