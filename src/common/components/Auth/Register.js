@@ -54,7 +54,7 @@ export default class Register extends Component {
             firstName: toPersianChar(e.target.value)
         });
         if (e.target.validity.patternMismatch) {
-            e.target.setCustomValidity('لطفا نام را پارسی وارد کنید!');
+            e.target.setCustomValidity('لطفا نام را فارسی وارد کنید!');
         } else if (!e.target.value || e.target.validity.valueMissing) {
             e.target.setCustomValidity('لطفا نام را وارد کنید!');
         } else {
@@ -68,7 +68,7 @@ export default class Register extends Component {
             lastName: toPersianChar(e.target.value)
         });
         if (e.target.validity.patternMismatch) {
-            e.target.setCustomValidity('لطفا نام خانوادگی را پارسی وارد کنید!');
+            e.target.setCustomValidity('لطفا نام خانوادگی را فارسی وارد کنید!');
         } else if (!e.target.value || e.target.validity.valueMissing) {
             e.target.setCustomValidity('لطفا نام خانوادگی را وارد کنید!');
         } else {

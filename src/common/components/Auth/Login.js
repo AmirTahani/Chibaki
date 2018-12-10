@@ -27,11 +27,11 @@ export default class Login extends Component {
 
         this.setState({
             value
+        }, () => {
+            if (this.validateInput(value)) {
+                this.props.setUserMobile(value);
+            }
         });
-
-        if (this.validateInput(value)) {
-            this.props.setUserMobile(value);
-        }
     };
 
     onFieldFocus = () => {
@@ -62,10 +62,10 @@ export default class Login extends Component {
         if (this.props.mobile) {
             this.setState({
                 value: this.props.mobile
-            });
+            }, () => this.validateInput(this.props.mobile));
+        } else {
+            this.validateInput(this.props.mobile);
         }
-
-        this.validateInput(this.props.mobile);
 
         this.inputRef.focus();
     }
