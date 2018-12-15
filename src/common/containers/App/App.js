@@ -1,9 +1,9 @@
 import { Switch, Route, } from 'react-router-dom';
 import { browserHistory, withRouter } from 'react-router';
+import Loadable from 'react-loadable';
+import { Spin } from 'antd';
 import React, { Component } from 'react';
-import 'antd/dist/antd.less';
 import { hotjar } from 'react-hotjar';
-import { Main } from '../index';
 import { exist } from '../../utils/helpers';
 import '../../styles/App.styl';
 
@@ -13,6 +13,11 @@ Component.prototype.event = (props) => {
         window.ga('send', 'event', props.category, props.action, props.label, props.value);
     }
 };
+
+const LoadableMain = Loadable({
+    loader: () => import('../Main/Main'),
+    loading: () => <Spin />,
+});
 
 
 class Routes extends Component {
@@ -30,7 +35,7 @@ class Routes extends Component {
         return (
             <section>
                 <Switch onUpdate={() => window.scrollTo(0, 0)}>
-                    <Route path="/" component={Main} />
+                    <Route path="/" component={LoadableMain} />
                 </Switch>
             </section>
         );

@@ -4,6 +4,7 @@ import { hydrate } from 'react-dom';
 import Router from 'react-router-dom/Router';
 import createBrowserHistory from 'history/createBrowserHistory';
 import { PersistGate } from 'redux-persist/integration/react';
+import Loadable from 'react-loadable';
 
 import Routes from './common/containers/App/App';
 import apiClient from './common/utils/apiClient';
@@ -14,13 +15,18 @@ export const history = createBrowserHistory();
 
 const { store, persistor } = createStore(new apiClient(), window.__PRELOADED_STATE__, 'client');
 
-hydrate(<Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-        <Router history={history} forceRefresh={!supportsHistory}>
-            <Routes />
-        </Router>
-    </PersistGate>
-</Provider>, document.getElementById('root'));
+Loadable.preloadReady().then(() => {
+    hydrate(
+        <Provider store={store}>
+            <PersistGate loading={null} persistor={persistor}>
+                <Router history={history} forceRefresh={!supportsHistory}>
+                    <Routes />
+                </Router>
+            </PersistGate>
+        </Provider>, document.getElementById('root')
+    );
+});
+
 
 if (module.hot) {
     module.hot.accept();

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
+import { Spin } from 'antd';
 import Loadable from 'react-loadable';
 import { withRouter } from 'react-router';
 import ReactDom from 'react-dom';
@@ -11,7 +12,41 @@ import HowItWorks from '../../components/Kit/HowItWorks/HowItWorks';
 import Features from '../../components/Features/Features';
 import GetApp from '../../components/GetApp/GetApp';
 import styles from './Main.module.styl';
-import { About, ContactUs, Professional, Service, Services, Tos, Home } from '../index';
+
+const LoadableHome = Loadable({
+    loader: () => import('../Home/Home'),
+    loading: () => <Spin />,
+});
+
+const LoadableAbout = Loadable({
+    loader: () => import('../About/About'),
+    loading: () => <Spin />,
+});
+
+const LoadableContactUs = Loadable({
+    loader: () => import('../ContactUs/ContactUs'),
+    loading: () => <Spin />,
+});
+
+const LoadableProfessional = Loadable({
+    loader: () => import('../Professional/Professional'),
+    loading: () => <Spin />,
+});
+
+const LoadableService = Loadable({
+    loader: () => import('../Service/Service'),
+    loading: () => <Spin />,
+});
+
+const LoadableServices = Loadable({
+    loader: () => import('../Services/Services'),
+    loading: () => <Spin />,
+});
+
+const LoadableTos = Loadable({
+    loader: () => import('../Tos/Tos'),
+    loading: () => <Spin />,
+});
 
 class Main extends Component {
     static propTypes = {
@@ -76,13 +111,13 @@ class Main extends Component {
 
                 <div className={styles.container}>
                     <Switch>
-                        <Route exact path="/" component={Home} />
-                        <Route path="/درباره_ما/" component={About} />
-                        <Route path="/tos/" component={Tos} />
-                        <Route path="/تماس_با_ما/" component={ContactUs} />
-                        <Route exact path="/خدمات" component={Services} />
-                        <Route path="/خدمات/:title" component={Service} />
-                        <Route path="/professional/:id/" component={Professional} />
+                        <Route exact path="/" component={LoadableHome} />
+                        <Route path="/درباره_ما/" component={LoadableAbout} />
+                        <Route path="/tos/" component={LoadableTos} />
+                        <Route path="/تماس_با_ما/" component={LoadableContactUs} />
+                        <Route exact path="/خدمات" component={LoadableServices} />
+                        <Route path="/خدمات/:title" component={LoadableService} />
+                        <Route path="/professional/:id/" component={LoadableProfessional} />
                     </Switch>
                 </div>
 

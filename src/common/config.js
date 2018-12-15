@@ -1,5 +1,5 @@
-export const apiPath = process.env.RAZZLE_API_PATH;
-export const sitePath = process.env.RAZZLE_SITE_PATH;
+export const apiPath = "https://api.chibaki.co";
+export const sitePath = "https://chibaki.co";
 
 export const defualtQuestions = [
     {

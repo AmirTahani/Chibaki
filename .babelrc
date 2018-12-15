@@ -1,0 +1,19 @@
+{
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    [
+      "import",
+      {
+        "libraryName": "antd",
+        "style": true
+      }
+    ],
+    "@babel/plugin-syntax-dynamic-import",
+    "react-loadable/babel",
+    "@babel/plugin-proposal-class-properties",
+    "dynamic-import-node"
+  ]
+}
