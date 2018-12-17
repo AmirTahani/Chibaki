@@ -1,5 +1,5 @@
-export const apiPath = "https://api.chibaki.co";
-export const sitePath = "https://chibaki.co";
+export const apiPath = 'https://api.chibaki.co';
+export const sitePath = 'https://chibaki.co';
 
 export const defualtQuestions = [
     {

@@ -5,14 +5,13 @@ import 'ignore-styles';
 import React from 'react';
 import express from 'express';
 import serialize from 'serialize-javascript';
+import assets from '../public/webpack-assets.json';
 import { App } from './common/containers';
-import assets from '../public/webpack-assets';
 import { getMetaTags, handleRequestsByRoute } from './common/utils/serverHelper';
 import apiClient from './common/utils/apiClient';
 import createStore from './common/redux/create';
 import { renderType } from './common/config';
 
-console.log('salam injas');
 const server = express();
 server
     .disable('x-powered-by')
@@ -23,7 +22,6 @@ server
         // } else if (redirectLocation) {
         //     res.redirect(302, redirectLocation.pathname + redirectLocation.search);
         // } else if (renderProps) {
-        console.log('salam');
         const context = {};
         const client = new apiClient();
         const { store } = createStore(client, {}, 'server');
@@ -73,25 +71,27 @@ server
                         <meta charset="utf-8" />
                         <title>${metaTags.title}</title>
                         <meta name="viewport" content="width=device-width, initial-scale=1" />
-                        <script async src="/ga.js"></script>
-                        <script type="text/javascript" >
-                            (function (i, s, o, r) {
-                                i['GoogleAnalyticsObject'] = r;
-                                i[r] = i[r] || function () {
-                                 (i[r].q = i[r].q || []).push(arguments)
-                                }, i[r].l = 1 * new Date()
-                               })(window, document, 'script', 'ga');
-                            window.ga("create", 'UA-99324713-1', "auto");
-                        </script>
+                        <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-99324713-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-99324713-1');
+</script>
+
+                  
+                   
     ${
     assets.main.css
-        ? `<link media="all" rel="stylesheet" href="/${assets.main.css}">`
+        ? `<link media="all" rel="stylesheet" href="${assets.main.css}">`
         : ''
 }
     ${
     process.env.NODE_ENV === 'production'
         ? `<script src="${assets.main.js}" defer></script>`
-        : `<script src="/${
+        : `<script src="${
             assets.main.js
         }" defer crossorigin></script>`
 }

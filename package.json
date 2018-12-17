@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run production && babel-node src/index.js",
-    "build": "npm run production && babel-node src/index.js && npm start",
+    "start": "npm run production && babel-node --config-file ./.babelrcServer src/index.js",
     "development": "BABEL_ENV=development webpack --config webpack.dev.js",
     "production": "BABEL_ENV=production webpack --config webpack.prod.js --color --optimize-minimize --optimize-max-chunks 15 --optimize-min-chunk-size 10000",
     "watch": "npm run webpack:dev -- --watch"
