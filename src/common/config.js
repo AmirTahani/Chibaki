@@ -1,5 +1,5 @@
-export const apiPath = "https://api.chibaki.co";
-export const sitePath = "https://chibaki.co";
+export const apiPath = process.env.API_PATH || 'https://api-staging.chibaki.co/';
+export const sitePath = process.env.SITE_PATH || 'http://chbiaki.local/';
 
 export const defualtQuestions = [
     {

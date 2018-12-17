@@ -25,11 +25,6 @@ const postCssOptions = (rtl) => {
     };
 };
 
-console.log(postCssOptions(true).plugins[0], 'this is the options 1 ');
-console.log(postCssOptions(true).plugins[1], 'this is the options 2 ');
-console.log(postCssOptions(true).plugins[2], 'this is the options 3 ');
-console.log(require('rtlcss'), 'this is rtl ');
-
 const appConfig = merge(common, {
     mode: 'production',
     optimization: {
@@ -177,7 +172,9 @@ const appConfig = merge(common, {
             },
         }),
     ],
-})
-;
+    stats: { children: false },
+    devtool: false
+});
+
 
 module.exports = appConfig;

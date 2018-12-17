@@ -15,3 +15,5 @@ build
 
 public/src
 public/chunks
+
+public/webpack-assets.json
