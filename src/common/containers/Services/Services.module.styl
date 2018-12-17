@@ -1,7 +1,8 @@
 @import '../../styles/variables'
 
 .container
-    // padding: 1.5rem;
+    display flex
+    flex-flow row nowrap
 
 .services
     
@@ -80,12 +81,14 @@
             border-bottom none
 
     &Nav
-        position fixed
-        top 110px
+        display none
+        margin-top 110px
         right 50px
+        left auto !important
+        width auto !important
 
-        overflow-y auto
-        bottom 0
+        &Container
+            // max-width 350px
 
         &Item
             font-weight 500
