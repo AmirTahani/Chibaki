@@ -1,5 +1,9 @@
-const merge = require("webpack-merge");
-const common = require("./webpack.common.js");
+const merge = require('webpack-merge');
+const StripLoader = require('strip-loader');
+const { HotModuleReplacementPlugin } = require('webpack');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const common = require('./webpack.common.js');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const postCssOptions = (rtl) => {
     const plugins = [
@@ -15,52 +19,134 @@ const postCssOptions = (rtl) => {
         })
     ];
 
-    rtl && plugins.push(require('rtlcss'));
-
     return {
         ident: 'postcss', // https://webpack.js.org/guides/migrating/#complex-options
         plugins
     };
 };
 
-const cssModuleLoaders = [
-    require.resolve('style-loader'),
-    {
-        loader: require.resolve('css-loader'),
-        options: {
-            modules: true,
-            importLoaders: 2,
-            localIdentName: '[path]__[name]___[local]',
-        },
+
+const appConfig = merge(common, {
+    mode: 'development',
+    optimization: {
+        minimize: false,
     },
-    {
-        loader: require.resolve('postcss-loader'),
-        options: postCssOptions(false),
-    }
-];
-
-
-
-module.exports = merge(common, {
-  mode: "development",
-  module: {
-    rules: [
-        require.resolve('style-loader'),
-        {
-            loader: require.resolve('css-loader'),
-            options: {
-                modules: true,
-                importLoaders: 1,
-                localIdentName: '[path]__[name]___[local]',
+    module: {
+        rules: [
+            {
+                test: /\.module\.styl$/,
+                use: [
+                    'style-loader',
+                    {
+                        loader: require.resolve('css-loader'),
+                        options: {
+                            modules: true,
+                            importLoaders: 2,
+                            // localIdentName: '[path]__[name]___[local]'
+                        }
+                    },
+                    {
+                        loader: require.resolve('postcss-loader'),
+                        options: postCssOptions(false)
+                    },
+                    {
+                        loader: require.resolve('stylus-loader')
+                    }
+                ]
             },
-        },
-        {
-            loader: require.resolve('postcss-loader'),
-            options: postCssOptions(false),
-        },
-        {
-            loader: 'stylus-loader'
-        }
-    ]
-  },
+            {
+                test: /\.css$/,
+                use:
+                    [
+                        'style-loader',
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                // modules: true,
+                                importLoaders: 1,
+                                // localIdentName: '[path]__[name]___[local]'
+                            },
+                        },
+                        {
+                            loader: 'postcss-loader',
+                            options: postCssOptions(false),
+                        }
+                    ],
+            },
+            {
+                test: /\.less$/,
+                use:
+                    [
+                        {
+                            loader: MiniCssExtractPlugin.loader,
+                            options: {
+                                // you can specify a publicPath here
+                                // by default it use publicPath in webpackOptions.output
+                                publicPath: 'src/'
+                            }
+                        },
+                        {
+                            loader: require.resolve('css-loader'),
+                            options: {
+                                importLoaders: 2,
+                            }
+                        },
+                        {
+                            loader: require.resolve('postcss-loader'),
+                            options: postCssOptions(false)
+                        },
+                        {
+                            loader: 'less-loader', // compiles Less to CSS
+                            options: {
+                                modifyVars: {
+                                    'font-family': 'Shabnam FD',
+                                    'text-align': 'right'
+                                },
+                                javascriptEnabled: true
+                            }
+                        }
+                    ]
+            },
+            {
+                test: /\.styl$/,
+                exclude:
+                    [/\.module\.styl$/],
+                use: [
+                    'style-loader',
+                    {
+                        loader: require.resolve('css-loader'),
+                        options: {
+                            importLoaders: 2,
+                            url: false
+                        }
+                    },
+                    {
+                        loader: require.resolve('postcss-loader'),
+                        options: postCssOptions(false)
+                    },
+                    {
+                        loader: require.resolve('stylus-loader')
+                    }
+                ]
+            },
+            {
+                test: /\.js[x]?$/,
+                exclude:
+                    [/node_modules/],
+                use: [
+                    'babel-loader',
+                    'react-hot-loader/webpack',
+                    {
+                        loader: StripLoader.loader('debugger', 'console.log', 'console.info'),
+                    },
+                ],
+            }
+        ],
+    },
+    plugins: [
+        // new HotModuleReplacementPlugin(),
+        new HotModuleReplacementPlugin(),
+    ],
 });
+
+module.exports = appConfig;

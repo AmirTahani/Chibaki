@@ -1,5 +1,6 @@
 import { Switch, Route, } from 'react-router-dom';
 import { browserHistory, withRouter } from 'react-router';
+import { hot } from 'react-hot-loader/root'
 import React, { Component } from 'react';
 import { hotjar } from 'react-hotjar';
 import Main from '../Main/Main';
@@ -34,5 +35,5 @@ class Routes extends Component {
     }
 }
 
-export default withRouter(Routes);
+export default hot(withRouter(Routes));
 

@@ -4,6 +4,8 @@ import { renderToString } from 'react-dom/server';
 import 'ignore-styles';
 import React from 'react';
 import express from 'express';
+import webpack from 'webpack';
+import { setConfig } from 'react-hot-loader';
 import serialize from 'serialize-javascript';
 import assets from '../public/webpack-assets.json';
 import { App } from './common/containers';
@@ -11,8 +13,24 @@ import { getMetaTags, handleRequestsByRoute } from './common/utils/serverHelper'
 import apiClient from './common/utils/apiClient';
 import createStore from './common/redux/create';
 import { renderType } from './common/config';
+import webpackConfig from '../webpack.dev';
+
+const compiler = webpack(webpackConfig);
 
 const server = express();
+
+server.use(require('webpack-dev-middleware')(compiler, {
+    noInfo: true, publicPath: webpackConfig.output.publicPath
+}));
+server.use(require('webpack-hot-middleware')(compiler));
+
+
+setConfig({
+    ignoreSFC: true, // RHL will be __completely__ disabled for SFC
+    pureRender: true, // RHL will not change render method
+});
+
+
 server
     .disable('x-powered-by')
     .get('/*', async (req, res) => {

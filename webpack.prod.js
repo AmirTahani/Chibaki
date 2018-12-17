@@ -2,7 +2,6 @@ const merge = require('webpack-merge');
 const StripLoader = require('strip-loader');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const common = require('./webpack.common.js');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const postCssOptions = (rtl) => {
@@ -173,7 +172,6 @@ const appConfig = merge(common, {
             },
         }),
     ],
-})
-;
+});
 
 module.exports = appConfig;

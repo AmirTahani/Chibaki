@@ -17,7 +17,8 @@ const fileLoader = path => ({
 module.exports = {
     entry: [
         '@babel/polyfill',
-        path.resolve(__dirname, 'src', 'client.js')
+        path.resolve(__dirname, 'src', 'client.js'),
+        'webpack-hot-middleware/client'
     ],
     output: {
         filename: '[name].[hash].js',
