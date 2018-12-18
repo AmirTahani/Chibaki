@@ -27,7 +27,7 @@ class Services extends Component {
     scrollToCat = (cat) => {
         setTimeout(() => {
             if (this.refs[cat]) {
-                const offset = 80;
+                const offset = window.innerWidth > 1300 ? 80 : 120;
                 const item = ReactDOM.findDOMNode(this.refs[cat]);
                 const wrapper = window;
                 const count = item.offsetTop - wrapper.pageYOffset - offset;
