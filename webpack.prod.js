@@ -24,7 +24,6 @@ const postCssOptions = (rtl) => {
     };
 };
 
-
 const appConfig = merge(common, {
     mode: 'production',
     optimization: {
@@ -63,67 +62,67 @@ const appConfig = merge(common, {
             {
                 test: /\.css$/,
                 use:
-                        [
-                            {
-                                loader: MiniCssExtractPlugin.loader,
-                                options: {
-                                    // you can specify a publicPath here
-                                    // by default it use publicPath in webpackOptions.output
-                                    publicPath: 'src/'
-                                }
-                            },
-                            {
-                                loader: 'css-loader',
-                                options: {
-                                    // modules: true,
-                                    importLoaders: 1,
-                                    // localIdentName: '[path]__[name]___[local]'
-                                },
-                            },
-                            {
-                                loader: 'postcss-loader',
-                                options: postCssOptions(false),
+                    [
+                        {
+                            loader: MiniCssExtractPlugin.loader,
+                            options: {
+                                // you can specify a publicPath here
+                                // by default it use publicPath in webpackOptions.output
+                                publicPath: 'src/'
                             }
-                        ],
+                        },
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                // modules: true,
+                                importLoaders: 1,
+                                // localIdentName: '[path]__[name]___[local]'
+                            },
+                        },
+                        {
+                            loader: 'postcss-loader',
+                            options: postCssOptions(false),
+                        }
+                    ],
             },
             {
                 test: /\.less$/,
                 use:
-                        [
-                            {
-                                loader: MiniCssExtractPlugin.loader,
-                                options: {
-                                    // you can specify a publicPath here
-                                    // by default it use publicPath in webpackOptions.output
-                                    publicPath: 'src/'
-                                }
-                            },
-                            {
-                                loader: require.resolve('css-loader'),
-                                options: {
-                                    importLoaders: 2,
-                                }
-                            },
-                            {
-                                loader: require.resolve('postcss-loader'),
-                                options: postCssOptions(false)
-                            },
-                            {
-                                loader: 'less-loader', // compiles Less to CSS
-                                options: {
-                                    modifyVars: {
-                                        'font-family': 'Shabnam FD',
-                                        'text-align': 'right'
-                                    },
-                                    javascriptEnabled: true
-                                }
+                    [
+                        {
+                            loader: MiniCssExtractPlugin.loader,
+                            options: {
+                                // you can specify a publicPath here
+                                // by default it use publicPath in webpackOptions.output
+                                publicPath: 'src/'
                             }
-                        ]
+                        },
+                        {
+                            loader: require.resolve('css-loader'),
+                            options: {
+                                importLoaders: 2,
+                            }
+                        },
+                        {
+                            loader: require.resolve('postcss-loader'),
+                            options: postCssOptions(false)
+                        },
+                        {
+                            loader: 'less-loader', // compiles Less to CSS
+                            options: {
+                                modifyVars: {
+                                    'font-family': 'Shabnam FD',
+                                    'text-align': 'right'
+                                },
+                                javascriptEnabled: true
+                            }
+                        }
+                    ]
             },
             {
                 test: /\.styl$/,
                 exclude:
-                        [/\.module\.styl$/],
+                    [/\.module\.styl$/],
                 use: [
                     {
                         loader: MiniCssExtractPlugin.loader,
@@ -152,7 +151,7 @@ const appConfig = merge(common, {
             {
                 test: /\.js[x]?$/,
                 exclude:
-                        [/node_modules/],
+                    [/node_modules/],
                 use: [
                     'babel-loader',
                     {
@@ -172,6 +171,8 @@ const appConfig = merge(common, {
             },
         }),
     ],
+    stats: { children: false }
 });
+
 
 module.exports = appConfig;

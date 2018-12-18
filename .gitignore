@@ -13,3 +13,8 @@ build
 .env.development.local
 .env.test.local
 .env.production.local
+
+public/src
+public/chunks
+
+public/webpack-assets.json

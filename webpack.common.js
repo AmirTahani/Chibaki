@@ -3,14 +3,14 @@ const FontminPlugin = require('fontmin-webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const SaveHashes = require('assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
+const Dotenv = require('dotenv-webpack');
 
 const fileLoader = path => ({
     loader: 'file-loader',
     options: {
         name: `${path}/[name].[hash].[ext]`,
         limit: 1024,
-        publicPath: 'src/',
+        publicPath: 'chunks/'
     },
 });
 
@@ -18,13 +18,13 @@ module.exports = {
     entry: [
         '@babel/polyfill',
         path.resolve(__dirname, 'src', 'client.js'),
-        'webpack-hot-middleware/client'
+        'webpack-hot-middleware/client',
     ],
     output: {
         filename: '[name].[hash].js',
         chunkFilename: '[name].[hash].js',
-        path: path.resolve(__dirname, 'public', 'src'),
-        publicPath: '/src/'
+        path: path.resolve(__dirname, 'public', 'chunks'),
+        publicPath: 'chunks/'
     },
     resolve: {
         modules: [
@@ -55,7 +55,7 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin([
-            path.resolve(__dirname, 'public', '/src'),
+            path.resolve(__dirname, 'public', 'chunks')
         ]),
         new SaveHashes({
             path: path.resolve(__dirname, 'public')
@@ -69,6 +69,7 @@ module.exports = {
             filename: '[name].[hash].css',
             chunkFilename: '[name].[hash].css',
             publicPath: 'src/'
-        })
-    ],
+        }),
+        new Dotenv()
+    ]
 };

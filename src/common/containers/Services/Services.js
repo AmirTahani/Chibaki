@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { Row, Col, Tooltip, Input, Button } from 'antd';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
+import { StickyContainer, Sticky } from 'react-sticky';
 import styles from '../Services/Services.module.styl';
 import { loader } from '../../redux/modules/professions';
 import AutoComplete from '../../components/Kit/AutoComplete/AutoComplete';
@@ -76,21 +77,30 @@ class Services extends Component {
                         }
                     </title>
                 </Helmet>
-                <div className={styles.servicesNav}>
-                    {cat.map((item) => {
-                        return (
-                            <NavLink
-                                exact
-                                to={`/${encodeURI('خدمات')}?cat=${item.label.split(' ').join('_')}`}
-                                className={styles.servicesNavItem}
-                                activeClassName="active"
-                                key={item.label.split(' ').join('_')}
+                <StickyContainer className={styles.servicesNavContainer}>
+                    <Sticky>
+                        {({ style }) => (
+                            <div
+                                className={styles.servicesNav}
+                                style={style}
                             >
-                                {item.label}
-                            </NavLink>
-                        );
-                    })}
-                </div>
+                                {cat.map((item) => {
+                                    return (
+                                        <NavLink
+                                            exact
+                                            to={`/${encodeURI('خدمات')}?cat=${item.label.split(' ').join('_')}`}
+                                            className={styles.servicesNavItem}
+                                            activeClassName="active"
+                                            key={item.label.split(' ').join('_')}
+                                        >
+                                            {item.label}
+                                        </NavLink>
+                                    );
+                                })}
+                            </div>
+                        )}
+                    </Sticky>
+                </StickyContainer>
                 <div className={styles.servicesContainer}>
                     <div className={styles.searchWrapper}>
                         <AutoComplete
