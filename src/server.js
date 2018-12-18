@@ -15,20 +15,24 @@ import createStore from './common/redux/create';
 import { renderType } from './common/config';
 import webpackConfig from '../webpack.dev';
 
-const compiler = webpack(webpackConfig);
 
 const server = express();
+const IS_DEV = false;
 
-server.use(require('webpack-dev-middleware')(compiler, {
-    noInfo: true, publicPath: webpackConfig.output.publicPath
-}));
-server.use(require('webpack-hot-middleware')(compiler));
+if (IS_DEV) {
+    const compiler = webpack(webpackConfig);
+    server.use(require('webpack-dev-middleware')(compiler, {
+        noInfo: true,
+        publicPath: webpackConfig.output.publicPath,
+        writeToDisk: true,
+    }));
+    server.use(require('webpack-hot-middleware')(compiler));
 
-
-setConfig({
-    ignoreSFC: true, // RHL will be __completely__ disabled for SFC
-    pureRender: true, // RHL will not change render method
-});
+    setConfig({
+        ignoreSFC: true, // RHL will be __completely__ disabled for SFC
+        pureRender: true, // RHL will not change render method
+    });
+}
 
 
 server
@@ -107,7 +111,7 @@ server
         : ''
 }
     ${
-    process.env.NODE_ENV === 'production'
+    !IS_DEV
         ? `<script src="${assets.main.js}" defer></script>`
         : `<script src="${
             assets.main.js

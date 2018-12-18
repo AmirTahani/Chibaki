@@ -1,4 +1,5 @@
 const merge = require('webpack-merge');
+const path = require('path');
 const StripLoader = require('strip-loader');
 const { HotModuleReplacementPlugin } = require('webpack');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -27,6 +28,17 @@ const postCssOptions = (rtl) => {
 
 
 const appConfig = merge(common, {
+    entry: [
+        '@babel/polyfill',
+        path.resolve(__dirname, 'src', 'client.js'),
+        'webpack-hot-middleware/client'
+    ],
+    output: {
+        filename: '[name].js',
+        chunkFilename: '[name].js',
+        path: path.resolve(__dirname, 'public', 'chunks'),
+        publicPath: '/chunks/'
+    },
     mode: 'development',
     optimization: {
         minimize: false,
@@ -77,14 +89,7 @@ const appConfig = merge(common, {
                 test: /\.less$/,
                 use:
                     [
-                        {
-                            loader: MiniCssExtractPlugin.loader,
-                            options: {
-                                // you can specify a publicPath here
-                                // by default it use publicPath in webpackOptions.output
-                                publicPath: 'src/'
-                            }
-                        },
+                        'style-loader',
                         {
                             loader: require.resolve('css-loader'),
                             options: {
@@ -144,8 +149,7 @@ const appConfig = merge(common, {
         ],
     },
     plugins: [
-        // new HotModuleReplacementPlugin(),
-        new HotModuleReplacementPlugin(),
+        new HotModuleReplacementPlugin()
     ],
 });
 

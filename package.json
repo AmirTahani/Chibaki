@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run production && babel-node --config-file ./.babelrcServer src/index.js",
-    "dev": "npm run development && babel-node --config-file ./.babelrcServer src/index.js --hot",
+    "dev": "rm -rf ./public/chunks && babel-node --config-file ./.babelrcServer src/index.js --hot",
     "development": "BABEL_ENV=development webpack --config webpack.dev.js",
     "production": "BABEL_ENV=production webpack --config webpack.prod.js --color --optimize-minimize --optimize-max-chunks 15 --optimize-min-chunk-size 10000",
     "watch": "npm run webpack:dev -- --watch"

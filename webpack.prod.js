@@ -1,4 +1,6 @@
 const merge = require('webpack-merge');
+const path = require('path');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const StripLoader = require('strip-loader');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const common = require('./webpack.common.js');
@@ -25,6 +27,16 @@ const postCssOptions = (rtl) => {
 };
 
 const appConfig = merge(common, {
+    entry: [
+        '@babel/polyfill',
+        path.resolve(__dirname, 'src', 'client.js')
+    ],
+    output: {
+        filename: '[name].[hash].js',
+        chunkFilename: '[name].[hash].js',
+        path: path.resolve(__dirname, 'public', 'chunks'),
+        publicPath: '/chunks/'
+    },
     mode: 'production',
     optimization: {
         minimize: true,
@@ -39,7 +51,7 @@ const appConfig = merge(common, {
                         options: {
                             // you can specify a publicPath here
                             // by default it use publicPath in webpackOptions.output
-                            publicPath: 'src/'
+                            publicPath: '../'
                         }
                     },
                     {
@@ -68,7 +80,7 @@ const appConfig = merge(common, {
                             options: {
                                 // you can specify a publicPath here
                                 // by default it use publicPath in webpackOptions.output
-                                publicPath: 'src/'
+                                publicPath: '../'
                             }
                         },
                         {
@@ -94,7 +106,7 @@ const appConfig = merge(common, {
                             options: {
                                 // you can specify a publicPath here
                                 // by default it use publicPath in webpackOptions.output
-                                publicPath: 'src/'
+                                publicPath: '../'
                             }
                         },
                         {
@@ -129,7 +141,7 @@ const appConfig = merge(common, {
                         options: {
                             // you can specify a publicPath here
                             // by default it use publicPath in webpackOptions.output
-                            publicPath: 'src/'
+                            publicPath: '../'
                         }
                     },
                     {
@@ -162,6 +174,16 @@ const appConfig = merge(common, {
         ],
     },
     plugins: [
+        new CleanWebpackPlugin([
+            path.resolve(__dirname, 'public', 'chunks')
+        ]),
+        new MiniCssExtractPlugin({
+            // Options similar to the same options in webpackOptions.output
+            // both options are optional
+            filename: '[name].[hash].css',
+            chunkFilename: '[name].[hash].css',
+            publicPath: 'chunks/'
+        }),
         new OptimizeCssAssetsPlugin({
             assetNameRegExp: /\.css$/,
             cssProcessorOptions: {
@@ -171,7 +193,7 @@ const appConfig = merge(common, {
             },
         }),
     ],
-    stats: { children: false }
+    // stats: { children: false }
 });
 
 
