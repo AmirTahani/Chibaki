@@ -48,6 +48,8 @@ module.exports = {
         new FontminPlugin({
             autodetect: true, // automatically pull unicode characters from CSS
         }),
-        new Dotenv()
+        new Dotenv({
+            path: path.resolve(__dirname, './.env')
+        })
     ]
 };

@@ -12,6 +12,7 @@ import createStore from './common/redux/create';
 
 const supportsHistory = 'pushState' in window.history;
 export const history = createBrowserHistory();
+console.log(process.env.MODE, 'this is mode in client');
 
 const { store, persistor } = createStore(new apiClient(), window.__PRELOADED_STATE__, 'client');
 
