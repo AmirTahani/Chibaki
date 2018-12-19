@@ -39,7 +39,7 @@ class Services extends Component {
                 });
             }
         }, 200);
-    }
+    };
 
     componentDidMount() {
         const { location } = this.props;

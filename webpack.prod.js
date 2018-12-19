@@ -1,6 +1,7 @@
 const merge = require('webpack-merge');
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const StripLoader = require('strip-loader');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const common = require('./webpack.common.js');
@@ -40,6 +41,25 @@ const appConfig = merge(common, {
     mode: 'production',
     optimization: {
         minimize: true,
+        minimizer: [new TerserPlugin({
+            test: /\.js(\?.*)?$/i,
+            exclude: /node_modules/,
+            parallel: true,
+            terserOptions: {
+                ecma: undefined,
+                warnings: false,
+                parse: {},
+                compress: {},
+                module: false,
+                output: null,
+                toplevel: false,
+                nameCache: null,
+                ie8: false,
+                keep_classnames: undefined,
+                keep_fnames: false,
+                safari10: false,
+            },
+        })]
     },
     module: {
         rules: [
