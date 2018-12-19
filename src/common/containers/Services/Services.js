@@ -3,7 +3,6 @@ import { NavLink, Link, withRouter } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
-import { Row, Col, Tooltip, Input, Button } from 'antd';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 import { StickyContainer, Sticky } from 'react-sticky';

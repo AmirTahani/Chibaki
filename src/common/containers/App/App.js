@@ -1,6 +1,5 @@
-import { Switch, Route, } from 'react-router-dom';
 import { browserHistory, withRouter } from 'react-router';
-import { hot } from 'react-hot-loader/root'
+import { hot } from 'react-hot-loader/root';
 import React, { Component } from 'react';
 import { hotjar } from 'react-hotjar';
 import Main from '../Main/Main';
@@ -24,6 +23,7 @@ class Routes extends Component {
         s.src = 'https://client.crisp.chat/l.js';
         s.async = 1;
         d.getElementsByTagName('head')[0].appendChild(s);
+        hotjar.initialize('734640');
     }
 
     render() {

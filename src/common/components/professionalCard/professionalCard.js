@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { Row, Col, Tooltip, Button, Rate, Spin } from 'antd';
+import { Row, Col, Tooltip, Rate } from 'antd';
 import styles from './professionalCard.style.module.styl';
 
 class ProfessionalCard extends PureComponent {

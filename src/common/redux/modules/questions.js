@@ -8,6 +8,8 @@ export const LOAD_QUESTIONS_FAILURE = 'ssr/questions/LOAD_QUESTIONS_FAILURE';
 
 export const SET_ANSWER = 'ssr/questions/SET_ANSWER';
 export const SUBMIT_ANSWERS = 'ssr/question/SUBMIT_ANSWERS';
+export const SUBMIT_ANSWERS_SUCCESS = 'ssr/question/SUBMIT_ANSWERS_SUCCESS';
+export const SUBMIT_ANSWERS_FAILURE = 'ssr/question/SUBMIT_ANSWERS_FAILURE';
 export const CLEAR_ANSWERS = 'ssr/question/CLEAR_ANSWERS';
 export const SET_PROF_ID = 'ssr/question/SET_PROF_ID';
 
@@ -22,7 +24,9 @@ const initialState = {
     answers: {},
     isDirect: false,
     title: '',
-    profId: ''
+    profId: '',
+    submitting: false,
+    submitted: false
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -62,6 +66,24 @@ export default function reducer(state = initialState, action = {}) {
                     ...state.answers,
                     [action.questionId]: { ...action.answer }
                 }
+            };
+        case SUBMIT_ANSWERS:
+            return {
+                ...state,
+                submitting: true,
+                submitted: false
+            };
+        case SUBMIT_ANSWERS_SUCCESS:
+            return {
+                ...state,
+                submitting: false,
+                submitted: true
+            };
+        case SUBMIT_ANSWERS_FAILURE:
+            return {
+                ...state,
+                submitting: false,
+                submitted: false
             };
         case CLEAR_ANSWERS:
             return {
@@ -110,6 +132,18 @@ export function submitAnswers(resolve, reject, profUserId) {
         reject,
         resolve,
         profUserId
+    };
+}
+
+export function submitAnswersSuccess() {
+    return {
+        type: SUBMIT_ANSWERS_SUCCESS
+    };
+}
+
+export function submitAnswersFailure() {
+    return {
+        type: SUBMIT_ANSWERS_FAILURE
     };
 }
 
@@ -172,9 +206,11 @@ export function* watchSubmitAnswers(client, { resolve, reject }) {
             }
         }
         yield put(clearAnswers());
+        yield put(submitAnswersSuccess());
         resolve && resolve();
     } catch (error) {
         yield handleSagaError(error);
+        yield put(submitAnswersFailure());
         reject && reject(error);
     }
 }
