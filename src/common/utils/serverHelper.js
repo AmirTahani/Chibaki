@@ -14,6 +14,7 @@ export async function handleRequestsByRoute(store, route) {
     const subRoute = path.split('/').reverse().filter(item => item !== '');
     if (path === '/') {
         await new Promise((resolve, reject) => {
+            console.log('onServerHelper');
             store.dispatch(loadProfession(resolve, reject));
         });
         store.dispatch(END);

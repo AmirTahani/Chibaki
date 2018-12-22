@@ -84,9 +84,12 @@ export function loadFailure(error) {
 
 export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
     try {
-        yield put(saveTitle(decodeURI(routeTitle)));
+        yield put(saveTile(decodeURI(routeTitle)));
 
         const title = decodeURI(routeTitle).split('_').join(' ');
+        // console.log('professionsFlatChildren: ', professionsFlatChildren);
+        const professionsFlatChildren = yield select(state => state.professions.professionsFlatChildren);
+        // console.log('professionsFlatChildren: ', professionsFlatChildren);
         let Provinces = yield select(state => state.provinces.provinces);
         let categories = yield select(state => state.professions.categories);
 
@@ -108,7 +111,7 @@ export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
         if (query && query.province) {
             foundProvince = Provinces.find(item => item.name === query.province);
         }
-        const Profession = new Professions(categories);
+        const Profession = new Professions(categories, professionsFlatChildren);
         Profession.select(title);
         const selectedProfession = Profession.selected.parent;
         const relatedProfessions = Profession.selected.related;

@@ -20,7 +20,6 @@ dotenv.config();
 
 const server = express();
 const IS_DEV = process.env.MODE === 'development';
-console.log(assets, 'this is assets');
 
 if (IS_DEV) {
     const compiler = webpack(webpackConfig);

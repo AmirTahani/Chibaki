@@ -13,7 +13,7 @@ import AutoComplete from '../../components/Kit/AutoComplete/AutoComplete';
 class Services extends Component {
     static propTypes = {
         location: PropTypes.objectOf(PropTypes.any).isRequired,
-        professions: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+        professionsFlatChildren: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         categories: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         loadConnect: PropTypes.func.isRequired,
         history: PropTypes.objectOf(PropTypes.any).isRequired
@@ -64,7 +64,7 @@ class Services extends Component {
     }
 
     render() {
-        const { categories, professions } = this.props;
+        const { categories, professionsFlatChildren } = this.props;
         return (
             <div>
                 <Helmet>
@@ -105,7 +105,7 @@ class Services extends Component {
                         <div className={styles.servicesContainer}>
                             <div className={styles.searchWrapper}>
                                 <AutoComplete
-                                    options={professions}
+                                    options={professionsFlatChildren}
                                     valueAs={'title'}
                                     onSubmit={this.onAutoCompleteSubmit}
                                     className={styles.searchComponent}
@@ -188,7 +188,7 @@ class Services extends Component {
 
 export default withRouter(connect(state => ({
     categories: state.professions.categories,
-    professions: state.professions.professions
+    professionsFlatChildren: state.professions.professionsFlatChildren
 }), {
     loadConnect: loader
 })(Services));
