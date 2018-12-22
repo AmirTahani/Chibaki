@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import ReactDom from 'react-dom';
 import { Modal, Col, Row, Button, message, Progress, Spin } from 'antd';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -48,6 +47,8 @@ class Questions extends PureComponent {
         loadingProvinces: PropTypes.bool.isRequired,
         loading: PropTypes.bool.isRequired,
         loaded: PropTypes.bool.isRequired,
+        submitting: PropTypes.bool.isRequired,
+        submitted: PropTypes.bool.isRequired,
         setAnswerConnect: PropTypes.func.isRequired,
         clearAnswersConnect: PropTypes.func.isRequired,
         answers: PropTypes.objectOf(PropTypes.any).isRequired,
@@ -491,7 +492,7 @@ class Questions extends PureComponent {
 
     render() {
         const { current, shouldRegister, begin } = this.state;
-        const { loading, loaded } = this.props;
+        const { loading, loaded, submitted, submitting } = this.props;
         const contents = this.getContent();
         const contentsLength = shouldRegister ? contents.length + 1 : contents.length;
         return (
@@ -540,6 +541,7 @@ class Questions extends PureComponent {
                                     type="primary"
                                     htmlType="submit"
                                     form="questionsForm"
+                                    disabled={submitting && !submitted}
                                 >
                                     ثبت درخواست
                                 </Button>,
@@ -593,7 +595,8 @@ class Questions extends PureComponent {
                             }}
                         >
                             {
-                                loading && !loaded && !begin ? <div className={styles.spinnerWrapper}><Spin /></div> : null
+                                loading && !loaded && !begin ?
+                                    <div className={styles.spinnerWrapper}><Spin /></div> : null
                             }
                             {
                                 !loading && loaded && !begin
@@ -633,6 +636,8 @@ export default connect(state => ({
     loading: state.questions.loading,
     loaded: state.questions.loaded,
     error: state.questions.error,
+    submitting: state.questions.submitting,
+    submitted: state.questions.submitted,
     provinces: state.provinces.provinces,
     loadingProvinces: state.provinces.loading,
     loadedProvinces: state.provinces.loaded,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Input, Button, Progress } from 'antd';
-import { persianNumber, toEnglishNumber } from '../../utils/persian';
+import { Input, Progress } from 'antd';
+import { toEnglishNumber } from '../../utils/persian';
 import styles from './Verify.module.styl';
 
 export default class Verify extends Component {

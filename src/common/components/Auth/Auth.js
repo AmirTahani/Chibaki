@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
-import { Modal, Button, message, Icon } from 'antd';
+import { Modal, message } from 'antd';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import styles from './Auth.module.styl';

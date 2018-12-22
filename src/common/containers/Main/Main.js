@@ -14,37 +14,37 @@ import GetApp from '../../components/GetApp/GetApp';
 import styles from './Main.module.styl';
 
 const LoadableHome = Loadable({
-    loader: () => import('../Home/Home'),
+    loader: () => import(/* webpackChunkName: "home" */ '../Home/Home'),
     loading: () => <Spin />,
 });
 
 const LoadableAbout = Loadable({
-    loader: () => import('../About/About'),
+    loader: () => import(/* webpackChunkName: "about" */ '../About/About'),
     loading: () => <Spin />,
 });
 
 const LoadableContactUs = Loadable({
-    loader: () => import('../ContactUs/ContactUs'),
+    loader: () => import(/* webpackChunkName: "contactUs" */ '../ContactUs/ContactUs'),
     loading: () => <Spin />,
 });
 
 const LoadableProfessional = Loadable({
-    loader: () => import('../Professional/Professional'),
+    loader: () => import(/* webpackChunkName: "professional" */ '../Professional/Professional'),
     loading: () => <Spin />,
 });
 
 const LoadableService = Loadable({
-    loader: () => import('../Service/Service'),
+    loader: () => import(/* webpackChunkName: "service" */ '../Service/Service'),
     loading: () => <Spin />,
 });
 
 const LoadableServices = Loadable({
-    loader: () => import('../Services/Services'),
+    loader: () => import(/* webpackChunkName: "services" */ '../Services/Services'),
     loading: () => <Spin />,
 });
 
 const LoadableTos = Loadable({
-    loader: () => import('../Tos/Tos'),
+    loader: () => import(/* webpackChunkName: "tos" */ '../Tos/Tos'),
     loading: () => <Spin />,
 });
 
@@ -101,10 +101,6 @@ class Main extends Component {
 
     render() {
         const { shouldShowChibakiSection } = this.state;
-        // const LoadableComponent = Loadable({
-        //     loader: () => import('./my-component'),
-        //     loading: Loading,
-        // });
         return (
             <div>
                 <Header handleScroll={this.handleScroll} />
