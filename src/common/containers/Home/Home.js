@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
-import { flattenProfessionsByCategories } from '../../utils/serverHelper';
 import Categories from '../../components/Professions/Categories/Categories';
 import Hero from '../../components/Hero/Hero';
 import Questions from '../../components/Questions/Questions';

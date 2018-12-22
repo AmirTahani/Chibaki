@@ -58,7 +58,7 @@ export function getMetaTags(store, route, query) {
     }
     if (decodeURI(subRoute[1]) === 'خدمات') {
         const categories = state.professions.categories;
-        const professions = flattenProfessionsByCategories(categories);
+        const professions = state.professions.professions;
         professions.forEach((profession) => {
             const professionUrlTitle = profession.title.split(' ').join('_');
             if (decodeURI(subRoute[0]) === professionUrlTitle) {

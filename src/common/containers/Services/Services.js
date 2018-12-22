@@ -14,7 +14,7 @@ class Services extends Component {
     static propTypes = {
         location: PropTypes.objectOf(PropTypes.any).isRequired,
         professions: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
-        cat: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+        categories: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         loadConnect: PropTypes.func.isRequired,
         history: PropTypes.objectOf(PropTypes.any).isRequired
     };
@@ -64,7 +64,7 @@ class Services extends Component {
     }
 
     render() {
-        const { cat, professions } = this.props;
+        const { categories, professions } = this.props;
         return (
             <div>
                 <Helmet>
@@ -74,7 +74,7 @@ class Services extends Component {
                         }
                     </title>
                 </Helmet>
-                {(cat && cat.length) &&
+                {(categories && categories.length) &&
                     <div
                         className={styles.container}
                     >
@@ -85,7 +85,7 @@ class Services extends Component {
                                         className={styles.servicesNav}
                                         style={style}
                                     >
-                                        {cat.map((item) => {
+                                        {categories.map((item) => {
                                             return (
                                                 <NavLink
                                                     exact
@@ -118,7 +118,7 @@ class Services extends Component {
                                 />
                             </div>
 
-                            {cat.map((item) => {
+                            {categories.map((item) => {
                                 return (
                                     <section
                                         ref={item.label.split(' ').join('_')}
@@ -187,7 +187,7 @@ class Services extends Component {
 }
 
 export default withRouter(connect(state => ({
-    cat: state.professions.categories,
+    categories: state.professions.categories,
     professions: state.professions.professions
 }), {
     loadConnect: loader

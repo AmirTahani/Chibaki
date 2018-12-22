@@ -94,13 +94,13 @@ export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
             yield put(loadProvinces());
         }
         if (!categories.length) {
-            yield put(loadCategories());
+            yield put(loadProfessions());
         }
         if (!Provinces.length) {
             yield take(LOAD_PROVINCES_SUCCESS);
         }
         if (!categories.length) {
-            yield take(LOAD_CATEGORIES_SUCCESS);
+            yield take(LOAD_PROFESSIONS_SUCCESS);
         }
         categories = yield select(state => state.professions.categories);
         Provinces = yield select(state => state.provinces.provinces);
@@ -108,7 +108,6 @@ export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
         if (query && query.province) {
             foundProvince = Provinces.find(item => item.name === query.province);
         }
-
         const Profession = new Professions(categories);
         Profession.select(title);
         const selectedProfession = Profession.selected.parent;

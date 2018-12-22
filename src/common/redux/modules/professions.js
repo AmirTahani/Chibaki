@@ -23,7 +23,6 @@ const initialState = {
     professions: [],
     error: null,
     categories: [],
-    flattenProfessionsByCategories: [],
     loadingCategories: false,
     loadedCategories: false,
     errorCategories: null
@@ -79,7 +78,8 @@ export default function reducer(state = initialState, action = {}) {
                 ...state,
                 loading: false,
                 loaded: true,
-                professions: action.professions
+                professions: action.professions,
+                categories: action.categories
             };
         case LOAD_PROFESSIONS_FAILURE:
             return {
@@ -98,10 +98,11 @@ export function loadProfessions() {
     };
 }
 
-export function loadProfessionsSuccess(professions) {
+export function loadProfessionsSuccess({professions, categories}) {
     return {
         type: LOAD_PROFESSIONS_SUCCESS,
-        professions
+        professions,
+        categories
     };
 }
 
@@ -176,8 +177,32 @@ export function* watchLoadProfessionsList(client) {
 
 export function* watchLoadProfessions(client, { resolve, reject }) {
     try {
-        const response = yield client.get('/v1/professions?limit=0');
-        const result = response.data.professions;
+        const response = yield client.get('/v1/professions?limit=0&populate=children,parent,categories&query={"profession_id":null}');
+        const result = response.data.professions.reduce(
+            (acc, profession) => {
+                profession.categories
+                    .filter(Boolean)
+                    .forEach((category) => {
+                        const foundCategory = acc.categories.find(cat => cat._id === category._id);
+                        if (foundCategory) {
+                            return foundCategory.professions.push(profession);
+                        }
+                        acc.categories.push({
+                            ...category,
+                            professions: [
+                                profession
+                            ]
+                        });
+                    });
+                if (!acc.professions.find(prof => prof._id === profession._id)) {
+                    acc.professions.push(profession);
+                }
+                return acc;
+            }, {
+                categories: [],
+                professions: []
+            }
+        );
         yield put(loadProfessionsSuccess(result));
         resolve && resolve(result);
     } catch (error) {
@@ -213,12 +238,10 @@ export function* watchLoadCategories(client, { resolve, reject }) {
 
 export function* watchLoader(client, { resolve, reject }) {
     try {
-        yield put(loadCategories());
         yield put(loadProfessions());
         yield put(loadProfessionsList());
         yield all([
             take(LOAD_PROFESSIONS_LIST_SUCCESS),
-            take(LOAD_CATEGORIES_SUCCESS),
             take(LOAD_PROFESSIONS_SUCCESS)
         ]);
         resolve && resolve();
