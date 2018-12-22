@@ -85,7 +85,7 @@ class Main extends Component {
         history.listen((location) => {
             console.log(location, 'this is location');
             if (window) {
-                window.ga('send', 'pageview', `/${location.pathname}${location.search}`);
+                window.ga && window.ga('send', 'pageview', `/${location.pathname}${location.search}`);
                 window.__renderType__ = 'client';
                 hotjar.initialize(734640);
             }
