@@ -84,29 +84,30 @@ export function loadFailure(error) {
 
 export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
     try {
-        yield put(saveTile(decodeURI(routeTitle)));
+        yield put(saveTitle(decodeURI(routeTitle)));
 
-        const title = decodeURI(routeTitle).split('_').join(' ');
-        // console.log('professionsFlatChildren: ', professionsFlatChildren);
-        const professionsFlatChildren = yield select(state => state.professions.professionsFlatChildren);
-        // console.log('professionsFlatChildren: ', professionsFlatChildren);
+        const title = decodeURI(routeTitle)
+            .split('_')
+            .join(' ');
+        let professionsFlatChildren = yield select(state => state.professions.professionsFlatChildren);
         let Provinces = yield select(state => state.provinces.provinces);
         let categories = yield select(state => state.professions.categories);
 
         if (!Provinces.length) {
             yield put(loadProvinces());
         }
-        if (!categories.length) {
+        if (!categories.length || !professionsFlatChildren.length) {
             yield put(loadProfessions());
         }
         if (!Provinces.length) {
             yield take(LOAD_PROVINCES_SUCCESS);
         }
-        if (!categories.length) {
+        if (!categories.length || !professionsFlatChildren.length) {
             yield take(LOAD_PROFESSIONS_SUCCESS);
         }
         categories = yield select(state => state.professions.categories);
         Provinces = yield select(state => state.provinces.provinces);
+        professionsFlatChildren = yield select(state => state.professions.professionsFlatChildren);
         let foundProvince = {};
         if (query && query.province) {
             foundProvince = Provinces.find(item => item.name === query.province);
@@ -116,11 +117,15 @@ export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
         const selectedProfession = Profession.selected.parent;
         const relatedProfessions = Profession.selected.related;
         yield put(loadProjectsForProf(selectedProfession._id, foundProvince && foundProvince._id));
-        yield put(loadProficients(selectedProfession._id, decodeURI(routeTitle), selectedProfession, foundProvince && foundProvince._id));
-        yield all([
-            take(projectsLoadedSuccess),
-            take(LOAD_PROFICIENTS_SUCCESS),
-        ]);
+        yield put(
+            loadProficients(
+                selectedProfession._id,
+                decodeURI(routeTitle),
+                selectedProfession,
+                foundProvince && foundProvince._id
+            )
+        );
+        yield all([take(projectsLoadedSuccess), take(LOAD_PROFICIENTS_SUCCESS)]);
         yield put(loadSuccess(relatedProfessions));
         resolve && resolve('done');
     } catch (error) {

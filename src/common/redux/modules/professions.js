@@ -101,7 +101,6 @@ export function loadProfessions() {
 }
 
 export function loadProfessionsSuccess({professions, categories, professionsFlatChildren}) {
-    console.log('professionsFlatChildren action: ', professionsFlatChildren);
     return {
         type: LOAD_PROFESSIONS_SUCCESS,
         professions,
@@ -217,7 +216,6 @@ export function* watchLoadProfessions(client, { resolve, reject }) {
                 professionsFlatChildren: []
             }
         );
-        console.log('watchLoadProfessions done');
         yield put(loadProfessionsSuccess(result));
         resolve && resolve(result);
     } catch (error) {
