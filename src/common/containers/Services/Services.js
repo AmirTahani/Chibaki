@@ -59,7 +59,7 @@ class Services extends Component {
         const params = queryString.parse(location.search);
         const prevParams = queryString.parse(prevProps.location.search);
 
-        if (params && params.cat && prevParams.cat !== params.cat) {
+        if (params && params.cat) {
             this.scrollToCat(params.cat);
         }
     }
@@ -127,7 +127,9 @@ class Services extends Component {
                             >
                                 <h2 className={styles.servicesHeading}>{item.label}</h2>
                                 <img
-                                    src={item.cover}
+                                    src={`/assets/images/categories/${item._id}@320.jpg`}
+                                    srcSet={`/assets/images/categories/${item._id}@320.jpg 300w, /assets/images/categories/${item._id}@600.jpg 600w`}
+                                    sizes='(min-width: 600px) 600px'
                                     alt={item.label}
                                     className={styles.servicesCover}
                                 />
@@ -143,9 +145,9 @@ class Services extends Component {
                                                     <h3>
                                                         <Link
                                                             to={`/${encodeURI('خدمات')}/${profession.title.split(' ').join('_')}`}
-                                                            className={`${styles.servicesItem} ${profession.profession_id ? styles.serviceItemChild : ''}`}
+                                                            className={`${styles.servicesItem} ${profession.children && profession.children.length ? styles.serviceItemParent : ''}`}
                                                         >
-                                                            {!profession.profession_id &&
+                                                            {(profession.children && profession.children.length) &&
                                                                 <span className={`${styles.servicesItemIcon} icon-chevron-down`} />
                                                             }
                                                             {profession.title}
