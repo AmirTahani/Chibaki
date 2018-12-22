@@ -8,7 +8,7 @@ import '../../styles/App.styl';
 
 Component.prototype.exist = exist;
 Component.prototype.event = (props) => {
-    if (window && window.__renderType__ === 'client' && window && !window.__DEV__) {
+    if (window && window.__renderType__ === 'client' && !window.__DEV__ && window.ga) {
         window.ga('send', 'event', props.category, props.action, props.label, props.value);
     }
 };
