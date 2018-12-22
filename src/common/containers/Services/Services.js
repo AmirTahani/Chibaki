@@ -66,9 +66,7 @@ class Services extends Component {
     render() {
         const { cat, professions } = this.props;
         return (
-            <div
-                className={styles.container}
-            >
+            <div>
                 <Helmet>
                     <title>
                         {
@@ -76,91 +74,113 @@ class Services extends Component {
                         }
                     </title>
                 </Helmet>
-                <StickyContainer className={styles.servicesNavContainer}>
-                    <Sticky>
-                        {({ style }) => (
-                            <div
-                                className={styles.servicesNav}
-                                style={style}
-                            >
-                                {cat.map((item) => {
-                                    return (
-                                        <NavLink
-                                            exact
-                                            to={`/${encodeURI('خدمات')}?cat=${item.label.split(' ').join('_')}`}
-                                            className={styles.servicesNavItem}
-                                            activeClassName="active"
-                                            key={item.label.split(' ').join('_')}
-                                        >
-                                            {item.label}
-                                        </NavLink>
-                                    );
-                                })}
-                            </div>
-                        )}
-                    </Sticky>
-                </StickyContainer>
-                <div className={styles.servicesContainer}>
-                    <div className={styles.searchWrapper}>
-                        <AutoComplete
-                            options={professions}
-                            valueAs={'title'}
-                            onSubmit={this.onAutoCompleteSubmit}
-                            className={styles.searchComponent}
-                            fieldName={'servicesSearch'}
-                            fieldClassName={styles.searchInput}
-                            dropdownClassName={styles.searchDropdown}
-                            placeholder="جستجو در خدمات"
-                            btnClassName={styles.searchBtn}
-                            btnContent={(<span className="icon-search" />)}
-                        />
-                    </div>
-
-                    {cat.map((item) => {
-                        return (
-                            <section
-                                ref={item.label.split(' ').join('_')}
-                                key={item.label.split(' ').join('_')}
-                                id={item.label.split(' ').join('_')}
-                                className={styles.servicesRow}
-                            >
-                                <h2 className={styles.servicesHeading}>{item.label}</h2>
-                                <img
-                                    src={`/assets/images/categories/${item._id}@320.jpg`}
-                                    srcSet={`/assets/images/categories/${item._id}@320.jpg 300w, /assets/images/categories/${item._id}@600.jpg 600w`}
-                                    sizes='(min-width: 600px) 600px'
-                                    alt={item.label}
-                                    className={styles.servicesCover}
-                                />
-                                <div
-                                    className={styles.servicesWrapper}
-                                >
-                                    {
-                                        item.professions.map((profession) => {
+                {(cat && cat.length) &&
+                    <div
+                        className={styles.container}
+                    >
+                        <StickyContainer className={styles.servicesNavContainer}>
+                            <Sticky>
+                                {({ style }) => (
+                                    <div
+                                        className={styles.servicesNav}
+                                        style={style}
+                                    >
+                                        {cat.map((item) => {
                                             return (
-                                                <div
-                                                    key={profession.title}
+                                                <NavLink
+                                                    exact
+                                                    to={`/${encodeURI('خدمات')}?cat=${item.label.split(' ').join('_')}`}
+                                                    className={styles.servicesNavItem}
+                                                    activeClassName="active"
+                                                    key={item.label.split(' ').join('_')}
                                                 >
-                                                    <h3>
-                                                        <Link
-                                                            to={`/${encodeURI('خدمات')}/${profession.title.split(' ').join('_')}`}
-                                                            className={`${styles.servicesItem} ${profession.children && profession.children.length ? styles.serviceItemParent : ''}`}
-                                                        >
-                                                            {(profession.children && profession.children.length) &&
-                                                                <span className={`${styles.servicesItemIcon} icon-chevron-down`} />
-                                                            }
-                                                            {profession.title}
-                                                        </Link>
-                                                    </h3>
-                                                </div>
+                                                    {item.label}
+                                                </NavLink>
                                             );
-                                        })
-                                    }
-                                </div>
-                            </section>
-                        );
-                    })}
-                </div>
+                                        })}
+                                    </div>
+                                )}
+                            </Sticky>
+                        </StickyContainer>
+                        <div className={styles.servicesContainer}>
+                            <div className={styles.searchWrapper}>
+                                <AutoComplete
+                                    options={professions}
+                                    valueAs={'title'}
+                                    onSubmit={this.onAutoCompleteSubmit}
+                                    className={styles.searchComponent}
+                                    fieldName={'servicesSearch'}
+                                    fieldClassName={styles.searchInput}
+                                    dropdownClassName={styles.searchDropdown}
+                                    placeholder="جستجو در خدمات"
+                                    btnClassName={styles.searchBtn}
+                                    btnContent={(<span className="icon-search" />)}
+                                />
+                            </div>
+
+                            {cat.map((item) => {
+                                return (
+                                    <section
+                                        ref={item.label.split(' ').join('_')}
+                                        key={item.label.split(' ').join('_')}
+                                        id={item.label.split(' ').join('_')}
+                                        className={styles.servicesRow}
+                                    >
+                                        <h2 className={styles.servicesHeading}>{item.label}</h2>
+                                        <img
+                                            src={`/assets/images/categories/${item._id}@320.jpg`}
+                                            srcSet={`/assets/images/categories/${item._id}@320.jpg 300w, /assets/images/categories/${item._id}@600.jpg 600w`}
+                                            sizes="(min-width: 600px) 600px"
+                                            alt={item.label}
+                                            className={styles.servicesCover}
+                                        />
+                                        <div
+                                            className={styles.servicesWrapper}
+                                        >
+                                            {
+                                                item.professions.map((profession) => {
+                                                    return (
+                                                        <div
+                                                            key={profession.title}
+                                                        >
+                                                            <h3>
+                                                                <Link
+                                                                    to={`/${encodeURI('خدمات')}/${profession.title.split(' ').join('_')}`}
+                                                                    className={`${styles.servicesItem} ${(profession.children && profession.children.length) ? styles.servicesItemParent : ''}`}
+                                                                >
+                                                                    {(profession.children && profession.children.length)
+                                                                        ? <span className={`${styles.servicesItemIcon} icon-chevron-down`} />
+                                                                        : null }
+                                                                    {profession.title}
+                                                                </Link>
+                                                            </h3>
+                                                            {
+                                                                profession.children.map((childProfession) => {
+                                                                    return (
+                                                                        <h3
+                                                                            key={childProfession.title}
+                                                                        >
+                                                                            <Link
+                                                                                to={`/${encodeURI('خدمات')}/${childProfession.title.split(' ').join('_')}`}
+                                                                                className={`${styles.servicesItem}`}
+                                                                            >
+                                                                                {childProfession.title}
+                                                                            </Link>
+                                                                        </h3>
+                                                                    );
+                                                                })
+                                                            }
+                                                        </div>
+                                                    );
+                                                })
+                                            }
+                                        </div>
+                                    </section>
+                                );
+                            })}
+                        </div>
+                    </div>
+                }
             </div>
         );
     }
