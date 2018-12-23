@@ -155,7 +155,7 @@ class Services extends Component {
                                                                 </Link>
                                                             </h3>
                                                             {
-                                                                profession.children.map((childProfession) => {
+                                                                (profession.children && profession.children.length) ? profession.children.map((childProfession) => {
                                                                     return (
                                                                         <h3
                                                                             key={childProfession.title}
@@ -168,7 +168,7 @@ class Services extends Component {
                                                                             </Link>
                                                                         </h3>
                                                                     );
-                                                                })
+                                                                }) : null
                                                             }
                                                         </div>
                                                     );
