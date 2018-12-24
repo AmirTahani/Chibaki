@@ -1,7 +1,10 @@
 import PropTypes from 'prop-types';
-import React, { Component, lazy } from 'react';
+import React, { Component } from 'react';
 import objectFitImages from 'object-fit-images';
 import { Link } from 'react-router-dom';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.less';
+import 'slick-carousel/slick/slick-theme.less';
 import './Slider.styl';
 
 
@@ -15,32 +18,21 @@ export default class ProfessionSliders extends Component {
     };
 
     sliderOptions = {
-        lazyLoad: 1,
-        pageDots: true,
-        cellSelector: '.catSlider__slide',
-        rightToLeft: true,
-        wrapAround: true,
-        groupCells: true,
-        percentPosition: false,
-        selectedAttraction: 0.015,
-        friction: 0.2,
-        freeScroll: false
+        rows: 1,
+        rtl: true,
+        slidesPerRow: 3,
+        lazyLoad: 'progressive'
     };
 
-    Flickity = null;
     getSlider = (slider) => {
-        const { Flickity } = this;
-        return Flickity ? (<Flickity
-            className="catSlider"
-            options={this.sliderOptions}
-        >
-            {slider.slides.map(this.mapSlides)}
-        </Flickity>) : (<div
-            className="catSlider"
-        >
-            {slider.slides.map(this.mapSlides)}
-
-        </div>);
+        return (
+            <Slider
+                className="catSlider"
+                {...this.sliderOptions}
+            >
+                {slider.slides.map(this.mapSlides)}
+            </Slider>
+        );
     };
 
     mapSlides = (slide, idx) => {
@@ -53,8 +45,8 @@ export default class ProfessionSliders extends Component {
                     <div className="catSlider-item__inner">
                         <div className="catSlider__bg">
                             <img
-                                data-flickity-lazyload={slide.img}
                                 alt={slide.label}
+                                src={slide.img}
                             />
                         </div>
                     </div>
@@ -70,10 +62,6 @@ export default class ProfessionSliders extends Component {
     };
 
     componentDidMount() {
-        this.Flickity = lazy(() => {
-            import('react-flickity-component');
-            import('flickity/dist/flickity.min.css');
-        });
         objectFitImages();
     }
 

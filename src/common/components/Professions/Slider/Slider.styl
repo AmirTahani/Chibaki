@@ -2,212 +2,201 @@
 $cs_labelHeight = 50px
 
 .catSlider
-	width 100%
-	outline none
+  width 100%
+  outline none
 
-	&:not(.flickity-enabled)
-		display flex
-		flex-direction row
-		
-		overflow-x scroll
-	
-	&__wrapper
-		margin-top 70px
+  &__wrapper
+    max-width: 960px
+    margin 70px auto 0
+    padding 0 15px
+    text-align: right
 
-		@media (max-width $md)
-			margin-top 35px
+    @media (max-width $md)
+      margin-top 35px
 
-	// @heading
-	&__heading
-		color #424242
+  // @heading
+  &__heading
+    color #424242
 
-		font-size 20px
-		font-weight 900
-		
-		margin-bottom 30px
-		padding-right 1rem
+    font-size 20px
+    font-weight 900
 
-		@media (max-width $sm)
-			margin-bottom 15px
+    margin-bottom 30px
+    padding-right 1rem
+
+    @media (max-width $sm)
+      margin-bottom 15px
 
 
-	&__slide
-		margin-right 10px
+  &__slide
+    cursor pointer
+    user-select none
 
-		cursor pointer
-		user-select none
+  &__item
+    margin-right 10px
 
-		@media (min-width $lg + 1)
-			width 300px
-			flex 1 0 300px
+    display block
+    position relative
+    border 1px solid #e0e0e0
+    border-radius 3px
+    overflow hidden
 
-		@media (max-width $lg)
-			width 240px
-			flex 1 0 240px
-			
-		~/:not(.flickity-enabled) ^[0..-1]	
-			&:last-of-type
-				padding-left 10px
+    //@media (min-width $lg + 1)
+    //  width 300px
+    //  flex 1 0 300px
+    //
+    //@media (max-width $lg)
+    //  width 240px
+    //  flex 1 0 240px
 
-				width 250px
-				flex 1 0 250px
+    &:hover
+    &:focus
+        text-decoration: none
 
-	&__item
-		display block
-		position relative
-		border 1px solid #e0e0e0
-		border-radius 3px
-		overflow hidden
-		
-		&:hover
-		&:focus
-			text-decoration: none
-		
-		&:hover 
+    &:hover
 
-			& ^[0]__over
-				opacity 1
-				transform scale(1)
+    & ^[0]__over
+      opacity 1
+      transform scale(1)
 
-			& ^[0]__bg
-				transform scale(1.15)
+    & ^[0]__bg
+      transform scale(1.15)
 
-			& ^[0]__label
-				color #000
+    & ^[0]__label
+      color #000
 
-	&-item__inner
-		position relative
-		overflow hidden
+  &-item__inner
+    position relative
+    overflow hidden
 
-		@media (min-width $lg + 1)
-			height 180px
+    @media (min-width $lg + 1)
+      height 180px
 
-		@media (max-width $lg)
-			height 125px
+    @media (max-width $lg)
+      height 125px
 
-	// @over
-	&__over
-		position absolute
-		top 0
-		left 0
-		right 0
-		bottom 0
+  // @over
+  &__over
+    position absolute
+    top 0
+    left 0
+    right 0
+    bottom 0
 
-		opacity 0
-		transform scale(.85)
+    opacity 0
+    transform scale(.85)
 
-		display flex
-		align-items center
-		justify-content center
+    display flex
+    align-items center
+    justify-content center
 
-		transition .15s ease-in-out
+    transition .15s ease-in-out
 
-		background-color alpha(#fff, .5)
-		padding 20px
-		
-		z-index 100
-		
-		@media (max-width $md)
-			padding 10px
+    background-color alpha(#fff, .5)
+    padding 20px
 
-	&__bg
-		height 100%
+    z-index 100
 
-		transition .15s ease-in-out
+    @media (max-width $md)
+      padding 10px
 
-		img
-			width 100%
-			height 100%
-			
-			object-fit cover
-			font "object-fit: cover;"
+  &__bg
+    height 100%
 
-			transform scale(.85)
-			opacity 0
+    transition .15s ease-in-out
 
-			transition .15s ease-in-out
-			
-			~/:not(.flickity-enabled) ^[0..-1]
-			&.flickity-lazyloaded
-				transform scale(1)
-				opacity 1
-		
-	&__label
-		color #424242
-		padding 1rem
+    img
+      width 100%
+      height 100%
 
-		@media (max-width $md)
-			padding 10px 15px
+      object-fit cover
+      font "object-fit: cover;"
 
-		background-color #fff
+      transform scale(.85)
+      opacity 0
 
-		// ellipsis effect
-		text-overflow ellipsis
-		overflow hidden
-		white-space nowrap
+      transition .15s ease-in-out
 
-		h3
-			font-size 1.1rem
-			line-height 1.2
+      ~ /:not(.flickity-enabled) ^[0..-1] &.flickity-lazyloaded
+        transform scale(1)
+        opacity 1
 
-			margin 0
-			display inline-block
+  &__label
+    color #424242
+    padding 1rem
 
-	&__price
-		margin-top 22px
-		padding-top 19px
+    @media (max-width $md)
+      padding 10px 15px
 
-		position relative
+      background-color #fff
 
-		font-size .9rem
-		color #848484
+      // ellipsis effect
+      text-overflow ellipsis
+      overflow hidden
+      white-space nowrap
 
-		strong 
-			font-weight 900
+    h3
+      font-size 1.1rem
+      line-height 1.2
 
-		&:after
-			content 'میانگین قیمت:'
+      margin 0
+      display inline-block
 
-			position absolute
-			top 0
-			right 0
+  &__price
+    margin-top 22px
+    padding-top 19px
 
-			font-size 10px
-			color #5189f0
-		
-	&__outer
-		position relative
+    position relative
 
-		padding-bottom 40px
+    font-size .9rem
+    color #848484
 
-		@media (min-width 1080px)
-			margin 0 -60px
-			
-			.flickity-viewport
-				margin 0 60px
-		
-		.tns-nav
-			position absolute
+    strong
+      font-weight 900
 
-			bottom -15px
-			left 50%
+    &:after
+      content 'میانگین قیمت:'
 
-			height 15px
+      position absolute
+      top 0
+      right 0
 
-			transform translateX(-50%)
+      font-size 10px
+      color #5189f0
 
-	// @dots
-	.flickity-page-dots
-		bottom -35px
-		
-	.dot
-		transition .15s ease-in-out
-		background #d8d8d8
-		opacity .7
-		
-		&.is-selected
-			background $color
+  &__outer
+    position relative
 
-	.flickity-prev-next-button
-		@media (max-width $md)
-			display none
+    padding-bottom 40px
+
+    @media (min-width 1080px)
+      margin 0 -60px
+
+      .flickity-viewport
+        margin 0 60px
+
+    .tns-nav
+      position absolute
+
+      bottom -15px
+      left 50%
+
+      height 15px
+
+      transform translateX(-50%)
+
+  // @dots
+  //.flickity-page-dots
+  //	bottom -35px
+
+  .dot
+    transition .15s ease-in-out
+    background #d8d8d8
+    opacity .7
+
+    &.is-selected
+      background $color
+
+//.flickity-prev-next-button
+//	@media (max-width $md)
+//		display none
