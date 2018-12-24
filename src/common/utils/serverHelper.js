@@ -14,6 +14,7 @@ export async function handleRequestsByRoute(store, route) {
     const subRoute = path.split('/').reverse().filter(item => item !== '');
     if (path === '/') {
         await new Promise((resolve, reject) => {
+            console.log('onServerHelper');
             store.dispatch(loadProfession(resolve, reject));
         });
         store.dispatch(END);
@@ -58,7 +59,7 @@ export function getMetaTags(store, route, query) {
     }
     if (decodeURI(subRoute[1]) === 'خدمات') {
         const categories = state.professions.categories;
-        const professions = flattenProfessionsByCategories(categories);
+        const professions = state.professions.professions;
         professions.forEach((profession) => {
             const professionUrlTitle = profession.title.split(' ').join('_');
             if (decodeURI(subRoute[0]) === professionUrlTitle) {

@@ -71,13 +71,13 @@ body {
 }
 
 .aboutText
-  font-size: 1.3rem
+  font-size: 1rem
   font-weight: 500
 
-  line-height: 1.8
+  line-height: 2
 
   padding: 0 1rem
-  margin: 4rem 0
+  margin: 5rem 0 9rem
 
 /**
  * Modifications to ant.design
@@ -109,7 +109,7 @@ body {
   &-mask
     //z-index: 999998
   &-wrap
-    z-index: 99999999
+    // z-index: 99999999
   &-content
     min-height 270px
 
@@ -227,3 +227,8 @@ body {
   &-menu
     background-color: #fff;
     padding-top: 2rem
+
+// Hide crisp when modal is open
+.modal-is-open
+    .crisp-client
+        display none

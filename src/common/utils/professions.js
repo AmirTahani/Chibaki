@@ -44,19 +44,25 @@ export default class Professions {
     }
 
     selectRelated() {
-        const categoryId = this.selected.parent.categories[0];
+        const categoryId = typeof this.selected.parent.categories[0] === 'string'
+            ? this.selected.parent.categories[0]
+            : this.selected.parent.categories[0]._id;
+
         const selectedProfId = this.selected.child ? this.selected.child._id : this.selected.parent._id;
-        const catProfessions = this.categories.find(
+
+        const categoryProfessions = this.categories.find(
             item => item._id === categoryId
         ).professions.filter(
             item => item._id !== selectedProfId
         );
+
         let related = [];
-        for (let i = 0; i < catProfessions.length; i++) {
-            const randomProf = catProfessions[Math.floor(Math.random() * catProfessions.length)];
+        for (let i = 0; i < categoryProfessions.length; i++) {
+            const randomProf = categoryProfessions[Math.floor(Math.random() * categoryProfessions.length)];
             related = [...new Set([...related, randomProf])];
             if (related.length >= 12) break;
         }
+
         this.selected.related = related;
     }
 

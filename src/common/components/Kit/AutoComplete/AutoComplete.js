@@ -22,6 +22,7 @@ export default class AutoComplete extends Component {
         fieldClassName: PropTypes.string,
         btnClassName: PropTypes.string,
         btnContent: PropTypes.node,
+        dropdownClassName: PropTypes.string,
         wrapInForm: PropTypes.bool,
         className: PropTypes.string
     };
@@ -37,6 +38,7 @@ export default class AutoComplete extends Component {
         fieldClassName: '',
         btnClassName: '',
         btnContent: null,
+        dropdownClassName: '',
         wrapInForm: true,
         className: ''
     };
@@ -58,17 +60,16 @@ export default class AutoComplete extends Component {
     });
 
     handleChange = (value) => {
-        if (typeof value !== 'undefined') {
-            this.setState({
-                selectedValue: ''
+        this.setState({
+            selectedValue: '',
+            options: []
+        });
+        if (value) {
+            this.engineConf.search(value, (options) => {
+                this.setState({
+                    options
+                });
             });
-            this.engineConf.search(value,
-                (options) => {
-                    this.setState({
-                        options
-                    });
-                }
-            );
         } else if (this.props.showOptionsWhenEmpty) {
             this.setState({
                 options: this.props.options

@@ -21,9 +21,9 @@ const initialState = {
     loaded: false,
     professionsList: [],
     professions: [],
+    professionsFlatChildren: [],
     error: null,
     categories: [],
-    flattenProfessionsByCategories: [],
     loadingCategories: false,
     loadedCategories: false,
     errorCategories: null
@@ -79,7 +79,9 @@ export default function reducer(state = initialState, action = {}) {
                 ...state,
                 loading: false,
                 loaded: true,
-                professions: action.professions
+                professions: action.professions,
+                categories: action.categories,
+                professionsFlatChildren: action.professionsFlatChildren
             };
         case LOAD_PROFESSIONS_FAILURE:
             return {
@@ -98,10 +100,12 @@ export function loadProfessions() {
     };
 }
 
-export function loadProfessionsSuccess(professions) {
+export function loadProfessionsSuccess({professions, categories, professionsFlatChildren}) {
     return {
         type: LOAD_PROFESSIONS_SUCCESS,
-        professions
+        professions,
+        categories,
+        professionsFlatChildren
     };
 }
 
@@ -157,6 +161,7 @@ export function loadCategoriesFailure(error) {
 }
 
 export function loader(resolve, reject) {
+    console.log('loader profession: ');
     return {
         type: LOADER,
         resolve,
@@ -166,6 +171,7 @@ export function loader(resolve, reject) {
 
 export function* watchLoadProfessionsList(client) {
     try {
+        console.log('watchLoadProfessionsList');
         const response = yield client.get('/professions/lists');
         yield put(loadProfessionsListSuccess(response.data.professions));
     } catch (error) {
@@ -176,8 +182,40 @@ export function* watchLoadProfessionsList(client) {
 
 export function* watchLoadProfessions(client, { resolve, reject }) {
     try {
-        const response = yield client.get('/v1/professions?limit=0');
-        const result = response.data.professions;
+        console.log('watchLoadProfessions');
+        const response = yield client.get('/v1/professions?limit=0&populate=children,parent,categories&query={"profession_id":null}');
+        const result = response.data.professions.reduce(
+            (acc, profession) => {
+                // console.log('profession: ', profession);
+                profession.categories
+                    .filter(Boolean)
+                    .forEach((category) => {
+                        const foundCategory = acc.categories.find(cat => cat._id === category._id);
+                        if (foundCategory) {
+                            return foundCategory.professions.push(profession);
+                        }
+                        acc.categories.push({
+                            ...category,
+                            professions: [
+                                profession
+                            ]
+                        });
+                    });
+                if (!acc.professions.find(prof => prof._id === profession._id)) {
+                    acc.professions.push(profession);
+                    acc.professionsFlatChildren = [
+                        ...acc.professionsFlatChildren,
+                        profession,
+                        ...profession.children
+                    ];
+                }
+                return acc;
+            }, {
+                categories: [],
+                professions: [],
+                professionsFlatChildren: []
+            }
+        );
         yield put(loadProfessionsSuccess(result));
         resolve && resolve(result);
     } catch (error) {
@@ -213,14 +251,16 @@ export function* watchLoadCategories(client, { resolve, reject }) {
 
 export function* watchLoader(client, { resolve, reject }) {
     try {
-        yield put(loadCategories());
+        console.log('watchLoader: ');
         yield put(loadProfessions());
+        console.log('before load professions list');
         yield put(loadProfessionsList());
+        console.log('before take all');
         yield all([
             take(LOAD_PROFESSIONS_LIST_SUCCESS),
-            take(LOAD_CATEGORIES_SUCCESS),
             take(LOAD_PROFESSIONS_SUCCESS)
         ]);
+        console.log('before resolve');
         resolve && resolve();
     } catch (error) {
         reject && reject();

@@ -1,17 +1,35 @@
+@import '../../styles/variables'
+
+.container 
+    composes l-container from '../../styles/container.styl'
+    
+    padding-top 4rem
+    padding-bottom 8rem
+
+    @media (min-width $md)
+        padding-left 20px
+        padding-right 20px
+
 .card
-	composes c-card from '../../styles/card.styl'
-	padding: 35px 40px
+    composes c-card from '../../styles/card.styl'
+
+    padding: 35px 40px
+
+    text-align initial
+
+    @media (min-width $md)
+        display inline-block
 
 .row
-	margin-bottom 1rem
+    margin-bottom 1rem
 
 .label
-	font-weight 400
-	font-size .75rem
+    font-weight 400
+    font-size .75rem
 
 .text
-	font-weight 900
-	font-size 1rem
-	margin-top .25rem
-	
-	text-align right
+    font-weight 900
+    font-size 1.2rem
+    margin-top .25rem
+    
+    text-align right

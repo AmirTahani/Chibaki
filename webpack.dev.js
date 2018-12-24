@@ -140,11 +140,8 @@ const appConfig = merge(common, {
                     [/node_modules/],
                 use: [
                     'babel-loader',
-                    'react-hot-loader/webpack',
-                    {
-                        loader: StripLoader.loader('debugger', 'console.log', 'console.info'),
-                    },
-                ],
+                    'react-hot-loader/webpack'
+                ]
             }
         ],
     },

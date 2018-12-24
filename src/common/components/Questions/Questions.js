@@ -89,7 +89,14 @@ class Questions extends PureComponent {
         this.setState({
             visible: !this.state.visible
         });
+        this.toggleBodyClass(false);
     };
+
+    toggleBodyClass = (force) => {
+        const method = force ? 'add' : 'remove';
+        document.body
+            .classList[method]('modal-is-open');
+    }
 
     getQuestions = (questions, gender) => {
         const { user } = this.props;
@@ -482,6 +489,7 @@ class Questions extends PureComponent {
         });
         this.props.loadQuestionsConnect(this.props.professionId, this.props.direct);
         this.props.loadProvincesConnect();
+        this.toggleBodyClass(true);
     }
 
     componentWillReceiveProps(nextProps) {

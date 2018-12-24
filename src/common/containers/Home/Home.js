@@ -12,7 +12,7 @@ import { loader } from '../../redux/modules/professions';
 
 class Home extends Component {
     static propTypes = {
-        professions: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+        professionsFlatChildren: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         sliders: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         loadConnect: PropTypes.func.isRequired,
         history: PropTypes.objectOf(PropTypes.any).isRequired
@@ -30,7 +30,7 @@ class Home extends Component {
     }
 
     handleSelect = (professionId) => {
-        this.props.history.push(`/${encodeURI('خدمات')}/${professionId}`);
+        this.props.history.push(`/${encodeURI('خدمات')}/${professionId.split(' ').join('_')}`);
     };
 
     handleClose = () => {
@@ -41,7 +41,7 @@ class Home extends Component {
     };
 
     render() {
-        const { professions, sliders } = this.props;
+        const { professionsFlatChildren, sliders } = this.props;
         const { professionId, showQuestions } = this.state;
 
         return (
@@ -54,7 +54,7 @@ class Home extends Component {
                     </title>
                 </Helmet>
                 <Hero
-                    professions={professions}
+                    professions={professionsFlatChildren}
                     onSelect={this.handleSelect}
                 />
 
@@ -73,7 +73,7 @@ class Home extends Component {
 }
 
 export default withRouter(connect(state => ({
-    professions: state.professions.professions,
+    professionsFlatChildren: state.professions.professionsFlatChildren,
     sliders: state.professions.professionsList
 }),
 {

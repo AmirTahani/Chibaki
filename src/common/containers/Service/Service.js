@@ -158,13 +158,15 @@ class Services extends Component {
             this.props.loadConnect(null, null, params, match.params.title);
         }
         objectFitImages();
-        if (this.jobCardFlickity) {
-            this.jobCardFlickity.on('ready', () => {
-                this.setState({
-                    jobCardClass: styles.jobCardFull
+        this.setState({jobCardClass: ''}, ()=>{
+            if (this.jobCardFlickity) {
+                this.jobCardFlickity.on('ready', () => {
+                    this.setState({
+                        jobCardClass: styles.jobCardFull
+                    });
                 });
-            });
-        }
+            }
+        });
     }
 
     componentDidUpdate(prevProps) {
@@ -332,8 +334,10 @@ class Services extends Component {
                                             flickityRef={(c) => {
                                                 this.jobCardFlickity = c;
                                                 c.on('ready', () => {
-                                                    this.setState({
-                                                        jobCardClass: styles.jobCardFull
+                                                    this.setState({jobCardClass: ''}, ()=>{
+                                                        this.setState({
+                                                            jobCardClass: styles.jobCardFull
+                                                        });
                                                     });
                                                 });
                                             }}
