@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, lazy } from 'react';
 import objectFitImages from 'object-fit-images';
 
 export default class HeroBack extends Component {
@@ -47,13 +47,10 @@ export default class HeroBack extends Component {
     };
 
     componentDidMount() {
-        if (!this.Flickity) {
-            this.Flickity = require('react-flickity-component');
-            require('flickity/dist/flickity.min.css');
-            this.setState({
-                index: 1
-            });
-        }
+        this.Flickity = lazy(() => {
+            import('react-flickity-component');
+            import('flickity/dist/flickity.min.css');
+        });
         objectFitImages();
     }
 
