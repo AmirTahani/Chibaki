@@ -118,27 +118,27 @@ class Services extends Component {
                                 />
                             </div>
 
-                            {categories.map((item) => {
+                            {categories.map((category) => {
                                 return (
                                     <section
-                                        ref={item.label.split(' ').join('_')}
-                                        key={item.label.split(' ').join('_')}
-                                        id={item.label.split(' ').join('_')}
+                                        ref={category.label.split(' ').join('_')}
+                                        key={category.label.split(' ').join('_')}
+                                        id={category.label.split(' ').join('_')}
                                         className={styles.servicesRow}
                                     >
-                                        <h2 className={styles.servicesHeading}>{item.label}</h2>
+                                        <h2 className={styles.servicesHeading}>{category.label}</h2>
                                         <img
-                                            src={`/assets/images/categories/${item._id}@320.jpg`}
-                                            srcSet={`/assets/images/categories/${item._id}@320.jpg 300w, /assets/images/categories/${item._id}@600.jpg 600w`}
-                                            sizes="(min-width: 600px) 600px"
-                                            alt={item.label}
+                                            // src={`/assets/images/categories/${category.label.split(' ').join('_')}@320.jpg`}
+                                            srcSet={`/assets/images/categories/${category.label.split(' ').join('_')}@320.jpg 320w,
+                                                    /assets/images/categories/${category.label.split(' ').join('_')}@600.jpg 600w`}
+                                            alt={category.label}
                                             className={styles.servicesCover}
                                         />
                                         <div
                                             className={styles.servicesWrapper}
                                         >
                                             {
-                                                item.professions.map((profession) => {
+                                                category.professions.map((profession) => {
                                                     return (
                                                         <div
                                                             key={profession.title}
