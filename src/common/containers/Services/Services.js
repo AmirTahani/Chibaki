@@ -146,7 +146,7 @@ class Services extends Component {
                                                             <h3>
                                                                 <Link
                                                                     to={`/${encodeURI('خدمات')}/${profession.title.split(' ').join('_')}`}
-                                                                    className={`${styles.servicesItem} ${(profession.children && profession.children.length) ? styles.servicesItemParent : ''}`}
+                                                                    className={`${styles.servicesItem} ${styles.servicesItemParent}`}
                                                                 >
                                                                     {(profession.children && profession.children.length)
                                                                         ? <span className={`${styles.servicesItemIcon} icon-chevron-down`} />
