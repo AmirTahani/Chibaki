@@ -8,7 +8,7 @@
     "start": "npm run production && babel-node --config-file ./.babelrcServer src/index.js",
     "dev": "rm -rf ./public/chunks && babel-node --config-file ./.babelrcServer src/index.js --hot",
     "development": "BABEL_ENV=development webpack --config webpack.dev.js",
-    "production": "BABEL_ENV=production webpack --config webpack.prod.js --color --optimize-minimize --optimize-max-chunks 15 --optimize-min-chunk-size 10000",
+    "production": "BABEL_ENV=production webpack --config webpack.prod.js",
     "watch": "npm run webpack:dev -- --watch"
   },
   "keywords": [],
