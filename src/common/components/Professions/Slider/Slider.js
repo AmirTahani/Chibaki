@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, { Component, lazy } from 'react';
 import objectFitImages from 'object-fit-images';
 import { Link } from 'react-router-dom';
 import './Slider.styl';
@@ -28,7 +28,6 @@ export default class ProfessionSliders extends Component {
     };
 
     Flickity = null;
-
     getSlider = (slider) => {
         const { Flickity } = this;
         return Flickity ? (<Flickity
@@ -71,13 +70,10 @@ export default class ProfessionSliders extends Component {
     };
 
     componentDidMount() {
-        if (!this.Flickity) {
-            this.Flickity = require('react-flickity-component');
-            require('flickity/dist/flickity.min.css');
-            this.setState({
-                index: 1
-            });
-        }
+        this.Flickity = lazy(() => {
+            import('react-flickity-component');
+            import('flickity/dist/flickity.min.css');
+        });
         objectFitImages();
     }
 
