@@ -16,7 +16,12 @@ export default class Success extends Component {
 
     render() {
         return (
-            <div className={styles.component} autoFocus onKeyDown={this.onKeyDown} tabIndex={0}>
+            <div
+                className={styles.component}
+                autoFocus
+                onKeyDown={this.onKeyDown}
+                tabIndex={0}
+            >
                 <div>
                     <img
                         src="/assets/images/logo/logo-text.svg"
@@ -24,15 +29,24 @@ export default class Success extends Component {
                         className={styles.logo}
                     />
                 </div>
-                <p className={styles.wrapper}>
+                <div className={styles.wrapper}>
                     <div className={styles.whiteBox}>
                         درخواست شما با موفقیت ثبت شد.
                     </div>
                     <div className={styles.desc}>
-                        برای اطلاع از وضعیت درخواست خود و ارتباط با متخصصین، لطفا اپلیکیشن چی باکی را دانلود کنید.
+                        برای اطلاع از وضعیت درخواست خود و ارتباط با متخصصین، لطفا اپلیکیشن
+                        <span className={styles.nowrap}>
+                             چی‌باکی
+                        </span>
+                        را دانلود کنید.
                     </div>
-                    <GetApp showDirect={false} layout={'row'} noText badgeClass={styles.badge} badgeWrapperClass={styles.badgeWrapper} />
-                </p>
+                    <GetApp
+                        showDirect={false}
+                        layout={'row'}
+                        badgeClass={styles.badge}
+                        badgeWrapperClass={styles.badgeWrapper}
+                    />
+                </div>
             </div>
         );
     }
