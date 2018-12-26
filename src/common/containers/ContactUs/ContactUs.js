@@ -13,9 +13,9 @@ export default class Contact extends Component {
                         />
                     </div>
                     <div className="heroContent">
-                        <div className="heroTitle">
+                        <h1 className="heroTitle">
                             با ما در تماس باشید
-                        </div>
+                        </h1>
                     </div>
                 </div>
 

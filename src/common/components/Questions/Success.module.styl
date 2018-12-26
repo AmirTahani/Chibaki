@@ -4,6 +4,10 @@
     &:focus
         outline none
 
+    :global(#get-app)
+        :global(.c-section__heading)
+            margin 0 0 15px
+
 .wrapper
     text-align: center;
     
@@ -13,11 +17,7 @@
     margin: 0 auto 1rem
     
 .whiteBox
-    background-color: #fff;
-    border-radius: 2px
-    
-    margin: 0 1rem
-    padding: 1rem
+    margin: 1rem 0
     
     font-size: 1.2rem
     font-weight: 900
@@ -26,22 +26,32 @@
     display: inline-block
     
 .desc
-    color: $color;
-    font-size: 1.2rem
+    color: $dark-grey-blue;
+    font-size: 1.1rem
     
     text-align: center
-    margin: 2.5rem auto 2rem
+    margin: 1.8rem auto 2rem
     
-    max-width: 300px
+    max-width: 360px
     line-height: 1.8
+
+.nowrap
+    white-space nowrap
+    padding 0 4px
     
 .badge
     margin: 0
     flex 1 1 170px
+    max-width 170px
     
     &Wrapper
         display: flex
+        flex-direction row
+
         align-items: center
-        flex-flow row nowrap
-    
+        justify-content center
+
         margin-bottom: 1.5rem
+
+        @media (max-width $md)
+            flex-wrap wrap

@@ -12,9 +12,9 @@ export default class About extends React.Component {
                         />
                     </div>
                     <div className="heroContent">
-                        <div className="heroTitle">
+                        <h1 className="heroTitle">
                             درباره ما
-                        </div>
+                        </h1>
                     </div>
                 </div>
                 <div className="l-container">
