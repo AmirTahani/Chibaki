@@ -49,7 +49,7 @@ export default class ProfessionSliders extends Component {
                                 src={slide.img}
                                 alt={slide.label}
                                 placeholder={({ imageProps, ref }) => (
-                                    <img ref={ref} src={'assets/images/logo/logo-text-white-.svg'   } alt={imageProps.alt} />
+                                    <img ref={ref} src={'/assets/images/logo/Load-14.svg'} alt={imageProps.alt} />
                                 )}
                                 actual={({ imageProps }) => <img {...imageProps} />}
                             />
