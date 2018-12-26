@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import objectFitImages from 'object-fit-images';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
+import { LazyImage } from 'react-lazy-images';
 import 'slick-carousel/slick/slick.less';
 import 'slick-carousel/slick/slick-theme.less';
 import './Slider.styl';
@@ -21,7 +22,7 @@ export default class ProfessionSliders extends Component {
         rows: 1,
         rtl: true,
         slidesPerRow: 3,
-        lazyLoad: 'progressive'
+        lazyLoad: 'ondemand'
     };
 
     getSlider = (slider) => {
@@ -44,9 +45,13 @@ export default class ProfessionSliders extends Component {
                 <Link to={`/${encodeURI('خدمات')}/${slide.label.split(' ').join('_')}`} className="catSlider__item">
                     <div className="catSlider-item__inner">
                         <div className="catSlider__bg">
-                            <img
-                                alt={slide.label}
+                            <LazyImage
                                 src={slide.img}
+                                alt={slide.label}
+                                placeholder={({ imageProps, ref }) => (
+                                    <img ref={ref} src={'assets/images/logo/logo-text-white-.svg'   } alt={imageProps.alt} />
+                                )}
+                                actual={({ imageProps }) => <img {...imageProps} />}
                             />
                         </div>
                     </div>
