@@ -75,7 +75,7 @@ export default class ProfessionSliders extends Component {
                                 return (
                                     <div
                                         className="catSlider__wrapper"
-                                        key={slider.title}
+                                        key={slider._id}
                                     >
                                         <div>
                                             <h2 className="catSlider__heading">
