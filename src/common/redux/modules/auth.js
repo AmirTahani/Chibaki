@@ -380,7 +380,7 @@ export function* watchRegister(client, { firstName, lastName, mobile, profession
             mobile
         };
         if (professionId) {
-            data.professionid = professionId;
+            data.selected_profession = professionId;
         }
         const response = yield client.post('/signup', { data });
         if (window && window.ga) {
