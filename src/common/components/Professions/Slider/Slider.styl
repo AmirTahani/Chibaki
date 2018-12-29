@@ -2,211 +2,224 @@
 $cs_labelHeight = 50px
 
 .catSlider
-  width 100%
-  outline none
-
-  &
-  & *
-    user-select none
-
-  &__wrapper
-    max-width: 960px
-    margin 70px auto 0
-    padding 0 15px
-    text-align: right
-
-    @media (max-width $md)
-      margin-top 35px
-
-  // @heading
-  &__heading
-    color #424242
-
-    font-size 20px
-    font-weight 900
-
-    margin-bottom 30px
-    padding-right 1rem
-
-    @media (max-width $sm)
-      margin-bottom 15px
-
-
-  &__slide
-    cursor pointer
-    user-select none
-
-  &__item
-    margin-right 10px
-
-    display block
-    position relative
-    border 1px solid #e0e0e0
-    border-radius 3px
-    overflow hidden
-
-    //@media (min-width $lg + 1)
-    //  width 300px
-    //  flex 1 0 300px
-    //
-    //@media (max-width $lg)
-    //  width 240px
-    //  flex 1 0 240px
-
-    &:hover
-    &:focus
-        text-decoration: none
-
-    &:hover
-
-    & ^[0]__over
-      opacity 1
-      transform scale(1)
-
-    & ^[0]__bg
-      transform scale(1.15)
-
-    & ^[0]__label
-      color #000
-
-  &-item__inner
-    position relative
-    overflow hidden
-
-    @media (min-width $lg + 1)
-      height 180px
-
-    @media (max-width $lg)
-      height 125px
-
-  // @over
-  &__over
-    position absolute
-    top 0
-    left 0
-    right 0
-    bottom 0
-
-    opacity 0
-    transform scale(.85)
-
-    display flex
-    align-items center
-    justify-content center
-
-    transition .15s ease-in-out
-
-    background-color alpha(#fff, .5)
-    padding 20px
-
-    z-index 100
-
-    @media (max-width $md)
-      padding 10px
-
-  &__bg
-    height 100%
-
-    transition .15s ease-in-out
-
-
-  @keyframes lazyLoadZoom 
-    from
-      transform scale(.95)
-      opacity .8
-    to
-      transform scale(1)
-      opacity 1
-
-  &__img
     width 100%
-    height 100%
+    outline none
 
-    object-fit cover
-    font "object-fit: cover;"
+    &
+    & *
+        user-select none
 
-    animation lazyLoadZoom .15s ease-in-out forwards
+    &__wrapper
+        max-width: 960px
+        margin 70px auto 0
+        padding 0 15px
+        text-align: right
 
-    // ~ /:not(.flickity-enabled) ^[0..-1] &.flickity-lazyloaded
-    // transform scale(1)
-    // opacity 1
+        @media (max-width $md)
+            margin-top 35px
 
-  &__label
-    color #424242
-    padding 1rem
+    // @heading
+    &__heading
+        color #424242
 
-    @media (max-width $md)
-      padding 10px 15px
+        font-size 20px
+        font-weight 900
 
-      background-color #fff
+        margin-bottom 30px
+        padding-right 1rem
 
-      // ellipsis effect
-      text-overflow ellipsis
-      overflow hidden
-      white-space nowrap
+        @media (max-width $sm)
+            margin-bottom 15px
 
-    h3
-      font-size 1.1rem
-      line-height 1.2
 
-      margin 0
-      display inline-block
+    &__slide
+        cursor pointer
+        user-select none
+        padding 0 5px
 
-  &__price
-    margin-top 22px
-    padding-top 19px
+    &__item
+        display block
+        position relative
+        border 1px solid #e0e0e0
+        border-radius 3px
+        overflow hidden
+        margin 0 auto
 
-    position relative
+        // @media (min-width $lg + 1)
+        //     max-width 300px
+        //     flex 1 0 300px
+        
+        @media (max-width $lg)
+            max-width 240px
+            flex 1 0 240px
 
-    font-size .9rem
-    color #848484
+        &:hover
+        &:focus
+            text-decoration: none
 
-    strong
-      font-weight 900
+    &-item__inner
+        position relative
+        overflow hidden
 
-    &:after
-      content 'میانگین قیمت:'
+        @media (min-width $lg + 1)
+            height 180px
 
-      position absolute
-      top 0
-      right 0
+        @media (max-width $lg)
+            height 125px
 
-      font-size 10px
-      color #5189f0
+    // @over
+    &__over
+        position absolute
+        top 0
+        left 0
+        right 0
+        bottom 0
 
-  &__outer
-    position relative
+        opacity 0
+        transform scale(.85)
 
-    padding-bottom 40px
+        display flex
+        align-items center
+        justify-content center
 
-    @media (min-width 1080px)
-      margin 0 -60px
+        transition .15s ease-in-out
 
-      .flickity-viewport
-        margin 0 60px
+        background-color alpha(#fff, .5)
+        padding 20px
 
-    .tns-nav
-      position absolute
+        z-index 100
 
-      bottom -15px
-      left 50%
+        @media (max-width $md)
+            padding 10px
 
-      height 15px
+    &__bg
+        height 100%
 
-      transform translateX(-50%)
+        transition .15s ease-in-out
 
-  // @dots
-  //.flickity-page-dots
-  //    bottom -35px
 
-  .dot
-    transition .15s ease-in-out
-    background #d8d8d8
-    opacity .7
+    @keyframes lazyLoadZoom 
+        from
+            transform scale(.95)
+            opacity .8
+        to
+            transform scale(1)
+            opacity 1
 
-    &.is-selected
-      background $color
+    &__img
+        width 100%
+        height 100%
 
-//.flickity-prev-next-button
-//  @media (max-width $md)
-//      display none
+        object-fit cover
+        font "object-fit: cover;"
+
+        animation lazyLoadZoom .15s ease-in-out forwards
+
+    &__label
+        color #424242
+        padding 1rem
+
+        @media (max-width $md)
+            padding 10px 15px
+
+            background-color #fff
+
+            // ellipsis effect
+            text-overflow ellipsis
+            overflow hidden
+            white-space nowrap
+
+        h3
+            font-size 1.1rem
+            line-height 1.2
+
+            margin 0
+            display inline-block
+
+    &__price
+        margin-top 22px
+        padding-top 19px
+
+        position relative
+
+        font-size .9rem
+        color #848484
+
+        direction rtl
+
+        strong
+            font-weight 900
+
+        &:after
+            content 'میانگین قیمت:'
+
+            position absolute
+            top 0
+            right 0
+
+            font-size 10px
+            color #5189f0
+
+    &__outer
+        position relative
+
+        padding-bottom 40px
+
+        @media (min-width 1080px)
+            margin 0 -60px
+
+            .flickity-viewport
+                margin 0 60px
+
+        .tns-nav
+            position absolute
+
+            bottom -15px
+            left 50%
+
+            height 15px
+
+            transform translateX(-50%)
+
+// .slick-dots li button:before
+//     transition .15s ease-in-out
+    
+//     background #d8d8d8
+//     opacity .7
+
+//     &.is-selected
+//         background $color
+
+.slick-arrow
+    border-radius 50px
+    width 50px
+    height 50px
+    background-color #fff
+
+    font-family 'Chibaki' !important
+    speak none
+    font-style normal
+    font-weight normal
+    font-variant normal
+    text-transform none
+    line-height 1
+    z-index 2
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing antialiased
+    -moz-osx-font-smoothing grayscale
+    
+    &.slick-next:before
+    &.slick-prev:before
+        font-family 'Chibaki' !important
+        color $dark-grey-blue
+
+    &.slick-prev
+        right -50px
+        &:before
+            content icon-next
+
+    &.slick-next
+        left -50px
+        &:before
+            content icon-back

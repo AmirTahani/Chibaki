@@ -21,11 +21,31 @@ export default class ProfessionSliders extends Component {
     sliderOptions = {
         rows: 1,
         rtl: true,
-        slidesPerRow: 3,
-        lazyLoad: 'ondemand',
+        draggable: false,
+        centerMode: true,
+        slidesToShow: 3,
         infinite: true,
         dots: true,
-        arrows: true
+        arrows: true,
+        responsive: [{
+            breakpoint: 1200,
+            settings: {
+                arrows: false
+            }
+        }, {
+            breakpoint: 700,
+            settings: {
+                arrows: false,
+                slidesToShow: 2
+            }
+        }, {
+            breakpoint: 460,
+            settings: {
+                arrows: false,
+                centerMode: false,
+                slidesToShow: 1,
+            }
+        }]
     };
 
     getSlider = (slider) => {
