@@ -30,8 +30,11 @@ export default class HeroBack extends Component {
         rows: 1,
         rtl: true,
         slidesPerRow: 1,
-        autoplay: true
-    };
+        autoplay: true,
+        arrows: false,
+        dots: false,
+        fade: false
+    }
 
     getImages = () => {
         return this.images.map((item) => {
@@ -43,7 +46,7 @@ export default class HeroBack extends Component {
                     placeholder={({ imageProps, ref }) => (
                         <img
                             ref={ref}
-                            src={'/assets/images/logo/Load-14.svg'}
+                            src={'/assets/images/hero/placeholder.jpg'}
                             alt={imageProps.alt}
                             className="c-hero__slide"
                         />
