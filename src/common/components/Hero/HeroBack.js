@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import objectFitImages from 'object-fit-images';
+import Slider from 'react-slick';
+import { LazyImage } from 'react-lazy-images';
+import 'slick-carousel/slick/slick.less';
+import 'slick-carousel/slick/slick-theme.less';
 
 export default class HeroBack extends Component {
-    state = {
-        index: 0
-    };
-
     images = [{
         path: '/assets/images/hero/home/architect.jpg',
         alt: 'نقشه کشی'
@@ -14,10 +14,10 @@ export default class HeroBack extends Component {
         alt: 'آشپز'
     }, {
         path: '/assets/images/hero/home/dj.jpg',
-        alt: ''
+        alt: 'دی جی'
     }, {
         path: '/assets/images/hero/home/handyman.jpg',
-        alt: ''
+        alt: 'تعمیر کار'
     }, {
         path: '/assets/images/hero/home/seo.jpg',
         alt: 'بهینه ساز موتور جستجو'
@@ -27,42 +27,50 @@ export default class HeroBack extends Component {
     }];
 
     sliderOptions = {
-        lazyLoad: true,
-        cellSelector: 'img',
-        autoPlay: 3000,
-
-        prevNextButtons: false,
-        pageDots: false
+        rows: 1,
+        rtl: true,
+        slidesPerRow: 1,
+        autoplay: true
     };
 
     getImages = () => {
         return this.images.map((item) => {
-            return (<img
-                className="c-hero__slide"
-                data-flickity-lazyload={item.path}
-                key={item.path}
-                alt={item.alt}
-            />);
+            return (
+                <LazyImage
+                    src={item.path}
+                    alt={item.alt}
+                    key={item.path}
+                    placeholder={({ imageProps, ref }) => (
+                        <img
+                            ref={ref}
+                            src={'/assets/images/logo/Load-14.svg'}
+                            alt={imageProps.alt}
+                            className="c-hero__slide"
+                        />
+                    )}
+                    actual={({ imageProps }) => (
+                        <img
+                            className="c-hero__slide"
+                            {...imageProps}
+                        />
+                    )}
+                />
+            );
         });
     };
 
     componentDidMount() {
-        this.Flickity = require('react-flickity-component');
-        require('flickity/dist/flickity.min.css');
         objectFitImages();
     }
 
     render() {
-        const { Flickity } = this;
         return (
             <div className="c-hero__back slider--hero">
-                {Flickity ? <Flickity
-                    options={this.sliderOptions}
+                <Slider
+                    {...this.sliderOptions}
                 >
                     {this.getImages()}
-                </Flickity> : <div>
-                    {this.getImages()}
-                </div>}
+                </Slider>
             </div>
         );
     }

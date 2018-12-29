@@ -22,7 +22,10 @@ export default class ProfessionSliders extends Component {
         rows: 1,
         rtl: true,
         slidesPerRow: 3,
-        lazyLoad: 'ondemand'
+        lazyLoad: 'ondemand',
+        infinite: true,
+        dots: true,
+        arrows: true
     };
 
     getSlider = (slider) => {
@@ -49,9 +52,18 @@ export default class ProfessionSliders extends Component {
                                 src={slide.img}
                                 alt={slide.label}
                                 placeholder={({ imageProps, ref }) => (
-                                    <img ref={ref} src={'/assets/images/logo/Load-14.svg'} alt={imageProps.alt} />
+                                    <img
+                                        ref={ref}
+                                        src={'/assets/images/logo/Load-14.svg'}
+                                        alt={imageProps.alt}
+                                    />
                                 )}
-                                actual={({ imageProps }) => <img {...imageProps} />}
+                                actual={({ imageProps }) => (
+                                    <img
+                                        {...imageProps}
+                                        className={'catSlider__img'}
+                                    />
+                                )}
                             />
                         </div>
                     </div>
