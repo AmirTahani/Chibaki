@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const merge = require('webpack-merge');
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -212,8 +213,11 @@ const appConfig = merge(common, {
                 }
             },
         }),
-    ],
-    // stats: { children: false }
+        new webpack.optimize.LimitChunkCountPlugin({
+            minChunkSize: 10000,
+            maxChunks: 15
+        })
+    ]
 });
 
 

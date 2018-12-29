@@ -51,5 +51,10 @@ module.exports = {
         new Dotenv({
             path: path.resolve(__dirname, './.env')
         })
-    ]
+    ],
+    stats: {
+        children: false,
+        warningsFilter: (warning) => false,
+        colors: true
+    }
 };

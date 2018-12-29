@@ -1,208 +1,217 @@
 @import '../../styles/variables'
 
 .c-hero
-	position relative
-	margin-top $headerHeight
+    position relative
+    margin-top $headerHeight
 
-	@media (max-width $md)
-		margin-top $headerHeightMd
+    @media (max-width $md)
+        margin-top $headerHeightMd
 
-	// &--sab
-	// 	margin-top $headerSabHeight
+    .slick-track
+        width 100% !important
+        transform none !important
 
-	// 	@media (max-width $md)
-	// 		margin-top $headerSabHeightMd
-	
-	&__sub
-		color: #ffffff
-		font-size 1.12rem
-		max-width 460px
-		margin 0 auto
-		
-	&__header
-		color: #ffffff
-		font-weight 900
-		font-size 3.8rem
-		
-	&__front
-	&__slide
-		min-height $heroHeight
-		max-height $heroMaxHeight
+    // &--sab
+    //  margin-top $headerSabHeight
 
-		@media (max-width $md)
-			min-height $heroHeightMd
+    //  @media (max-width $md)
+    //      margin-top $headerSabHeightMd
+    
+    &__sub
+        color: #ffffff
+        font-size 1.12rem
+        max-width 460px
+        margin 0 auto
+        
+    &__header
+        color: #ffffff
+        font-weight 900
+        font-size 3.8rem
+        
+    &__front
+    &__slide
+        min-height $heroHeight
+        max-height $heroMaxHeight
 
-		.proficients &
-			min-height 35vh
-			
-	.flickity-slider
-		transform: none !important;
-			
-	&__slide
-		left: 0 !important;
-		opacity: 0;
-		transition: opacity 0.3s ease-in-out;
-		z-index: -1;
-		
-		width: 100%
-		object-fit cover
-		font-family 'object-fit: cover;'
-		
-		&.is-selected
-			z-index: 0
-			opacity: 1
-			
-	&--contact
-	&--about
-		overflow hidden
+        @media (max-width $md)
+            min-height $heroHeightMd
 
-		& ^[0]__back
-			animation-iteration-count infinite
-			animation-direction alternate
+        .proficients &
+            min-height 35vh
+            
+    .flickity-slider
+        transform: none !important;
+            
+    &__slide
+        position absolute
+        top 0
+        left 0
 
-		& ^[0]__front
-			height 100%
-			min-height 40vh
+        width: 100%
+        height 100%
 
-			@media (max-width $md)
-				min-height 30vh
+        object-fit cover
+        font-family 'object-fit: cover;'
 
-		& ^[0]__content
-			margin-top 0
+        opacity 0
+        z-index -1
+        transition: opacity 0.3s ease-in-out;
+        
+        /.slick-active .c-hero__slide
+            z-index: 0
+            opacity: 1
+            
+    &--contact
+    &--about
+        overflow hidden
 
-	// Background Slider
-	&__back
-		position absolute
+        & ^[0]__back
+            animation-iteration-count infinite
+            animation-direction alternate
 
-		overflow hidden
+        & ^[0]__front
+            height 100%
+            min-height 40vh
 
-		top 0
-		left 0
-		right 0
-		bottom 0
+            @media (max-width $md)
+                min-height 30vh
 
-		background-size cover
-		background-repeat no-repeat
-		background-position center center
+        & ^[0]__content
+            margin-top 0
 
-		z-index $heroBackIndex
+    // Background Slider
+    &__back
+        position absolute
 
-		^[0]--contact &
-			background-image url('/assets/images/contact/hero.jpg')
+        overflow hidden
 
-		^[0]--about &
-			background-image url('/assets/images/about/hero.jpg')
+        top 0
+        left 0
+        right 0
+        bottom 0
 
-			@media (max-width $md)
-				background-image url('/assets/images/about/hero-sm.jpg')
+        background-size cover
+        background-repeat no-repeat
+        background-position center center
 
-		&:after
-			content ''
-			position absolute
-			
-			top 0
-			left 0
-			
-			width 100%
-			height 100%
-			
-			background-color rgba(0,0,0,.2)
-			z-index 1
+        z-index $heroBackIndex
 
-	// Hero Slider
-	/.slider--hero
-		&
-		& *
-			height 100%
+        ^[0]--contact &
+            background-image url('/assets/images/contact/hero.jpg')
 
-	// Hero Content
-	&__front
-		display flex
-		flex-direction column
-		justify-content center
-		align-items center
+        ^[0]--about &
+            background-image url('/assets/images/about/hero.jpg')
 
-		position relative
+            @media (max-width $md)
+                background-image url('/assets/images/about/hero-sm.jpg')
 
-		z-index $heroContentIndex
+        &:after
+            content ''
+            position absolute
+            
+            top 0
+            left 0
+            
+            width 100%
+            height 100%
+            
+            background-color rgba(0,0,0,.2)
+            z-index 1
 
-	&__content
-		display flex
-		flex-direction column
-		justify-content center
-		align-items center
+    // Hero Slider
+    /.slider--hero
+        &
+        & *
+            height 100%
 
-		width 100%
+    // Hero Content
+    &__front
+        display flex
+        flex-direction column
+        justify-content center
+        align-items center
 
-		padding 25px 0
+        position relative
 
-		position relative
+        z-index $heroContentIndex
 
-	// Hero Text
-	&__text
-		margin-left 40px
-		margin-right 40px
+    &__content
+        display flex
+        flex-direction column
+        justify-content center
+        align-items center
 
-		color #fff
-		text-align center
+        width 100%
 
-		line-height 2
+        padding 25px 0
 
-		user-select none
+        position relative
 
-		text-shadow 0 0 3px rgba(0,0,0,.8), 0 0 12px rgba(0,0,0,.3)
+    // Hero Text
+    &__text
+        margin-left 40px
+        margin-right 40px
 
-		^[0]--proficients &
-			text-shadow 0 0 0
+        color #fff
+        text-align center
 
-		^[0]--home &
-			margin-bottom 2rem
+        line-height 2
 
-	// @title
-	&__title
-		font-size 4.2rem
-		font-weight 900
-		line-height 1.7
+        user-select none
 
-		color #fff
-		margin-bottom 1rem
+        text-shadow 0 0 3px rgba(0,0,0,.8), 0 0 12px rgba(0,0,0,.3)
 
-		&:only-child
-			margin-bottom 0
+        ^[0]--proficients &
+            text-shadow 0 0 0
 
-		@media (max-width $sm)
-			font-size 3.1rem
+        ^[0]--home &
+            margin-bottom 2rem
 
-		@media (max-width $xs)
-			font-size 2.5rem
-			margin-bottom .5rem
+    // @title
+    &__title
+        font-size 4.2rem
+        font-weight 900
+        line-height 1.7
 
-	&__sub
-		font-size 1.12rem
-		line-height 1.85
+        color #fff
+        margin-bottom 1rem
 
-		max-width 460px
-		margin 0 auto
+        &:only-child
+            margin-bottom 0
 
-		color #fff
+        @media (max-width $sm)
+            font-size 3.1rem
 
-		strong
-			font-size 1.25rem
-			font-weight 900
+        @media (max-width $xs)
+            font-size 2.5rem
+            margin-bottom .5rem
 
-		@media (max-width $xs)
-			font-size .95rem
-			
-			strong
-				font-size 1rem
+    &__sub
+        font-size 1.12rem
+        line-height 1.85
 
-	@media (max-width $sm)
-		&__text
-			margin-right 10px
-			margin-left 10px
-			
-			^[0]--home &
-				margin-bottom 1.5rem
+        max-width 460px
+        margin 0 auto
 
-		.hero__sub
-			font-weight 400
+        color #fff
+
+        strong
+            font-size 1.25rem
+            font-weight 900
+
+        @media (max-width $xs)
+            font-size .95rem
+            
+            strong
+                font-size 1rem
+
+    @media (max-width $sm)
+        &__text
+            margin-right 10px
+            margin-left 10px
+            
+            ^[0]--home &
+                margin-bottom 1.5rem
+
+        .hero__sub
+            font-weight 400
