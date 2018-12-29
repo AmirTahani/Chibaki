@@ -256,7 +256,7 @@ class Professional extends Component {
         if (professional && professional.user) {
             const professions = this.exist(professional, 'user.professions');
             const activeProfession = professions.find((profession) => {
-                return profession.profession._id === params && params.profId;
+                return profession.profession._id === (params && params.profId);
             });
             this.setState({
                 selectedProfession: activeProfession
@@ -271,7 +271,7 @@ class Professional extends Component {
         const professions = this.exist(professional, 'user.professions');
         if (professions && professions.length) {
             const activeProfession = professions.find((profession) => {
-                return profession.profession._id === params && params.profId;
+                return profession.profession._id === (params && params.profId);
             });
             if (activeProfession && activeProfession._id) {
                 this.setState({

@@ -1,7 +1,11 @@
 import PropTypes from 'prop-types';
-import React, { Component, lazy } from 'react';
+import React, { Component } from 'react';
 import objectFitImages from 'object-fit-images';
 import { Link } from 'react-router-dom';
+import Slider from 'react-slick';
+import { LazyImage } from 'react-lazy-images';
+import 'slick-carousel/slick/slick.less';
+import 'slick-carousel/slick/slick-theme.less';
 import './Slider.styl';
 
 
@@ -15,32 +19,21 @@ export default class ProfessionSliders extends Component {
     };
 
     sliderOptions = {
-        lazyLoad: 1,
-        pageDots: true,
-        cellSelector: '.catSlider__slide',
-        rightToLeft: true,
-        wrapAround: true,
-        groupCells: true,
-        percentPosition: false,
-        selectedAttraction: 0.015,
-        friction: 0.2,
-        freeScroll: false
+        rows: 1,
+        rtl: true,
+        slidesPerRow: 3,
+        lazyLoad: 'ondemand'
     };
 
-    Flickity = null;
     getSlider = (slider) => {
-        const { Flickity } = this;
-        return Flickity ? (<Flickity
-            className="catSlider"
-            options={this.sliderOptions}
-        >
-            {slider.slides.map(this.mapSlides)}
-        </Flickity>) : (<div
-            className="catSlider"
-        >
-            {slider.slides.map(this.mapSlides)}
-
-        </div>);
+        return (
+            <Slider
+                className="catSlider"
+                {...this.sliderOptions}
+            >
+                {slider.slides.map(this.mapSlides)}
+            </Slider>
+        );
     };
 
     mapSlides = (slide, idx) => {
@@ -52,9 +45,13 @@ export default class ProfessionSliders extends Component {
                 <Link to={`/${encodeURI('خدمات')}/${slide.label.split(' ').join('_')}`} className="catSlider__item">
                     <div className="catSlider-item__inner">
                         <div className="catSlider__bg">
-                            <img
-                                data-flickity-lazyload={slide.img}
+                            <LazyImage
+                                src={slide.img}
                                 alt={slide.label}
+                                placeholder={({ imageProps, ref }) => (
+                                    <img ref={ref} src={'/assets/images/logo/Load-14.svg'} alt={imageProps.alt} />
+                                )}
+                                actual={({ imageProps }) => <img {...imageProps} />}
                             />
                         </div>
                     </div>
@@ -70,10 +67,6 @@ export default class ProfessionSliders extends Component {
     };
 
     componentDidMount() {
-        this.Flickity = lazy(() => {
-            import('react-flickity-component');
-            import('flickity/dist/flickity.min.css');
-        });
         objectFitImages();
     }
 
@@ -87,7 +80,7 @@ export default class ProfessionSliders extends Component {
                                 return (
                                     <div
                                         className="catSlider__wrapper"
-                                        key={slider.title}
+                                        key={slider._id}
                                     >
                                         <div>
                                             <h2 className="catSlider__heading">

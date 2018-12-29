@@ -40,29 +40,29 @@ if (IS_DEV) {
 server
     .disable('x-powered-by')
     .get('/*', async (req, res) => {
-            // Create a new class name generator.
-            // if (error) {
-            //     res.status(500).send(error.message);
-            // } else if (redirectLocation) {
-            //     res.redirect(302, redirectLocation.pathname + redirectLocation.search);
-            // } else if (renderProps) {
-            const context = {};
-            const client = new apiClient();
-            const { store } = createStore(client, {}, 'server');
-            await handleRequestsByRoute(store, req);
-            store.rootTask.done.then(() => {
-                const markup = renderToString(
-                    <Provider store={store}>
-                        <StaticRouter location={req.url} context={context}>
-                            <App />
-                        </StaticRouter>
-                    </Provider>
-                );
-                const metaTags = getMetaTags(store, req.path, req.query);
-                const finalState = store.getState();
+        // Create a new class name generator.
+        // if (error) {
+        //     res.status(500).send(error.message);
+        // } else if (redirectLocation) {
+        //     res.redirect(302, redirectLocation.pathname + redirectLocation.search);
+        // } else if (renderProps) {
+        const context = {};
+        const client = new apiClient();
+        const { store } = createStore(client, {}, 'server');
+        await handleRequestsByRoute(store, req);
+        store.rootTask.done.then(() => {
+            const markup = renderToString(
+                <Provider store={store}>
+                    <StaticRouter location={req.url} context={context}>
+                        <App />
+                    </StaticRouter>
+                </Provider>
+            );
+            const metaTags = getMetaTags(store, req.path, req.query);
+            const finalState = store.getState();
 
-                res.status(200).send(
-                    `<!doctype html>
+            res.status(200).send(
+                `<!doctype html>
                     <html lang="fa" dir="rtl">
                     <head>
                         <link rel="manifest" href="/manifest.json">
@@ -108,17 +108,17 @@ server
                   
                    
     ${
-                        assets.main.css
-                            ? `<link media="all" rel="stylesheet" href="${assets.main.css}">`
-                            : ''
-                        }
+    assets.main.css
+        ? `<link media="all" rel="stylesheet" href="${assets.main.css}">`
+        : ''
+}
     ${
-                        !IS_DEV
-                            ? `<script src="${assets.main.js}" defer></script>`
-                            : `<script src="${
-                                assets.main.js
-                                }" defer crossorigin></script>`
-                        }
+    !IS_DEV
+        ? `<script src="${assets.main.js}" defer></script>`
+        : `<script src="${
+            assets.main.js
+        }" defer crossorigin></script>`
+}
                     </head>
                     <body>
                         <div id="root">${markup}</div>
@@ -128,16 +128,16 @@ server
                         </script>   
                     </body>
                 </html>`,
-                );
-            });
+            );
+        });
 
-            if (context.url) {
-                res.redirect(context.url);
-            }
-            // } else {
-            //     res.status(404).send('Not found');
-            // }
+        if (context.url) {
+            res.redirect(context.url);
         }
+        // } else {
+        //     res.status(404).send('Not found');
+        // }
+    }
     );
 
 export default server;

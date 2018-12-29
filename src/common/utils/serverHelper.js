@@ -82,10 +82,17 @@ export function getMetaTags(store, route, query) {
             if (!userProfession) {
                 userProfession = state.professional.professional.user.professions[0];
             }
+
+            console.log(userProfession, 'this is user profession');
             const firstname = exist(state, 'professional.professional.user.firstname');
             const lastname = exist(state, 'professional.professional.user.lastname');
-            metaTags.title = addSiteNameToTitle(`من ${firstname} ${lastname} هستم و با تخصص 
+            if (exist(userProfession, 'intro.description')) {
+                metaTags.description = userProfession.intro.description;
+            } else {
+                metaTags.description = addSiteNameToTitle(`من ${firstname} ${lastname} هستم و با تخصص 
             ${userProfession.profession.title} در چی باکی مشغول به فعالیت هستم.`);
+            }
+            metaTags.title = addSiteNameToTitle(`${firstname} ${lastname} متخصص ${userProfession.profession.title}`);
         }
     }
     return metaTags;
