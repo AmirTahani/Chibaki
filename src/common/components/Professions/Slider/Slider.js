@@ -23,7 +23,6 @@ export default class ProfessionSliders extends Component {
         rtl: true,
         draggable: false,
         centerMode: true,
-        // variableWidth: true,
         slidesToShow: 3,
         infinite: true,
         dots: true,
