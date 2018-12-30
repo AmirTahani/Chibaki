@@ -48,6 +48,11 @@ const LoadableTos = Loadable({
     loading: () => <Spin />,
 });
 
+const LoadableNotFound = Loadable({
+    loader: () => import(/* webpackChunkname: "notFound" */ '../404/NotFound'),
+    loading: () => <Spin />
+});
+
 class Main extends Component {
     static propTypes = {
         location: PropTypes.objectOf(PropTypes.any).isRequired,
@@ -107,6 +112,7 @@ class Main extends Component {
 
                 <div className={styles.container}>
                     <Switch>
+                        <Route component={LoadableNotFound} />
                         <Route exact path="/" component={LoadableHome} />
                         <Route path="/درباره_ما/" component={LoadableAbout} />
                         <Route path="/tos/" component={LoadableTos} />
