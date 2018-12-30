@@ -178,14 +178,27 @@ $cs_labelHeight = 50px
 
             transform translateX(-50%)
 
-// .slick-dots li button:before
-//     transition .15s ease-in-out
-    
-//     background #d8d8d8
-//     opacity .7
+.slick-dots 
+    $size = 10px
+    bottom -45px
 
-//     &.is-selected
-//         background $color
+    li
+        button
+            transition .15s $ease
+
+            background-color alpha(#d8d8d8, .7)
+            // opacity .7
+
+            border-radius 50px
+
+            width $size
+            height $size
+
+            ^[1].slick-active ^[2..-1]
+                background-color $color
+
+            &:before
+                content none
 
 .slick-arrow
     border-radius 50px
