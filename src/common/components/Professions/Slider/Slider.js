@@ -23,6 +23,7 @@ export default class ProfessionSliders extends Component {
         rtl: true,
         draggable: false,
         centerMode: true,
+        // variableWidth: true,
         slidesToShow: 3,
         infinite: true,
         dots: true,
@@ -42,8 +43,7 @@ export default class ProfessionSliders extends Component {
             breakpoint: 460,
             settings: {
                 arrows: false,
-                centerMode: false,
-                slidesToShow: 1,
+                slidesToShow: 1
             }
         }]
     };
@@ -60,6 +60,7 @@ export default class ProfessionSliders extends Component {
     };
 
     mapSlides = (slide, idx) => {
+        console.log('slide img: ', slide.img);
         return (
             <div
                 className="catSlider__slide"

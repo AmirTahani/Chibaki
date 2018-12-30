@@ -34,24 +34,23 @@ $cs_labelHeight = 50px
 
     &__slide
         cursor pointer
-        user-select none
         padding 0 5px
+        // width 300px
+        
+        // @media (max-width $lg)
+        //     width 240px
 
     &__item
         display block
         position relative
+
         border 1px solid #e0e0e0
         border-radius 3px
+        
         overflow hidden
         margin 0 auto
 
-        // @media (min-width $lg + 1)
-        //     max-width 300px
-        //     flex 1 0 300px
-        
-        @media (max-width $lg)
-            max-width 240px
-            flex 1 0 240px
+        direction rtl
 
         &:hover
         &:focus
@@ -144,8 +143,6 @@ $cs_labelHeight = 50px
 
         font-size .9rem
         color #848484
-
-        direction rtl
 
         strong
             font-weight 900
