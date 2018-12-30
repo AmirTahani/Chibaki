@@ -100,7 +100,7 @@ export function loadProfessions() {
     };
 }
 
-export function loadProfessionsSuccess({professions, categories, professionsFlatChildren}) {
+export function loadProfessionsSuccess({ professions, categories, professionsFlatChildren }) {
     return {
         type: LOAD_PROFESSIONS_SUCCESS,
         professions,
@@ -161,7 +161,6 @@ export function loadCategoriesFailure(error) {
 }
 
 export function loader(resolve, reject) {
-    console.log('loader profession: ');
     return {
         type: LOADER,
         resolve,
@@ -171,18 +170,17 @@ export function loader(resolve, reject) {
 
 export function* watchLoadProfessionsList(client) {
     try {
-        console.log('watchLoadProfessionsList');
         const response = yield client.get('/professions/lists');
         yield put(loadProfessionsListSuccess(response.data.professions));
     } catch (error) {
         yield put(loadProfessionsListFailure(error));
         handleSagaError(error);
+        console.log('watchLoadProfessionsList error: ', error);
     }
 }
 
 export function* watchLoadProfessions(client, { resolve, reject }) {
     try {
-        console.log('watchLoadProfessions');
         const response = yield client.get('/v1/professions?limit=0&populate=children,parent,categories&query={"profession_id":null}');
         const result = response.data.professions.reduce(
             (acc, profession) => {
@@ -219,7 +217,7 @@ export function* watchLoadProfessions(client, { resolve, reject }) {
         yield put(loadProfessionsSuccess(result));
         resolve && resolve(result);
     } catch (error) {
-        // console.log('loadProfessionsError', error);
+        console.log('watchLoadProfessions error: ', error);
         yield put(loadProfessionsError(error));
         reject && reject(error);
     }
@@ -243,7 +241,7 @@ export function* watchLoadCategories(client, { resolve, reject }) {
         yield put(loadCategoriesSuccess(result, flattenProfessionsByCategories, uniqueProfessions));
         resolve && resolve(response.data.categories);
     } catch (error) {
-        console.log('this is error,', error);
+        console.log('watchLoadCategories error: ', error);
         yield put(loadCategoriesFailure(error));
         reject && reject();
     }
@@ -251,19 +249,15 @@ export function* watchLoadCategories(client, { resolve, reject }) {
 
 export function* watchLoader(client, { resolve, reject }) {
     try {
-        console.log('watchLoader: ');
         yield put(loadProfessions());
-        console.log('before load professions list');
         yield put(loadProfessionsList());
-        console.log('before take all');
         yield all([
             take(LOAD_PROFESSIONS_LIST_SUCCESS),
             take(LOAD_PROFESSIONS_SUCCESS)
         ]);
-        console.log('before resolve');
         resolve && resolve();
     } catch (error) {
         reject && reject();
-        console.log(error, 'this is error');
+        console.log('watchLoader error: ', error);
     }
 }
