@@ -592,7 +592,7 @@ class Professional extends Component {
                                     type="flex"
                                     justify="center"
                                     className={styles.card__body}
-                                    style={{ padding: '40px 60px 60px' }}
+                                    style={{ padding: '40px 20px 60px' }}
                                 >
                                     <Col>
                                         {this.requestBtn('تماس با متخصص', 'phone')}
