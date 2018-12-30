@@ -181,16 +181,19 @@ export function* watchLoadProfessionsList(client) {
 
 export function* watchLoadProfessions(client, { resolve, reject }) {
     try {
+        const categoriesResponse = yield client.get('/v1/categories');
+        const { categories } = categoriesResponse.data;
         const response = yield client.get('/v1/professions?limit=0&populate=children,parent,categories&query={"profession_id":null}');
         const result = response.data.professions.reduce(
             (acc, profession) => {
-                // console.log('profession: ', profession);
                 profession.categories
                     .filter(Boolean)
                     .forEach((category) => {
                         const foundCategory = acc.categories.find(cat => cat._id === category._id);
                         if (foundCategory) {
-                            return foundCategory.professions.push(profession);
+                            foundCategory.professions = foundCategory.professions || [];
+                            foundCategory.professions.push(profession);
+                            return;
                         }
                         acc.categories.push({
                             ...category,
@@ -209,7 +212,7 @@ export function* watchLoadProfessions(client, { resolve, reject }) {
                 }
                 return acc;
             }, {
-                categories: [],
+                categories,
                 professions: [],
                 professionsFlatChildren: []
             }
