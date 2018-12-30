@@ -115,13 +115,17 @@ export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
         const Profession = new Professions(categories, professionsFlatChildren);
         Profession.select(title);
         const selectedProfession = Profession.selected.parent;
+        const childProfession = Profession.selected.child || {};
         const relatedProfessions = Profession.selected.related;
         yield put(loadProjectsForProf(selectedProfession._id, foundProvince && foundProvince._id));
         yield put(
             loadProficients(
                 selectedProfession._id,
                 decodeURI(routeTitle),
-                selectedProfession,
+                {
+                    parent: selectedProfession,
+                    child: childProfession
+                },
                 foundProvince && foundProvince._id
             )
         );

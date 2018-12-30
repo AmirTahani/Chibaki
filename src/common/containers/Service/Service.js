@@ -25,6 +25,7 @@ require('flickity/dist/flickity.min.css');
 class Services extends Component {
     static propTypes = {
         selectedProfession: PropTypes.objectOf(PropTypes.any).isRequired,
+        childProfession: PropTypes.objectOf(PropTypes.any).isRequired,
         relatedProfessions: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         proficients: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         title: PropTypes.string.isRequired,
@@ -158,7 +159,9 @@ class Services extends Component {
             this.props.loadConnect(null, null, params, match.params.title);
         }
         objectFitImages();
-        this.setState({jobCardClass: ''}, ()=>{
+        this.setState({
+            jobCardClass: ''
+        }, () => {
             if (this.jobCardFlickity) {
                 this.jobCardFlickity.on('ready', () => {
                     this.setState({
@@ -189,6 +192,7 @@ class Services extends Component {
         const {
             title,
             selectedProfession,
+            childProfession,
             relatedProfessions,
             count,
             provinces,
@@ -249,10 +253,14 @@ class Services extends Component {
                     </div>
 
                     {
-                        selectedProfession && selectedProfession.description &&
-                        <div className={styles.desc}>
-                            {selectedProfession.description}
-                        </div>
+                        childProfession && childProfession.description
+                            ? <div className={styles.desc}>
+                                {childProfession.description}
+                            </div>
+                            : (selectedProfession && selectedProfession.description) &&
+                                <div className={styles.desc}>
+                                    {selectedProfession.description}
+                                </div>
                     }
 
                     {loading && !loadedComplete
@@ -418,6 +426,7 @@ export const connectedServices = connect(state => ({
     proficients: state.proficients.proficients,
     title: state.serviceContainer.title,
     selectedProfession: state.proficients.selectedProfession,
+    childProfession: state.proficients.childProfession,
     relatedProfessions: state.serviceContainer.relatedProfessions,
     answers: state.questions.answers,
     count: state.proficients.count,

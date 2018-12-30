@@ -16,6 +16,7 @@ const initialState = {
     error: null,
     title: '',
     selectedProfession: {},
+    childProfession: {},
     pagination: 0,
     paginationEnded: false,
     fetching: false,
@@ -29,7 +30,8 @@ export default function reducer(state = initialState, action = {}) {
                 ...state,
                 loading: !action.more,
                 title: action.title,
-                selectedProfession: action.selectedProfession
+                selectedProfession: action.selectedProfession,
+                childProfession: action.childProfession
             };
         case INCREASE_PAGE_NUMBER:
             return {
@@ -74,7 +76,8 @@ export function load(professionId, title, selectedProfession, provinceId, more, 
         reject,
         professionId,
         title,
-        selectedProfession,
+        selectedProfession: selectedProfession.parent,
+        childProfession: selectedProfession.child,
         provinceId,
         more
     };
