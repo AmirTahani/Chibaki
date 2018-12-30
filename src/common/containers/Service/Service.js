@@ -97,7 +97,13 @@ class Services extends Component {
     };
 
     getProfessionPrice = () => {
-        const { priceBase, priceRange } = this.props.selectedProfession;
+        let { priceBase, priceRange } = this.props.selectedProfession;
+
+        if (this.props.childProfession.priceRange && this.props.childProfession.priceBase) {
+            priceBase = this.props.childProfession.priceBase;
+            priceRange = this.props.childProfession.priceRange;
+        }
+
         if (!priceRange || !priceRange.min) {
             return '';
         }
