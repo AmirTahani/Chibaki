@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
+import { LazyImage } from 'react-lazy-images';
 import { StickyContainer, Sticky } from 'react-sticky';
 import styles from '../Services/Services.module.styl';
 import { loader } from '../../redux/modules/professions';
@@ -127,12 +128,24 @@ class Services extends Component {
                                         className={styles.servicesRow}
                                     >
                                         <h2 className={styles.servicesHeading}>{category.label}</h2>
-                                        <img
-                                            // src={`/assets/images/categories/${category.label.split(' ').join('_')}@320.jpg`}
+                                        <LazyImage
+                                            src={`/assets/images/categories/${category.label.split(' ').join('_')}@320.jpg`}
                                             srcSet={`/assets/images/categories/${category.label.split(' ').join('_')}@320.jpg 320w,
                                                     /assets/images/categories/${category.label.split(' ').join('_')}@600.jpg 600w`}
                                             alt={category.label}
-                                            className={styles.servicesCover}
+                                            placeholder={({ imageProps, ref }) => (
+                                                <img
+                                                    ref={ref}
+                                                    src={'/assets/images/logo/Load-14.svg'}
+                                                    alt={imageProps.alt}
+                                                />
+                                            )}
+                                            actual={({ imageProps }) => (
+                                                <img
+                                                    {...imageProps}
+                                                    className={styles.servicesCover}
+                                                />
+                                            )}
                                         />
                                         <div
                                             className={styles.servicesWrapper}
