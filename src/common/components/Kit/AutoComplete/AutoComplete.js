@@ -19,12 +19,13 @@ export default class AutoComplete extends Component {
         defaultValue: PropTypes.objectOf(PropTypes.any),
         showOptionsWhenEmpty: PropTypes.bool,
         fieldName: PropTypes.string,
+        inputClassName: PropTypes.string,
         fieldClassName: PropTypes.string,
         btnClassName: PropTypes.string,
         btnContent: PropTypes.node,
         dropdownClassName: PropTypes.string,
         wrapInForm: PropTypes.bool,
-        className: PropTypes.string
+        wrapperClassName: PropTypes.string
     };
 
     static defaultProps = {
@@ -35,12 +36,13 @@ export default class AutoComplete extends Component {
         defaultValue: {},
         showOptionsWhenEmpty: false,
         fieldName: '',
+        inputClassName: '',
         fieldClassName: '',
         btnClassName: '',
         btnContent: null,
         dropdownClassName: '',
         wrapInForm: true,
-        className: ''
+        wrapperClassName: ''
     };
 
     state = {
@@ -133,9 +135,10 @@ export default class AutoComplete extends Component {
             defaultValue,
             valueAs,
             fieldName,
+            inputClassName,
             fieldClassName,
             wrapInForm,
-            className,
+            wrapperClassName,
             btnClassName,
             dropdownClassName,
             btnContent,
@@ -145,7 +148,7 @@ export default class AutoComplete extends Component {
         const Wrapper = wrapInForm ? 'form' : 'div';
 
         return (
-            <Wrapper className={`${styles.wrapper} c-autocomplete ${className}`} onSubmit={this.handleFormSubmit}>
+            <Wrapper className={`${styles.wrapper} c-autocomplete ${wrapperClassName}`} onSubmit={this.handleFormSubmit}>
                 <AntAutoComplete
                     defaultValue={defaultValue[valueAs]}
                     dataSource={options.map(
@@ -158,13 +161,13 @@ export default class AutoComplete extends Component {
                     }
                     onSelect={this.handleSelect}
                     placeholder={placeholder}
-                    className={styles.field}
+                    className={`${styles.field} ${fieldClassName}`}
                 >
                     {children || <input
                         type="text"
                         name={fieldName}
                         id={fieldName}
-                        className={`${styles.input} ${fieldClassName}`}
+                        className={`${styles.input} ${inputClassName}`}
                         value={defaultValue[valueAs]}
                         required
                     />}

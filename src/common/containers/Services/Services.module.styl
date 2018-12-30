@@ -159,22 +159,26 @@
         background-color #fff !important
 
     &Wrapper
-        padding 3rem 1rem 6rem
+        padding 3rem 0 6rem
 
         @media (max-width 1300px)
             /.search
                 &Wrapper
-                    padding 4rem 1rem 3rem
+                    padding 4rem 0 3rem
 
         :global(.ant-select-auto-complete.ant-select .ant-select-selection__placeholder)
             right 22px
 
     &Component
         margin 0 auto
+        padding 0 !important
+
         position relative
 
-        @media (max-width $md)
-            padding 0 !important
+        // @media (max-width $md)
+
+    &Field :global(.ant-select-selection)
+        padding 0 !important
 
     &Input
         border 1px solid rgba(117, 140, 160, 0.4) !important
@@ -197,14 +201,14 @@
             color #758ca0 !important
 
         @media (max-width $md)
-            padding 0 !important
+            // padding 0 !important
 
     &Btn
         position absolute
 
         width auto
 
-        left 2rem
+        left 0
         top 0
         bottom 0
 

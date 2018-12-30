@@ -109,9 +109,10 @@ class Services extends Component {
                                     options={professionsFlatChildren}
                                     valueAs={'title'}
                                     onSubmit={this.onAutoCompleteSubmit}
-                                    className={styles.searchComponent}
+                                    wrapperClassName={styles.searchComponent}
+                                    fieldClassName={styles.searchField}
                                     fieldName={'servicesSearch'}
-                                    fieldClassName={styles.searchInput}
+                                    inputClassName={styles.searchInput}
                                     dropdownClassName={styles.searchDropdown}
                                     placeholder="جستجو در خدمات"
                                     btnClassName={styles.searchBtn}
