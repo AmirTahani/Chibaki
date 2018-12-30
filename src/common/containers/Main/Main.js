@@ -112,7 +112,6 @@ class Main extends Component {
 
                 <div className={styles.container}>
                     <Switch>
-                        <Route component={LoadableNotFound} />
                         <Route exact path="/" component={LoadableHome} />
                         <Route path="/درباره_ما/" component={LoadableAbout} />
                         <Route path="/tos/" component={LoadableTos} />
@@ -120,6 +119,7 @@ class Main extends Component {
                         <Route exact path="/خدمات" component={LoadableServices} />
                         <Route path="/خدمات/:title" component={LoadableService} />
                         <Route path="/professional/:id/" component={LoadableProfessional} />
+                        <Route component={LoadableNotFound} />
                     </Switch>
                 </div>
 
