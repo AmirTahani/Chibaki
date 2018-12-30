@@ -448,8 +448,11 @@ class Questions extends PureComponent {
         try {
             const {
                 getUserConnect,
-                submitAnswersConnect
+                submitAnswersConnect,
+                submitting
             } = this.props;
+
+            if (submitting) return;
 
             const fetchUser = await new Promise((resolveFetch, rejectFetch) => getUserConnect(resolveFetch, rejectFetch));
             if (!fetchUser.gender || fetchUser.gender === 'na') {
@@ -544,7 +547,6 @@ class Questions extends PureComponent {
                                 contents[current].question._id !== 'app' &&
                                 contents[current].question._id !== 'success'
                                 && <Button
-                                    onClick={() => this.next(contents)}
                                     className={styles.button}
                                     type="primary"
                                     htmlType="submit"
