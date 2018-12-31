@@ -102,11 +102,15 @@ class Services extends Component {
     };
 
     getProfessionPrice = () => {
-        let { priceBase, priceRange } = this.props.selectedProfession;
+        const {
+            selectedProfession,
+            childProfession
+        } = this.props;
+        let { priceBase, priceRange } = selectedProfession;
 
-        if (this.props.childProfession.priceRange && this.props.childProfession.priceBase) {
-            priceBase = this.props.childProfession.priceBase;
-            priceRange = this.props.childProfession.priceRange;
+        if (childProfession && childProfession.priceRange && childProfession.priceBase) {
+            priceBase = childProfession.priceBase;
+            priceRange = childProfession.priceRange;
         }
 
         if (!priceRange || !priceRange.min) {
@@ -170,7 +174,16 @@ class Services extends Component {
 
     more = () => {
         const { title, selectedProfession } = this.props;
-        this.props.loadMoreProfessiontsConnect(selectedProfession._id, title, selectedProfession, null, true);
+
+        this.props.loadMoreProfessiontsConnect(
+            selectedProfession._id,
+            title,
+            {
+                parent: selectedProfession
+            },
+            null,
+            true
+        );
     };
 
     handleAutoCompleteChange = (value) => {
