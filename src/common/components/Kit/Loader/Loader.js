@@ -9,7 +9,7 @@ export default class Loader extends Component {
 
         customDotClass: PropTypes.string,
         customWrapperClass: PropTypes.string
-    }
+    };
 
     static defaultProps = {
         customDotStyle: {},
@@ -17,7 +17,7 @@ export default class Loader extends Component {
 
         customDotClass: '',
         customWrapperClass: ''
-    }
+    };
 
     render() {
         const { customDotStyle, customWrapperStyle, customDotClass, customWrapperClass } = this.props;
