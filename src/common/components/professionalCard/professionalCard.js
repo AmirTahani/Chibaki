@@ -63,7 +63,7 @@ class ProfessionalCard extends PureComponent {
                                                 <Rate
                                                     disabled
                                                     allowHalf
-                                                    defaultValue={(Math.round(professional.profession.rateSum * 2) / 2)}
+                                                    defaultValue={(Math.round(professional.profession.rate * 2)) / 2}
                                                 />
                                                 : <Rate
                                                     disabled
