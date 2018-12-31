@@ -372,7 +372,7 @@ class Services extends Component {
                                     >
                                         هنوز متخصصی در این زمینه وجود ندارد.
                                         اگر در این زمینه تخصص دارید به جمع ما بپیوندید
-                                        یا چی‌باکی را به دوستان خود معرفی کنید
+                                        یا چی‌باکی را به دوستان خود معرفی کنید.
                                     </div>
                                     <div>
                                         {
@@ -440,7 +440,7 @@ class Services extends Component {
                                                         <div className={styles.jobCardRow}>
                                                             <div className={styles.jobCardSub}>شهر</div>
                                                             <div className={styles.jobCardTitle}>
-                                                                {this.exist(job, 'location.province.name') ? `${job.location.province.name}, ` : '-'}
+                                                                {this.exist(job, 'location.province.name') ? `${job.location.province.name}، ` : '-'}
                                                                 {this.exist(job, 'location.city.name') ? job.location.city.name : '-'}
                                                             </div>
                                                         </div>
