@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
-import { Spin } from 'antd';
+import { Spin, Popover } from 'antd';
 import { Helmet } from 'react-helmet';
 import objectFitImages from 'object-fit-images';
 import { connect } from 'react-redux';
 import moment from 'moment-jalali';
+import { TelegramIcon, TelegramShareButton, LinkedinIcon, LinkedinShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton } from 'react-share';
 import queryString from 'query-string';
+import { toggleAuthModal } from '../../redux/modules/auth';
 import Questions from '../../components/Questions/Questions';
 import Autocomplete from '../../components/Kit/AutoComplete/AutoComplete';
 import styles from './Service.module.styl';
@@ -17,6 +19,7 @@ import { setAnswer, clearAnswers } from '../../redux/modules/questions';
 import ProfessionalCard from '../../components/professionalCard/professionalCard';
 import { commaSeprator } from '../../utils/helpers';
 import Loader from '../../components/Kit/Loader/Loader';
+import { profilePath } from '../../config';
 
 const SHOULD_INIT_SLIDER = typeof window !== 'undefined' && window.innerWidth > 350;
 const Flickity = SHOULD_INIT_SLIDER ? require('react-flickity-component') : 'div';
@@ -43,7 +46,9 @@ class Services extends Component {
         fetching: PropTypes.bool.isRequired,
         paginationEnded: PropTypes.bool.isRequired,
         history: PropTypes.objectOf(PropTypes.any).isRequired,
-        match: PropTypes.objectOf(PropTypes.any).isRequired
+        match: PropTypes.objectOf(PropTypes.any).isRequired,
+        toggleAuth: PropTypes.func.isRequired,
+        user: PropTypes.objectOf(PropTypes.any).isRequired
     };
 
     sliderOptions = {
@@ -131,6 +136,32 @@ class Services extends Component {
         return ` از ${unit} ${commaSeprator(priceRange.min)} تومان`;
     };
 
+    sharePopover = () => {
+        const { title } = this.props;
+        const url = typeof window !== 'undefined' ? window.location.href : 'h';
+        const desc = `اگر در ${title} تخصص دارید به جمع متخصصین جی باکی بپیوندید`;
+        const size = 35;
+        return (
+            <div className={styles.popoverShareWrapper}>
+                <div className={styles.popoverShareHeading}>اشتراک گذاری در:</div>
+                <div className={styles.popoverShareBody}>
+                    <TelegramShareButton className={styles.popoverShareBtn} url={url} title={desc}>
+                        <TelegramIcon size={size} round fill />
+                    </TelegramShareButton>
+                    <LinkedinShareButton className={styles.popoverShareBtn} url={url} title={desc}>
+                        <LinkedinIcon size={size} round fill />
+                    </LinkedinShareButton>
+                    <TwitterShareButton className={styles.popoverShareBtn} url={url} title={desc}>
+                        <TwitterIcon size={size} round fill />
+                    </TwitterShareButton>
+                    <WhatsappShareButton className={styles.popoverShareBtn} url={url} title={desc}>
+                        <WhatsappIcon size={size} round fill />
+                    </WhatsappShareButton>
+                </div>
+            </div>
+        );
+    }
+
     handleClose = () => {
         this.setState({
             showQuestions: false
@@ -206,7 +237,9 @@ class Services extends Component {
             loadedComplete,
             loading,
             fetching,
-            paginationEnded
+            paginationEnded,
+            toggleAuth,
+            user
         } = this.props;
         const { showQuestions, provinceValue } = this.state;
         const proficients = this.props.proficients.reduce((acc, cur) => {
@@ -330,8 +363,46 @@ class Services extends Component {
                                         }
                                     </div>
                                 </div>
-                                : <div>
-                                    متخصصی در این خدمت وجود ندارد.
+                                :
+                                <div
+                                    className={styles.noProficients}
+                                >
+                                    <div
+                                        className={styles.noProficientsText}
+                                    >
+                                        هنوز متخصصی در این زمینه وجود ندارد.
+                                        اگر در این زمینه تخصص دارید به جمع ما بپیوندید
+                                        یا چی‌باکی را به دوستان خود معرفی کنید
+                                    </div>
+                                    <div>
+                                        {
+                                            user &&
+                                            user._id ?
+                                                <a
+                                                    className="c-btn c-btn--primary c-btn--md"
+                                                    href={profilePath}
+                                                >
+                                                    ورود به پروفایل
+                                                </a> :
+                                                <button
+                                                    className="c-btn c-btn--primary c-btn--md"
+                                                    onClick={toggleAuth}
+                                                >
+                                                    ثبت نام متخصص
+                                                </button>
+                                        }
+                                        <Popover
+                                            content={this.sharePopover()}
+                                            trigger={'click'}
+                                        >
+                                            <button
+                                                className="c-btn c-btn--primary c-btn--md"
+                                            >
+                                                <span className="icon-share" />
+                                                اشتراک گذاری این فرصت
+                                            </button>
+                                        </Popover>
+                                    </div>
                                 </div>
                             }
 
@@ -348,7 +419,7 @@ class Services extends Component {
                                             flickityRef={(c) => {
                                                 this.jobCardFlickity = c;
                                                 c.on('ready', () => {
-                                                    this.setState({jobCardClass: ''}, ()=>{
+                                                    this.setState({ jobCardClass: '' }, () => {
                                                         this.setState({
                                                             jobCardClass: styles.jobCardFull
                                                         });
@@ -441,12 +512,14 @@ export const connectedServices = connect(state => ({
     loadedComplete: state.serviceContainer.loaded,
     loading: state.serviceContainer.loading,
     fetching: state.proficients.fetching,
-    paginationEnded: state.proficients.paginationEnded
+    paginationEnded: state.proficients.paginationEnded,
+    user: state.auth.user,
 }), {
     loadConnect: load,
     loadMoreProfessiontsConnect: loadProfessionts,
     setAnswerConnect: setAnswer,
-    clearAnswersConnect: clearAnswers
+    clearAnswersConnect: clearAnswers,
+    toggleAuth: toggleAuthModal
 })(Services);
 
 export default withRouter(connectedServices);

@@ -1,5 +1,8 @@
 export const apiPath = process.env.API_PATH || 'https://api-staging.chibaki.co/';
 export const sitePath = process.env.SITE_PATH || 'http://chbiaki.local/';
+export const profilePath = typeof window !== 'undefined'
+    ? `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/pages`
+    : `${sitePath}pages`;
 
 export const defualtQuestions = [
     {

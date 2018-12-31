@@ -3,7 +3,7 @@ import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { slide as Menu } from 'react-burger-menu';
-import { sitePath } from '../../config';
+import { sitePath, profilePath } from '../../config';
 import styles from './Nav.module.styl';
 
 class Nav extends Component {
@@ -34,7 +34,7 @@ class Nav extends Component {
     };
 
     handleGoToAngular = () => {
-        window.open(`${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/pages`, '_self');
+        window.open(profilePath, '_self');
     };
 
     handleStateChange = (state) => {
