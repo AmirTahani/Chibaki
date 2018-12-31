@@ -96,7 +96,7 @@ class Questions extends PureComponent {
         const method = force ? 'add' : 'remove';
         document.body
             .classList[method]('modal-is-open');
-    }
+    };
 
     getQuestions = (questions, gender) => {
         const { user } = this.props;

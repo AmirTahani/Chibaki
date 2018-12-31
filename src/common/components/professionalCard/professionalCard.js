@@ -34,6 +34,8 @@ class ProfessionalCard extends PureComponent {
 
     render() {
         const { professional } = this.props;
+        console.log(professional.profession, 'this is rate sum');
+        console.log(this.calculateNotRated(), ' this is not rated');
         return (
             <Link
                 to={`/professional/${professional.firstname.replace(' ', '_')}_${professional.lastname.replace(' ', '_')}?id=${professional._id}${professional.profession ? `&profId=${professional.profession.profession}` : ''}`}
@@ -63,7 +65,7 @@ class ProfessionalCard extends PureComponent {
                                                 <Rate
                                                     disabled
                                                     allowHalf
-                                                    defaultValue={(Math.round(professional.profession.rateSum * 2) / 2)}
+                                                    defaultValue={(Math.round(professional.profession.rate * 2)) / 2}
                                                 />
                                                 : <Rate
                                                     disabled
