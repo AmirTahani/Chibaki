@@ -93,6 +93,8 @@ class Main extends Component {
                 window.ga && window.ga('send', 'pageview', `/${location.pathname}${location.search}`);
                 window.__renderType__ = 'client';
                 hotjar.initialize(734640);
+
+                window.scrollTo(0, 0);
             }
         });
 
