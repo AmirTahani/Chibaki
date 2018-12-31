@@ -311,6 +311,8 @@ class Professional extends Component {
         const { Flickity } = this;
         const images = this.getProfImage();
         const comments = this.getComments();
+        console.log(selectedProfession, 'this is selected one ');
+        console.log(this.getRate(), 'this is getRate');
 
         return (
             <div className={styles.wrapper}>
@@ -373,7 +375,7 @@ class Professional extends Component {
                                                         <Rate
                                                             disabled
                                                             allowHalf
-                                                            defaultValue={(Math.round(this.getRate() * 2) / 2)}
+                                                            value={(Math.round(this.getRate() * 2) / 2)}
                                                             style={{
                                                                 fontSize: '30px'
                                                             }}
