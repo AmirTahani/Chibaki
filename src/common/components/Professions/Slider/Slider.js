@@ -59,7 +59,6 @@ export default class ProfessionSliders extends Component {
     };
 
     mapSlides = (slide, idx) => {
-        console.log('slide img: ', slide.img);
         return (
             <div
                 className="catSlider__slide"
