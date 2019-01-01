@@ -6,6 +6,10 @@ import Main from '../Main/Main';
 import { exist } from '../../utils/helpers';
 import '../../styles/App.styl';
 
+if (typeof window !== 'undefined') {
+  require('intersection-observer')
+}
+
 Component.prototype.exist = exist;
 Component.prototype.event = (props) => {
     if (window && window.__renderType__ === 'client' && !window.__DEV__ && window.ga) {
