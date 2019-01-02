@@ -522,7 +522,7 @@ class Services extends Component {
                                         return (
                                             <div>
                                                 <Link
-                                                    to={`/${encodeURI('خدمات')}/${profession.title.split(' ').join('_')}`}
+                                                    to={`/${encodeURI('خدمات')}/${profession.title.split(' ').join('-')}-${profession._id}`}
                                                     className={styles.relatedLink}
                                                 >
                                                     {profession.title}
