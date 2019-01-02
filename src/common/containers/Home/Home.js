@@ -29,8 +29,8 @@ class Home extends Component {
         }
     }
 
-    handleSelect = (professionId) => {
-        this.props.history.push(`/${encodeURI('خدمات')}/${professionId.split(' ').join('_')}`);
+    handleSelect = (profession) => {
+        this.props.history.push(`/${encodeURI('خدمات')}/${profession.title.split(' ').join('-')}-${profession._id}`);
     };
 
     handleClose = () => {
