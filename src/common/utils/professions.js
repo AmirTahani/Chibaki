@@ -30,8 +30,14 @@ export default class Professions {
         this.professions = professions;
     }
 
-    select(value, valueAs = 'title') {
-        const profession = this.findProfession(value, valueAs);
+    select(value, valueAs = '_id') {
+        let profession = this.findProfession(value[valueAs], valueAs);
+        if (!profession) {
+            profession = this.findProfession(value['_id'], '_id');
+        }
+        if (!profession) {
+            return false;
+        }
         if (profession.profession_id) {
             // The profession is a child
             this.selected.child = profession;
@@ -41,6 +47,7 @@ export default class Professions {
             this.selected.parent = profession;
         }
         this.selectRelated();
+        return true;
     }
 
     selectRelated() {
@@ -73,9 +80,10 @@ export default class Professions {
                 return profession;
             }
         }
+        return false;
     }
 
-    getProfession(parent = false) {
+    getProfession() {
         return this.selected;
     }
 }

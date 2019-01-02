@@ -81,6 +81,16 @@ export default class AutoComplete extends Component {
 
     renderOption = (item) => {
         const { valueAs } = this.props;
+        if (valueAs === 'obj') {
+            return (
+                <Option
+                    key={JSON.stringify(item)}
+                    text={item.title}
+                >
+                    {item.title}
+                </Option>
+            );
+        }
         return (
             <Option
                 key={item[valueAs]}
@@ -92,12 +102,12 @@ export default class AutoComplete extends Component {
     };
 
     handleSelect = (selectedValue) => {
-        const { showBtn, onSubmit } = this.props;
+        const { showBtn, onSubmit, valueAs } = this.props;
         this.setState({
             selectedValue
         });
         if (!showBtn) {
-            onSubmit(selectedValue);
+            return valueAs === 'obj' ? onSubmit(JSON.parse(selectedValue)) : onSubmit(selectedValue);
         }
     };
 
@@ -115,6 +125,11 @@ export default class AutoComplete extends Component {
         e.preventDefault();
 
         return false;
+    };
+    handleButtonSelect = () => {
+        const { valueAs, onSubmit } = this.props;
+        const { selectedValue } = this.state;
+        return valueAs === 'obj' ? onSubmit(JSON.parse(selectedValue)) : onSubmit(selectedValue);
     };
 
     componentDidMount() {
@@ -148,7 +163,8 @@ export default class AutoComplete extends Component {
         const Wrapper = wrapInForm ? 'form' : 'div';
 
         return (
-            <Wrapper className={`${styles.wrapper} c-autocomplete ${wrapperClassName}`} onSubmit={this.handleFormSubmit}>
+            <Wrapper className={`${styles.wrapper} c-autocomplete ${wrapperClassName}`}
+                     onSubmit={this.handleFormSubmit}>
                 <AntAutoComplete
                     defaultValue={defaultValue[valueAs]}
                     dataSource={options.map(
@@ -174,7 +190,7 @@ export default class AutoComplete extends Component {
                 </AntAutoComplete>
                 <button
                     type="submit"
-                    onClick={() => onSubmit(this.state.selectedValue)}
+                    onClick={this.handleButtonSelect}
                     className={`${styles.btn} ${!showBtn ? styles.hide : ''} ${btnClassName}`}
                 >
                     {btnContent || 'ادامه'}

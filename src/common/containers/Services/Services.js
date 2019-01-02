@@ -20,9 +20,10 @@ class Services extends Component {
         history: PropTypes.objectOf(PropTypes.any).isRequired
     };
 
-    onAutoCompleteSubmit = (professionTitle) => {
-        this.props.history.push(`/${encodeURI('خدمات')}/${professionTitle}`);
-    }
+    onAutoCompleteSubmit = (profession) => {
+        console.log(profession, 'this is professions');
+        this.props.history.push(`/${encodeURI('خدمات')}/${profession.title.split(' ').join('-')}-${profession._id}`);
+    };
 
     scrollToCat = (cat) => {
         setTimeout(() => {
@@ -107,7 +108,7 @@ class Services extends Component {
                             <div className={styles.searchWrapper}>
                                 <AutoComplete
                                     options={professionsFlatChildren}
-                                    valueAs={'title'}
+                                    valueAs={'obj'}
                                     onSubmit={this.onAutoCompleteSubmit}
                                     wrapperClassName={styles.searchComponent}
                                     fieldClassName={styles.searchField}
@@ -159,7 +160,7 @@ class Services extends Component {
                                                         >
                                                             <h3>
                                                                 <Link
-                                                                    to={`/${encodeURI('خدمات')}/${profession.title.split(' ').join('_')}`}
+                                                                    to={`/${encodeURI('خدمات')}/${profession.title.split(' ').join('-')}-${profession._id}`}
                                                                     className={`${styles.servicesItem} ${styles.servicesItemParent}`}
                                                                 >
                                                                     {(profession.children && profession.children.length)
@@ -175,7 +176,7 @@ class Services extends Component {
                                                                             key={childProfession.title}
                                                                         >
                                                                             <Link
-                                                                                to={`/${encodeURI('خدمات')}/${childProfession.title.split(' ').join('_')}`}
+                                                                                to={`/${encodeURI('خدمات')}/${childProfession.title.split(' ').join('-')}-${childProfession._id}`}
                                                                                 className={`${styles.servicesItem}`}
                                                                             >
                                                                                 {childProfession.title}

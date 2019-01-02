@@ -64,7 +64,7 @@ export default class ProfessionSliders extends Component {
                 className="catSlider__slide"
                 key={idx}
             >
-                <Link to={`/${encodeURI('خدمات')}/${slide.label.split(' ').join('_')}`} className="catSlider__item">
+                <Link to={`/${encodeURI('خدمات')}/${slide.label.split(' ').join('-')}-${slide._id}`} className="catSlider__item">
                     <div className="catSlider-item__inner">
                         <div className="catSlider__bg">
                             <LazyImage

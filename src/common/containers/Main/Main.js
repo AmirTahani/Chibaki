@@ -122,6 +122,7 @@ class Main extends Component {
                         <Route path="/خدمات/:title" component={LoadableService} />
                         <Route path="/professional/:id/" component={LoadableProfessional} />
                         <Route component={LoadableNotFound} />
+                        <Route path="/notFound" component={LoadableNotFound} />
                     </Switch>
                 </div>
 

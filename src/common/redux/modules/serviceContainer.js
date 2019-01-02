@@ -1,10 +1,11 @@
 import { put, take, select, all } from 'redux-saga/effects';
-import { loadCategories, LOAD_CATEGORIES_SUCCESS, loadProfessions, LOAD_PROFESSIONS_SUCCESS } from './professions';
+import { loadProfessions, LOAD_PROFESSIONS_SUCCESS } from './professions';
 import { loadProvinces, LOAD_PROVINCES_SUCCESS } from './provinces';
 import { load as loadProficients, LOAD_PROFICIENTS_SUCCESS } from './proficients';
 import { load as loadProjectsForProf, LOAD_SUCCESS as projectsLoadedSuccess } from './projectsForProfession';
 
 import Professions from '../../utils/professions';
+import { setRedirect } from './redirect';
 
 export const LOAD = 'ssr/serviceContainer/LOAD';
 export const LOAD_SUCCESS = 'ssr/serviceContainer/LOAD_SUCCESS';
@@ -58,13 +59,13 @@ export function saveTitle(title) {
     };
 }
 
-export function load(resolve, reject, query, routeTitle) {
+export function load(resolve, reject, query, profession) {
     return {
         type: LOAD,
         resolve,
         reject,
         query,
-        routeTitle
+        profession
     };
 }
 
@@ -82,16 +83,13 @@ export function loadFailure(error) {
     };
 }
 
-export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
+export function* watchLoad(client, { resolve, reject, query, profession }) {
     try {
-        yield put(saveTitle(decodeURI(routeTitle)));
-
-        const title = decodeURI(routeTitle)
-            .split('_')
-            .join(' ');
+        yield put(saveTitle(decodeURI(profession.title)));
         let professionsFlatChildren = yield select(state => state.professions.professionsFlatChildren);
         let Provinces = yield select(state => state.provinces.provinces);
         let categories = yield select(state => state.professions.categories);
+
 
         if (!Provinces.length) {
             yield put(loadProvinces());
@@ -113,7 +111,11 @@ export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
             foundProvince = Provinces.find(item => item.name === query.province);
         }
         const Profession = new Professions(categories, professionsFlatChildren);
-        Profession.select(title);
+        if (!Profession.select(profession, 'title')) {
+            console.log('inside redirect if ');
+            yield put(setRedirect({ to: '/notFound', shouldRedirect: true }));
+            return resolve && resolve('done');
+        }
         const selectedProfession = Profession.selected.parent;
         const childProfession = Profession.selected.child || {};
         const relatedProfessions = Profession.selected.related;
@@ -121,7 +123,7 @@ export function* watchLoad(client, { resolve, reject, query, routeTitle }) {
         yield put(
             loadProficients(
                 selectedProfession._id,
-                decodeURI(routeTitle),
+                profession.title,
                 {
                     parent: selectedProfession,
                     child: childProfession

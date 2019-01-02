@@ -10,7 +10,7 @@ import { setConfig } from 'react-hot-loader';
 import serialize from 'serialize-javascript';
 import assets from '../public/webpack-assets.json';
 import { App } from './common/containers';
-import { getMetaTags, handleRequestsByRoute } from './common/utils/serverHelper';
+import { getMetaTags, handleRequestsByRoute, getRedirectUrl } from './common/utils/serverHelper';
 import apiClient from './common/utils/apiClient';
 import createStore from './common/redux/create';
 import { renderType } from './common/config';
@@ -59,10 +59,16 @@ server
                 </Provider>
             );
             const metaTags = getMetaTags(store, req.path, req.query);
+            console.log('its done and after meta tags');
             const finalState = store.getState();
-
-            res.status(200).send(
-                `<!doctype html>
+            const response = getRedirectUrl(store, req);
+            console.log(response, ' this is response');
+            if (response.status === 301) {
+                console.log('its doing redirect');
+                res.redirect(response.status, response.redirectUrl);
+            } else {
+                res.status(200).send(
+                    `<!doctype html>
                     <html lang="fa" dir="rtl">
                     <head>
                         <link rel="manifest" href="/manifest.json">
@@ -210,9 +216,10 @@ server
                         </script>   
                     </body>
                 </html>`,
-            );
-        });
-
+                );
+            }
+        }
+        );
         if (context.url) {
             res.redirect(context.url);
         }

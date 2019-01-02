@@ -1,4 +1,5 @@
 import { END } from 'redux-saga';
+import queryString from 'query-string';
 import {
     loader as loadProfession,
 } from '../redux/modules/professions';
@@ -14,7 +15,6 @@ export async function handleRequestsByRoute(store, route) {
     const subRoute = path.split('/').reverse().filter(item => item !== '');
     if (path === '/') {
         await new Promise((resolve, reject) => {
-            console.log('onServerHelper');
             store.dispatch(loadProfession(resolve, reject));
         });
         store.dispatch(END);
@@ -24,9 +24,10 @@ export async function handleRequestsByRoute(store, route) {
         });
         store.dispatch(END);
     } else if (decodeURI(subRoute[1]) === 'خدمات') {
-        const routeTitle = subRoute[0].split('_').join(' ');
+        const profession = getTitleAndIdByUrl(subRoute[0]);
+        console.log(profession, 'this is profession after get title');
         const data = await new Promise((resolve, reject) => {
-            store.dispatch(loadServiceRedux(resolve, reject, query, routeTitle));
+            store.dispatch(loadServiceRedux(resolve, reject, query, profession));
         });
         store.dispatch(END);
     } else if (subRoute[1] === 'professional') {
@@ -58,11 +59,10 @@ export function getMetaTags(store, route, query) {
         metaTags.title = ' Chibaki | خدمات | چی باکی، درخواست آنلاین تمامی خدمات';
     }
     if (decodeURI(subRoute[1]) === 'خدمات') {
-        const categories = state.professions.categories;
-        const professions = state.professions.professions;
+        const professions = state.professions.professionsFlatChildren;
         professions.forEach((profession) => {
-            const professionUrlTitle = profession.title.split(' ').join('_');
-            if (decodeURI(subRoute[0]) === professionUrlTitle) {
+            const professionUrlTitle = getTitleAndIdByUrl(decodeURI(subRoute[0])).title;
+            if (professionUrlTitle === profession.title) {
                 metaTags.description = profession.description;
                 metaTags.title = addSiteNameToTitle(`${profession.title}، درخواست رایگان و مقایسه قیمت`);
                 if (query && query.province) {
@@ -83,7 +83,6 @@ export function getMetaTags(store, route, query) {
                 userProfession = state.professional.professional.user.professions[0];
             }
 
-            console.log(userProfession, 'this is user profession');
             const firstname = exist(state, 'professional.professional.user.firstname');
             const lastname = exist(state, 'professional.professional.user.lastname');
             if (exist(userProfession, 'intro.description')) {
@@ -107,4 +106,65 @@ export function flattenProfessionsByCategories(categories) {
 
 export function addSiteNameToTitle(pageTitle) {
     return `${pageTitle} | چی باکی`;
+}
+
+export function getRedirectUrl(store, route) {
+    const state = store.getState();
+    const professions = state.professions.professions;
+
+    const path = route.path;
+    const query = route.query;
+    const subRoute = path.split('/').reverse().filter(Boolean);
+    console.log(subRoute);
+    if (decodeURI(subRoute[1]) === 'خدمات') {
+        const serviceRoute = subRoute[0];
+        const { title, _id } = getTitleAndIdByUrl(serviceRoute);
+        console.log(title, 'title');
+        const foundById = professions.find(profession => profession._id === _id);
+        const foundByTitle = professions.find(profession => profession.title === title);
+
+
+        if (foundById && foundById._id && foundByTitle && foundByTitle._id) {
+            if (foundByTitle.title !== foundById.title) {
+                return { status: 301, redirectUrl: generateServiceRoute(foundById, query) };
+            }
+            return { status: 200 };
+        }
+
+        if (foundById && foundById._id && !foundByTitle) {
+            return { status: 301, redirectUrl: generateServiceRoute(foundById, query) };
+        }
+
+        if (foundByTitle && foundByTitle._id && !foundById) {
+            return { status: 301, redirectUrl: generateServiceRoute(foundByTitle, query) };
+        }
+    }
+    return { status: 200 };
+}
+
+export function generateServiceRoute(profession, query) {
+    if (Object.keys(query).length) {
+        return `http://chunk:8080/خدمات/${profession.title.split(' ').join('-')}-${profession._id}?${queryString.stringify(query)}`;
+    }
+    return `http://chunk:8080/خدمات/${profession.title.split(' ').join('-')}-${profession._id}`;
+}
+
+export function getTitleAndIdByUrl(route) {
+    let isOldUrl = false;
+    const splitedByDash = route.split('-');
+    let routeTitleArray = splitedByDash;
+    const splitedByUnderscore = route.split('_');
+    if (splitedByUnderscore.length > splitedByDash.length) {
+        routeTitleArray = splitedByUnderscore;
+        isOldUrl = true;
+    }
+    if (isOldUrl) {
+        return {
+            title: decodeURI(routeTitleArray.join(' '))
+        };
+    }
+    return {
+        _id: routeTitleArray.pop(),
+        title: decodeURI(routeTitleArray.join(' '))
+    };
 }

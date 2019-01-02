@@ -61,6 +61,7 @@ import {
     UPDATE_USER,
     watchUpdateUser
 } from './modules/auth';
+import { REDIRECT, watchRedirect } from './modules/redirect';
 
 export default function* root(client, store) {
     yield all([
@@ -82,6 +83,7 @@ export default function* root(client, store) {
         takeEvery(SET_JWT, watchSetJwt, client),
         takeEvery(UN_SET_JWT, watchUnsetJwt, client),
         takeEvery(GET_USER, watchGetUser, client),
-        takeEvery(UPDATE_USER, watchUpdateUser, client)
+        takeEvery(UPDATE_USER, watchUpdateUser, client),
+        takeEvery(REDIRECT, watchRedirect)
     ]);
 }

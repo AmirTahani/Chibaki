@@ -7,7 +7,16 @@ import { Helmet } from 'react-helmet';
 import objectFitImages from 'object-fit-images';
 import { connect } from 'react-redux';
 import moment from 'moment-jalali';
-import { TelegramIcon, TelegramShareButton, LinkedinIcon, LinkedinShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton } from 'react-share';
+import {
+    TelegramIcon,
+    TelegramShareButton,
+    LinkedinIcon,
+    LinkedinShareButton,
+    TwitterIcon,
+    TwitterShareButton,
+    WhatsappIcon,
+    WhatsappShareButton
+} from 'react-share';
 import queryString from 'query-string';
 import { toggleAuthModal } from '../../redux/modules/auth';
 import Questions from '../../components/Questions/Questions';
@@ -20,6 +29,7 @@ import ProfessionalCard from '../../components/professionalCard/professionalCard
 import { commaSeprator } from '../../utils/helpers';
 import Loader from '../../components/Kit/Loader/Loader';
 import { profilePath } from '../../config';
+import { redirect as redirectMethod } from '../../redux/modules/redirect';
 
 const SHOULD_INIT_SLIDER = typeof window !== 'undefined' && window.innerWidth > 350;
 const Flickity = SHOULD_INIT_SLIDER ? require('react-flickity-component') : 'div';
@@ -31,10 +41,10 @@ class Services extends Component {
         childProfession: PropTypes.objectOf(PropTypes.any).isRequired,
         relatedProfessions: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         proficients: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
-        title: PropTypes.string.isRequired,
         count: PropTypes.number.isRequired,
         location: PropTypes.objectOf(PropTypes.any).isRequired,
         answers: PropTypes.objectOf(PropTypes.any).isRequired,
+        redirect: PropTypes.objectOf(PropTypes.any).isRequired,
         provinces: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         professionsJobs: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
         loadConnect: PropTypes.func.isRequired,
@@ -48,6 +58,7 @@ class Services extends Component {
         history: PropTypes.objectOf(PropTypes.any).isRequired,
         match: PropTypes.objectOf(PropTypes.any).isRequired,
         toggleAuth: PropTypes.func.isRequired,
+        redirectConnect: PropTypes.func.isRequired,
         user: PropTypes.objectOf(PropTypes.any).isRequired
     };
 
@@ -98,7 +109,7 @@ class Services extends Component {
         });
         this.props.setAnswerConnect('location', { province: provinceValue });
         history.push(`${decodeURI(location.pathname)}?province=${value}`);
-        this.props.loadConnect(null, null, { province: value }, match.params.title);
+        this.props.loadConnect(null, null, { province: value }, this.getProfessionIdAndTitle());
     };
 
     getProfessionPrice = () => {
@@ -137,9 +148,9 @@ class Services extends Component {
     };
 
     sharePopover = () => {
-        const { title } = this.props;
+        const { match } = this.props;
         const url = typeof window !== 'undefined' ? window.location.href : 'h';
-        const desc = `اگر در ${title} تخصص دارید به جمع متخصصین جی باکی بپیوندید`;
+        const desc = `اگر در ${match.params.title} تخصص دارید به جمع متخصصین جی باکی بپیوندید`;
         const size = 35;
         return (
             <div className={styles.popoverShareWrapper}>
@@ -160,7 +171,7 @@ class Services extends Component {
                 </div>
             </div>
         );
-    }
+    };
 
     handleClose = () => {
         this.setState({
@@ -169,8 +180,8 @@ class Services extends Component {
     };
 
     more = () => {
-        const { title, selectedProfession } = this.props;
-        this.props.loadMoreProfessiontsConnect(selectedProfession._id, title, selectedProfession, null, true);
+        const { match, selectedProfession } = this.props;
+        this.props.loadMoreProfessiontsConnect(selectedProfession._id, match.params.title, selectedProfession, null, true);
     };
 
     handleAutoCompleteChange = (value) => {
@@ -182,6 +193,21 @@ class Services extends Component {
         }
     };
 
+    getTitle = () => {
+        const { match } = this.props;
+        const titleArray = match.params.title.split('-');
+        titleArray.pop();
+        return titleArray.join(' ');
+    };
+    getProfessionIdAndTitle = () => {
+        const { match } = this.props;
+        const routeTitleArray = match.params.title.split('-');
+        return {
+            _id: routeTitleArray.pop(),
+            title: routeTitleArray.join(' ')
+        };
+    };
+
     componentWillMount() {
         const provinceValue = this.getProvinceObjByName(this.props);
         this.state.provinceValue = provinceValue;
@@ -189,11 +215,15 @@ class Services extends Component {
     }
 
     componentDidMount() {
-        const { location, match } = this.props;
+        const { location, redirect, history, redirectConnect } = this.props;
+        console.log(redirect, ' this is redirect');
+        if (redirect && redirect.shouldRedirect) {
+            redirectConnect(history);
+        }
         const params = queryString.parse(location.search);
 
         if (window && window.__renderType__ === 'client') {
-            this.props.loadConnect(null, null, params, match.params.title);
+            this.props.loadConnect(null, null, params, this.getProfessionIdAndTitle());
         }
         objectFitImages();
         this.setState({
@@ -215,7 +245,7 @@ class Services extends Component {
 
         if (prevProps.match.params.title !== match.params.title) {
             if (window && window.__renderType__ === 'client') {
-                this.props.loadConnect(null, null, params, match.params.title);
+                this.props.loadConnect(null, null, params, this.getProfessionIdAndTitle());
             }
         }
         return this.props;
@@ -227,7 +257,6 @@ class Services extends Component {
 
     render() {
         const {
-            title,
             selectedProfession,
             childProfession,
             relatedProfessions,
@@ -247,6 +276,7 @@ class Services extends Component {
             acc.push({ ...cur, profession });
             return acc;
         }, []);
+        const title = this.getTitle();
 
         return (
             <div className={styles.wrapper}>
@@ -297,9 +327,9 @@ class Services extends Component {
                                 {childProfession.description}
                             </div>
                             : (selectedProfession && selectedProfession.description) &&
-                                <div className={styles.desc}>
-                                    {selectedProfession.description}
-                                </div>
+                            <div className={styles.desc}>
+                                {selectedProfession.description}
+                            </div>
                     }
 
                     {loading && !loadedComplete
@@ -501,7 +531,6 @@ class Services extends Component {
 
 export const connectedServices = connect(state => ({
     proficients: state.proficients.proficients,
-    title: state.serviceContainer.title,
     selectedProfession: state.proficients.selectedProfession,
     childProfession: state.proficients.childProfession,
     relatedProfessions: state.serviceContainer.relatedProfessions,
@@ -514,12 +543,14 @@ export const connectedServices = connect(state => ({
     fetching: state.proficients.fetching,
     paginationEnded: state.proficients.paginationEnded,
     user: state.auth.user,
+    redirect: state.redirect
 }), {
     loadConnect: load,
     loadMoreProfessiontsConnect: loadProfessionts,
     setAnswerConnect: setAnswer,
     clearAnswersConnect: clearAnswers,
-    toggleAuth: toggleAuthModal
+    toggleAuth: toggleAuthModal,
+    redirectConnect: redirectMethod
 })(Services);
 
 export default withRouter(connectedServices);

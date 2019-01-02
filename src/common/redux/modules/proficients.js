@@ -119,6 +119,7 @@ export function fetching(fetch) {
 }
 
 export function* watchLoadProficients(client, { resolve, reject, professionId, more, provinceId }) {
+    console.log('its here loading');
     const isFetching = yield select(state => state.proficients.fetching);
     if (isFetching) return false;
     try {
@@ -152,6 +153,7 @@ export function* watchLoadProficients(client, { resolve, reject, professionId, m
         }
         resolve && resolve();
     } catch (error) {
+        console.log('error', error);
         reject && reject();
         handleSagaError(error);
         yield put(loadFailure(error));
