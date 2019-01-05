@@ -145,9 +145,9 @@ export function getRedirectUrl(store, route) {
 
 export function generateServiceRoute(profession, query) {
     if (Object.keys(query).length) {
-        return `${sitePath}/خدمات/${profession.title.split(' ').join('-')}-${profession._id}?${queryString.stringify(query)}`;
+        return `${sitePath}خدمات/${profession.title.split(' ').join('-')}-${profession._id}?${queryString.stringify(query)}`;
     }
-    return `${sitePath}/خدمات/${profession.title.split(' ').join('-')}-${profession._id}`;
+    return `${sitePath}خدمات/${profession.title.split(' ').join('-')}-${profession._id}`;
 }
 
 export function getTitleAndIdByUrl(route) {
