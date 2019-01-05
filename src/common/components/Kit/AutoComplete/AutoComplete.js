@@ -163,8 +163,10 @@ export default class AutoComplete extends Component {
         const Wrapper = wrapInForm ? 'form' : 'div';
 
         return (
-            <Wrapper className={`${styles.wrapper} c-autocomplete ${wrapperClassName}`}
-                     onSubmit={this.handleFormSubmit}>
+            <Wrapper
+                className={`${styles.wrapper} c-autocomplete ${wrapperClassName}`}
+                onSubmit={this.handleFormSubmit}
+            >
                 <AntAutoComplete
                     defaultValue={defaultValue[valueAs]}
                     dataSource={options.map(

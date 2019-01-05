@@ -154,7 +154,7 @@ class Services extends Component {
     sharePopover = () => {
         const { match } = this.props;
         const url = typeof window !== 'undefined' ? window.location.href : 'h';
-        const desc = `اگر در ${match.params.title} تخصص دارید به جمع متخصصین جی باکی بپیوندید`;
+        const desc = `اگر در ${match.params.title} تخصص دارید به جمع متخصصین چی باکی بپیوندید`;
         const size = 35;
         return (
             <div className={styles.popoverShareWrapper}>
