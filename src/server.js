@@ -59,12 +59,9 @@ server
                 </Provider>
             );
             const metaTags = getMetaTags(store, req.path, req.query);
-            console.log('its done and after meta tags');
             const finalState = store.getState();
             const response = getRedirectUrl(store, req);
-            console.log(response, ' this is response');
             if (response.status === 301) {
-                console.log('its doing redirect');
                 res.redirect(response.status, response.redirectUrl);
             } else {
                 res.status(200).send(
