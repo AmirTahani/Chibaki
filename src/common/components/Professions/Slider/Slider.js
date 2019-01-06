@@ -58,11 +58,11 @@ export default class ProfessionSliders extends Component {
         );
     };
 
-    mapSlides = (slide, idx) => {
+    mapSlides = (slide) => {
         return (
             <div
                 className="catSlider__slide"
-                key={idx}
+                key={slide.label}
             >
                 <Link to={`/${encodeURI('خدمات')}/${slide.label.split(' ').join('-')}-${slide._id}`} className="catSlider__item">
                     <div className="catSlider-item__inner">
@@ -111,7 +111,7 @@ export default class ProfessionSliders extends Component {
                                 return (
                                     <div
                                         className="catSlider__wrapper"
-                                        key={slider._id}
+                                        key={slider.title}
                                     >
                                         <div>
                                             <h2 className="catSlider__heading">
