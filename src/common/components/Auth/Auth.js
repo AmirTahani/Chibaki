@@ -27,7 +27,9 @@ export default class Auth extends Component {
         login: PropTypes.func.isRequired,
         loggingIn: PropTypes.bool.isRequired,
         register: PropTypes.func.isRequired,
-        professions: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired
+        professions: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)).isRequired,
+        toggleAgreement: PropTypes.func.isRequired,
+        agreement: PropTypes.bool.isRequired
     };
 
     state = {
@@ -95,13 +97,16 @@ export default class Auth extends Component {
     };
 
     handleRegister = () => {
-        const { firstName, lastName, mobile, gender } = this.props;
+        const { firstName, lastName, mobile, gender, agreement } = this.props;
         const { registerRole, professionId } = this.state;
         if (!gender) {
             return message.error('لطفا جنسیت خود را انتخاب کنید!');
         }
         if (registerRole === 'proficient' && !professionId) {
             return message.error('لطفا تخصص خود را انتخاب کنید!');
+        }
+        if (!agreement) {
+            return message.error('لطفا قوانین و مقررات را تایید کنید');
         }
 
         new Promise((resolve, reject) => {
@@ -218,7 +223,20 @@ export default class Auth extends Component {
     };
 
     getContentComponent = (focusInput) => {
-        const { setUserMobile, setUserCode, setUserLastName, setUserName, professions, gender, mobile, login, setUserGender } = this.props;
+        const {
+            setUserMobile,
+            setUserCode,
+            setUserLastName,
+            setUserName,
+            professions,
+            gender,
+            mobile,
+            login,
+            setUserGender,
+            toggleAgreement,
+            agreement,
+            toggleAuthModal
+        } = this.props;
         const { step } = this.state;
         switch (step) {
             case 'login':
@@ -237,6 +255,9 @@ export default class Auth extends Component {
                     registerRole={this.state.registerRole}
                     submit={this.handleClick}
                     selectProfession={this.handleSelectProfession}
+                    toggleAgreement={toggleAgreement}
+                    agreement={agreement}
+                    toggleAuthModal={toggleAuthModal}
                 />);
             default:
                 return <div />;
