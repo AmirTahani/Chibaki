@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Input } from 'antd';
 import classnames from 'classnames';
 import moment from 'moment-jalali';
 import TetherComponent from 'react-tether';
@@ -21,25 +22,32 @@ export default class DatePicker extends Component {
         calendarStyles: PropTypes.objectOf(PropTypes.any).isRequired,
         calendarContainerProps: PropTypes.objectOf(PropTypes.any).isRequired,
         className: PropTypes.string,
-        disabled: PropTypes.bool
+        disabled: PropTypes.bool,
+        inputPlaceholder: PropTypes.string
     };
 
     static defaultProps = {
         inputFormat: 'jYYYY/jM/jD',
-        calendarStyles: require('./style.module.css'),
+        calendarStyles: require('./style.module.styl'),
         calendarContainerProps: {},
         onBlur: () => {
         },
         className: '',
-        disabled: false
+        disabled: false,
+        inputPlaceholder: ''
     };
 
     state = {
         isOpen: false,
+        isTetherEnabled: true,
         momentValue: this.props.defaultValue || null,
         inputValue: this.props.defaultValue ?
             this.props.defaultValue.format(this.props.inputFormat) : ''
     };
+
+    componentDidMount() {
+        this.handleResize();
+    }
 
     componentWillReceiveProps(nextProps) {
         if ('value' in nextProps && nextProps.value !== this.props.value) {
@@ -102,7 +110,22 @@ export default class DatePicker extends Component {
                 });
         }
 
+        this.setOpen(false);
         this.setMomentValue(momentValue);
+    }
+
+    handleResize() {
+        if (typeof document !== 'undefined') {
+            if (document.documentElement.clientWidth > 480) {
+                this.setState({
+                    isTetherEnabled: true
+                });
+            } else {
+                this.setState({
+                    isTetherEnabled: false
+                });
+            }
+        }
     }
 
     handleInputChange(event) {
@@ -122,7 +145,6 @@ export default class DatePicker extends Component {
             this.setOpen(true);
         }
     }
-
 
     renderCalendar() {
         const { momentValue } = this.state;
@@ -182,10 +204,11 @@ export default class DatePicker extends Component {
 
         return (
             <div>
-                <input
+                <Input
                     className={className}
                     type="text"
                     ref="input"
+                    placeholder={this.props.inputPlaceholder}
                     onFocus={this.handleFocus.bind(this)}
                     onBlur={this.handleBlur.bind(this)}
                     onChange={this.handleInputChange.bind(this)}
@@ -196,12 +219,16 @@ export default class DatePicker extends Component {
         );
     }
 
-
     render() {
-        const { isOpen } = this.state;
+        const { isOpen, isTetherEnabled } = this.state;
 
         return (
-            <TetherComponent attachment="top center" style={{ 'z-index': 10000 }}>
+            <TetherComponent
+                attachment="top center"
+                enabled={isTetherEnabled}
+                style={{ 'z-index': 10000 }}
+                onResize={this.handleResize}
+            >
                 {this.renderInput()}
                 {isOpen ? this.renderCalendar() : null}
             </TetherComponent>

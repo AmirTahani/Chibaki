@@ -161,6 +161,8 @@ export default class SingleWithDatePicker extends Component {
                         <DatePicker
                             defaultValue={this.state.date ? moment(this.state.date, 'jYYYY/jM/jD') : false}
                             onChange={this.onChangeDate}
+                            className={styles.inputFieldDatePicker}
+                            inputPlaceholder="تاریخ را وارد کنید"
                         />
                     </div> : null
                 }

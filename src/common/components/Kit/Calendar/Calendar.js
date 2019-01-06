@@ -8,7 +8,6 @@ import MonthSelector from './MonthSelector';
 import Day from './Day';
 import { getDaysOfMonth } from '../../../utils/moment-helper';
 
-
 // Load Persian localisation
 moment.loadPersian();
 
@@ -33,7 +32,7 @@ export class Calendar extends Component {
     };
 
     static defaultProps = {
-        styles: require('./style.module.css'),
+        styles: require('./style.module.styl'),
         className: '',
         onClickOutside: () => {
         }

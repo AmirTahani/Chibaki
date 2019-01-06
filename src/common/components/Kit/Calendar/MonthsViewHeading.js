@@ -4,7 +4,7 @@ import { persianNumber } from '../../../utils/persian';
 import { leftArrow, rightArrow } from '../../../utils/assets';
 
 export default function MonthsViewHeading(props) {
-    const { year, styles } = props;
+    const { year, styles, onNextYear, onPrevYear } = props;
 
     return (
         <div className={styles.heading}>
@@ -18,7 +18,7 @@ export default function MonthsViewHeading(props) {
                 title="سال قبل"
                 style={styles.navButton}
                 className={styles.prev}
-                onClick={this.props.onPrevYear}
+                onClick={onPrevYear}
                 dangerouslySetInnerHTML={rightArrow}
             />
             <button
@@ -26,7 +26,7 @@ export default function MonthsViewHeading(props) {
                 title="سال بعد"
                 style={styles.navButton}
                 className={styles.next}
-                onClick={this.props.onNextYear}
+                onClick={onNextYear}
                 dangerouslySetInnerHTML={leftArrow}
             />
         </div>
@@ -35,7 +35,9 @@ export default function MonthsViewHeading(props) {
 
 MonthsViewHeading.propTypes = {
     year: PropTypes.objectOf(PropTypes.any).isRequired,
-    styles: PropTypes.objectOf(PropTypes.any)
+    styles: PropTypes.objectOf(PropTypes.any),
+    onNextYear: PropTypes.func.isRequired,
+    onPrevYear: PropTypes.func.isRequired
 };
 
 MonthsViewHeading.defaultProps = {

@@ -1,3 +1,5 @@
+@import '../../../styles/variables';
+
 .calendarContainer {
     border-radius: 3px;
     box-shadow: 0 3px 10px #dbdbdb;
@@ -7,6 +9,18 @@
     text-align: center;
     padding: 10px;
     background-color: #fff;
+
+    @media (max-width $xs) {
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        z-index: 999999;
+    }
+
 }
 
 .datePickerWrapper {
