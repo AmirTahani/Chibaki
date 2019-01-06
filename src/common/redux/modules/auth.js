@@ -365,7 +365,7 @@ export function* watchLogin(client, { mobile, resolve, reject }) {
         resolve && resolve();
     } catch (error) {
         reject(error);
-        yield handleSagaError(error);
+        yield handleSagaError(error, LOGIN);
         yield put(loginFailure(error));
     }
 }
