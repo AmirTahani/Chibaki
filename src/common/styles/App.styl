@@ -169,8 +169,22 @@ body {
   & + .ant-radio-inner
     border-color $color
 
-.ant-radio-inner
-  transition 0s
+.ant-radio
+    &-wrapper
+        white-space normal
+
+    &-inner
+        &:after
+            top 0
+            left 0
+            right 0
+            bottom 0
+            
+            margin auto
+            display block
+
+        .ant-radio-checked &:after
+            transform scale(1)
 
 .ant-select-selection__placeholder
 .ant-select-search__field__placeholder
