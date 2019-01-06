@@ -10,7 +10,7 @@
         composes l-container l-container--sm from '../../styles/container.styl'
 
         max-width 700px
-        padding 90px 20px 0
+        padding 180px 20px 0
 
     &Heading
         font-weight: 600;
@@ -159,12 +159,17 @@
         background-color #fff !important
 
     &Wrapper
-        padding 3rem 0 6rem
+        right 0 !important
+        left 0 !important
+
+        width auto !important
+        padding 6rem 0 2rem
+
+        z-index 80
+        background-color #fff
 
         @media (max-width 1300px)
-            /.search
-                &Wrapper
-                    padding 4rem 0 3rem
+            padding 110px 10px 10px
 
         :global(.ant-select-auto-complete.ant-select .ant-select-selection__placeholder)
             right 22px
