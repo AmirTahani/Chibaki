@@ -1,5 +1,6 @@
 import { put, select, take } from 'redux-saga/effects';
 import { handleSagaError } from '../../utils/handleSagaError';
+import { isDev } from '../../config';
 
 export const LOGIN = 'ssr/auth/LOGIN';
 export const LOGIN_SUCCESS = 'ssr/auth/LOGIN_SUCCESS';
@@ -397,8 +398,12 @@ export function* watchRegister(client, { firstName, lastName, mobile, profession
             data.selected_profession = professionId;
         }
         const response = yield client.post('/signup', { data });
-        if (window && window.ga) {
-            window.ga('send', 'event', 'user', 'REGISTER_SUBMITTED', 'user completed registration');
+        if (gtag && !isDev) {
+            gtag('event', 'REGISTER_SUBMITTED', {
+                event_category: 'user',
+                event_label: 'user completed registration',
+                value: 1
+            });
         }
         yield put(registerSuccess(response.data.user_id));
         resolve && resolve();
@@ -417,8 +422,12 @@ export function* watchVerifyMobile(client, { code, resolve, reject }) {
             user_id: userId
         };
         const response = yield client.post('/verify-mobile', { data });
-        if (window && window.ga) {
-            window.ga('send', 'event', 'user', 'VERIFY', 'user verified');
+        if (gtag && !isDev) {
+            gtag('event', 'VERIFY', {
+                event_category: 'user',
+                event_label: 'user verified',
+                value: 1
+            });
         }
         yield put(verifySuccess(response.data));
         yield put(setJwt(response.data.token));

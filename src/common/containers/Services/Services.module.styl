@@ -169,7 +169,10 @@
         background-color #fff
 
         @media (max-width 1300px)
-            padding 110px 10px 10px
+            padding $headerHeight 10px 10px !important
+            
+        @media (max-width $md)
+            padding $headerHeightMd 10px 10px !important
 
         :global(.ant-select-auto-complete.ant-select .ant-select-selection__placeholder)
             right 22px

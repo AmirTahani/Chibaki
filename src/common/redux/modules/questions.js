@@ -1,5 +1,6 @@
 import { select, put } from 'redux-saga/effects';
 import { handleSagaError } from '../../utils/handleSagaError';
+import { isDev } from '../../config';
 
 export const LOAD_QUESTIONS = 'ssr/questions/LOAD_QUESTIONS';
 export const LOAD_QUESTIONS_SUCCESS = 'ssr/questions/LOAD_QUESTIONS_SUCCESS';
@@ -165,13 +166,21 @@ export function* watchLoadQuestions(client, { professionId, isDirect }) {
         let response;
         if (isDirect) {
             response = yield client.get(`/professions/${professionId}/questions?direct=${isDirect}`);
-            if (window && window.ga) {
-                window.ga('send', 'event', 'user', 'DIRECT_QUESTION_STARTED', 'user started questions');
+            if (gtag && !isDev) {
+                gtag('event', 'DIRECT_QUESTION_STARTED', {
+                    event_category: 'user',
+                    event_label: 'user started questions',
+                    value: 1
+                });
             }
         } else {
             response = yield client.get(`/professions/${professionId}/questions`);
-            if (window && window.ga) {
-                window.ga('send', 'event', 'user', 'QUESTION_STARTED', 'user started questions');
+            if (gtag && !isDev) {
+                gtag('event', 'QUESTION_STARTED', {
+                    event_category: 'user',
+                    event_label: 'user started questions',
+                    value: 1
+                });
             }
         }
         yield put(loadQuestionsSuccess(response.data));
@@ -185,6 +194,8 @@ export function* watchLoadQuestions(client, { professionId, isDirect }) {
 export function* watchSubmitAnswers(client, { resolve, reject }) {
     try {
         const questionsState = yield select(state => state.questions);
+        const professions = yield select(state => state.professions.professionsFlatChildren);
+        const profession = professions.find(prof => prof._id === questionsState.professionId);
 
         if (questionsState.isDirect) {
             const job = {
@@ -192,8 +203,12 @@ export function* watchSubmitAnswers(client, { resolve, reject }) {
                 profession_id: questionsState.professionId
             };
             yield client.post(`/professionals/${questionsState.profId}/jobs`, { data: { job } });
-            if (window && window.ga) {
-                window.ga('send', 'event', 'user', 'SUBMIT_CREATE_REQUEST_DIRECT');
+            if (gtag && !isDev) {
+                gtag('event', 'SUBMIT_CREATE_REQUEST_DIRECT', {
+                    event_category: 'user',
+                    event_label: `SUBMIT_REQUEST_FOR_${profession.title}`,
+                    value: 1
+                });
             }
         } else {
             const data = {
@@ -201,8 +216,12 @@ export function* watchSubmitAnswers(client, { resolve, reject }) {
                 profession_id: questionsState.professionId
             };
             yield client.post('/customers/jobs', { data });
-            if (window && window.ga) {
-                window.ga('send', 'event', 'user', 'SUBMIT_CREATE_REQUEST');
+            if (gtag && !isDev) {
+                gtag('event', 'SUBMIT_CREATE_REQUEST', {
+                    event_category: 'user',
+                    event_label: `SUBMIT_REQUEST_FOR_${profession.title}`,
+                    value: 1
+                });
             }
         }
         yield put(clearAnswers());

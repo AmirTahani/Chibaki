@@ -4,16 +4,27 @@ import React, { Component } from 'react';
 import { hotjar } from 'react-hotjar';
 import Main from '../Main/Main';
 import { exist } from '../../utils/helpers';
+import { isDev } from '../../config';
 import '../../styles/App.styl';
 
 if (typeof window !== 'undefined') {
-  require('intersection-observer')
+    require('intersection-observer');
 }
 
 Component.prototype.exist = exist;
 Component.prototype.event = (props) => {
-    if (window && window.__renderType__ === 'client' && !window.__DEV__ && window.ga) {
-        window.ga('send', 'event', props.category, props.action, props.label, props.value);
+    console.log('process.env.IS_DEV: ', process.env.IS_DEV);
+    console.log('window.__renderType__: ', window.__renderType__);
+    console.log('gtag: ', gtag);
+    console.log('window: ', window);
+    console.log(isDev, typeof isDev);
+    if (window && window.__renderType__ === 'client' && !isDev) {
+        console.log('inside gtag');
+        gtag('event', props.action, {
+            event_category: props.category,
+            event_label: props.label,
+            value: props.value
+        });
     }
 };
 

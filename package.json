@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run production && babel-node --config-file ./.babelrcServer src/index.js",
-    "dev": "rm -rf ./public/chunks && babel-node --config-file ./.babelrcServer src/index.js --hot",
+    "start": "env-cmd .env npm run production && babel-node --config-file ./.babelrcServer src/index.js",
+    "dev": "rm -rf ./public/chunks && env-cmd .env babel-node --config-file ./.babelrcServer src/index.js --hot",
     "development": "BABEL_ENV=development webpack --config webpack.dev.js",
     "production": "BABEL_ENV=production webpack --config webpack.prod.js",
     "watch": "npm run webpack:dev -- --watch"
@@ -24,6 +24,7 @@
     "classnames": "2.2.6",
     "dotenv": "6.2.0",
     "dotenv-webpack": "^1.5.7",
+    "env-cmd": "^8.0.2",
     "express": "4.16.4",
     "extract-text-webpack-plugin": "4.0.0-alpha.0",
     "flickity": "2.1.2",
