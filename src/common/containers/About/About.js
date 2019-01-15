@@ -1,4 +1,5 @@
 import React from 'react';
+import { sitePath } from '../../config';
 
 export default class About extends React.Component {
     render() {
@@ -7,8 +8,10 @@ export default class About extends React.Component {
                 <div className="hero">
                     <div className="heroBg">
                         <img
-                            src="https://chibaki.ir/assets/images/about/hero.jpg"
-                            alt="Chibaki Team"
+                            src={`${sitePath}assets/images/about/hero.jpg`}
+                            srcSet={`${sitePath}assets/images/about/hero-sm.jpg 320w,
+                                    ${sitePath}assets/images/about/hero.jpg 600w`}
+                            alt="Chibaki Team | چی باکی"
                         />
                     </div>
                     <div className="heroContent">
