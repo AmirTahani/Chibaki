@@ -24,8 +24,7 @@ export default class Hero extends Component {
                         <div className="c-hero__text">
                             <h1 className="c-hero__title">هر کاری داری بگو!</h1>
                             <h5 className="c-hero__sub">
-                                از مدرس زبان و برنامه نویس تا مربی بدن سازی و نقاش ساختمان، ما مناسبترین فرد را
-                                <strong>کاملاً رایگان</strong> برای ارائه&zwnj;ی خدمت به شما معرفی می کنیم
+                                از مدرس زبان و برنامه نویس تا مربی بدن سازی و نقاش ساختمان، ما مناسبترین فرد را <strong>کاملاً رایگان</strong> برای ارائه&zwnj;ی خدمت به شما معرفی می کنیم
                             </h5>
                         </div>
                         <AutoComplete
