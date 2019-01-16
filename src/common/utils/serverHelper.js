@@ -155,7 +155,7 @@ export function getTitleAndIdByUrl(route) {
     const splitedByDash = route.split('-');
     let routeTitleArray = splitedByDash;
     const splitedByUnderscore = route.split('_');
-    if (splitedByUnderscore.length > splitedByDash.length) {
+    if (splitedByUnderscore.length >= splitedByDash.length) {
         routeTitleArray = splitedByUnderscore;
         isOldUrl = true;
     }
