@@ -104,23 +104,28 @@ class Services extends Component {
                                 )}
                             </Sticky>
                         </StickyContainer>
+                        <StickyContainer>
+                            <Sticky>
+                                {({ style }) => (
+                                    <div style={style} className={styles.searchWrapper}>
+                                        <AutoComplete
+                                            options={professionsFlatChildren}
+                                            valueAs={'obj'}
+                                            onSubmit={this.onAutoCompleteSubmit}
+                                            wrapperClassName={styles.searchComponent}
+                                            fieldClassName={styles.searchField}
+                                            fieldName={'servicesSearch'}
+                                            inputClassName={styles.searchInput}
+                                            dropdownClassName={styles.searchDropdown}
+                                            placeholder="جستجو در خدمات"
+                                            btnClassName={styles.searchBtn}
+                                            btnContent={(<span className="icon-search" />)}
+                                        />
+                                    </div>
+                                )}
+                            </Sticky>
+                        </StickyContainer>
                         <div className={styles.servicesContainer}>
-                            <div className={styles.searchWrapper}>
-                                <AutoComplete
-                                    options={professionsFlatChildren}
-                                    valueAs={'obj'}
-                                    onSubmit={this.onAutoCompleteSubmit}
-                                    wrapperClassName={styles.searchComponent}
-                                    fieldClassName={styles.searchField}
-                                    fieldName={'servicesSearch'}
-                                    inputClassName={styles.searchInput}
-                                    dropdownClassName={styles.searchDropdown}
-                                    placeholder="جستجو در خدمات"
-                                    btnClassName={styles.searchBtn}
-                                    btnContent={(<span className="icon-search" />)}
-                                />
-                            </div>
-
                             {categories.map((category) => {
                                 return (
                                     <section

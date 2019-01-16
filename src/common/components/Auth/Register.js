@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import ReactDom from 'react-dom';
-import { Tabs, Input, Radio } from 'antd';
+import { Tabs, Input, Radio, Checkbox } from 'antd';
 import PropTypes from 'prop-types';
 import persianJs from 'persianjs';
 import { AutoComplete } from '../Kit';
@@ -18,7 +19,10 @@ export default class Register extends Component {
         focusInput: PropTypes.bool,
         registerRole: PropTypes.string.isRequired,
         toggleRegisterRole: PropTypes.func.isRequired,
-        submit: PropTypes.func.isRequired
+        submit: PropTypes.func.isRequired,
+        toggleAgreement: PropTypes.func.isRequired,
+        agreement: PropTypes.bool.isRequired,
+        toggleAuthModal: PropTypes.func.isRequired
     };
 
     static defaultProps = {
@@ -83,12 +87,20 @@ export default class Register extends Component {
         }
     };
 
+    handleAgreementChange = (e) => {
+        this.props.toggleAgreement();
+    }
+
+    handleAgreementLink = () => {
+        this.props.toggleAuthModal();
+    }
+
     handleSelect = (professionId) => {
         this.props.selectProfession(professionId);
     };
 
     renderRegisterForm = (showAutoComplete, role) => {
-        const { professions } = this.props;
+        const { professions, agreement } = this.props;
         const RadioGroup = Radio.Group;
 
         return (
@@ -124,7 +136,7 @@ export default class Register extends Component {
                     />
                 </div>
                 <div className={styles.inputWrapper}>
-                    <label className={styles.fieldLabel} htmlFor="registerLastName">جنسیت</label>
+                    <label className={styles.fieldLabel} htmlFor="registerGender">جنسیت</label>
                     <RadioGroup
                         options={this.genderOptions}
                         onChange={this.onChangeGender}
@@ -162,6 +174,15 @@ export default class Register extends Component {
                         </AutoComplete>
                     </div> : null
                 }
+                <div className={styles.inputWrapper}>
+                    <Checkbox
+                        checked={agreement}
+                        onChange={this.handleAgreementChange}
+                        required
+                    >
+                        <Link to="tos" onClick={this.handleAgreementLink}>قوانین و مقررات</Link> سایت را خوانده و با آن موافقم
+                    </Checkbox>
+                </div>
             </div>
         );
     };

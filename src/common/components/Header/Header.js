@@ -11,7 +11,8 @@ import {
     setUserCode,
     login,
     register,
-    verify
+    verify,
+    toggleAgreement
 } from '../../redux/modules/auth';
 import Auth from '../Auth/Auth';
 import Nav from '../Nav/Nav';
@@ -37,7 +38,9 @@ class Header extends Component {
         firstName: PropTypes.string.isRequired,
         lastName: PropTypes.string.isRequired,
         code: PropTypes.string.isRequired,
-        handleScroll: PropTypes.func.isRequired
+        handleScroll: PropTypes.func.isRequired,
+        toggleAgreementConnect: PropTypes.func.isRequired,
+        agreement: PropTypes.bool.isRequired
     };
 
     handleScroll = (type) => {
@@ -63,7 +66,9 @@ class Header extends Component {
             gender,
             professions,
             registerConnect,
-            verifyConnect
+            verifyConnect,
+            toggleAgreementConnect,
+            agreement
         } = this.props;
         return (
             <header className={styles.header}>
@@ -86,6 +91,8 @@ class Header extends Component {
                         professions={professions}
                         register={registerConnect}
                         verify={verifyConnect}
+                        agreement={agreement}
+                        toggleAgreement={toggleAgreementConnect}
                     />
                     <Nav
                         user={user}
@@ -113,7 +120,8 @@ export default connect(state => ({
     lastName: state.auth.lastName,
     gender: state.auth.gender,
     code: state.auth.code,
-    professions: state.professions.professions
+    professions: state.professions.professions,
+    agreement: state.auth.agreement
 }), {
     toggleAuthModalConnect: toggleAuthModal,
     verifyConnect: verify,
@@ -123,5 +131,6 @@ export default connect(state => ({
     setUserMobileConnect: setUserMobile,
     setUserNameConnect: setUserName,
     loginConnect: login,
-    registerConnect: register
+    registerConnect: register,
+    toggleAgreementConnect: toggleAgreement
 })(Header);

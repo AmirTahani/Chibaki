@@ -6,6 +6,8 @@ import { withRouter } from 'react-router';
 import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
 import { hotjar } from 'react-hotjar';
+import { queryString } from 'query-string';
+import { isDev } from '../../config';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import HowItWorks from '../../components/Kit/HowItWorks/HowItWorks';
@@ -86,15 +88,23 @@ class Main extends Component {
     }
 
     componentDidMount() {
+        window.__renderType__ = 'client';
+
         const { history } = this.props;
         history.listen((location) => {
-            console.log(location, 'this is location');
             if (window) {
-                window.ga && window.ga('send', 'pageview', `/${location.pathname}${location.search}`);
-                window.__renderType__ = 'client';
-                hotjar.initialize(734640);
+                if (!isDev) {
+                    gtag && gtag('config', 'UA-99324713-1', {
+                        page_path: `/${location.pathname}${location.search}`
+                    });
+                    hotjar.initialize(734640);
+                }
 
-                window.scrollTo(0, 0);
+                window.__renderType__ = 'client';
+                const params = queryString.parse(location.search);
+                if (!this.exist(params, 'cat')) {
+                    window.scrollTo(0, 0);
+                }
             }
         });
 

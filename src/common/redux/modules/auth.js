@@ -1,5 +1,6 @@
 import { put, select, take } from 'redux-saga/effects';
 import { handleSagaError } from '../../utils/handleSagaError';
+import { isDev } from '../../config';
 
 export const LOGIN = 'ssr/auth/LOGIN';
 export const LOGIN_SUCCESS = 'ssr/auth/LOGIN_SUCCESS';
@@ -22,6 +23,8 @@ export const SET_USER_GENDER = 'ssr/auth/SET_USER_GENDER';
 export const CLEAR_STATE = 'ssr/auth/CLEAR_STATE';
 
 export const TOGGLE_AUTH_MODAL = 'ssr/auth/TOGGLE_AUTH_MODAL';
+
+export const TOGGLE_AGREEMENT = 'ssr/auth/TOGGLE_AGREEMENT';
 
 export const SET_JWT = 'ssr/auth/SET_JWT';
 export const SET_JWT_SUCCESS = 'ssr/auth/SET_JWT_SUCCESS';
@@ -57,6 +60,7 @@ const initialState = {
     lastName: '',
     showAuthModal: false,
     gender: '',
+    agreement: false,
     userId: ''
 };
 
@@ -208,6 +212,11 @@ export default function reducer(state = initialState, action = {}) {
                 getUserLoading: false,
                 getUserLoaded: true
             };
+        case TOGGLE_AGREEMENT:
+            return {
+                ...state,
+                agreement: !state.agreement
+            };
         default:
             return state;
     }
@@ -354,6 +363,12 @@ export function setUserGender(gender) {
     };
 }
 
+export function toggleAgreement() {
+    return {
+        type: TOGGLE_AGREEMENT
+    };
+}
+
 
 export function* watchLogin(client, { mobile, resolve, reject }) {
     try {
@@ -383,8 +398,12 @@ export function* watchRegister(client, { firstName, lastName, mobile, profession
             data.selected_profession = professionId;
         }
         const response = yield client.post('/signup', { data });
-        if (window && window.ga) {
-            window.ga('send', 'event', 'user', 'REGISTER_SUBMITTED', 'user completed registration');
+        if (gtag && !isDev) {
+            gtag('event', 'REGISTER_SUBMITTED', {
+                event_category: 'user',
+                event_label: 'user completed registration',
+                value: 1
+            });
         }
         yield put(registerSuccess(response.data.user_id));
         resolve && resolve();
@@ -403,8 +422,12 @@ export function* watchVerifyMobile(client, { code, resolve, reject }) {
             user_id: userId
         };
         const response = yield client.post('/verify-mobile', { data });
-        if (window && window.ga) {
-            window.ga('send', 'event', 'user', 'VERIFY', 'user verified');
+        if (gtag && !isDev) {
+            gtag('event', 'VERIFY', {
+                event_category: 'user',
+                event_label: 'user verified',
+                value: 1
+            });
         }
         yield put(verifySuccess(response.data));
         yield put(setJwt(response.data.token));

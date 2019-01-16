@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const FontminPlugin = require('fontmin-webpack');
 const SaveHashes = require('assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -50,7 +51,16 @@ module.exports = {
         }),
         new Dotenv({
             path: path.resolve(__dirname, './.env')
-        })
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                API_PATH: JSON.stringify(process.env.API_PATH),
+                SITE_PATH: JSON.stringify(process.env.SITE_PATH),
+                PORT: JSON.stringify(process.env.PORT),
+                IS_DEV: JSON.stringify(process.env.IS_DEV),
+                MODE: JSON.stringify(process.env.MODE),
+            },
+        }),
     ],
     stats: {
         children: false,
