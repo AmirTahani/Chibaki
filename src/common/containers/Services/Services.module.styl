@@ -159,20 +159,23 @@
         background-color #fff !important
 
     &Wrapper
+        position absolute
         right 0 !important
         left 0 !important
 
         width auto !important
-        padding 6rem 0 2rem
+        margin-top $headerHeight
+        padding 25px 10px
 
         z-index 80
         background-color #fff
 
         @media (max-width 1300px)
-            padding $headerHeight 10px 10px !important
-            
+            margin-top $headerHeight + 50
+            padding 10px
+
         @media (max-width $md)
-            padding $headerHeightMd 10px 10px !important
+            margin-top $headerHeightMd + 50
 
         :global(.ant-select-auto-complete.ant-select .ant-select-selection__placeholder)
             right 22px
