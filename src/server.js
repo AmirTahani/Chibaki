@@ -201,6 +201,12 @@ server
                     </head>
                     <body>
                         <div id="root">${markup}</div>
+                        <div id="loader" class="loader-wrapper">
+                            <div class="spinner">
+                                <div class="dot1"></div>
+                                <div class="dot2"></div>
+                            </div>
+                        </div>
                         <script>
                             window.__PRELOADED_STATE__ = ${serialize(finalState)};
                             window.__renderType__ = ${serialize(renderType)}
