@@ -229,15 +229,17 @@ class Services extends Component {
 
     componentDidMount() {
         const { location, redirect, history, redirectConnect } = this.props;
-        console.log(redirect, ' this is redirect');
+
         if (redirect && redirect.shouldRedirect) {
             redirectConnect(history);
         }
+
         const params = queryString.parse(location.search);
 
         if (window && window.__renderType__ === 'client') {
             this.props.loadConnect(null, null, params, this.getProfessionIdAndTitle());
         }
+
         objectFitImages();
         this.setState({
             jobCardClass: ''
@@ -320,7 +322,7 @@ class Services extends Component {
                                     onClick={this.registerProject}
                                     autoFocus
                                 >
-                                    ثبت رایگان درخواست
+                                    دریافت رایگان قیمت
                                 </button>
                             </div>
                         </div>
@@ -508,7 +510,7 @@ class Services extends Component {
                             }
                             <div className={styles.sectionCTA}>
                                 <button className="c-btn c-btn--primary c-btn--md" onClick={this.registerProject}>
-                                    ثبت رایگان درخواست
+                                    دریافت رایگان قیمت
                                 </button>
                             </div>
 
@@ -537,6 +539,14 @@ class Services extends Component {
 
                 </div>
 
+                <div className={styles.heroBtnFixedWrapper}>
+                    <button
+                        className={`${styles.heroBtn} ${styles.heroBtnFixed}`}
+                        onClick={this.registerProject}
+                    >
+                        دریافت رایگان قیمت
+                    </button>
+                </div>
             </div>
         );
     }

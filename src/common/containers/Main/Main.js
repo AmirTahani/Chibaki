@@ -6,7 +6,7 @@ import { withRouter } from 'react-router';
 import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
 import { hotjar } from 'react-hotjar';
-import { queryString } from 'query-string';
+import queryString from 'query-string';
 import { isDev } from '../../config';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
@@ -106,6 +106,12 @@ class Main extends Component {
                     window.scrollTo(0, 0);
                 }
             }
+
+            /**
+             * Hide crisp chat on service page
+             */
+            const shouldShowCrisp = !/خدمات\//g.test(location.pathname);
+            document.querySelector('html').classList.toggle('hide-crisp', !shouldShowCrisp);
         });
 
         const currentLocation = decodeURI(location.pathname);
@@ -114,6 +120,11 @@ class Main extends Component {
                 shouldShowChibakiSection: false
             });
         }
+        /**
+         * Hide crisp chat on service page
+         */
+        const shouldShowCrisp = !/خدمات\//g.test(decodeURI(location.pathname));
+        document.querySelector('html').classList.toggle('hide-crisp', !shouldShowCrisp);
     }
 
     render() {

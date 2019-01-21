@@ -38,11 +38,35 @@
     margin-bottom 1.5rem
     
     @media (max-width $md)
-        margin-top: $headerHeightMd;
+        margin-top $headerHeightMd
 
     &Btn
         composes c-btn c-btn--white c-btn--md from '../../styles/btn.styl'
         font-weight 900
+
+        &Fixed
+            width 100%
+
+            margin 0
+
+            background-color $color
+            color #fff
+
+            &:hover
+            &:focus
+                background-color darken($color, 40%) !important
+
+            &Wrapper
+                position fixed
+                
+                bottom 15px
+                left 10px
+                right 10px
+
+                z-index 200
+
+                @media (min-width $xs + 1)
+                    display none
 
 .heroBg
     position: absolute;
