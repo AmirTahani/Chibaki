@@ -18,6 +18,9 @@ import { renderType } from './common/config';
 import webpackConfig from '../webpack.dev';
 import { END_SUCCESS } from './common/redux/modules/end';
 
+const memwatch = require('memwatch-next');
+
+
 dotenv.config();
 
 const server = express();
@@ -38,6 +41,10 @@ if (IS_DEV) {
     });
 }
 
+memwatch.on('leak', (info) => {
+    console.log('Memory leak detected:\n', info);
+});
+
 
 server
     .disable('x-powered-by')
@@ -52,7 +59,6 @@ server
         const client = new apiClient();
         const { store } = createStore(client, {}, 'server');
         await handleRequestsByRoute(store, req);
-        console.log('before taking end');
         const endPayLoad = await take(END_SUCCESS);
         if (endPayLoad.payload) {
             const markup = renderToString(
