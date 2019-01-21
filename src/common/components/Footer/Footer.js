@@ -113,7 +113,7 @@ export default function Footer() {
                                 <img
                                     src="https://trustseal.enamad.ir/logo.aspx?id=111836&amp;p=72nNtOoRaQRacx5q" alt=""
                                     onClick={() => window.open('https://trustseal.enamad.ir/Verify.aspx?id=111836&p=72nNtOoRaQRacx5q', 'Popup', 'toolbar=no, location=no, statusbar=no, menubar=no, scrollbars=1, resizable=0, width=580, height=600, top=30')}
-                                    style={{ cursor: 'pointer', height: 200 }}
+                                    style={{ cursor: 'pointer' }}
                                     id="72nNtOoRaQRacx5q"
                                 />
                                 <img
