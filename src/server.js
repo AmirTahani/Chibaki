@@ -18,8 +18,6 @@ import { renderType } from './common/config';
 import webpackConfig from '../webpack.dev';
 import { END_SUCCESS } from './common/redux/modules/end';
 
-const memwatch = require('memwatch-next');
-
 
 dotenv.config();
 
@@ -40,11 +38,6 @@ if (IS_DEV) {
         pureRender: true, // RHL will not change render method
     });
 }
-
-memwatch.on('leak', (info) => {
-    console.log('Memory leak detected:\n', info);
-});
-
 
 server
     .disable('x-powered-by')
