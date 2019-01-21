@@ -21,8 +21,7 @@ class Services extends Component {
     };
 
     onAutoCompleteSubmit = (profession) => {
-        console.log(profession, 'this is professions');
-        this.props.history.push(`/${encodeURI('خدمات')}/${profession.title.split(' ').join('-')}-${profession._id}`);
+        this.props.history.push(`/${encodeURI('خدمات')}/${profession.title.split(' ').join('-')}-${profession._id}?province=all`);
     };
 
     scrollToCat = (cat) => {
@@ -165,7 +164,7 @@ class Services extends Component {
                                                         >
                                                             <h3>
                                                                 <Link
-                                                                    to={`/${encodeURI('خدمات')}/${profession.title.split(' ').join('-')}-${profession._id}`}
+                                                                    to={`/${encodeURI('خدمات')}/${profession.title.split(' ').join('-')}-${profession._id}?province=all`}
                                                                     className={`${styles.servicesItem} ${styles.servicesItemParent}`}
                                                                 >
                                                                     {(profession.children && profession.children.length)
@@ -181,7 +180,7 @@ class Services extends Component {
                                                                             key={`${category.label.split(' ').join('_')}${childProfession.title.split(' ').join('_')}`}
                                                                         >
                                                                             <Link
-                                                                                to={`/${encodeURI('خدمات')}/${childProfession.title.split(' ').join('-')}-${childProfession._id}`}
+                                                                                to={`/${encodeURI('خدمات')}/${childProfession.title.split(' ').join('-')}-${childProfession._id}?province=all`}
                                                                                 className={`${styles.servicesItem}`}
                                                                             >
                                                                                 {childProfession.title}

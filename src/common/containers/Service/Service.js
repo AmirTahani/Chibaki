@@ -229,15 +229,17 @@ class Services extends Component {
 
     componentDidMount() {
         const { location, redirect, history, redirectConnect } = this.props;
-        console.log(redirect, ' this is redirect');
+
         if (redirect && redirect.shouldRedirect) {
             redirectConnect(history);
         }
+
         const params = queryString.parse(location.search);
 
         if (window && window.__renderType__ === 'client') {
             this.props.loadConnect(null, null, params, this.getProfessionIdAndTitle());
         }
+
         objectFitImages();
         this.setState({
             jobCardClass: ''
