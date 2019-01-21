@@ -106,6 +106,12 @@ class Main extends Component {
                     window.scrollTo(0, 0);
                 }
             }
+
+            /**
+             * Hide crisp chat on service page
+             */
+            const shouldShowCrisp = !/خدمات\//g.test(location.pathname);
+            document.querySelector('html').classList.toggle('hide-crisp', !shouldShowCrisp);
         });
 
         const currentLocation = decodeURI(location.pathname);
@@ -114,6 +120,11 @@ class Main extends Component {
                 shouldShowChibakiSection: false
             });
         }
+        /**
+         * Hide crisp chat on service page
+         */
+        const shouldShowCrisp = !/خدمات\//g.test(decodeURI(location.pathname));
+        document.querySelector('html').classList.toggle('hide-crisp', !shouldShowCrisp);
     }
 
     render() {

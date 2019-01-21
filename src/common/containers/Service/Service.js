@@ -320,7 +320,7 @@ class Services extends Component {
                                     onClick={this.registerProject}
                                     autoFocus
                                 >
-                                    ثبت رایگان درخواست
+                                    دریافت رایگان قیمت
                                 </button>
                             </div>
                         </div>
@@ -508,7 +508,7 @@ class Services extends Component {
                             }
                             <div className={styles.sectionCTA}>
                                 <button className="c-btn c-btn--primary c-btn--md" onClick={this.registerProject}>
-                                    ثبت رایگان درخواست
+                                    دریافت رایگان قیمت
                                 </button>
                             </div>
 
@@ -537,6 +537,14 @@ class Services extends Component {
 
                 </div>
 
+                <div className={styles.heroBtnFixedWrapper}>
+                    <button
+                        className={`${styles.heroBtn} ${styles.heroBtnFixed}`}
+                        onClick={this.registerProject}
+                    >
+                        دریافت رایگان قیمت
+                    </button>
+                </div>
             </div>
         );
     }
