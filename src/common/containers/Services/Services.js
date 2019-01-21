@@ -161,7 +161,7 @@ class Services extends Component {
                                                 category.professions.map((profession) => {
                                                     return (
                                                         <div
-                                                            key={profession.title}
+                                                            key={`${category.label.split(' ').join('_')}${profession.title.split(' ').join('_')}`}
                                                         >
                                                             <h3>
                                                                 <Link
@@ -178,7 +178,7 @@ class Services extends Component {
                                                                 (profession.children && profession.children.length) ? profession.children.map((childProfession) => {
                                                                     return (
                                                                         <h3
-                                                                            key={childProfession.title}
+                                                                            key={`${category.label.split(' ').join('_')}${childProfession.title.split(' ').join('_')}`}
                                                                         >
                                                                             <Link
                                                                                 to={`/${encodeURI('خدمات')}/${childProfession.title.split(' ').join('-')}-${childProfession._id}`}
