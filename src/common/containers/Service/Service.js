@@ -220,6 +220,13 @@ class Services extends Component {
             title: routeTitleArray.join(' ')
         };
     };
+    getProvince = () => {
+        const { provinceValue } = this.state;
+        if (provinceValue && provinceValue.name) {
+            return provinceValue.name;
+        }
+        return 'all';
+    };
 
     componentWillMount() {
         const provinceValue = this.getProvinceObjByName(this.props);
@@ -524,7 +531,7 @@ class Services extends Component {
                                         return (
                                             <div>
                                                 <Link
-                                                    to={`/${encodeURI('خدمات')}/${profession.title.split(' ').join('-')}-${profession._id}`}
+                                                    to={`/${encodeURI('خدمات')}/${profession.title.split(' ').join('-')}-${profession._id}?province=${this.getProvince()}`}
                                                     className={styles.relatedLink}
                                                 >
                                                     {profession.title}
