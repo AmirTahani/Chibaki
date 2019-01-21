@@ -6,7 +6,7 @@ import { withRouter } from 'react-router';
 import ReactDom from 'react-dom';
 import PropTypes from 'prop-types';
 import { hotjar } from 'react-hotjar';
-import { queryString } from 'query-string';
+import queryString from 'query-string';
 import { isDev } from '../../config';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
