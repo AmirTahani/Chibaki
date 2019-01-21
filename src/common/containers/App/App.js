@@ -1,5 +1,6 @@
 import { browserHistory, withRouter } from 'react-router';
 import { hot } from 'react-hot-loader/root';
+import * as Sentry from '@sentry/browser';
 import React, { Component } from 'react';
 import { hotjar } from 'react-hotjar';
 import Main from '../Main/Main';
@@ -11,15 +12,21 @@ if (typeof window !== 'undefined') {
     require('intersection-observer');
 }
 
+Sentry.init({
+    dsn: 'https://b8716b7a4f6c441abf643cee99875d17@sentry.io/1375725'
+});
+
 Component.prototype.exist = exist;
+Component.prototype.componentDidCatch = (error, errorInfo) => {
+    Sentry.withScope((scope) => {
+        Object.keys(errorInfo).forEach((key) => {
+            scope.setExtra(key, errorInfo[key]);
+        });
+        Sentry.captureException(error);
+    });
+};
 Component.prototype.event = (props) => {
-    console.log('process.env.IS_DEV: ', process.env.IS_DEV);
-    console.log('window.__renderType__: ', window.__renderType__);
-    console.log('gtag: ', gtag);
-    console.log('window: ', window);
-    console.log(isDev, typeof isDev);
     if (window && window.__renderType__ === 'client' && !isDev) {
-        console.log('inside gtag');
         gtag('event', props.action, {
             event_category: props.category,
             event_label: props.label,
