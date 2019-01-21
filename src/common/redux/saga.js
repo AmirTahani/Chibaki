@@ -63,6 +63,8 @@ import {
 } from './modules/auth';
 import { REDIRECT, watchRedirect } from './modules/redirect';
 
+import { END, watchEnd } from './modules/end';
+
 export default function* root(client, store) {
     yield all([
         takeEvery(REHYDRATE, watchRehydrate, store),
@@ -84,6 +86,7 @@ export default function* root(client, store) {
         takeEvery(UN_SET_JWT, watchUnsetJwt, client),
         takeEvery(GET_USER, watchGetUser, client),
         takeEvery(UPDATE_USER, watchUpdateUser, client),
-        takeEvery(REDIRECT, watchRedirect)
+        takeEvery(REDIRECT, watchRedirect),
+        takeEvery(END, watchEnd),
     ]);
 }

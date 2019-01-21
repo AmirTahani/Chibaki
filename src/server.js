@@ -1,4 +1,5 @@
 import { Provider } from 'react-redux';
+import { take } from 'redux-saga/effects';
 import { StaticRouter } from 'react-router-dom';
 import { renderToString } from 'react-dom/server';
 import 'ignore-styles';
@@ -15,6 +16,7 @@ import apiClient from './common/utils/apiClient';
 import createStore from './common/redux/create';
 import { renderType } from './common/config';
 import webpackConfig from '../webpack.dev';
+import { END_SUCCESS } from './common/redux/modules/end';
 
 dotenv.config();
 
@@ -50,7 +52,9 @@ server
         const client = new apiClient();
         const { store } = createStore(client, {}, 'server');
         await handleRequestsByRoute(store, req);
-        store.rootTask.done.then(() => {
+        console.log('before taking end');
+        const endPayLoad = await take(END_SUCCESS);
+        if (endPayLoad.payload) {
             const markup = renderToString(
                 <Provider store={store}>
                     <StaticRouter location={req.url} context={context}>
@@ -216,7 +220,6 @@ server
                 );
             }
         }
-        );
         if (context.url) {
             res.redirect(context.url);
         }

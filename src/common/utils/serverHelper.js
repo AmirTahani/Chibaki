@@ -1,12 +1,12 @@
-import { sitePath } from '../config.js';
-import { END } from 'redux-saga';
 import queryString from 'query-string';
 import {
     loader as loadProfession,
 } from '../redux/modules/professions';
+import { sitePath } from '../config';
 import { load as loadServiceRedux } from '../redux/modules/serviceContainer';
 import { load as loadProfessional } from '../redux/modules/professional';
 import { exist } from '../utils/helpers';
+import { end } from '../redux/modules/end';
 
 
 export async function handleRequestsByRoute(store, route) {
@@ -18,26 +18,26 @@ export async function handleRequestsByRoute(store, route) {
         await new Promise((resolve, reject) => {
             store.dispatch(loadProfession(resolve, reject));
         });
-        store.dispatch(END);
+        store.dispatch(end());
     } else if (decodeURI(subRoute[0]) === 'خدمات') {
         await new Promise((resolve, reject) => {
             store.dispatch(loadProfession(resolve, reject));
         });
-        store.dispatch(END);
+        store.dispatch(end());
     } else if (decodeURI(subRoute[1]) === 'خدمات') {
         const profession = getTitleAndIdByUrl(subRoute[0]);
         console.log(profession, 'this is profession after get title');
         const data = await new Promise((resolve, reject) => {
             store.dispatch(loadServiceRedux(resolve, reject, query, profession));
         });
-        store.dispatch(END);
+        store.dispatch(end());
     } else if (subRoute[1] === 'professional') {
         const data = await new Promise((resolve, reject) => {
             store.dispatch(loadProfessional(query.id, query.profId, resolve, reject));
         });
-        store.dispatch(END);
+        store.dispatch(end());
     } else {
-        store.dispatch(END);
+        store.dispatch(end());
     }
 }
 

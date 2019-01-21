@@ -9,6 +9,7 @@ import auth from './modules/auth';
 import ProjectsForProfession from './modules/projectsForProfession';
 import serviceContainer from './modules/serviceContainer';
 import redirect from './modules/redirect';
+import end from './modules/end';
 
 export default combineReducers({
     professions,
@@ -19,5 +20,6 @@ export default combineReducers({
     auth,
     ProjectsForProfession,
     serviceContainer,
-    redirect
+    redirect,
+    end
 });
