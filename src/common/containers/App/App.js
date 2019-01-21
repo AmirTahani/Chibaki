@@ -12,9 +12,11 @@ if (typeof window !== 'undefined') {
     require('intersection-observer');
 }
 
-Sentry.init({
-    dsn: 'https://b8716b7a4f6c441abf643cee99875d17@sentry.io/1375725'
-});
+if (!isDev) {
+    Sentry.init({
+        dsn: 'https://b8716b7a4f6c441abf643cee99875d17@sentry.io/1375725'
+    });
+}
 
 Component.prototype.exist = exist;
 Component.prototype.componentDidCatch = (error, errorInfo) => {
@@ -22,7 +24,9 @@ Component.prototype.componentDidCatch = (error, errorInfo) => {
         Object.keys(errorInfo).forEach((key) => {
             scope.setExtra(key, errorInfo[key]);
         });
-        Sentry.captureException(error);
+        if (!isDev) {
+            Sentry.captureException(error);
+        }
     });
 };
 Component.prototype.event = (props) => {
