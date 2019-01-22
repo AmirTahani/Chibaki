@@ -252,12 +252,14 @@ class Professional extends Component {
     componentWillReceiveProps(nextProps) {
         const { location, professional } = nextProps;
         const params = queryString.parse(location.search);
+        console.log(params, 'tjhis is params in revice props');
 
         if (professional && professional.user) {
             const professions = this.exist(professional, 'user.professions');
             const activeProfession = professions.find((profession) => {
                 return profession.profession._id === (params && params.profId);
             });
+            console.log('this is active profession', activeProfession, 'in will recive props');
             this.setState({
                 selectedProfession: activeProfession
             });
@@ -273,11 +275,13 @@ class Professional extends Component {
             const activeProfession = professions.find((profession) => {
                 return profession.profession._id === (params && params.profId);
             });
+            console.log(activeProfession, 'active profession to did mount');
             if (activeProfession && activeProfession._id) {
                 this.setState({
                     selectedProfession: activeProfession
                 });
             } else {
+                console.log(professions[0], 'this is defualt');
                 this.setState({
                     selectedProfession: professions[0]
                 });
@@ -311,8 +315,6 @@ class Professional extends Component {
         const { Flickity } = this;
         const images = this.getProfImage();
         const comments = this.getComments();
-        console.log(selectedProfession, 'this is selected one ');
-        console.log(this.getRate(), 'this is getRate');
 
         return (
             <div className={styles.wrapper}>

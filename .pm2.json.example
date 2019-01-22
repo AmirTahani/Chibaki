@@ -1,12 +1,11 @@
 {
   "apps": [
     {
-      "name": "api",
+      "name": "Universal",
       "script": "npm",
       "args": "start",
       "watch": false,
-      "instances": "max",
-      "exec_mode": "cluster",
+      "exec_mode": "fork",
       "max_memory_restart": "1G"
     }
   ]
