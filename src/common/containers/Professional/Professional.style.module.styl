@@ -11,8 +11,10 @@
   }
 }
 
-:global(.c-btn--margin) {
-  margin-bottom 20px;
+.buttonMargin {
+  composes c-btn c-btn--border c-btn--md from '../../styles/btn.styl'
+  margin: 10px 15px;
+  min-width: 195px
 }
 
 .card {

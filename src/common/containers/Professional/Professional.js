@@ -93,13 +93,13 @@ class Professional extends Component {
         });
     };
 
-    requestBtn = (text, icon, classnames = 'c-btn--border c-btn--md c-btn--margin') => {
+    requestBtn = (text, icon, classnames = '') => {
         return this.props.professional.user.professions.length > 1 ? (<Dropdown
             overlay={this.getProfsDropdown()}
             trigger={['click']}
             placement="bottomCenter"
         >
-            <button className={`c-btn ${classnames}`}>
+            <button className={`${styles.buttonMargin} ${classnames}`}>
                 {icon && <span className={`icon-${icon}`} />}
                 <span>{text}</span>
             </button>
