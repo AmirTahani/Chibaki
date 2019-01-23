@@ -9,7 +9,7 @@ import queryString from 'query-string';
 import { Icon } from '../../components/Kit';
 import Questions from '../../components/Questions/Questions';
 import Comments from '../../components/Professional/Comments';
-import { sitePath } from '../../config';
+import { sitePath, apiPath } from '../../config';
 import { setProfId } from '../../redux/modules/questions';
 import { load } from '../../redux/modules/professional';
 import styles from './Professional.style.module.styl';
@@ -93,7 +93,7 @@ class Professional extends Component {
         });
     };
 
-    requestBtn = (text, icon, classnames = 'c-btn--border c-btn--md') => {
+    requestBtn = (text, icon, classnames = 'c-btn--border c-btn--md c-btn--margin') => {
         return this.props.professional.user.professions.length > 1 ? (<Dropdown
             overlay={this.getProfsDropdown()}
             trigger={['click']}
@@ -203,7 +203,7 @@ class Professional extends Component {
         const { professional } = this.props;
         const result = {};
         if (this.exist(professional, 'user.trust.profilePicture.filePath')) {
-            result.src = `https://chibaki.ir${professional.user.trust.profilePicture.filePath.replace('public', '')}`;
+            result.src = `${apiPath}${professional.user.trust.profilePicture.filePath.replace('public', '')}`;
         } else {
             result.src = '/assets/images/avatar.svg';
         }
