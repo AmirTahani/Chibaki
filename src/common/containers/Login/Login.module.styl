@@ -1,0 +1,57 @@
+@import '../../styles/variables'
+
+.fieldLabel
+    composes label from '../../styles/form.styl'
+
+.inputWrapper
+    width 100%
+    
+    flex 1 1 100%
+
+.input
+    composes input from '../../styles/form.styl'
+
+.wrapper
+    composes wrapper from '../../styles/Auth.styl'
+    
+.content
+    composes content from '../../styles/Auth.styl'
+
+.header
+.body
+.footer
+    composes section from '../../styles/Auth.styl'
+
+.header
+    composes header from '../../styles/Auth.styl'
+
+.logo
+    composes logo from '../../styles/Auth.styl'
+    
+    &Img
+        composes logoImg from '../../styles/Auth.styl'
+
+.body
+    composes body from '../../styles/Auth.styl'
+
+.footer
+    // 
+  
+.btn
+    
+    &Submit
+        composes btnSubmit from '../../styles/Auth.styl'
+
+    &Wrapper
+        composes btnWrapper from '../../styles/Auth.styl'
+
+    &Inner
+        
+        &Loading
+            composes btnInnerLoading from '../../styles/Auth.styl'
+
+    &Loader
+        composes btnLoader from '../../styles/Auth.styl'
+        
+        &Dot
+            composes btnLoaderDot from '../../styles/Auth.styl'

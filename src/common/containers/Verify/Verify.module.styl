@@ -1,0 +1,107 @@
+@import '../../styles/variables'
+
+.fieldLabel
+  font-size 1rem
+  font-weight 600
+  
+  color #334657
+  display block
+  
+  margin-bottom .4rem
+
+.input
+  line-height 40px
+  height 40px
+  
+  color #334657
+  border-color #cbd8e3
+  
+  &::-webkit-input-placeholder
+    color rgba(117, 140, 160, 0.61)
+  
+  &:hover
+  &:focus
+    border-color $color
+  
+.text {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.progress
+  margin-left: 1rem
+
+.resendButton {
+    display: inline-block
+    padding: 1rem
+    margin-bottom: -5px
+}
+
+.reloadIcon
+  padding-left: 10px
+  
+.input
+    composes input from '../../styles/form.styl'
+
+.wrapper
+    composes wrapper from '../../styles/Auth.styl'
+    
+.content
+    composes content from '../../styles/Auth.styl'
+
+.header
+.body
+.footer
+    composes section from '../../styles/Auth.styl'
+
+.header
+    composes header from '../../styles/Auth.styl'
+
+.logo
+    composes logo from '../../styles/Auth.styl'
+    
+    &Img
+        composes logoImg from '../../styles/Auth.styl'
+
+.body
+    composes body from '../../styles/Auth.styl'
+
+.footer
+    //
+  
+.btn
+    
+    &Submit
+        composes btnSubmit from '../../styles/Auth.styl'
+
+        width auto
+        display inline-block
+
+    &Wrapper
+        composes btnWrapper from '../../styles/Auth.styl'
+
+    &Inner
+        
+        &Loading
+            composes btnInnerLoading from '../../styles/Auth.styl'
+
+    &Loader
+        composes btnLoader from '../../styles/Auth.styl'
+        
+        &Dot
+            composes btnLoaderDot from '../../styles/Auth.styl'
+
+    &Back
+        margin 0 0 0 10px
+        font-size: 12px
+        padding: 0
+        
+        &:hover
+        &:focus
+            background-color: rgba(0,0,0,0) !important;
+            color darken($color, 20%)
+        
+        &Icon
+            padding-right: 10px
+            font-weight: 900
+            font-size: 12px !important
