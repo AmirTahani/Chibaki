@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Row, Col, Tooltip, Rate } from 'antd';
+import { apiPath } from '../../config';
 import styles from './professionalCard.style.module.styl';
 
 class ProfessionalCard extends PureComponent {
@@ -11,7 +12,7 @@ class ProfessionalCard extends PureComponent {
 
     getSrc = (professional) => {
         if (this.exist(professional, 'trust.profilePicture.filePath')) {
-            return `https://chibaki.ir${professional.trust.profilePicture.filePath.replace('public', '')}`;
+            return `${apiPath}${professional.trust.profilePicture.filePath.replace('public', '')}`;
         }
         return '/assets/images/avatar.svg';
     };

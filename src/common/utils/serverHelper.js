@@ -26,7 +26,6 @@ export async function handleRequestsByRoute(store, route) {
         store.dispatch(end());
     } else if (decodeURI(subRoute[1]) === 'خدمات') {
         const profession = getTitleAndIdByUrl(subRoute[0]);
-        console.log(profession, 'this is profession after get title');
         const data = await new Promise((resolve, reject) => {
             store.dispatch(loadServiceRedux(resolve, reject, query, profession));
         });
@@ -116,11 +115,9 @@ export function getRedirectUrl(store, route) {
     const path = route.path;
     const query = route.query;
     const subRoute = path.split('/').reverse().filter(Boolean);
-    console.log(subRoute);
     if (decodeURI(subRoute[1]) === 'خدمات') {
         const serviceRoute = subRoute[0];
         const { title, _id } = getTitleAndIdByUrl(serviceRoute);
-        console.log(title, 'title');
         const foundById = professions.find(profession => profession._id === _id);
         const foundByTitle = professions.find(profession => profession.title === title);
 

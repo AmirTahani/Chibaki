@@ -9,7 +9,7 @@ import queryString from 'query-string';
 import { Icon } from '../../components/Kit';
 import Questions from '../../components/Questions/Questions';
 import Comments from '../../components/Professional/Comments';
-import { sitePath } from '../../config';
+import { sitePath, apiPath } from '../../config';
 import { setProfId } from '../../redux/modules/questions';
 import { load } from '../../redux/modules/professional';
 import styles from './Professional.style.module.styl';
@@ -93,13 +93,13 @@ class Professional extends Component {
         });
     };
 
-    requestBtn = (text, icon, classnames = 'c-btn--border c-btn--md') => {
+    requestBtn = (text, icon, classnames = '') => {
         return this.props.professional.user.professions.length > 1 ? (<Dropdown
             overlay={this.getProfsDropdown()}
             trigger={['click']}
             placement="bottomCenter"
         >
-            <button className={`c-btn ${classnames}`}>
+            <button className={`${styles.buttonMargin} ${classnames}`}>
                 {icon && <span className={`icon-${icon}`} />}
                 <span>{text}</span>
             </button>
@@ -203,7 +203,7 @@ class Professional extends Component {
         const { professional } = this.props;
         const result = {};
         if (this.exist(professional, 'user.trust.profilePicture.filePath')) {
-            result.src = `https://chibaki.ir${professional.user.trust.profilePicture.filePath.replace('public', '')}`;
+            result.src = `${apiPath}${professional.user.trust.profilePicture.filePath.replace('public', '')}`;
         } else {
             result.src = '/assets/images/avatar.svg';
         }
@@ -252,12 +252,14 @@ class Professional extends Component {
     componentWillReceiveProps(nextProps) {
         const { location, professional } = nextProps;
         const params = queryString.parse(location.search);
+        console.log(params, 'tjhis is params in revice props');
 
         if (professional && professional.user) {
             const professions = this.exist(professional, 'user.professions');
             const activeProfession = professions.find((profession) => {
                 return profession.profession._id === (params && params.profId);
             });
+            console.log('this is active profession', activeProfession, 'in will recive props');
             this.setState({
                 selectedProfession: activeProfession
             });
@@ -273,11 +275,13 @@ class Professional extends Component {
             const activeProfession = professions.find((profession) => {
                 return profession.profession._id === (params && params.profId);
             });
+            console.log(activeProfession, 'active profession to did mount');
             if (activeProfession && activeProfession._id) {
                 this.setState({
                     selectedProfession: activeProfession
                 });
             } else {
+                console.log(professions[0], 'this is defualt');
                 this.setState({
                     selectedProfession: professions[0]
                 });
@@ -311,8 +315,6 @@ class Professional extends Component {
         const { Flickity } = this;
         const images = this.getProfImage();
         const comments = this.getComments();
-        console.log(selectedProfession, 'this is selected one ');
-        console.log(this.getRate(), 'this is getRate');
 
         return (
             <div className={styles.wrapper}>

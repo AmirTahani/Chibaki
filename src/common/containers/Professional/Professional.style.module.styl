@@ -5,10 +5,16 @@
   padding-top: 60px;
 
   @media (max-width $sm) {
-      :global(.c-btn) {
-        min-width: 190px;
-      }
+    :global(.c-btn) {
+      min-width: 190px;
+    }
   }
+}
+
+.buttonMargin {
+  composes c-btn c-btn--border c-btn--md from '../../styles/btn.styl'
+  margin: 10px 15px;
+  min-width: 195px
 }
 
 .card {

@@ -18,6 +18,7 @@ import { renderType } from './common/config';
 import webpackConfig from '../webpack.dev';
 import { END_SUCCESS } from './common/redux/modules/end';
 
+
 dotenv.config();
 
 const server = express();
@@ -38,7 +39,6 @@ if (IS_DEV) {
     });
 }
 
-
 server
     .disable('x-powered-by')
     .get('/*', async (req, res) => {
@@ -52,7 +52,6 @@ server
         const client = new apiClient();
         const { store } = createStore(client, {}, 'server');
         await handleRequestsByRoute(store, req);
-        console.log('before taking end');
         const endPayLoad = await take(END_SUCCESS);
         if (endPayLoad.payload) {
             const markup = renderToString(
@@ -229,4 +228,5 @@ server
     }
     );
 
-export default server;
+
+module.exports = server;
