@@ -65,7 +65,7 @@ export function getMetaTags(store, route, query) {
             if (professionUrlTitle === profession.title) {
                 metaTags.description = profession.description;
                 metaTags.title = addSiteNameToTitle(`${profession.title}، درخواست رایگان و مقایسه قیمت`);
-                if (query && query.province) {
+                if (query && query.province && query.province !== 'all') {
                     metaTags.title = addSiteNameToTitle(`${profession.title} ${query.province}، درخواست رایگان`);
                 }
             }
