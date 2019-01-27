@@ -53,8 +53,8 @@ class Nav extends Component {
                     action: this.handleGoToAngular
                 } : {
                     label: 'ثبت نام / ورود',
-                    link: '/signup',
-                    action: this.handleAuth
+                    link: '/login',
+                    // action: this.handleAuth
                 },
             {
                 label: 'خدمات',

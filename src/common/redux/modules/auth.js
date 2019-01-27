@@ -26,6 +26,8 @@ export const TOGGLE_AUTH_MODAL = 'ssr/auth/TOGGLE_AUTH_MODAL';
 
 export const TOGGLE_AGREEMENT = 'ssr/auth/TOGGLE_AGREEMENT';
 
+export const CHANGE_STEP = 'ssr/auth/CHANGE_STEP';
+
 export const SET_JWT = 'ssr/auth/SET_JWT';
 export const SET_JWT_SUCCESS = 'ssr/auth/SET_JWT_SUCCESS';
 export const UN_SET_JWT = 'ssr/auth/UN_SET_JWT';
@@ -61,7 +63,9 @@ const initialState = {
     showAuthModal: false,
     gender: '',
     agreement: false,
-    userId: ''
+    userId: '',
+    step: 'login',
+    prevStep: '',
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -217,6 +221,12 @@ export default function reducer(state = initialState, action = {}) {
                 ...state,
                 agreement: !state.agreement
             };
+        case CHANGE_STEP:
+            return {
+                ...state,
+                step: action.step,
+                prevStep: action.prevStep
+            };
         default:
             return state;
     }
@@ -369,6 +379,13 @@ export function toggleAgreement() {
     };
 }
 
+export function changeStep({step, prevStep}) {
+    return {
+        type: CHANGE_STEP,
+        step,
+        prevStep
+    };
+}
 
 export function* watchLogin(client, { mobile, resolve, reject }) {
     try {
