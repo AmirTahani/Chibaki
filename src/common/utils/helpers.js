@@ -12,3 +12,10 @@ export function exist(obj, path) {
 export function commaSeprator(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
+
+
+export function redirectToProfile(url) {
+    if (window) {
+        window.location.href = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/pages/${url || ''}`;
+    }
+}

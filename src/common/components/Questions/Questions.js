@@ -29,7 +29,7 @@ import GetName from './GetName';
 import Success from './Success';
 import { defualtQuestions } from '../../config';
 import { phoneNumberRegex } from '../../utils/persian';
-
+import { redirectToProfile } from '../../utils/helpers';
 
 class Questions extends PureComponent {
     static propTypes = {
@@ -460,6 +460,9 @@ class Questions extends PureComponent {
             } else {
                 await new Promise((resolve, reject) => submitAnswersConnect(resolve, reject));
             }
+
+            redirectToProfile('projects');
+
             return Promise.resolve(fetchUser);
         } catch (err) {
             console.log(err, 'submitAnswers');

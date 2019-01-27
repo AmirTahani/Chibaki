@@ -8,6 +8,7 @@ import Login from './Login';
 import Register from './Register';
 import Verify from './Verify';
 import Loader from '../../components/Kit/Loader/Loader';
+import { redirectToProfile } from '../../utils/helpers';
 
 export default class Auth extends Component {
     static propTypes = {
@@ -132,7 +133,7 @@ export default class Auth extends Component {
             this.props.verify(code, resolve, reject);
         }).then(() => {
             this.props.toggleAuthModal();
-            window.location.href = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/pages`;
+            redirectToProfile();
         }).catch(() => {
             this.focusOutInput(true);
             message.error('لطفا کد را به درستی وارد کنید');
