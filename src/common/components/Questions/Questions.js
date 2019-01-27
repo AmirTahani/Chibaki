@@ -546,9 +546,7 @@ class Questions extends PureComponent {
                                 </Button>,
                                 !begin &&
                                 current === contents.length - 1 &&
-                                contents[current].question._id !== 'getPhone' &&
-                                contents[current].question._id !== 'app' &&
-                                contents[current].question._id !== 'success'
+                                !['getPhone', 'app', 'success'].includes(contents[current].question._id)
                                 && <Button
                                     className={styles.button}
                                     type="primary"
