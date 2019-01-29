@@ -14,33 +14,25 @@ export default class GetPhone extends Component {
     };
 
     state = {
-        value: ''
-    };
-
-    componentDidMount() {
-        if (this.props.mobile) {
-            this.setState({
-                value: this.props.mobile
-            });
-        }
+        mobile: ''
     }
 
     onChangeMobile = (e) => {
-        const value = toEnglishNumber(e.target.value);
+        const mobile = toEnglishNumber(e.target.value);
+
+        this.props.setUserMobile(mobile);
 
         this.setState({
-            value
+            mobile
         });
 
-        this.props.setUserMobile(e.target.value);
-
-        this.validateInput(value);
+        this.validateInput(mobile);
     };
 
-    validateInput = (value = this.state.value) => {
+    validateInput = (value) => {
         if (!value) {
             ReactDom.findDOMNode(this.inputRef).setCustomValidity('لطفا شماره موبایل را وارد کنید!');
-        } else if (ReactDom.findDOMNode(this.inputRef).validity.patternMismatch) {
+        } else if (!phoneNumberRegex.test(value)) {
             ReactDom.findDOMNode(this.inputRef).setCustomValidity('لطفا شماره موبایل را به درستی وارد کنید!');
         } else {
             ReactDom.findDOMNode(this.inputRef).setCustomValidity('');
@@ -58,7 +50,7 @@ export default class GetPhone extends Component {
                         inputMode="numeric"
                         placeholder="لطفا شماره خود را وارد کنید."
                         onChange={this.onChangeMobile}
-                        value={this.state.value}
+                        value={this.state.mobile}
                         pattern={phoneNumberRegex.toString().slice(1, -1)}
                         required
                         autoFocus
