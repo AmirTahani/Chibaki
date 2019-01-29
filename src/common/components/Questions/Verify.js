@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Input, Button } from 'antd';
 
 import styles from './Verify.module.styl';
-import { persianNumber } from '../../utils/persian';
+import { persianNumber, toEnglishNumber } from '../../utils/persian';
 
 export default class GetPhone extends Component {
     static propTypes = {
@@ -12,31 +12,35 @@ export default class GetPhone extends Component {
         setUserCode: PropTypes.func.isRequired,
         submit: PropTypes.func.isRequired,
         login: PropTypes.func.isRequired,
-        mobile: PropTypes.string.isRequired,
-        onEnter: PropTypes.func.isRequired
+        mobile: PropTypes.string.isRequired
     };
 
     state = {
-        value: '',
+        code: '',
         coolDown: false,
         timer: 60
     };
 
     onKeyDown = (e) => {
         if (e.keyCode === 13) {
-            this.props.onEnter();
+            this.props.submit();
         }
     };
 
-    onChangeMobile = (e) => {
+    onChangeCode = (e) => {
+        const code = toEnglishNumber(e.target.value);
+
         this.setState({
-            value: e.target.value
+            code
         });
-        if (e.target.value.toString().length === 5) {
-            this.props.submit();
+
+        this.props.setUserCode(code);
+
+        if (code.toString().length === 5) {
+            this.props.submit({ verifyCode: code });
         }
-        this.props.setUserCode(e.target.value);
     };
+
     timer = () => {
         this.setState({ coolDown: true, timer: 60 });
         const timeout = setInterval(() => {
@@ -48,6 +52,7 @@ export default class GetPhone extends Component {
             }
         }, 1000);
     };
+
     resend = () => {
         this.props.login(this.props.mobile);
         this.timer();
@@ -73,8 +78,9 @@ export default class GetPhone extends Component {
                 <div className={styles.inputWrapper}>
                     <Input
                         placeholder="لطفا کد را وارد کنید."
-                        onChange={this.onChangeMobile}
-                        value={this.state.value}
+                        onChange={this.onChangeCode}
+                        disabled={verifying}
+                        value={this.state.code}
                         autoFocus
                     />
                     {

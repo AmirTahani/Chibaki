@@ -67,7 +67,8 @@ class Questions extends PureComponent {
         lastName: PropTypes.string.isRequired,
         firstName: PropTypes.string.isRequired,
         code: PropTypes.string.isRequired,
-        updateUserConnect: PropTypes.func.isRequired
+        updateUserConnect: PropTypes.func.isRequired,
+        verifying: PropTypes.bool.isRequired
     };
 
     static defaultProps = {
@@ -235,7 +236,7 @@ class Questions extends PureComponent {
                             submit={this.next}
                             login={this.props.loginConnect}
                             mobile={this.props.mobile}
-                            onEnter={this.next}
+                            verifying={this.props.verifying}
                         />
                     };
                 } else if (question.type === 'getName') {
@@ -312,7 +313,7 @@ class Questions extends PureComponent {
         });
     };
 
-    next = async () => {
+    next = async (obj = { verifyCode: '' }) => {
         try {
             const { current } = this.state;
             const {
@@ -378,7 +379,7 @@ class Questions extends PureComponent {
                 });
             } else if (code && contents[current].question.type === 'verify') {
                 try {
-                    await new Promise((resolve, reject) => verifyConnect(code, resolve, reject));
+                    await new Promise((resolve, reject) => verifyConnect(obj.verifyCode || code, resolve, reject));
                     await this.submitAnswers();
                     this.setState({
                         questions: [...this.state.questions, {
@@ -506,7 +507,7 @@ class Questions extends PureComponent {
 
     render() {
         const { current, shouldRegister, begin } = this.state;
-        const { loading, loaded, submitted, submitting } = this.props;
+        const { loading, loaded, submitted, submitting, verifying } = this.props;
         const contents = this.getContent();
         const contentsLength = shouldRegister ? contents.length + 1 : contents.length;
         return (
@@ -552,7 +553,7 @@ class Questions extends PureComponent {
                                     type="primary"
                                     htmlType="submit"
                                     form="questionsForm"
-                                    disabled={submitting && !submitted}
+                                    disabled={( submitting && !submitted ) || verifying}
                                 >
                                     ثبت درخواست
                                 </Button>,
@@ -656,7 +657,8 @@ export default connect(state => ({
     gender: state.auth.gender,
     firstName: state.auth.firstName,
     lastName: state.auth.lastName,
-    code: state.auth.code
+    code: state.auth.code,
+    verifying: state.auth.verifying
 }), {
     loadProvincesConnect: loadProvinces,
     loadQuestionsConnect: loadQuestions,
