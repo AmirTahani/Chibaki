@@ -1,13 +1,18 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Input, Progress } from 'antd';
+import { Input, Progress, message } from 'antd';
 import Loader from '../../components/Kit/Loader/Loader';
 import {
     setUserCode,
-    login
+    login,
+    verify
 } from '../../redux/modules/auth';
+import {
+    toEnglishNumber, persianRegex
+} from '../../utils/persian';
 import styles from './Verify.module.styl';
 
 class Verify extends React.Component {
@@ -18,18 +23,24 @@ class Verify extends React.Component {
         code: PropTypes.string.isRequired,
         verifyConnect: PropTypes.func.isRequired,
         loggingIn: PropTypes.bool.isRequired,
-        history: PropTypes.objectOf(PropTypes.any).isRequired,
-        prevStep: PropTypes.string.isRequired
+        history: PropTypes.objectOf(PropTypes.any).isRequired
     };
 
     state = {
         coolDown: false,
         timer: 60,
+        code: '',
+        sentOnce: false
     };
 
-    onFormSubmit = () => {
-        const { code } = this.props;
+    onFormSubmit = (code = this.props.code) => {
         this.blurInput();
+
+        if (!this.state.sentOnce) {
+            this.setState({
+                sentOnce: true
+            });
+        }
 
         if (!code || !(/^[0-9]{5}$/.test(code))) {
             this.focusInput();
@@ -51,10 +62,32 @@ class Verify extends React.Component {
     };
 
     onChangeCode = (e) => {
-        const value = toEnglishNumber(e.target.value);
+        const code = toEnglishNumber(e.target.value);
 
-        this.props.setUserCodeConnect(value);
+        this.validateInput(code);
+
+        this.setState({
+            code
+        });
+
+        this.props.setUserCodeConnect(code);
+
+        if (code.toString().length === 5 && !this.state.sentOnce) {
+            this.onFormSubmit(code);
+        }
     };
+
+    validateInput = (code) => {
+        if (!code) {
+            ReactDOM.findDOMNode(this.inputRef).setCustomValidity('کد ارسال شده را وارد کنید');
+            return false;
+        }
+        if (!/\d{5}/.test(code)) {
+            ReactDOM.findDOMNode(this.inputRef).setCustomValidity('لطفا کد ۵ رقمی را انگلیسی وارد کنید');
+            return false;
+        }
+        return true;
+    }
 
     timer = () => {
         this.setState({ coolDown: true, timer: 60 });
@@ -76,6 +109,10 @@ class Verify extends React.Component {
         return false;
     };
 
+    handleGoBack = () => {
+        this.props.history.goBack();
+    };
+
     focusInput = () => {
         this.inputRef.focus();
     };
@@ -95,7 +132,7 @@ class Verify extends React.Component {
 
     render() {
         const { coolDown } = this.state;
-        const { loggingIn, prevStep } = this.props;
+        const { loggingIn } = this.props;
 
         return (
             <div
@@ -122,12 +159,12 @@ class Verify extends React.Component {
                             <Input
                                 placeholder="کد ۵ رقمی"
                                 onChange={this.onChangeCode}
-                                // onBlur={this.onFieldBlur}
-                                // onFocus={this.onFieldFocus}
-                                value={this.props.code}
+                                value={this.state.code}
                                 className={styles.input}
                                 name="verifyField"
                                 id="verifyField"
+                                pattern="\d{5}"
+                                maxLength="5"
                                 autoFocus
                                 required
                                 ref={(c) => { this.inputRef = c; }}
@@ -177,15 +214,16 @@ class Verify extends React.Component {
                                     ) : 'ادامه' }
                                 </div>
                             </button>
-                            <Link
+                            <button
                                 className={`${styles.btnBack} c-btn`}
-                                to={prevStep}
+                                onClick={this.handleGoBack}
+                                type="button"
                             >
                                 <div className={`${styles.btnInner} ${loggingIn ? styles.btnInnerLoading : ''}`}>
                                     <span>بازگشت</span>
                                     <span className={`icon-back ${styles.btnBackIcon}`} />
                                 </div>
-                            </Link>
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -201,5 +239,6 @@ export default connect(state => ({
     prevStep: state.auth.prevStep
 }), {
     loginConnect: login,
-    setUserCodeConnect: setUserCode
+    setUserCodeConnect: setUserCode,
+    verifyConnect: verify
 })(Verify);

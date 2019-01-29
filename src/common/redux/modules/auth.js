@@ -26,8 +26,6 @@ export const TOGGLE_AUTH_MODAL = 'ssr/auth/TOGGLE_AUTH_MODAL';
 
 export const TOGGLE_AGREEMENT = 'ssr/auth/TOGGLE_AGREEMENT';
 
-export const CHANGE_STEP = 'ssr/auth/CHANGE_STEP';
-
 export const SET_JWT = 'ssr/auth/SET_JWT';
 export const SET_JWT_SUCCESS = 'ssr/auth/SET_JWT_SUCCESS';
 export const UN_SET_JWT = 'ssr/auth/UN_SET_JWT';
@@ -221,12 +219,6 @@ export default function reducer(state = initialState, action = {}) {
                 ...state,
                 agreement: !state.agreement
             };
-        case CHANGE_STEP:
-            return {
-                ...state,
-                step: action.step,
-                prevStep: action.prevStep
-            };
         default:
             return state;
     }
@@ -376,14 +368,6 @@ export function setUserGender(gender) {
 export function toggleAgreement() {
     return {
         type: TOGGLE_AGREEMENT
-    };
-}
-
-export function changeStep({step, prevStep}) {
-    return {
-        type: CHANGE_STEP,
-        step,
-        prevStep
     };
 }
 

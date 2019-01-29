@@ -4,14 +4,11 @@ import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Input, message } from 'antd';
-import persian from 'persianjs';
 import Loader from '../../components/Kit/Loader/Loader';
 import styles from './Login.module.styl';
 import {
     login,
-    setUserMobile,
-    loginConnect,
-    changeStep
+    setUserMobile
 } from '../../redux/modules/auth';
 import { phoneNumberRegex, toEnglishNumber } from '../../utils/persian';
 
@@ -27,44 +24,21 @@ class Login extends Component {
         prevStep: PropTypes.string.isRequired
     };
 
-    static defaultProps = {
-        focusInput: false
-    };
-
     state = {
-        value: '',
-        focusInput: true
+        mobile: ''
     };
 
     onChangeMobile = (e) => {
-        const value = toEnglishNumber(e.target.value);
+        const mobile = toEnglishNumber(e.target.value);
 
         this.setState({
-            value
+            mobile
         }, () => {
-            if (this.validateInput(value)) {
-                this.props.setUserMobileConnect(value);
+            if (this.validateInput(mobile)) {
+                this.props.setUserMobileConnect(mobile);
             }
         });
     };
-
-    blurInput = ({ refocus = false }) => {
-        this.setState({
-            focusInput: false
-        }, () => {
-            if (refocus) {
-                this.setState({
-                    focusInput: true
-                });
-            }
-        });
-    }
-
-    focusInput = () => {
-        this.setState({
-            focusInput: true
-        });
-    }
 
     onFormSubmit = (event) => {
         event && event.preventDefault();
@@ -80,22 +54,12 @@ class Login extends Component {
             }).then(() => {
                 message.success('کد با موفقیت ارسال شد!');
 
-                changeStepConnect({
-                    step: 'verify',
-                    prevStep: 'login'
-                });
-
                 history.push('/verify');
             }).catch((error) => {
                 this.blurInput({ refocus: true });
 
                 if (error.status === 422) {
                     history.push('/register');
-
-                    changeStepConnect({
-                        step: 'register',
-                        prevStep: 'login'
-                    });
                 }
             }).finally(() => {
                 hideLoading();
@@ -103,11 +67,12 @@ class Login extends Component {
         }
     }
 
-    validateInput = (value = this.state.value) => {
-        if (!value) {
+    validateInput = (mobile = this.state.mobile) => {
+        if (!mobile) {
             ReactDom.findDOMNode(this.inputRef).setCustomValidity('لطفا شماره موبایل را وارد کنید!');
             return false;
-        } if (ReactDom.findDOMNode(this.inputRef).validity.patternMismatch) {
+        }
+        if (!phoneNumberRegex.test(mobile)) {
             ReactDom.findDOMNode(this.inputRef).setCustomValidity('لطفا شماره موبایل را به درستی وارد کنید!');
             return false;
         }
@@ -116,26 +81,8 @@ class Login extends Component {
     };
 
     componentDidMount() {
-        if (this.props.mobile) {
-            this.setState({
-                value: this.props.mobile
-            }, () => this.validateInput(this.props.mobile));
-        } else {
-            this.validateInput(this.props.mobile);
-        }
+        this.validateInput(this.props.mobile);
         this.inputRef.focus();
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        const { focusInput } = this.state;
-
-        if (focusInput !== prevState.focusInput) {
-            if (focusInput) {
-                this.inputRef.focus();
-            } else {
-                this.inputRef.blur();
-            }
-        }
     }
 
     render() {
@@ -169,6 +116,7 @@ class Login extends Component {
                                 name="field"
                                 type="text"
                                 inputMode="numeric"
+                                value={this.state.mobile}
                                 id="field"
                                 placeholder="مثال: 09123456789"
                                 required
@@ -178,7 +126,6 @@ class Login extends Component {
                                 onChange={this.onChangeMobile}
                                 onBlur={this.blurInput}
                                 onFocus={this.focusInput}
-                                value={this.state.value}
                                 ref={(c) => {
                                     this.inputRef = c;
                                 }}
