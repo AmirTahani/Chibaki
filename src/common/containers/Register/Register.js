@@ -311,16 +311,15 @@ class Register extends Component {
                                     ) : 'ثبت نام'}
                                 </div>
                             </button>
-                            <button
+                            <Link
                                 className={`${styles.btnBack} c-btn`}
                                 onClick={this.handleGoBack}
-                                type="button"
                             >
                                 <div className={`${styles.btnInner}`}>
                                     <span>بازگشت</span>
                                     <span className={`icon-back ${styles.btnBackIcon}`} />
                                 </div>
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>

@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import Bloodhound from 'bloodhound-js';
 
 import styles from './AutoComplete.module.styl';
+import { toPersianChar } from '../../../utils/persian';
 
 const Option = AntAutoComplete.Option;
 
@@ -62,12 +63,13 @@ export default class AutoComplete extends Component {
     });
 
     handleChange = (value) => {
+        const query = toPersianChar(value);
         this.setState({
             selectedValue: '',
             options: []
         });
-        if (value) {
-            this.engineConf.search(value, (options) => {
+        if (query) {
+            this.engineConf.search(query, (options) => {
                 this.setState({
                     options
                 });
@@ -126,6 +128,7 @@ export default class AutoComplete extends Component {
 
         return false;
     };
+
     handleButtonSelect = () => {
         const { valueAs, onSubmit } = this.props;
         const { selectedValue } = this.state;
