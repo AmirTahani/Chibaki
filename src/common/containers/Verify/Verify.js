@@ -62,7 +62,7 @@ class Verify extends React.Component {
     };
 
     onChangeCode = (e) => {
-        const code = toEnglishNumber(e.target.value);
+        const code = toEnglishNumber(e.target.value).trim();
 
         this.validateInput(code);
 
@@ -219,7 +219,7 @@ class Verify extends React.Component {
                                 onClick={this.handleGoBack}
                                 type="button"
                             >
-                                <div className={`${styles.btnInner} ${loggingIn ? styles.btnInnerLoading : ''}`}>
+                                <div className={`${styles.btnInner}`}>
                                     <span>بازگشت</span>
                                     <span className={`icon-back ${styles.btnBackIcon}`} />
                                 </div>

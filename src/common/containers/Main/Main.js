@@ -65,6 +65,11 @@ const LoadableVerify = Loadable({
     loading: () => <Spin />
 });
 
+const LoadableRegister = Loadable({
+    loader: () => import(/* webpackChunkname: "register" */ '../Register/Register'),
+    loading: () => <Spin />
+});
+
 class Main extends Component {
     static propTypes = {
         location: PropTypes.objectOf(PropTypes.any).isRequired,
@@ -172,6 +177,7 @@ class Main extends Component {
                         <Route path="/professional/:id/" component={LoadableProfessional} />
                         <Route path="/login" component={LoadableLogin} />
                         <Route path="/verify" component={LoadableVerify} />
+                        <Route path="/register" component={LoadableRegister} />
                         <Route component={LoadableNotFound} />
                         <Route path="/notFound" component={LoadableNotFound} />
                     </Switch>

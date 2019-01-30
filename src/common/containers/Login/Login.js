@@ -18,10 +18,7 @@ class Login extends Component {
         mobile: PropTypes.string.isRequired,
         loginConnect: PropTypes.func.isRequired,
         loggingIn: PropTypes.bool.isRequired,
-        history: PropTypes.objectOf(PropTypes.any).isRequired,
-        changeStepConnect: PropTypes.func.isRequired,
-        step: PropTypes.string.isRequired,
-        prevStep: PropTypes.string.isRequired
+        history: PropTypes.objectOf(PropTypes.any).isRequired
     };
 
     state = {
@@ -29,7 +26,7 @@ class Login extends Component {
     };
 
     onChangeMobile = (e) => {
-        const mobile = toEnglishNumber(e.target.value);
+        const mobile = toEnglishNumber(e.target.value).trim();
 
         this.setState({
             mobile
@@ -42,10 +39,10 @@ class Login extends Component {
 
     onFormSubmit = (event) => {
         event && event.preventDefault();
-        const { mobile, history, changeStepConnect } = this.props;
+        const { mobile, history } = this.props;
 
         if (mobile) {
-            this.blurInput({});
+            this.blurInput();
 
             const hideLoading = message.loading('در حال ارسال کد');
 
@@ -56,7 +53,7 @@ class Login extends Component {
 
                 history.push('/verify');
             }).catch((error) => {
-                this.blurInput({ refocus: true });
+                this.focusInput();
 
                 if (error.status === 422) {
                     history.push('/register');
@@ -66,6 +63,14 @@ class Login extends Component {
             });
         }
     }
+
+    focusInput = () => {
+        this.inputRef.focus();
+    };
+
+    blurInput = () => {
+        this.inputRef.blur();
+    };
 
     validateInput = (mobile = this.state.mobile) => {
         if (!mobile) {
@@ -124,8 +129,6 @@ class Login extends Component {
                                 autoFocus
                                 className={styles.input}
                                 onChange={this.onChangeMobile}
-                                onBlur={this.blurInput}
-                                onFocus={this.focusInput}
                                 ref={(c) => {
                                     this.inputRef = c;
                                 }}
@@ -157,11 +160,8 @@ class Login extends Component {
 
 export default withRouter(connect(state => ({
     mobile: state.auth.mobile,
-    loggingIn: state.auth.loggingIn,
-    step: state.auth.step,
-    prevStep: state.auth.prevStep
+    loggingIn: state.auth.loggingIn
 }), {
     loginConnect: login,
-    setUserMobileConnect: setUserMobile,
-    changeStepConnect: changeStep
+    setUserMobileConnect: setUserMobile
 })(Login));

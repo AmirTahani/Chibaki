@@ -1,0 +1,128 @@
+@import '../../styles/variables'
+
+.inputWrapper
+  margin 25px 10px
+  
+.autocomplete
+  form
+  &Form
+  :global(.ant-select-selection)
+    padding: 0
+    
+  :global(.ant-select-selection__placeholder)
+    margin-right: 12px !important
+    
+  :global(.c-autocomplete)
+    display: block
+    max-width: none;
+    padding: 0
+    
+.fieldLabel
+  composes label from '../../styles/form.styl'
+
+.wrapper
+  composes wrapper from '../../styles/Auth.styl'
+
+.content
+    composes content from '../../styles/Auth.styl'
+
+    height auto
+    max-height none
+  
+    @media (max-width $sm) 
+        height 100%
+  
+.input
+  composes input from '../../styles/form.styl'
+  //:global(.ant-input)
+  text-align right !important
+  direction rtl !important
+
+  composes input from '../../styles/form.styl'
+  
+  &::-webkit-input-placeholder
+    text-align: right !important
+    direction rtl !important
+
+.header
+.body
+.footer
+    composes section from '../../styles/Auth.styl'
+
+.header
+    composes header from '../../styles/Auth.styl'
+
+    border-bottom none
+
+.logo
+    composes logo from '../../styles/Auth.styl'
+    
+    &Img
+        composes logoImg from '../../styles/Auth.styl'
+
+.body
+    composes body from '../../styles/Auth.styl'
+
+    display block
+    direction ltr
+
+    padding-top 0
+    margin-top -10px
+
+    :global(.ant-tabs-tabpane)
+        direction rtl
+
+    :global(.ant-tabs-nav-scroll)
+        text-align: center
+
+    :global(.ant-radio-inner:after)
+        left 0 !important
+        top 0 !important
+
+.footer
+    // 
+  
+.btn
+    
+    &Submit
+        composes btnSubmit from '../../styles/Auth.styl'
+
+        width auto
+        display inline-block
+
+    &Wrapper
+        composes btnWrapper from '../../styles/Auth.styl'
+
+    &Inner
+        
+        &Loading
+            composes btnInnerLoading from '../../styles/Auth.styl'
+
+    &Loader
+        composes btnLoader from '../../styles/Auth.styl'
+        
+        &Dot
+            composes btnLoaderDot from '../../styles/Auth.styl'
+
+    &Back
+        margin 0 0 0 10px
+        font-size: 12px
+        padding: 0 1rem
+        
+        &:hover
+        &:focus
+            background-color: rgba(0,0,0,0) !important;
+            color darken($color, 20%)
+        
+        &Icon
+            padding-right: 10px
+            font-weight: 900
+            font-size: 12px !important
+
+
+.checkbox
+
+    &Input
+        vertical-align: middle
+
+        margin-left 10px

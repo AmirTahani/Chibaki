@@ -30,12 +30,14 @@ Component.prototype.componentDidCatch = (error, errorInfo) => {
     });
 };
 Component.prototype.event = (props) => {
-    if (window && window.__renderType__ === 'client' && !isDev) {
-        gtag('event', props.action, {
-            event_category: props.category,
-            event_label: props.label,
-            value: props.value
-        });
+    if (typeof window !== 'undefined') {
+        if (window.__renderType__ === 'client' && !isDev) {
+            gtag('event', props.action, {
+                event_category: props.category,
+                event_label: props.label,
+                value: props.value
+            });
+        }
     }
 };
 
