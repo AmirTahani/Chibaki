@@ -14,7 +14,7 @@ import {
     verify,
     toggleAgreement
 } from '../../redux/modules/auth';
-import Auth from '../Auth/Auth';
+// import Auth from '../Auth/Auth';
 import Nav from '../Nav/Nav';
 import styles from './Header.module.styl';
 
@@ -73,27 +73,27 @@ class Header extends Component {
         return (
             <header className={styles.header}>
                 <div className={styles.headerInner}>
-                    <Auth
-                        showModal={showAuthModal}
-                        toggleAuthModal={toggleAuthModalConnect}
-                        setUserCode={setUserCodeConnect}
-                        setUserLastName={setUserLastNameConnect}
-                        setUserName={setUserNameConnect}
-                        setUserMobile={setUserMobileConnect}
-                        mobile={mobile}
-                        setUserGender={setUserGenderConnect}
-                        login={loginConnect}
-                        loggingIn={loggingIn}
-                        firstName={firstName}
-                        lastName={lastName}
-                        code={code}
-                        gender={gender}
-                        professions={professions}
-                        register={registerConnect}
-                        verify={verifyConnect}
-                        agreement={agreement}
-                        toggleAgreement={toggleAgreementConnect}
-                    />
+                    {/* <Auth */}
+                    {/*     showModal={showAuthModal} */}
+                    {/*     toggleAuthModal={toggleAuthModalConnect} */}
+                    {/*     setUserCode={setUserCodeConnect} */}
+                    {/*     setUserLastName={setUserLastNameConnect} */}
+                    {/*     setUserName={setUserNameConnect} */}
+                    {/*     setUserMobile={setUserMobileConnect} */}
+                    {/*     mobile={mobile} */}
+                    {/*     setUserGender={setUserGenderConnect} */}
+                    {/*     login={loginConnect} */}
+                    {/*     loggingIn={loggingIn} */}
+                    {/*     firstName={firstName} */}
+                    {/*     lastName={lastName} */}
+                    {/*     code={code} */}
+                    {/*     gender={gender} */}
+                    {/*     professions={professions} */}
+                    {/*     register={registerConnect} */}
+                    {/*     verify={verifyConnect} */}
+                    {/*     agreement={agreement} */}
+                    {/*     toggleAgreement={toggleAgreementConnect} */}
+                    {/* /> */}
                     <Nav
                         user={user}
                         toggleAuthModal={toggleAuthModalConnect}

@@ -55,6 +55,21 @@ const LoadableNotFound = Loadable({
     loading: () => <Spin />
 });
 
+const LoadableLogin = Loadable({
+    loader: () => import(/* webpackChunkname: "login" */ '../Login/Login'),
+    loading: () => <Spin />
+});
+
+const LoadableVerify = Loadable({
+    loader: () => import(/* webpackChunkname: "verify" */ '../Verify/Verify'),
+    loading: () => <Spin />
+});
+
+const LoadableRegister = Loadable({
+    loader: () => import(/* webpackChunkname: "register" */ '../Register/Register'),
+    loading: () => <Spin />
+});
+
 class Main extends Component {
     static propTypes = {
         location: PropTypes.objectOf(PropTypes.any).isRequired,
@@ -62,7 +77,13 @@ class Main extends Component {
     };
 
     state = {
-        shouldShowChibakiSection: true
+        shouldShowChibakiSection: true,
+        visible: {
+            howItWorks: true,
+            features: true,
+            getApp: true
+        },
+        isAuth: false
     };
 
     handleScroll = (type) => {
@@ -87,6 +108,23 @@ class Main extends Component {
         }
     }
 
+    onRouteChange = (location) => {
+        const pathname = decodeURI(location.pathname);
+        /**
+         * Hide crisp chat on service page
+         */
+        const shouldShowCrisp = !/خدمات\//g.test(pathname);
+        document.querySelector('html').classList.toggle('hide-crisp', !shouldShowCrisp);
+
+        /**
+         * Hide everything in auth state
+         */
+        const isAuth = /(login|register|verify)/g.test(pathname);
+        this.setState({
+            isAuth
+        });
+    }
+
     componentDidMount() {
         window.__renderType__ = 'client';
 
@@ -105,13 +143,9 @@ class Main extends Component {
                 if (!this.exist(params, 'cat')) {
                     window.scrollTo(0, 0);
                 }
-            }
 
-            /**
-             * Hide crisp chat on service page
-             */
-            const shouldShowCrisp = !/خدمات\//g.test(location.pathname);
-            document.querySelector('html').classList.toggle('hide-crisp', !shouldShowCrisp);
+                this.onRouteChange(location);
+            }
         });
 
         const currentLocation = decodeURI(location.pathname);
@@ -120,18 +154,17 @@ class Main extends Component {
                 shouldShowChibakiSection: false
             });
         }
-        /**
-         * Hide crisp chat on service page
-         */
-        const shouldShowCrisp = !/خدمات\//g.test(decodeURI(location.pathname));
-        document.querySelector('html').classList.toggle('hide-crisp', !shouldShowCrisp);
+
+        this.onRouteChange(location);
     }
 
     render() {
-        const { shouldShowChibakiSection } = this.state;
+        const { isAuth, shouldShowChibakiSection } = this.state;
         return (
             <div>
-                <Header handleScroll={this.handleScroll} />
+                { !isAuth &&
+                    <Header handleScroll={this.handleScroll} />
+                }
 
                 <div className={styles.container}>
                     <Switch>
@@ -142,18 +175,31 @@ class Main extends Component {
                         <Route exact path="/خدمات" component={LoadableServices} />
                         <Route path="/خدمات/:title" component={LoadableService} />
                         <Route path="/professional/:id/" component={LoadableProfessional} />
+                        <Route path="/login" component={LoadableLogin} />
+                        <Route path="/verify" component={LoadableVerify} />
+                        <Route path="/register" component={LoadableRegister} />
                         <Route component={LoadableNotFound} />
                         <Route path="/notFound" component={LoadableNotFound} />
                     </Switch>
                 </div>
 
-                <HowItWorks ref="howitworks" shouldShowChibakiSection={shouldShowChibakiSection} />
+                { !isAuth && <HowItWorks
+                    ref="howitworks"
+                    shouldShowChibakiSection={shouldShowChibakiSection}
+                /> }
 
-                <Features ref="features" shouldShowChibakiSection={shouldShowChibakiSection} />
+                { !isAuth && <Features
+                    ref="features"
+                    shouldShowChibakiSection={shouldShowChibakiSection}
+                /> }
 
-                <GetApp />
+                { !isAuth &&
+                    <GetApp />
+                }
 
-                <Footer />
+                { !isAuth &&
+                    <Footer />
+                }
             </div>
         );
     }

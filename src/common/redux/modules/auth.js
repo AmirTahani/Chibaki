@@ -61,7 +61,9 @@ const initialState = {
     showAuthModal: false,
     gender: '',
     agreement: false,
-    userId: ''
+    userId: '',
+    step: 'login',
+    prevStep: '',
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -368,7 +370,6 @@ export function toggleAgreement() {
         type: TOGGLE_AGREEMENT
     };
 }
-
 
 export function* watchLogin(client, { mobile, resolve, reject }) {
     try {
