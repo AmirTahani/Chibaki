@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { Checkbox, Input, Radio, Tabs, message } from 'antd';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import AutoComplete from '../../components/Kit/AutoComplete/AutoComplete';
 import Loader from '../../components/Kit/Loader/Loader';
 import {
@@ -28,7 +28,8 @@ class Register extends Component {
         registerConnect: PropTypes.func.isRequired,
         toggleAuthModalConnect: PropTypes.func.isRequired,
         registering: PropTypes.bool.isRequired,
-        mobile: PropTypes.string.isRequired
+        mobile: PropTypes.string.isRequired,
+        history: PropTypes.objectOf(PropTypes.any).isRequired
     };
 
     state = {
@@ -92,6 +93,10 @@ class Register extends Component {
                 :
                 ''
         );
+    }
+
+    handleGoBack = () => {
+        this.props.history.goBack();
     }
 
     handleAgreementChange = (e) => {
@@ -311,15 +316,16 @@ class Register extends Component {
                                     ) : 'ثبت نام'}
                                 </div>
                             </button>
-                            <Link
+                            <button
                                 className={`${styles.btnBack} c-btn`}
                                 onClick={this.handleGoBack}
+                                type="button"
                             >
                                 <div className={`${styles.btnInner}`}>
                                     <span>بازگشت</span>
                                     <span className={`icon-back ${styles.btnBackIcon}`} />
                                 </div>
-                            </Link>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -328,7 +334,7 @@ class Register extends Component {
     }
 }
 
-export default connect(state => ({
+export default withRouter(connect(state => ({
     professions: state.professions.professions,
     gender: state.auth.gender,
     firstName: state.auth.firstName,
@@ -342,4 +348,4 @@ export default connect(state => ({
     setUserLastNameConnect: setUserLastName,
     setUserGenderConnect: setUserGender,
     toggleAuthModalConnect: toggleAuthModal
-})(Register);
+})(Register));
