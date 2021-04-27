@@ -20,7 +20,7 @@
     "@babel/preset-react": "7.0.0",
     "@sentry/browser": "^4.5.2",
     "antd": "3.11.0",
-    "axios": "0.18.0",
+    "axios": "0.21.1",
     "bloodhound-js": "1.2.3",
     "classnames": "2.2.6",
     "dotenv": "6.2.0",
